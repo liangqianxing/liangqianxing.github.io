@@ -1,4 +1,4 @@
 ---
 title: Welcome to my blog!
-My name is GuEnhao.
+<h1>My name is GuEnhao.</h1>
 ---
