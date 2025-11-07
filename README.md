@@ -1,20 +1,32 @@
-# Congratulations! :tada:
+﻿# Liang Qianxing · Blog
 
-<img src="https://octodex.github.com/images/welcometocat.png" align="right" height="250px" />
+基于 Hexo 8 + NexT Mist 方案定制的个人博客，用来记录代码、设计与 side project 的全过程。项目托管在 GitHub Pages，通过 Actions 自动构建。
 
-Yay **liangqianxing** you finished the exercise! Nice work :tada:
+## 技术栈
 
-If you would like to retrace your steps, you can always revisit the exercise.
+- **Hexo 8**：内容管理、Markdown 渲染。
+- **NexT 主题**：定制首页 Hero、色板与排版，样式集中在 `source/_data/styles.styl`。
+- **插件**：RSS（`hexo-generator-feed`）、站内搜索（`hexo-generator-searchdb`）。
+- **CI/CD**：GitHub Actions -> upload-pages-artifact -> deploy-pages。
 
-[![](https://img.shields.io/badge/Return%20to%20Exercise-%E2%86%92-1f883d?style=for-the-badge&logo=github&labelColor=197935)](https://github.com/liangqianxing/liangqianxing-github-pages/issues/1)
+## 本地开发
 
-> [!TIP]
-> Mona won't grade you this time! 😉
+```bash
+npm install
+npm run dev  # http://localhost:4000
+```
 
+发布前可以运行：
 
-### Craving more? :raising_hand:
+```bash
+npm run clean && npm run build
+```
 
-Did you enjoy this practical style of learning? There's no better way to learn than building things, right?!
+## 内容结构
 
-Let's keep the momentum going! Head over to [GitHub Skills](https://skills.github.com) catalog to find another hands-on exercise. :rocket:
+- `source/_posts`：日常博客文章。
+- `source/about`：关于页面。
+- `source/projects`：Side Project 集合。
+- `themes/next/layout/index.njk`：注入首页 Hero 的自定义内容。
 
+欢迎提出 Issue 或 PR，一起让这里更好看。

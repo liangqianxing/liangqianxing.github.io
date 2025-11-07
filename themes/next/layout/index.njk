@@ -1,0 +1,32 @@
+{% extends '_layout.njk' %}
+{% import '_macro/sidebar.njk' as sidebar_template with context %}
+
+{% block title %}{{ title }}{% if theme.index_with_subtitle and subtitle %} - {{ subtitle }}{% endif %}{% endblock %}
+
+{% block class %}index posts-expand{% endblock %}
+
+{% block content %}
+
+  <section class="home-hero">
+    <p class="home-hero__eyebrow">Hello / 你好</p>
+    <h1 class="home-hero__title">{{ config.title }} 的灵感中转站</h1>
+    <p class="home-hero__subtitle">
+      分享代码、设计、体验与副业实验，把灵感打磨成真正的作品。
+    </p>
+    <div class="home-hero__actions">
+      <a class="btn hero-btn" href="{{ url_for('/archives') }}">阅读日志</a>
+      <a class="btn ghost-btn" href="{{ url_for('/projects') }}">项目集</a>
+    </div>
+  </section>
+
+  {%- for post in page.posts.toArray() %}
+    {{ partial('_macro/post.njk', {post: post, is_index: true}) }}
+  {%- endfor %}
+
+  {%- include '_partials/pagination.njk' -%}
+
+{% endblock %}
+
+{% block sidebar %}
+  {{ sidebar_template.render(false) }}
+{% endblock %}
