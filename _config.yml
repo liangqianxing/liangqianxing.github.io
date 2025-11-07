@@ -163,5 +163,7 @@ theme_config:
   custom_file_path:
     style: source/_data/styles.styl
   links_settings:
-    icon: fa fa-globe
-    layout: block    # 也可以用 inline
+    icon: fa fa-link      # 侧边栏标题前的图标（可选）
+    layout: block         # block | inline
+  links:
+    小黄鼠: https://liumengxuan04.github.io/
