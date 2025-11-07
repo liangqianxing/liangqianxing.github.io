@@ -137,7 +137,7 @@ theme_config:
     icons_only: false
   avatar:
     # url: https://avatars.githubusercontent.com/u/120540446?v=4
-    url: source/images/avatar.png
+    url: images/avatar.png
     rounded: true
   sidebar:
     position: left
