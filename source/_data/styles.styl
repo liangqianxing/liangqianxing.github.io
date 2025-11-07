@@ -102,6 +102,40 @@
   border-top 1px solid rgba(15, 23, 42, .1)
   padding-top 1.5rem
 
+.post-toc-wrap
+  background var(--card-bg)
+  border 1px solid var(--border-soft)
+  border-radius 20px
+  padding 1.4rem
+  box-shadow 0 20px 40px rgba(15,23,42,.08)
+  margin-bottom 1.5rem
+
+.post-toc-title
+  font-size .95rem
+  letter-spacing .08em
+  text-transform uppercase
+  color var(--text-secondary)
+  margin-bottom .8rem
+
+.post-toc
+  .nav
+    list-style none
+    padding 0
+    margin 0
+  .nav-item
+    position relative
+    padding-left .4rem
+    margin-bottom .45rem
+    line-height 1.45
+    transition transform .2s ease, color .2s ease
+    &:hover
+      color var(--accent-primary)
+      transform translateX(2px)
+  .nav-child
+    margin-top .35rem
+    padding-left 1rem
+    border-left 1px dashed rgba(15,23,42,.08)
+
 .post-body
   font-size 1.08rem
   line-height 1.9
