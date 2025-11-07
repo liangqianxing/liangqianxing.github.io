@@ -162,3 +162,14 @@ theme_config:
     unescape: false
   custom_file_path:
     style: source/_data/styles.styl
+  links_settings:
+    icon: fa fa-globe
+    layout: block    # 也可以用 inline
+  links:
+    朋友A:
+      url: https://friend-a.com
+      icon: https://friend-a.com/avatar.png
+      desc: 「朋友A 的工作室」
+    朋友B:
+      url: https://friend-b.com
+      desc: 做设计的朋友
