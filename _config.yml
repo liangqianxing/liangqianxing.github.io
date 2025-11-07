@@ -130,13 +130,14 @@ theme_config:
     icons: true
   social:
     GitHub: https://github.com/liangqianxing || fab fa-github
-    Email: mailto:hi@liangqianxing.com || fa fa-envelope
-    RSS: /atom.xml || fa fa-rss
+    Email: mailto:Guenhao2005@163.com || fa fa-envelope
+    # RSS: /atom.xml || fa fa-rss
   social_icons:
     enable: true
     icons_only: false
   avatar:
-    url: https://avatars.githubusercontent.com/u/120540446?v=4
+    # url: https://avatars.githubusercontent.com/u/120540446?v=4
+    url: source/images/avatar.png
     rounded: true
   sidebar:
     position: left
