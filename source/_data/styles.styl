@@ -1,4 +1,13 @@
-﻿.home-hero
+﻿:root
+  --accent-primary #3a7bd5
+  --accent-secondary #3ad5b4
+  --text-primary #0f1e33
+  --text-secondary #5b6475
+  --card-bg #ffffff
+  --border-soft rgba(15,30,51,.08)
+  --muted-bg rgba(15,30,51,.04)
+
+.home-hero
   margin 0 auto 2.5rem
   padding 3rem
   border-radius 28px
@@ -51,13 +60,38 @@
 .posts-expand
   margin-top 1rem
 
+.post-meta
+  font-size .85rem
+  color var(--text-secondary)
+  letter-spacing .04em
+
 .post-block
   border-radius 18px
-  border 1px solid rgba(15, 23, 42, .08)
+  border 1px solid var(--border-soft)
   box-shadow 0 15px 35px rgba(15, 23, 42, .08)
+  background var(--card-bg)
+  padding 2.25rem
+
+.post-header
+  margin-bottom 1.5rem
 
 .post-title
   font-weight 700
+  font-size 2.15rem
+  line-height 1.25
+  color var(--text-primary)
+  margin-bottom .7rem
+
+.post-tags a
+  border-radius 999px
+  border 1px solid rgba(58,123,213,.3)
+  padding .15rem .85rem
+  color var(--accent-primary)
+  font-size .85rem
+  transition all .2s ease
+  &:hover
+    color var(--card-bg)
+    background linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))
 
 .tag-cloud a
   border-radius 999px
@@ -69,60 +103,108 @@
   padding-top 1.5rem
 
 .post-body
-  font-size 1.05rem
-  line-height 1.85
-  color #102a43
+  font-size 1.08rem
+  line-height 1.9
+  color var(--text-primary)
   letter-spacing .01em
+  max-width 780px
+  margin 0 auto
   p
-    margin 0 0 1.35rem
+    margin 0 0 1.5rem
+    color var(--text-primary)
   h2, h3, h4
-    margin 2.4rem 0 1rem
+    margin 2.8rem 0 1.2rem
     font-weight 700
-  ul, ol
-    padding-left 1.6rem
-    margin 0 0 1.3rem
-  li + li
-    margin-top .35rem
+    color var(--text-primary)
+    position relative
+  h2::after
+    content ''
+    display block
+    width 54px
+    height 4px
+    border-radius 999px
+    margin-top .6rem
+    background linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))
+  h3
+    font-size 1.35rem
+  h4
+    font-size 1.15rem
+  strong
+    color #0a1a2f
+  em
+    color var(--accent-primary)
   a
-    color #2563eb
-    border-bottom 1px solid rgba(37,99,235,.4)
-    padding-bottom .1rem
-    transition border-color .2s ease, color .2s ease
+    color var(--accent-primary)
+    border-bottom 1px solid rgba(58,123,213,.4)
+    padding-bottom .08rem
+    transition color .2s ease, border-color .2s ease
     &:hover
-      color #1d4ed8
-      border-color rgba(29,78,216,.8)
-
-.post-body blockquote
-  border-left 4px solid rgba(58,123,213,.6)
-  background rgba(58,123,213,.08)
-  padding 1rem 1.5rem
-  border-radius 0 16px 16px 0
-  color #0b1f33
-  font-style italic
-  margin 1.5rem 0
-
-.post-body code
-  background rgba(15,23,42,.08)
-  padding .2rem .5rem
-  border-radius 6px
-  font-size .95em
-
-.post-body pre
-  border-radius 18px
-  box-shadow 0 18px 35px rgba(15,23,42,.18)
-  font-size .95rem
-  padding 1.4rem
-
-.post-body img
-  border-radius 20px
-  box-shadow 0 30px 60px rgba(15,23,42,.18)
-  margin 2rem 0
-
-.post-body hr
-  border 0
-  height 1px
-  background linear-gradient(90deg, transparent, rgba(15,23,42,.2), transparent)
-  margin 2.5rem 0
+      color var(--accent-secondary)
+      border-color rgba(58,213,180,.7)
+  ul, ol
+    padding-left 1.4rem
+    margin 0 0 1.5rem
+    color var(--text-secondary)
+  li + li
+    margin-top .5rem
+  li::marker
+    color var(--accent-primary)
+  code
+    background rgba(15,23,42,.08)
+    padding .22rem .55rem
+    border-radius 8px
+    font-size .95em
+    color #0f172a
+  pre
+    border-radius 20px
+    box-shadow 0 18px 35px rgba(15,23,42,.15)
+    font-size .95rem
+    padding 1.4rem
+    border 1px solid var(--border-soft)
+  blockquote
+    border-left 4px solid rgba(58,123,213,.6)
+    background rgba(58,123,213,.08)
+    padding 1.2rem 1.8rem
+    border-radius 0 18px 18px 0
+    color #0b1f33
+    font-style italic
+    margin 1.8rem 0
+  img
+    border-radius 24px
+    box-shadow 0 30px 60px rgba(15,23,42,.16)
+    margin 2rem 0
+  figure
+    margin 2.3rem 0
+    text-align center
+    figcaption
+      font-size .9rem
+      color var(--text-secondary)
+      margin-top .6rem
+  table
+    width 100%
+    border-collapse separate
+    border-spacing 0
+    margin 1.8rem 0
+    font-size .95rem
+    box-shadow 0 12px 25px rgba(15,23,42,.08)
+    border 1px solid var(--border-soft)
+    overflow hidden
+    border-radius 18px
+    thead
+      background var(--muted-bg)
+      text-transform uppercase
+      letter-spacing .08em
+      font-size .85rem
+    th, td
+      padding 1rem 1.2rem
+      text-align left
+    tbody tr + tr
+      border-top 1px solid rgba(15,23,42,.05)
+  hr
+    border 0
+    height 1px
+    background linear-gradient(90deg, transparent, rgba(15,23,42,.2), transparent)
+    margin 2.5rem 0
 
 @media (max-width: 768px)
   .home-hero
@@ -132,3 +214,8 @@
   .home-hero__actions
     flex-direction column
     align-items flex-start
+  .post-block
+    padding 1.6rem
+  .post-body
+    font-size 1rem
+    line-height 1.8
