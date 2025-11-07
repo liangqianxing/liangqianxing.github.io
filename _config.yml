@@ -3,16 +3,16 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Liang Qianxing
-subtitle: 'Code, design & exploration'
-description: 'Liang Qianxing 的个人博客，记录成长、创意与实验。'
+title: Gu EnHao
+subtitle: 'Code'
+description: '古恩豪 的个人博客，记录技术栈。'
 keywords:
   - Hexo
   - Blog
-  - Liang Qianxing
-author: Liang Qianxing
+  - Gu EnHao
+author: Gu EnHao
 language: zh-CN
-timezone: Asia/Shanghai
+timezone: Asia/CN
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'

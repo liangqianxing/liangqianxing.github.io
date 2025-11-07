@@ -2,7 +2,7 @@
   "name": "liangqianxing-blog",
   "version": "1.0.0",
   "private": true,
-  "description": "Liang Qianxing 的 Hexo 个人博客",
+  "description": "Gu EnHao 的 Hexo 个人博客",
   "scripts": {
     "build": "hexo generate",
     "clean": "hexo clean",

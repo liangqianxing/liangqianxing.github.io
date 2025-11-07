@@ -1,4 +1,4 @@
-﻿# Liang Qianxing · Blog
+﻿# Gu EnHao · Blog
 
 基于 Hexo 8 + NexT Mist 方案定制的个人博客，用来记录代码、设计与 side project 的全过程。项目托管在 GitHub Pages，通过 Actions 自动构建。
 
