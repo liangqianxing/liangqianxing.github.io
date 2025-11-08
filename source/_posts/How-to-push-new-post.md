@@ -1,8 +1,12 @@
 ---
 title: How to push new post
 date: 2025-11-08 10:34:09
+categories:
+  - 教程
 tags:
-    others
+  - Hexo
+  - 写作
+  - 教程
 cover: https://i.pximg.net/img-original/img/2025/11/07/20/38/28/137200740_p0.jpg
 ---
 ## 创建 Markdown 文件
