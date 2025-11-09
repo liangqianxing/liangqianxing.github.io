@@ -14,9 +14,10 @@
    - 所有行内公式使用 `$...$`；标题或正文中的公式亦需 `$` 包裹。
    - 块级公式使用 `$$`。矩阵或多行推导可用 `aligned`/`bmatrix`，避免孤立等号变成 Markdown 标题。
 
-4. **Hexo / MathJax 配置**
+4. **Hexo / MathJax / Pandoc**
    - 文章需启用 `mathjax: true`；全局使用 `hexo-filter-mathjax`，复杂场景采用 `hexo-renderer-pandoc`。
-   - 相关路径、参数写入 `_config.yml` 中的 `mathjax`、`pandoc` 节，必要时提供完整 `pandocPath`。
+   - `_config.yml` 中 `pandoc.pandocPath` 固定填 `pandoc`，以便 CI/CD 通用。若本机命令不可用，请自行把安装目录加入 PATH 或设置用户级别别名，勿改动仓库配置。
 
 5. **外部工具**
-   - 安装 Pandoc 等工具后若命令未在 PATH 中，可直接在配置里引用绝对路径，避免依赖用户环境变量。
+   - 安装 Pandoc 等 CLI 后，请在操作系统 PATH 中注册可执行文件，或在终端使用绝对路径运行；仓库配置不再写死个人路径。
+   - Windows 示例：`setx PATH "%LOCALAPPDATA%\Pandoc\pandoc-3.5;%PATH%"`（新终端生效）或在单次构建前运行 `set PATH=%LOCALAPPDATA%\Pandoc\pandoc-3.5;%PATH% && npm run build`。

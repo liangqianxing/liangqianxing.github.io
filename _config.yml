@@ -74,8 +74,8 @@ mathjax:
   normal: false
 
 pandoc:
-  pandocPath: C:/Users/liangqianxing/AppData/Local/Pandoc/pandoc-3.5/pandoc.exe
-  timeout: 5000
+  pandocPath: pandoc
+  timeout: 20000
   args:
     - --mathjax
 
