@@ -58,6 +58,27 @@ prismjs:
   line_number: true
   tab_replace: ''
 
+markdown:
+  render:
+    html: true
+    xhtmlOut: false
+    breaks: true
+    linkify: true
+    typographer: true
+    quotes: '“”‘’'
+
+mathjax:
+  tags: none
+  single_dollar: true
+  cjk_width: false
+  normal: false
+
+pandoc:
+  pandocPath: C:/Users/liangqianxing/AppData/Local/Pandoc/pandoc-3.5/pandoc.exe
+  timeout: 5000
+  args:
+    - --mathjax
+
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
 # per_page: Posts displayed per page. (0 = disable pagination)
@@ -162,6 +183,12 @@ theme_config:
     unescape: false
   custom_file_path:
     style: source/_data/styles.styl
+  math:
+    every_page: true 
+    mathjax:
+      enable: true
+    katex:
+      enable: false
   links_settings:
     icon: fa fa-link      # 侧边栏标题前的图标（可选）
     layout: block         # block | inline
