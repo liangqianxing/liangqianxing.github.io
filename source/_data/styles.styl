@@ -240,6 +240,137 @@
     background linear-gradient(90deg, transparent, rgba(15,23,42,.2), transparent)
     margin 2.5rem 0
 
+.post-body.category-graph-body
+  max-width none
+  margin 0
+  padding-top .5rem
+
+.graph-intro
+  font-size 1rem
+  color var(--text-secondary)
+  background rgba(15,30,51,.03)
+  border 1px solid var(--border-soft)
+  padding 1rem 1.25rem
+  border-radius 16px
+
+.category-graph-grid
+  display grid
+  grid-template-columns minmax(0, 1.3fr) minmax(300px, .8fr)
+  gap 1.75rem
+  align-items stretch
+  margin-top 1.75rem
+
+.graph-panel,
+.graph-list
+  border 1px solid var(--border-soft)
+  border-radius 22px
+  background var(--card-bg)
+  box-shadow 0 25px 45px rgba(15,23,42,.08)
+  padding 1.75rem
+
+.graph-panel__header
+  margin-bottom 1.25rem
+
+.graph-panel__eyebrow
+  text-transform uppercase
+  letter-spacing .35em
+  font-size .75rem
+  color var(--accent-secondary)
+  margin-bottom .6rem
+
+.graph-panel__title
+  font-size 1.7rem
+  margin 0 0 .4rem
+  color var(--text-primary)
+
+.graph-panel__desc
+  margin 0
+  color var(--text-secondary)
+  font-size .95rem
+
+.graph-canvas
+  min-height 520px
+  border-radius 18px
+  background linear-gradient(125deg, rgba(58,123,213,.08), rgba(58,213,180,.07))
+  border 1px dashed rgba(58,123,213,.25)
+  position relative
+  overflow hidden
+
+.graph-canvas svg
+  width 100%
+  height 100%
+
+.graph-list__header
+  margin-bottom 1rem
+
+.graph-list__header h3
+  margin .2rem 0
+
+.graph-post-items
+  list-style none
+  margin 0
+  padding 0
+  display flex
+  flex-direction column
+  gap .85rem
+
+.graph-post-item
+  display flex
+  flex-direction column
+  gap .3rem
+  padding .9rem 1.1rem
+  border-radius 14px
+  border 1px solid rgba(58,123,213,.15)
+  background rgba(58,123,213,.04)
+
+.graph-post-item a
+  font-weight 600
+  color var(--accent-primary)
+  text-decoration none
+
+.graph-post-item span
+  font-size .85rem
+  color var(--text-secondary)
+
+.graph-post-item--empty
+  align-items center
+  text-align center
+  color var(--text-secondary)
+
+.graph-links line
+  stroke rgba(58,123,213,.25)
+  stroke-width 2
+
+.graph-node text
+  font-size .9rem
+  pointer-events none
+  fill var(--text-primary)
+
+.graph-node circle
+  stroke-width 2
+  transition transform .2s ease, box-shadow .2s ease, stroke .2s ease
+
+.graph-node.is-active circle
+  stroke var(--accent-secondary)
+  box-shadow 0 0 30px rgba(58,213,180,.45)
+
+.graph-empty
+  position absolute
+  inset 0
+  display flex
+  align-items center
+  justify-content center
+  color var(--text-secondary)
+  font-size 1rem
+
+@media (max-width: 1024px)
+  .category-graph-grid
+    grid-template-columns 1fr
+  .graph-canvas
+    min-height 420px
+  .graph-list
+    padding 1.5rem
+
 @media (max-width: 768px)
   .home-hero
     padding 2rem
@@ -253,3 +384,8 @@
   .post-body
     font-size 1rem
     line-height 1.8
+  .graph-panel,
+  .graph-list
+    padding 1.25rem
+  .graph-canvas
+    min-height 360px

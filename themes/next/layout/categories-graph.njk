@@ -1,0 +1,281 @@
+{% extends '_layout.njk' %}
+{% import '_macro/sidebar.njk' as sidebar_template with context %}
+
+{% block title %}
+  {%- set page_title_suffix = ' | ' + title %}
+  {{ (page.title or __('title.category')) + page_title_suffix }}
+{% endblock %}
+
+{% block class %}page posts-expand category-graph-page{% endblock %}
+
+{% block content %}
+  <div class="post-block" lang="{{ page.lang }}">
+    {%- if page.header !== false %}
+      {%- include '_partials/page/page-header.njk' -%}
+    {%- endif %}
+    <div class="post-body category-graph-body">
+      {%- if page.content %}
+        <div class="graph-intro">{{ page.content }}</div>
+      {%- endif %}
+      <div class="category-graph-grid">
+        <section class="graph-panel">
+          <header class="graph-panel__header">
+            <p class="graph-panel__eyebrow">Knowledge Map</p>
+            <h2 class="graph-panel__title">{{ page.title or __('title.category') }}</h2>
+            <p class="graph-panel__desc">以知识图的方式浏览所有分类，与文章之间的关联一目了然。</p>
+          </header>
+          <div class="graph-canvas">
+            <svg id="categoryGraph" role="img" aria-label="{{ page.title or __('title.category') }}"></svg>
+          </div>
+        </section>
+        <aside class="graph-list" id="categoryDetails">
+          <div class="graph-list__header">
+            <p class="graph-panel__eyebrow">Posts</p>
+            <h3 id="graphListTitle">选择一个节点</h3>
+            <p id="graphListSub">点击左侧图谱中的分类节点，查看相关文章。</p>
+          </div>
+          <ul id="categoryPosts" class="graph-post-items"></ul>
+        </aside>
+      </div>
+      <div id="categoryGraphData"
+           class="graph-data"
+           data-root-title="{{ (page.title or __('title.category')) | escape }}"
+           hidden>
+        {%- for category in site.categories %}
+          <section class="graph-category"
+                   data-name="{{ category.name | escape }}"
+                   data-slug="{{ category.slug | escape }}"
+                   data-count="{{ category.length }}">
+            {%- for post in category.posts %}
+              <a class="graph-category-post"
+                 data-title="{{ post.title | escape }}"
+                 data-url="{{ url_for(post.path) | escape }}"
+                 data-date="{{ date(post.date, config.date_format) | escape }}"></a>
+            {%- endfor %}
+          </section>
+        {%- endfor %}
+      </div>
+    </div>
+  </div>
+  {%- include '_partials/page/breadcrumb.njk' -%}
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!window.d3) return;
+
+      const graphDataEl = document.getElementById('categoryGraphData');
+      const canvasEl = document.querySelector('.graph-canvas');
+      const svgEl = document.getElementById('categoryGraph');
+      const postsListEl = document.getElementById('categoryPosts');
+      const listTitleEl = document.getElementById('graphListTitle');
+      const listSubEl = document.getElementById('graphListSub');
+
+      if (!graphDataEl || !canvasEl || !svgEl) {
+        return;
+      }
+
+      const colorVars = getComputedStyle(document.documentElement);
+      const accentColor = colorVars.getPropertyValue('--accent-primary').trim() || '#3a7bd5';
+      const accentSoft = colorVars.getPropertyValue('--muted-bg').trim() || 'rgba(58,123,213,.15)';
+
+      const categories = Array.from(graphDataEl.querySelectorAll('.graph-category')).map(function(categoryEl, index) {
+        const posts = Array.from(categoryEl.querySelectorAll('.graph-category-post')).map(function(postEl) {
+          return {
+            title: postEl.dataset.title,
+            url: postEl.dataset.url,
+            date: postEl.dataset.date
+          };
+        });
+        const slug = categoryEl.dataset.slug || ('category-' + index);
+
+        return {
+          id: slug,
+          name: categoryEl.dataset.name || slug,
+          count: parseInt(categoryEl.dataset.count || posts.length || 0, 10),
+          posts: posts
+        };
+      }).filter(function(category) {
+        return category.name;
+      });
+
+      if (!categories.length) {
+        canvasEl.innerHTML = '<p class="graph-empty">当前还没有分类可以展示。</p>';
+        return;
+      }
+
+      const nodes = [{
+        id: 'graph-root',
+        name: graphDataEl.dataset.rootTitle || '知识图谱',
+        type: 'root',
+        count: categories.reduce(function(total, category) {
+          return total + category.count;
+        }, 0)
+      }].concat(categories.map(function(category) {
+        category.type = 'category';
+        return category;
+      }));
+
+      const links = categories.map(function(category) {
+        return {
+          source: 'graph-root',
+          target: category.id
+        };
+      });
+
+      const svg = window.d3.select(svgEl);
+
+      function resizeCanvas() {
+        const width = canvasEl.clientWidth;
+        const height = canvasEl.clientHeight || 500;
+        svg.attr('viewBox', '0 0 ' + width + ' ' + height);
+        return { width, height };
+      }
+
+      let { width, height } = resizeCanvas();
+
+      const link = svg.append('g')
+        .attr('class', 'graph-links')
+        .selectAll('line')
+        .data(links)
+        .enter()
+        .append('line');
+
+      const node = svg.append('g')
+        .attr('class', 'graph-nodes')
+        .selectAll('g')
+        .data(nodes)
+        .enter()
+        .append('g')
+        .attr('class', function(d) { return 'graph-node graph-node--' + d.type; })
+        .call(
+          window.d3.drag()
+            .on('start', dragstarted)
+            .on('drag', dragged)
+            .on('end', dragended)
+        );
+
+      node.append('circle')
+        .attr('r', function(d) {
+          if (d.type === 'root') return 50;
+          return 24 + Math.min(26, (d.count || 1) * 2);
+        })
+        .style('fill', function(d) {
+          return d.type === 'root' ? accentColor : accentSoft;
+        })
+        .style('stroke', accentColor);
+
+      node.append('text')
+        .text(function(d) { return d.name; })
+        .attr('text-anchor', 'middle')
+        .attr('dy', '.35em');
+
+      node.on('click', function(event, datum) {
+        node.classed('is-active', function(d) {
+          return d.id === datum.id;
+        });
+        if (datum.type === 'category') {
+          updatePostsList(datum);
+        } else {
+          resetPostsList();
+        }
+      });
+
+      const simulation = window.d3.forceSimulation(nodes)
+        .force('link', window.d3.forceLink(links).id(function(d) { return d.id; }).distance(180))
+        .force('charge', window.d3.forceManyBody().strength(-360))
+        .force('center', window.d3.forceCenter(width / 2, height / 2))
+        .force('collision', window.d3.forceCollide().radius(function(d) {
+          return d.type === 'root' ? 70 : 45;
+        }))
+        .on('tick', ticked);
+
+      function ticked() {
+        link
+          .attr('x1', function(d) { return d.source.x; })
+          .attr('y1', function(d) { return d.source.y; })
+          .attr('x2', function(d) { return d.target.x; })
+          .attr('y2', function(d) { return d.target.y; });
+
+        node
+          .attr('transform', function(d) {
+            return 'translate(' + d.x + ',' + d.y + ')';
+          });
+      }
+
+      function dragstarted(event, d) {
+        if (!event.active) simulation.alphaTarget(0.3).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+      }
+
+      function dragged(event, d) {
+        d.fx = event.x;
+        d.fy = event.y;
+      }
+
+      function dragended(event, d) {
+        if (!event.active) simulation.alphaTarget(0);
+        d.fx = null;
+        d.fy = null;
+      }
+
+      function updatePostsList(category) {
+        if (!postsListEl || !listTitleEl || !listSubEl) return;
+
+        listTitleEl.textContent = category.name;
+        const countText = category.count ? category.count + ' 篇文章' : '暂无文章';
+        listSubEl.textContent = countText;
+        postsListEl.innerHTML = '';
+
+        if (!category.posts || !category.posts.length) {
+          const emptyItem = document.createElement('li');
+          emptyItem.className = 'graph-post-item graph-post-item--empty';
+          emptyItem.textContent = '这个分类还没有文章，欢迎继续创作。';
+          postsListEl.appendChild(emptyItem);
+          return;
+        }
+
+        category.posts.forEach(function(post) {
+          const item = document.createElement('li');
+          item.className = 'graph-post-item';
+          const linkEl = document.createElement('a');
+          linkEl.href = post.url;
+          linkEl.textContent = post.title;
+          linkEl.rel = 'bookmark';
+          const metaEl = document.createElement('span');
+          metaEl.textContent = post.date || '';
+          item.appendChild(linkEl);
+          item.appendChild(metaEl);
+          postsListEl.appendChild(item);
+        });
+      }
+
+      function resetPostsList() {
+        if (!postsListEl || !listTitleEl || !listSubEl) return;
+        node.classed('is-active', function(d) { return d.id === 'graph-root'; });
+        listTitleEl.textContent = '选择一个节点';
+        listSubEl.textContent = '点击左侧图谱中的分类节点，查看相关文章。';
+        postsListEl.innerHTML = '';
+      }
+
+      resetPostsList();
+
+      let resizeTimer = null;
+      window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+          const size = resizeCanvas();
+          width = size.width;
+          height = size.height;
+          simulation.force('center', window.d3.forceCenter(width / 2, height / 2));
+          simulation.alpha(0.6).restart();
+        }, 200);
+      });
+    });
+  </script>
+{% endblock %}
+
+{% block sidebar %}
+  {{ sidebar_template.render(false) }}
+{% endblock %}
