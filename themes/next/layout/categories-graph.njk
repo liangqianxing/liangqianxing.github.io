@@ -9,30 +9,48 @@
 {% block class %}page posts-expand category-graph-page{% endblock %}
 
 {% block content %}
+  {%- set category_list = site.categories.toArray() %}
+  {%- set category_count = category_list | length %}
+  {%- set total_post_count = 0 %}
+  {%- for category_item in category_list %}
+    {%- set total_post_count = total_post_count + category_item.length %}
+  {%- endfor %}
+  {%- set avg_posts = 0 %}
+  {%- if category_count > 0 %}
+    {%- set avg_posts = total_post_count / category_count %}
+  {%- endif %}
   <div class="post-block" lang="{{ page.lang }}">
     {%- if page.header !== false %}
       {%- include '_partials/page/page-header.njk' -%}
     {%- endif %}
     <div class="post-body category-graph-body">
-      {%- if page.content %}
-        <div class="graph-intro">{{ page.content }}</div>
-      {%- endif %}
+      <section class="graph-lite-guides" aria-label="操作提示">
+        <p class="graph-lite-text">拖拽节点调整布局，滚轮缩放，点击分类节点可跳转到该分类，双击空白处复位。</p>
+        <div class="graph-lite-stats">
+          <span>{{ category_count }} 个分类</span>
+          <span>{{ total_post_count }} 篇文章</span>
+        </div>
+      </section>
       <div class="category-graph-grid">
-        <section class="graph-panel">
+        <section class="graph-panel graph-panel--full">
           <header class="graph-panel__header">
             <p class="graph-panel__eyebrow">Knowledge Map</p>
             <h2 class="graph-panel__title">{{ page.title or __('title.category') }}</h2>
-            <p class="graph-panel__desc">以知识图的方式浏览所有分类，与文章之间的关联一目了然。</p>
+            <p class="graph-panel__desc">以知识图谱快速浏览分类，节点大小对应文章数。</p>
+            <div class="graph-selection" id="graphSelectionInfo">
+              <span>请选择一个分类节点。</span>
+            </div>
           </header>
           <div class="graph-canvas">
             <svg id="categoryGraph" role="img" aria-label="{{ page.title or __('title.category') }}"></svg>
           </div>
         </section>
-        <aside class="graph-list" id="categoryDetails">
-          <div class="graph-list__header">
-            <p class="graph-panel__eyebrow">Posts</p>
-            <h3 id="graphListTitle">选择一个节点</h3>
-            <p id="graphListSub">点击左侧图谱中的分类节点，查看相关文章。</p>
+        <aside class="graph-preview" id="categoryDetails">
+          <div class="graph-preview__header">
+            <p class="graph-panel__eyebrow">Preview</p>
+            <h3 id="graphListTitle" data-default-title="{{ page.title or __('title.category') }} · 预览">{{ page.title or __('title.category') }} · 预览</h3>
+            <p id="graphListSub" data-default-sub="选择左侧分类节点查看文章摘要。">选择左侧分类节点查看文章摘要。</p>
+            <a id="graphVisitLink" class="graph-preview__link is-disabled" href="javascript:void(0)" aria-disabled="true">访问分类页面</a>
           </div>
           <ul id="categoryPosts" class="graph-post-items"></ul>
         </aside>
@@ -41,12 +59,13 @@
            class="graph-data"
            data-root-title="{{ (page.title or __('title.category')) | escape }}"
            hidden>
-        {%- for category in site.categories %}
+        {%- for category in category_list %}
           <section class="graph-category"
                    data-name="{{ category.name | escape }}"
                    data-slug="{{ category.slug | escape }}"
-                   data-count="{{ category.length }}">
-            {%- for post in category.posts %}
+                   data-count="{{ category.length }}"
+                   data-url="{{ url_for(category.path) | escape }}">
+            {%- for post in category.posts.toArray() %}
               <a class="graph-category-post"
                  data-title="{{ post.title | escape }}"
                  data-url="{{ url_for(post.path) | escape }}"
@@ -67,9 +86,11 @@
       const graphDataEl = document.getElementById('categoryGraphData');
       const canvasEl = document.querySelector('.graph-canvas');
       const svgEl = document.getElementById('categoryGraph');
+      const selectionEl = document.getElementById('graphSelectionInfo');
       const postsListEl = document.getElementById('categoryPosts');
       const listTitleEl = document.getElementById('graphListTitle');
       const listSubEl = document.getElementById('graphListSub');
+      const visitLinkEl = document.getElementById('graphVisitLink');
 
       if (!graphDataEl || !canvasEl || !svgEl) {
         return;
@@ -88,29 +109,37 @@
           };
         });
         const slug = categoryEl.dataset.slug || ('category-' + index);
+        const url = categoryEl.dataset.url || '';
 
         return {
           id: slug,
           name: categoryEl.dataset.name || slug,
           count: parseInt(categoryEl.dataset.count || posts.length || 0, 10),
-          posts: posts
+          posts: posts,
+          url: url
         };
       }).filter(function(category) {
         return category.name;
       });
 
       if (!categories.length) {
-        canvasEl.innerHTML = '<p class="graph-empty">当前还没有分类可以展示。</p>';
+        canvasEl.innerHTML = '<p class="graph-empty">当前还没有分类可以展示，写一篇文章后再来看看吧。</p>';
         return;
       }
 
+      const rootTitle = graphDataEl.dataset.rootTitle || '知识图谱';
+      const totalCategories = categories.length;
+      const totalPosts = categories.reduce(function(total, category) {
+        return total + category.count;
+      }, 0);
+      const defaultListTitle = listTitleEl ? listTitleEl.dataset.defaultTitle || listTitleEl.textContent : '';
+      const defaultListSub = listSubEl ? listSubEl.dataset.defaultSub || listSubEl.textContent : '';
+
       const nodes = [{
         id: 'graph-root',
-        name: graphDataEl.dataset.rootTitle || '知识图谱',
+        name: rootTitle,
         type: 'root',
-        count: categories.reduce(function(total, category) {
-          return total + category.count;
-        }, 0)
+        count: totalPosts
       }].concat(categories.map(function(category) {
         category.type = 'category';
         return category;
@@ -175,9 +204,9 @@
           return d.id === datum.id;
         });
         if (datum.type === 'category') {
-          updatePostsList(datum);
+          updateSelection(datum);
         } else {
-          resetPostsList();
+          resetSelection();
         }
       });
 
@@ -220,23 +249,43 @@
         d.fy = null;
       }
 
-      function updatePostsList(category) {
-        if (!postsListEl || !listTitleEl || !listSubEl) return;
-
-        listTitleEl.textContent = category.name;
+      function updateSelection(category) {
         const countText = category.count ? category.count + ' 篇文章' : '暂无文章';
-        listSubEl.textContent = countText;
-        postsListEl.innerHTML = '';
+        if (selectionEl) {
+          selectionEl.innerHTML = '<span>当前分类：' + category.name + '</span><span>' + countText + '</span>';
+        }
+        if (listTitleEl) {
+          listTitleEl.textContent = category.name + ' · 预览';
+        }
+        if (listSubEl) {
+          const latestDate = category.posts && category.posts.length ? category.posts[0].date || '—' : '—';
+          listSubEl.textContent = category.count ? category.count + ' 篇文章 · 最新发布时间：' + latestDate : '该分类还没有文章。';
+        }
+        if (visitLinkEl) {
+          if (category.url) {
+            visitLinkEl.href = category.url;
+            visitLinkEl.classList.remove('is-disabled');
+            visitLinkEl.setAttribute('aria-disabled', 'false');
+          } else {
+            visitLinkEl.href = 'javascript:void(0)';
+            visitLinkEl.classList.add('is-disabled');
+            visitLinkEl.setAttribute('aria-disabled', 'true');
+          }
+        }
+        renderPosts(category.posts, '这个分类还没有文章。');
+      }
 
-        if (!category.posts || !category.posts.length) {
+      function renderPosts(posts, emptyMessage) {
+        if (!postsListEl) return;
+        postsListEl.innerHTML = '';
+        if (!posts || !posts.length) {
           const emptyItem = document.createElement('li');
           emptyItem.className = 'graph-post-item graph-post-item--empty';
-          emptyItem.textContent = '这个分类还没有文章，欢迎继续创作。';
+          emptyItem.textContent = emptyMessage || '这个分类还没有文章。';
           postsListEl.appendChild(emptyItem);
           return;
         }
-
-        category.posts.forEach(function(post) {
+        posts.slice(0, 5).forEach(function(post) {
           const item = document.createElement('li');
           item.className = 'graph-post-item';
           const linkEl = document.createElement('a');
@@ -251,15 +300,26 @@
         });
       }
 
-      function resetPostsList() {
-        if (!postsListEl || !listTitleEl || !listSubEl) return;
+      function resetSelection() {
         node.classed('is-active', function(d) { return d.id === 'graph-root'; });
-        listTitleEl.textContent = '选择一个节点';
-        listSubEl.textContent = '点击左侧图谱中的分类节点，查看相关文章。';
-        postsListEl.innerHTML = '';
+        if (selectionEl) {
+          selectionEl.innerHTML = '<span>请选择一个分类节点。</span>';
+        }
+        if (listTitleEl) {
+          listTitleEl.textContent = defaultListTitle;
+        }
+        if (listSubEl) {
+          listSubEl.textContent = defaultListSub;
+        }
+        if (visitLinkEl) {
+          visitLinkEl.href = 'javascript:void(0)';
+          visitLinkEl.classList.add('is-disabled');
+          visitLinkEl.setAttribute('aria-disabled', 'true');
+        }
+        renderPosts([], '选择分类后会显示对应文章列表。');
       }
 
-      resetPostsList();
+      resetSelection();
 
       let resizeTimer = null;
       window.addEventListener('resize', function() {
