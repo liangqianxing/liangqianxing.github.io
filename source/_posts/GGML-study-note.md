@@ -6,6 +6,9 @@ categories:
 tags:
   - GGML
 mathjax: true
+toc:
+  enable: true
+  number: false
 ---
 
 # GGML 学习笔记大纲

@@ -8,6 +8,9 @@ tags:
   - 博客搭建
 sticky: 0
 cover: https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?auto=format&fit=crop&w=1400&q=80
+toc:
+  enable: true
+  number: false
 ---
 
 ## 未来想写的东西

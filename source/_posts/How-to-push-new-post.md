@@ -8,6 +8,9 @@ tags:
   - 写作
   - 教程
 cover: https://i.pximg.net/img-original/img/2025/11/07/20/38/28/137200740_p0.jpg
+toc:
+  enable: true
+  number: false
 ---
 ## 创建 Markdown 文件
 
