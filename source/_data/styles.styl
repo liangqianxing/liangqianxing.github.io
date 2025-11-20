@@ -492,3 +492,393 @@
   .graph-lite-stats
     width 100%
     flex-wrap wrap
+
+
+
+
+
+// ==============================
+// 2. 全局毛玻璃半透明化 (Mist核心美化)
+// ==============================
+
+// 博客主体内容透明化
+.main-inner {
+    background: rgba(255, 255, 255, 0.85); // 白色背景，85%不透明度
+    padding: 25px;
+    border-radius: 15px; // 圆角
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); // 阴影增加立体感
+}
+
+
+
+// 假如你想做暗黑模式，把上面两个 background 改成 rgba(0,0,0,0.7) 
+// 并添加 color: #eee; 即可
+
+// ==============================
+// 3. 细节微调
+// ==============================
+
+// 鼠标选中文字的颜色（变得更显眼）
+::selection {
+    background: #00c4b6;
+    color: #fff;
+}
+
+// 滚动条美化 (Chrome/Edge)
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #49b1f5; // 滚动条颜色
+    border-radius: 32px;
+}
+::-webkit-scrollbar-track {
+    background-color: rgba(255,255,255,0.5);
+}
+
+// 文章内图片鼠标悬停放大效果
+.post-body img:hover {
+    transform: scale(1.05);
+    transition: all 0.5s;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
+
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    color: #2c3e50;
+    // 这一张是高品质的抽象流体壁纸，不抢眼但很有质感
+    background: url("https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop");
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+.site-brand-container {
+    background: transparent;
+    box-shadow: none;
+}
+.site-title {
+    font-size: 28px;
+    font-weight: 800; // 特粗字体
+    color: #000 !important;
+    letter-spacing: 2px;
+}
+
+
+
+
+// 隐藏原来丑陋的背景条
+.site-brand-container {
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+}
+
+// 网站标题（左侧）
+.site-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333 !important;
+    line-height: 1.5;
+}
+.site-subtitle { display: none; } // 隐藏副标题，保持简洁
+
+
+// --------------------------------------
+// 2. Sidebar（侧边栏）整容 -> 变成“悬浮卡片”
+// --------------------------------------
+
+// 只有当侧边栏显示时生效
+.sidebar {
+    background: none; // 去掉默认的灰色背景
+    box-shadow: none;
+}
+
+.sidebar-inner {
+    background: rgba(255, 255, 255, 0.95); // 纯净白
+    border-radius: 20px; // 圆角
+    padding: 20px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1); // 立体阴影
+    margin-top: 20px; // 离顶部远一点
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+// 头像圆形化
+.site-author-image {
+    border-radius: 50%; // 变成圆形
+    border: 3px solid #fff; // 加个白边
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    width: 100px;
+    height: 100px;
+}
+
+// 侧边栏文字美化
+.site-author-name {
+    font-weight: 700;
+    margin: 10px 0 5px;
+    color: #222;
+}
+.site-description {
+    font-size: 13px;
+    color: #666;
+}
+.site-state-item-count {
+    color: #000;
+    font-weight: bold;
+}
+
+
+
+
+// --------------------------------------
+// 3. 既然改了菜单，主体也要配合一下
+// --------------------------------------
+body {
+    // 还是保持那个高质感背景
+    background: #f0f2f5 url("https://images.unsplash.com/photo-1497436072909-60f360e1d4b0?q=80&w=2560&auto=format&fit=crop") center/cover fixed;
+}
+
+.main-inner {
+    margin-top: 40px; // 给悬浮菜单留出位置
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+}
+
+
+
+// =================================================================
+// 2. 改造 Main Menu (主菜单) -> 变成居中悬浮胶囊
+// =================================================================
+
+
+
+// 隐藏原本可能存在的 Logo 区域背景 (如果有的话)
+.site-brand-container {
+    background: transparent !important;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+// 网站标题 (Site Title)
+.site-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #222 !important;
+    line-height: 40px; // 垂直居中
+    vertical-align: middle;
+}
+.site-subtitle { display: none; } // 隐藏副标题，保持清爽
+
+// 菜单列表区域
+.menu {
+    margin-top: 0 !important;
+    padding-left: 0;
+    text-align: right; // 菜单项靠右
+    float: right; // 强制靠右
+    line-height: 40px; // 垂直居中
+}
+
+
+
+.back-to-top {
+    // 1. 位置：悬浮在侧边栏按钮的正上方
+    // (假设 sidebar-toggle 在 bottom: 30px，这里设 90px 留出间距)
+    right: 30px !important;
+    bottom: 100px !important;
+    width: 30px !important;  // 比主按钮稍小一点，更有层次感
+    height: 30px !important;
+    
+    // 2. 外观：圆形、渐变、投影
+    background: linear-gradient(135deg, #3a7bd5, #3ad5b4) !important;
+    border-radius: 50% !important;
+    box-shadow: 0 5px 15px rgba(58, 123, 213, 0.3) !important;
+    
+    // 3. 文字/图标样式
+    color: #fff !important;
+    font-size: 14px !important; // 字体大小
+    font-weight: bold;
+    
+    // 4. 居中对齐
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    // 5. 交互动画
+    transition: all 0.3s ease-in-out;
+    opacity: 0.8; // 默认稍微淡一点
+    z-index: 99;
+}
+
+// 鼠标悬停效果
+.back-to-top:hover {
+    transform: translateY(-3px); // 轻微上浮
+    opacity: 1;
+    box-shadow: 0 8px 20px rgba(58, 123, 213, 0.5) !important;
+}
+
+// 如果你开启了 scrollpercent (显示百分比)，把数字修饰得好看点
+.back-to-top span {
+    font-size: 12px;
+    line-height: 1;
+}
+
+// 修复移动端可能的位置偏移
+@media (max-width: 768px) {
+    .back-to-top {
+        right: 20px !important;
+        bottom: 80px !important;
+    }
+    .sidebar-toggle{
+      right: 20px !important;
+        bottom: 40px !important;
+    }
+
+}
+
+
+
+// 2. 左侧：网站标题
+.site-brand-container {
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    flex-shrink: 0; // 禁止标题被压缩
+}
+
+.site-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #000 !important;
+    line-height: 60px; // 垂直居中
+}
+
+// 3. 右侧：菜单容器 (核心修复区)
+.menu {
+    margin: 0 !important;
+    padding: 0 !important;
+    
+    // ⚡️ 强制横排的核心代码 ⚡️
+    flex-wrap: nowrap !important; // 绝对禁止换行！
+    align-items: center !important;
+    
+    // 如果屏幕太小，允许横向滑动 (像 App 的顶部导航一样)
+    overflow-x: auto !important; 
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch; // 手机滑动丝滑
+    
+    // 隐藏滚动条 (Chrome/Safari)
+    &::-webkit-scrollbar {
+        display: none; 
+    }
+    // 隐藏滚动条 (Firefox)
+    scrollbar-width: none; 
+}
+
+
+
+// 悬停效果
+.menu-item a:hover, .menu-item-active a {
+    color: #000 !important;
+    background: rgba(0,0,0,0.05) !important;
+}
+
+
+
+// -----------------------------------------------------------
+// 📱 移动端特殊优化 (当屏幕很窄时)
+// -----------------------------------------------------------
+@media (max-width: 768px) {
+    // 标题变小一点
+    .site-title {
+        font-size: 18px; 
+    }
+    
+    // 菜单容器填满剩余空间
+    .menu {
+        margin-left: 10px !important;
+        padding-right: 10px !important;
+        
+        // 让遮罩渐变提示用户可以滑动 (可选高级感)
+        mask-image: linear-gradient(to right, transparent, black 10px, black 90%, transparent);
+        -webkit-mask-image: linear-gradient(to right, transparent, black 10px, black 90%, transparent);
+    }
+
+    .menu-item a {
+        font-size: 13px; // 字体再小一点
+        padding: 5px 10px !important;
+    }
+    
+    // 既然导航栏固定了，主体内容要往下推，防止被挡住
+    .main-inner {
+        margin-top: 12px !important;
+    }
+}
+
+// 桌面端主体下推
+@media (min-width: 769px) {
+    .main-inner {
+        margin-top: 12px !important;
+    }
+}
+
+.sidebar-toggle { 
+  
+    background: linear-gradient(135deg, #3a7bd5, #3ad5b4) !important;
+    box-shadow: 0 8px 20px rgba(58, 123, 213, 0.4) !important;
+
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255,255,255,0.5) !important;
+
+    border-radius: 50% !important;
+    font-weight: var(--fa-style, 900);
+
+     transition: all 0.3s ease-in-out;
+    opacity: 0.8; // 默认稍微淡一点
+    z-index: 99;
+}
+
+
+.links-of-author-item a:hover {
+    // 1. 文字和图标颜色：改成你的主题蓝 (不要白色!)
+    color: #3a7bd5 !important; 
+    
+    // 2. 背景颜色：加一点点淡淡的蓝底，增加反馈感
+    background: rgba(58, 123, 213, 0.1) !important; 
+    
+    // 3. 细节优化
+    border-radius: 4px;
+    text-decoration: none !important;
+}
+
+// 强制内部的图标 (i标签) 和文字 (span标签) 也就是同步变色
+.links-of-author-item a:hover i, 
+.links-of-author-item a:hover span {
+    color: #3a7bd5 !important;
+}
+
+.links-of-blogroll-item a:hover {
+    // 1. 文字和图标颜色：改成你的主题蓝 (不要白色!)
+    color: #3a7bd5 !important; 
+    
+    // 2. 背景颜色：加一点点淡淡的蓝底，增加反馈感
+    background: rgba(58, 123, 213, 0.1) !important; 
+    
+    // 3. 细节优化
+    border-radius: 4px;
+    text-decoration: none !important;
+}
+
+// 强制内部的图标 (i标签) 和文字 (span标签) 也就是同步变色
+.links-of-blogroll-item a:hover i, 
+.links-of-blogroll-item a:hover span {
+    color: #3a7bd5 !important;
+}
+
