@@ -9,7 +9,8 @@ tags:
   - Attention
   - CNN
 mathjax: true
-toc: false
+toc:
+  enable: false
 ---
 
 > 一份把 CNN 与 Transformer 串起来的快速笔记，记录关键公式、训练直觉与二者之间的联系。
