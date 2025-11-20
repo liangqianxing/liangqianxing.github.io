@@ -164,7 +164,7 @@ theme_config:
     position: left
     display: always
   footer:
-    since: 2021
+    since: 2025
     icon:
       name: fa fa-heart
       animated: true
