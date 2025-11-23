@@ -7,7 +7,9 @@ tags:
 
 ViT (Vision Transformer) 是 Google 在 ICLR 2021 提出的里程碑式工作。它把 Transformer 架构直接搬到图像域，在大规模预训练上打破了 CNN 的统治。CLIP、LLaVA、Stable Diffusion 等多模态模型都以 ViT 作为视觉骨干，因此面试常考。
 
-![ViT 总览](./image-1.png)
+<div align="center">
+  <img src="/images/resnet-transformer/vit-overview.png" alt="ViT 总览" width="600">
+</div>
 ## 一、核心思想：An Image is Worth 16×16 Words
 
 - 把图片均匀切成 Patch，把每个 Patch 当成一个 Token；整张图就对应一个 Token 序列。
@@ -31,7 +33,9 @@ ViT (Vision Transformer) 是 Google 在 ICLR 2021 提出的里程碑式工作。
 6. **MLP Head**  
    最后再接一个 `LN + Linear`，输出分类 logits。
 
-![Patch Embedding 流程示意](./image-2.png)
+<div align="center">
+  <img src="/images/resnet-transformer/patch-embedding.png" alt="Patch Embedding 流程示意" width="600">
+</div>
 
 ## 三、ViT vs. CNN（面试高频题）
 
@@ -95,7 +99,9 @@ class PatchEmbed(nn.Module):
 
 CLIP 是 OpenAI 于 2021 年提出的双塔多模态模型，被称为“图文对齐的基石”。在多模态岗位面试中，它的核心思想、损失函数与工程细节几乎必问。
 
-![CLIP 双塔架构示意](./image.png)
+<div align="center">
+  <img src="/images/resnet-transformer/clip-architecture.png" alt="CLIP 双塔架构示意" width="600">
+</div>
 
 ## 一、核心思想
 
