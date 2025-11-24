@@ -37,7 +37,7 @@ w i d e s t </w> ×3
 统计所有相邻 pair 频率 → 发现 (e, s) 和 (s, t) 都是 9 次 → 任选其一合并（如 es）→ 继续迭代 → 最终得到 est、low、lowest</w> 等高频子词
 
 
-BPE 在实际模型中的两个重要变体
+## BPE 在实际模型中的两个重要变体
 原始 BPE（OpenAI GPT-2 用）
 
 操作在字符级别（UTF-8 bytes）
@@ -71,6 +71,7 @@ BPE 的优缺点
 总结一句话
 BPE 是通过不断合并语料中最常见的相邻符号对，来构建一个大小适中、覆盖广泛的子词词汇表的无监督分词算法，是目前主流大模型分词器的基石之一。
 
+## 代码实现
 ```python
 def run_train_bpe(
     input_path: str | os.PathLike,
