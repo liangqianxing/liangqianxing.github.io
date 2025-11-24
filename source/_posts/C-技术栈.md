@@ -4,7 +4,7 @@ date: 2025-11-24 12:44:30
 tags:
 ---
 
-##手撕Vector
+## 手撕Vector
 
 ```C++
 #include <bits/stdc++.h>
