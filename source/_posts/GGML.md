@@ -11,12 +11,6 @@ toc:
   number: false
 ---
 
-﻿---
-title: GGML
-date: 2025-11-28 10:18:58
-tags:
----
-
 
 
 ```c++
