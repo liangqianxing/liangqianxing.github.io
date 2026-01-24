@@ -137,10 +137,26 @@ search:
   field: post
   content: true
 
+sitemap:
+  path: sitemap.xml
+
+robotstxt:
+  useragent: "*"
+  allow:
+    - /
+  sitemap: /sitemap.xml
+
 theme_config:
   scheme: Mist
   language_switcher: false
   index_with_subtitle: true
+  minify: true
+  preconnect: true
+  lazyload: true
+  quicklink:
+    enable: true
+    home: true
+    archive: true
   menu:
     home: / || fa fa-home
     projects: /projects/ || fa fa-rocket
@@ -184,7 +200,7 @@ theme_config:
   custom_file_path:
     style: source/_data/styles.styl
   math:
-    every_page: true 
+    every_page: false
     mathjax:
       enable: true
     katex:

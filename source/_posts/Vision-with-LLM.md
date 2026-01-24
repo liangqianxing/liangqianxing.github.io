@@ -2,6 +2,7 @@
 title: Vision with LLM
 date: 2025-11-23 17:15:54
 tags:
+mathjax: true
 ---
 # ViT (Vision Transformer)
 
