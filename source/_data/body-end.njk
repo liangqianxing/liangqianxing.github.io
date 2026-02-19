@@ -1,6 +1,6 @@
-<button class="theme-toggle-button" id="theme-toggle" type="button" aria-label="切换夜间模式" title="切换夜间模式">
-  <span class="theme-toggle-icon" aria-hidden="true">🌙</span>
-  <span class="theme-toggle-text">夜间模式</span>
+<button class="theme-toggle-button" id="theme-toggle-float" type="button" aria-label="Switch to dark mode" title="Switch to dark mode">
+  <i class="fa fa-moon theme-toggle-icon" aria-hidden="true"></i>
+  <span class="theme-toggle-text">Dark Mode</span>
 </button>
 
 <script data-pjax>
@@ -28,21 +28,78 @@
     return media.matches ? THEME_DARK : THEME_LIGHT;
   }
 
-  function updateButton(effectiveTheme) {
-    const button = document.getElementById('theme-toggle');
+  function ensureMenuToggle() {
+    const menu = document.querySelector('.main-menu.menu');
+    if (!menu) return null;
+
+    let item = menu.querySelector('.menu-item-theme-toggle');
+    if (!item) {
+      item = document.createElement('li');
+      item.className = 'menu-item menu-item-theme-toggle';
+      item.innerHTML = '<a role="button"><i class="fa fa-moon fa-fw theme-menu-icon"></i><span class="theme-menu-text">Dark Mode</span></a>';
+      const searchItem = menu.querySelector('.menu-item-search');
+      if (searchItem) {
+        menu.insertBefore(item, searchItem);
+      } else {
+        menu.appendChild(item);
+      }
+    }
+
+    return item.querySelector('a');
+  }
+
+  function updateFloatingButton(effectiveTheme) {
+    const button = document.getElementById('theme-toggle-float');
     if (!button) return;
 
     const icon = button.querySelector('.theme-toggle-icon');
     const text = button.querySelector('.theme-toggle-text');
     const isDark = effectiveTheme === THEME_DARK;
-    const label = isDark ? '切换到浅色模式' : '切换到夜间模式';
+    const label = isDark ? 'Switch to light mode' : 'Switch to dark mode';
 
     button.classList.toggle('is-dark', isDark);
     button.setAttribute('aria-label', label);
     button.title = label;
 
-    if (icon) icon.textContent = isDark ? '☀️' : '🌙';
-    if (text) text.textContent = isDark ? '浅色模式' : '夜间模式';
+    if (icon) {
+      icon.classList.toggle('fa-moon', !isDark);
+      icon.classList.toggle('fa-sun', isDark);
+    }
+    if (text) text.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+  }
+
+  function updateMenuButton(effectiveTheme) {
+    const trigger = ensureMenuToggle();
+    if (!trigger) return;
+
+    const icon = trigger.querySelector('.theme-menu-icon');
+    const text = trigger.querySelector('.theme-menu-text');
+    const isDark = effectiveTheme === THEME_DARK;
+    const label = isDark ? 'Switch to light mode' : 'Switch to dark mode';
+
+    trigger.setAttribute('aria-label', label);
+    trigger.setAttribute('title', label);
+
+    if (icon) {
+      icon.classList.toggle('fa-moon', !isDark);
+      icon.classList.toggle('fa-sun', isDark);
+    }
+    if (text) text.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+  }
+
+  function updateButtons(effectiveTheme) {
+    updateFloatingButton(effectiveTheme);
+    updateMenuButton(effectiveTheme);
+  }
+
+  function bindToggle(trigger) {
+    if (!trigger || trigger.dataset.bound === 'true') return;
+
+    trigger.dataset.bound = 'true';
+    trigger.addEventListener('click', event => {
+      event.preventDefault();
+      toggleTheme();
+    });
   }
 
   function applyTheme(theme, persist) {
@@ -66,7 +123,7 @@
       } catch (error) {}
     }
 
-    updateButton(effectiveTheme);
+    updateButtons(effectiveTheme);
   }
 
   function toggleTheme() {
@@ -77,11 +134,8 @@
   }
 
   function initThemeToggle() {
-    const button = document.getElementById('theme-toggle');
-    if (!button || button.dataset.bound === 'true') return;
-
-    button.dataset.bound = 'true';
-    button.addEventListener('click', toggleTheme);
+    bindToggle(document.getElementById('theme-toggle-float'));
+    bindToggle(ensureMenuToggle());
     applyTheme(getSavedTheme(), false);
   }
 

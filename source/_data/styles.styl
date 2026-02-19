@@ -888,7 +888,7 @@ body {
     position: fixed;
     right: 30px;
     bottom: 145px;
-    z-index: 120;
+    z-index: 1000;
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -914,6 +914,15 @@ body {
 
 .theme-toggle-button.is-dark {
     background: linear-gradient(135deg, #f59e0b, #f97316);
+}
+
+.menu-item-theme-toggle a {
+    cursor: pointer !important;
+    user-select: none;
+}
+
+.menu-item-theme-toggle .theme-menu-icon {
+    width: 1.25em;
 }
 
 @media (max-width: 768px) {
