@@ -234,6 +234,28 @@
       text-align left
     tbody tr + tr
       border-top 1px solid rgba(15,23,42,.05)
+  /* Do not treat code highlight tables as content tables */
+  figure.highlight
+    margin 1.8rem 0
+    border-radius 20px
+    overflow auto
+    border 1px solid var(--border-soft)
+    box-shadow 0 18px 35px rgba(15,23,42,.15)
+  figure.highlight table
+    width auto
+    margin 0
+    border 0
+    border-radius 0
+    box-shadow none
+    overflow visible
+    th, td
+      padding 0
+  figure.highlight pre
+    border 0
+    border-radius 0
+    box-shadow none
+    margin 0
+    padding 10px 0
   hr
     border 0
     height 1px
