@@ -1077,6 +1077,20 @@ body {
     border-top-color: rgba(148, 163, 184, 0.2) !important;
 }
 
+/* Keep highlight tables isolated from generic table polish */
+:root[data-theme-effective='dark'] .post-body figure.highlight table,
+:root[data-theme-effective='dark'] .post-body figure.highlight th,
+:root[data-theme-effective='dark'] .post-body figure.highlight td {
+    border: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+}
+
+:root[data-theme-effective='dark'] .post-body figure.highlight tbody tr,
+:root[data-theme-effective='dark'] .post-body figure.highlight tbody tr:hover {
+    background: transparent !important;
+}
+
 :root[data-theme-effective='dark'] .footer-inner {
     border-top-color: rgba(148, 163, 184, 0.24);
 }
@@ -1281,21 +1295,67 @@ body {
     color: var(--highlight-foreground) !important;
 }
 
-/* Make code blocks content-sized, avoid the large empty dark slab on right */
+/* Code block layout: prevent clipping and keep clean horizontal scrolling */
 .post-body figure.highlight {
-    display: inline-block;
+    display: block;
+    width: max-content;
     max-width: 100%;
-    width: auto;
+    overflow-x: auto;
     background: transparent !important;
     border: 0 !important;
     box-shadow: none !important;
 }
 
+.post-body figure.highlight .table-container {
+    width: max-content;
+    min-width: 100%;
+}
+
 .post-body figure.highlight table {
-    width: auto !important;
+    width: max-content !important;
+    min-width: 100%;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+.post-body figure.highlight .gutter pre {
+    padding-right: 12px !important;
 }
 
 .post-body figure.highlight .code pre {
     width: auto !important;
-    min-width: 0;
+    min-width: max-content;
+    padding-right: 14px;
+}
+
+/* Tag page spacing: remove odd indentation and keep centered flow */
+.page .tag-cloud {
+    margin: 0;
+}
+
+.page .tag-cloud .tag-cloud-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: baseline;
+    gap: 12px 20px;
+    margin: 18px auto 0;
+    max-width: 100%;
+}
+
+.page .tag-cloud .tag-cloud-tags a {
+    margin: 0 !important;
+}
+
+/* Prevent footer jump when sidebar opens on short pages */
+@media (min-width: 1200px) {
+    .sidebar-active {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .sidebar-active .footer.footer-fixed {
+        left: 0 !important;
+        right: 0 !important;
+    }
 }
