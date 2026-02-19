@@ -17,6 +17,7 @@
   const media = window.matchMedia('(prefers-color-scheme: dark)');
   const isValidTheme = theme => theme === THEME_DARK || theme === THEME_LIGHT;
   let squaresController = null;
+  let themeAnimTimer = 0;
 
   function getSavedTheme() {
     try {
@@ -125,6 +126,17 @@
       document.body.prepend(backdrop);
     }
     return backdrop;
+  }
+
+  function ensureThemeTransitionLayer() {
+    let layer = document.getElementById('rb-theme-transition-layer');
+    if (!layer) {
+      layer = document.createElement('div');
+      layer.id = 'rb-theme-transition-layer';
+      layer.setAttribute('aria-hidden', 'true');
+      document.body.prepend(layer);
+    }
+    return layer;
   }
 
   // Adapted from the React Bits "Squares" background effect.
@@ -299,7 +311,33 @@
     const currentTheme = getSavedTheme();
     const currentEffective = getEffectiveTheme(currentTheme);
     const nextTheme = currentEffective === THEME_DARK ? THEME_LIGHT : THEME_DARK;
-    applyTheme(nextTheme, true);
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const apply = () => applyTheme(nextTheme, true);
+
+    if (!prefersReducedMotion && typeof document.startViewTransition === 'function') {
+      document.startViewTransition(apply);
+      return;
+    }
+
+    if (prefersReducedMotion) {
+      apply();
+      return;
+    }
+
+    ensureThemeTransitionLayer();
+    root.classList.add('theme-animating');
+    root.dataset.themeTarget = nextTheme;
+
+    requestAnimationFrame(() => {
+      apply();
+      if (themeAnimTimer) {
+        clearTimeout(themeAnimTimer);
+      }
+      themeAnimTimer = window.setTimeout(() => {
+        root.classList.remove('theme-animating');
+        delete root.dataset.themeTarget;
+      }, 460);
+    });
   }
 
   function refresh() {
