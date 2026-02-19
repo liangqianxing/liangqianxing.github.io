@@ -1,8 +1,3 @@
-<button class="theme-toggle-button" id="theme-toggle-float" type="button" aria-label="Switch to dark mode" title="Switch to dark mode">
-  <i class="fa fa-moon theme-toggle-icon" aria-hidden="true"></i>
-  <span class="theme-toggle-text">Dark Mode</span>
-</button>
-
 <script data-pjax>
 (() => {
   const STORAGE_KEY = 'theme-preference';
@@ -36,7 +31,7 @@
     if (!item) {
       item = document.createElement('li');
       item.className = 'menu-item menu-item-theme-toggle';
-      item.innerHTML = '<a role="button"><i class="fa fa-moon fa-fw theme-menu-icon"></i><span class="theme-menu-text">Dark Mode</span></a>';
+      item.innerHTML = '<a role="button" class="theme-menu-trigger"><i class="fa fa-moon fa-fw theme-menu-icon"></i><span class="theme-menu-text">Theme</span></a>';
       const searchItem = menu.querySelector('.menu-item-search');
       if (searchItem) {
         menu.insertBefore(item, searchItem);
@@ -48,30 +43,11 @@
     return item.querySelector('a');
   }
 
-  function updateFloatingButton(effectiveTheme) {
-    const button = document.getElementById('theme-toggle-float');
-    if (!button) return;
-
-    const icon = button.querySelector('.theme-toggle-icon');
-    const text = button.querySelector('.theme-toggle-text');
-    const isDark = effectiveTheme === THEME_DARK;
-    const label = isDark ? 'Switch to light mode' : 'Switch to dark mode';
-
-    button.classList.toggle('is-dark', isDark);
-    button.setAttribute('aria-label', label);
-    button.title = label;
-
-    if (icon) {
-      icon.classList.toggle('fa-moon', !isDark);
-      icon.classList.toggle('fa-sun', isDark);
-    }
-    if (text) text.textContent = isDark ? 'Light Mode' : 'Dark Mode';
-  }
-
   function updateMenuButton(effectiveTheme) {
     const trigger = ensureMenuToggle();
     if (!trigger) return;
 
+    const item = trigger.closest('.menu-item-theme-toggle');
     const icon = trigger.querySelector('.theme-menu-icon');
     const text = trigger.querySelector('.theme-menu-text');
     const isDark = effectiveTheme === THEME_DARK;
@@ -79,16 +55,16 @@
 
     trigger.setAttribute('aria-label', label);
     trigger.setAttribute('title', label);
+    if (item) item.classList.toggle('is-dark', isDark);
 
     if (icon) {
       icon.classList.toggle('fa-moon', !isDark);
       icon.classList.toggle('fa-sun', isDark);
     }
-    if (text) text.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+    if (text) text.textContent = isDark ? 'Light' : 'Dark';
   }
 
   function updateButtons(effectiveTheme) {
-    updateFloatingButton(effectiveTheme);
     updateMenuButton(effectiveTheme);
   }
 
@@ -134,7 +110,6 @@
   }
 
   function initThemeToggle() {
-    bindToggle(document.getElementById('theme-toggle-float'));
     bindToggle(ensureMenuToggle());
     applyTheme(getSavedTheme(), false);
   }
