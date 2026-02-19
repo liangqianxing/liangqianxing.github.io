@@ -56,7 +56,7 @@
     if (!item) {
       item = document.createElement('li');
       item.className = 'menu-item menu-item-theme-toggle';
-      item.innerHTML = '<a role="button" class="theme-menu-trigger"><i class="fa fa-moon fa-fw theme-menu-icon"></i><span class="theme-menu-text">Theme</span></a>';
+      item.innerHTML = '<a role="button" class="theme-menu-trigger"><i class="fa fa-moon fa-fw theme-menu-icon"></i><span class="theme-menu-text">夜间</span></a>';
       const searchItem = menu.querySelector('.menu-item-search');
       if (searchItem) {
         menu.insertBefore(item, searchItem);
@@ -73,8 +73,9 @@
 
     const item = trigger.closest('.menu-item-theme-toggle');
     const icon = trigger.querySelector('.theme-menu-icon');
+    const text = trigger.querySelector('.theme-menu-text');
     const isDark = effectiveTheme === THEME_DARK;
-    const label = isDark ? 'Switch to light mode' : 'Switch to dark mode';
+    const label = isDark ? '切换到浅色模式' : '切换到夜间模式';
 
     trigger.setAttribute('aria-label', label);
     trigger.setAttribute('title', label);
@@ -84,6 +85,7 @@
       icon.classList.toggle('fa-moon', !isDark);
       icon.classList.toggle('fa-sun', isDark);
     }
+    if (text) text.textContent = isDark ? '浅色' : '夜间';
   }
 
   function bindToggle(trigger) {
