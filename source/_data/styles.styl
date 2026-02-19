@@ -951,6 +951,93 @@ body {
     filter: saturate(1.02);
 }
 
+/* Light mode ambient backdrop */
+#rb-light-backdrop {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 0;
+    transition: opacity 0.28s ease;
+    overflow: hidden;
+    background:
+      radial-gradient(960px 620px at 8% -10%, rgba(58, 123, 213, 0.18), transparent 66%),
+      radial-gradient(980px 560px at 92% -8%, rgba(58, 213, 180, 0.17), transparent 72%),
+      linear-gradient(180deg, #f8fbff 0%, #edf5ff 100%);
+}
+
+#rb-light-backdrop.is-active {
+    opacity: 1;
+}
+
+#rb-light-backdrop .rb-light-orb {
+    position: absolute;
+    border-radius: 999px;
+    filter: blur(40px);
+    opacity: 0.34;
+    transform: translate3d(0, 0, 0);
+}
+
+#rb-light-backdrop .orb-a {
+    width: 420px;
+    height: 420px;
+    left: -120px;
+    top: 4vh;
+    background: radial-gradient(circle, rgba(92, 184, 255, 0.9) 0%, rgba(92, 184, 255, 0.05) 72%);
+    animation: rbLightFloatA 14s ease-in-out infinite;
+}
+
+#rb-light-backdrop .orb-b {
+    width: 360px;
+    height: 360px;
+    right: -110px;
+    top: 18vh;
+    background: radial-gradient(circle, rgba(104, 226, 195, 0.9) 0%, rgba(104, 226, 195, 0.06) 72%);
+    animation: rbLightFloatB 17s ease-in-out infinite;
+}
+
+#rb-light-backdrop .rb-light-grid {
+    position: absolute;
+    inset: -35% -20%;
+    background-image:
+      repeating-linear-gradient(90deg, rgba(58, 123, 213, 0.055) 0 1px, transparent 1px 62px),
+      repeating-linear-gradient(0deg, rgba(58, 123, 213, 0.055) 0 1px, transparent 1px 62px);
+    opacity: 0.42;
+    transform: perspective(900px) rotateX(66deg) translateY(22%);
+    transform-origin: center top;
+    animation: rbLightGridShift 15s linear infinite;
+}
+
+@keyframes rbLightFloatA {
+    0%, 100% {
+        transform: translate3d(0, 0, 0);
+    }
+    50% {
+        transform: translate3d(40px, 26px, 0);
+    }
+}
+
+@keyframes rbLightFloatB {
+    0%, 100% {
+        transform: translate3d(0, 0, 0);
+    }
+    50% {
+        transform: translate3d(-34px, 18px, 0);
+    }
+}
+
+@keyframes rbLightGridShift {
+    0% {
+        transform: perspective(900px) rotateX(66deg) translateY(22%) translateX(0);
+    }
+    100% {
+        transform: perspective(900px) rotateX(66deg) translateY(24%) translateX(-62px);
+    }
+}
+
+:root[data-theme-effective='light'] body > .headband,
+:root[data-theme-effective='light'] body > .main,
+:root[data-theme-effective='light'] body > .footer,
 :root[data-theme-effective='dark'] body > .headband,
 :root[data-theme-effective='dark'] body > .main,
 :root[data-theme-effective='dark'] body > .footer {
@@ -1293,6 +1380,91 @@ body {
 :root[data-theme-effective='light'] pre code {
     background: var(--highlight-background) !important;
     color: var(--highlight-foreground) !important;
+}
+
+/* Light mode special effects: ambient glass + subtle motion */
+:root[data-theme-effective='light'] body {
+    background: linear-gradient(180deg, #f8fbff 0%, #edf5ff 100%) !important;
+}
+
+:root[data-theme-effective='light'] .site-brand-container,
+:root[data-theme-effective='light'] .site-nav,
+:root[data-theme-effective='light'] .main-inner,
+:root[data-theme-effective='light'] .sidebar-inner,
+:root[data-theme-effective='light'] .post-block,
+:root[data-theme-effective='light'] .post-toc-wrap,
+:root[data-theme-effective='light'] .graph-panel,
+:root[data-theme-effective='light'] .graph-list,
+:root[data-theme-effective='light'] .graph-preview,
+:root[data-theme-effective='light'] .footer-inner {
+    background: rgba(255, 255, 255, 0.78) !important;
+    border-color: rgba(58, 123, 213, 0.14) !important;
+    backdrop-filter: blur(10px) saturate(112%);
+}
+
+:root[data-theme-effective='light'] .site-nav {
+    position: relative;
+    overflow: hidden;
+}
+
+:root[data-theme-effective='light'] .site-nav::after {
+    content: '';
+    position: absolute;
+    inset: -40% auto auto -18%;
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(circle, rgba(58, 123, 213, 0.2) 0%, rgba(58, 123, 213, 0) 72%);
+    pointer-events: none;
+    animation: rbLightFloatA 12s ease-in-out infinite;
+}
+
+:root[data-theme-effective='light'] .main-menu .menu-item a {
+    transition: transform 0.22s ease, box-shadow 0.22s ease, background-color 0.22s ease;
+}
+
+:root[data-theme-effective='light'] .main-menu .menu-item a:hover,
+:root[data-theme-effective='light'] .main-menu .menu-item-active a {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(58, 123, 213, 0.2);
+}
+
+:root[data-theme-effective='light'] .post-block,
+:root[data-theme-effective='light'] .post-toc-wrap,
+:root[data-theme-effective='light'] .graph-panel,
+:root[data-theme-effective='light'] .graph-list,
+:root[data-theme-effective='light'] .graph-preview {
+    transition: transform 0.24s ease, box-shadow 0.24s ease, border-color 0.24s ease;
+}
+
+:root[data-theme-effective='light'] .post-block:hover,
+:root[data-theme-effective='light'] .post-toc-wrap:hover,
+:root[data-theme-effective='light'] .graph-panel:hover,
+:root[data-theme-effective='light'] .graph-list:hover,
+:root[data-theme-effective='light'] .graph-preview:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 36px rgba(30, 73, 126, 0.14) !important;
+    border-color: rgba(58, 123, 213, 0.22) !important;
+}
+
+:root[data-theme-effective='light'] .footer,
+:root[data-theme-effective='light'] .footer.footer-fixed {
+    background: transparent !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #rb-light-backdrop .orb-a,
+    #rb-light-backdrop .orb-b,
+    #rb-light-backdrop .rb-light-grid,
+    :root[data-theme-effective='light'] .site-nav::after,
+    :root[data-theme-effective='light'] .main-menu .menu-item a,
+    :root[data-theme-effective='light'] .post-block,
+    :root[data-theme-effective='light'] .post-toc-wrap,
+    :root[data-theme-effective='light'] .graph-panel,
+    :root[data-theme-effective='light'] .graph-list,
+    :root[data-theme-effective='light'] .graph-preview {
+        animation: none !important;
+        transition: none !important;
+    }
 }
 
 /* Code block layout: prevent clipping and keep clean horizontal scrolling */
