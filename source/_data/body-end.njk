@@ -111,6 +111,22 @@
     return backdrop;
   }
 
+  function ensureLightBackdrop() {
+    let backdrop = document.getElementById('rb-light-backdrop');
+    if (!backdrop) {
+      backdrop = document.createElement('div');
+      backdrop.id = 'rb-light-backdrop';
+      backdrop.setAttribute('aria-hidden', 'true');
+      backdrop.innerHTML = `
+        <div class="rb-light-orb orb-a"></div>
+        <div class="rb-light-orb orb-b"></div>
+        <div class="rb-light-grid"></div>
+      `;
+      document.body.prepend(backdrop);
+    }
+    return backdrop;
+  }
+
   // Adapted from the React Bits "Squares" background effect.
   function createSquaresController(canvas) {
     const ctx = canvas.getContext('2d');
@@ -244,8 +260,10 @@
 
   function syncBackdrop(effectiveTheme) {
     const isDark = effectiveTheme === THEME_DARK;
-    const backdrop = ensureBackdrop();
-    backdrop.classList.toggle('is-active', isDark);
+    const darkBackdrop = ensureBackdrop();
+    const lightBackdrop = ensureLightBackdrop();
+    darkBackdrop.classList.toggle('is-active', isDark);
+    lightBackdrop.classList.toggle('is-active', !isDark);
 
     const controller = ensureSquaresController();
     if (controller) controller.setActive(isDark);
