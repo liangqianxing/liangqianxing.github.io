@@ -1,0 +1,104 @@
+<button class="theme-toggle-button" id="theme-toggle" type="button" aria-label="切换夜间模式" title="切换夜间模式">
+  <span class="theme-toggle-icon" aria-hidden="true">🌙</span>
+  <span class="theme-toggle-text">夜间模式</span>
+</button>
+
+<script data-pjax>
+(() => {
+  const STORAGE_KEY = 'theme-preference';
+  const THEME_LIGHT = 'light';
+  const THEME_DARK = 'dark';
+  const THEME_SYSTEM = 'system';
+  const root = document.documentElement;
+  const media = window.matchMedia('(prefers-color-scheme: dark)');
+
+  const isValidTheme = theme => theme === THEME_DARK || theme === THEME_LIGHT;
+
+  function getSavedTheme() {
+    try {
+      const value = localStorage.getItem(STORAGE_KEY);
+      return isValidTheme(value) ? value : THEME_SYSTEM;
+    } catch (error) {
+      return THEME_SYSTEM;
+    }
+  }
+
+  function getEffectiveTheme(theme) {
+    if (isValidTheme(theme)) return theme;
+    return media.matches ? THEME_DARK : THEME_LIGHT;
+  }
+
+  function updateButton(effectiveTheme) {
+    const button = document.getElementById('theme-toggle');
+    if (!button) return;
+
+    const icon = button.querySelector('.theme-toggle-icon');
+    const text = button.querySelector('.theme-toggle-text');
+    const isDark = effectiveTheme === THEME_DARK;
+    const label = isDark ? '切换到浅色模式' : '切换到夜间模式';
+
+    button.classList.toggle('is-dark', isDark);
+    button.setAttribute('aria-label', label);
+    button.title = label;
+
+    if (icon) icon.textContent = isDark ? '☀️' : '🌙';
+    if (text) text.textContent = isDark ? '浅色模式' : '夜间模式';
+  }
+
+  function applyTheme(theme, persist) {
+    const effectiveTheme = getEffectiveTheme(theme);
+    root.dataset.userTheme = theme;
+    root.dataset.themeEffective = effectiveTheme;
+
+    if (isValidTheme(theme)) {
+      root.style.colorScheme = theme;
+    } else {
+      root.style.removeProperty('color-scheme');
+    }
+
+    if (persist) {
+      try {
+        if (theme === THEME_SYSTEM) {
+          localStorage.removeItem(STORAGE_KEY);
+        } else {
+          localStorage.setItem(STORAGE_KEY, theme);
+        }
+      } catch (error) {}
+    }
+
+    updateButton(effectiveTheme);
+  }
+
+  function toggleTheme() {
+    const currentTheme = getSavedTheme();
+    const currentEffective = getEffectiveTheme(currentTheme);
+    const nextTheme = currentEffective === THEME_DARK ? THEME_LIGHT : THEME_DARK;
+    applyTheme(nextTheme, true);
+  }
+
+  function initThemeToggle() {
+    const button = document.getElementById('theme-toggle');
+    if (!button || button.dataset.bound === 'true') return;
+
+    button.dataset.bound = 'true';
+    button.addEventListener('click', toggleTheme);
+    applyTheme(getSavedTheme(), false);
+  }
+
+  function syncSystemTheme() {
+    if (getSavedTheme() === THEME_SYSTEM) {
+      applyTheme(THEME_SYSTEM, false);
+    }
+  }
+
+  if (typeof media.addEventListener === 'function') {
+    media.addEventListener('change', syncSystemTheme);
+  } else if (typeof media.addListener === 'function') {
+    media.addListener(syncSystemTheme);
+  }
+
+  window.addEventListener('DOMContentLoaded', initThemeToggle);
+  document.addEventListener('pjax:success', initThemeToggle);
+  initThemeToggle();
+})();
+</script>
