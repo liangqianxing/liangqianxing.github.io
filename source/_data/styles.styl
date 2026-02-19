@@ -907,8 +907,62 @@ body {
     }
 }
 
+/* React Bits inspired dark backdrop */
+#rb-dark-backdrop {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 0;
+    transition: opacity 0.35s ease;
+    overflow: hidden;
+}
+
+#rb-dark-backdrop.is-active {
+    opacity: 1;
+}
+
+#rb-dark-squares {
+    width: 100%;
+    height: 100%;
+    display: block;
+    filter: saturate(1.06);
+}
+
+.rb-dark-glow {
+    position: absolute;
+    width: 48vw;
+    height: 48vw;
+    min-width: 300px;
+    min-height: 300px;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: 0.24;
+    transform: translateZ(0);
+}
+
+.rb-dark-glow--one {
+    left: -12%;
+    top: -10%;
+    background: radial-gradient(circle, rgba(45, 212, 191, 0.85), rgba(45, 212, 191, 0));
+}
+
+.rb-dark-glow--two {
+    right: -16%;
+    bottom: -18%;
+    background: radial-gradient(circle, rgba(125, 211, 252, 0.82), rgba(125, 211, 252, 0));
+}
+
+:root[data-theme-effective='dark'] body > .headband,
+:root[data-theme-effective='dark'] body > .main,
+:root[data-theme-effective='dark'] body > .footer {
+    position: relative;
+    z-index: 1;
+}
+
 /* Dark theme overrides */
 :root[data-theme-effective='dark'] {
+    background: #040913;
     --accent-primary: #7dd3fc;
     --accent-secondary: #2dd4bf;
     --text-primary: #e6f0ff;
@@ -920,11 +974,7 @@ body {
 
 :root[data-theme-effective='dark'] body {
     color: var(--text-primary) !important;
-    background:
-      radial-gradient(circle at 16% 12%, rgba(45, 212, 191, 0.16), transparent 42%),
-      radial-gradient(circle at 82% 18%, rgba(125, 211, 252, 0.16), transparent 45%),
-      linear-gradient(rgba(7, 14, 28, 0.78), rgba(7, 14, 28, 0.9)),
-      url("https://images.unsplash.com/photo-1497436072909-60f360e1d4b0?q=80&w=2560&auto=format&fit=crop") center/cover fixed !important;
+    background: linear-gradient(160deg, #040913 0%, #07172b 48%, #0a2342 100%) !important;
 }
 
 :root[data-theme-effective='dark'] .main-inner,

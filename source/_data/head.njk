@@ -1,9 +1,28 @@
 <script>
 (() => {
   const storageKey = 'theme-preference';
+  const themeColors = {
+    light: '#edf5ff',
+    dark : '#071528'
+  };
   const root = document.documentElement;
   const media = window.matchMedia('(prefers-color-scheme: dark)');
   const isValidTheme = value => value === 'dark' || value === 'light';
+  const ensureThemeColorMeta = () => {
+    let meta = document.querySelector('meta[name="theme-color"][data-managed="true"]');
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.name = 'theme-color';
+      meta.setAttribute('data-managed', 'true');
+      document.head.appendChild(meta);
+    }
+    return meta;
+  };
+
+  const syncThemeColorMeta = effectiveTheme => {
+    const meta = ensureThemeColorMeta();
+    meta.content = effectiveTheme === 'dark' ? themeColors.dark : themeColors.light;
+  };
 
   try {
     const savedTheme = localStorage.getItem(storageKey);
@@ -18,9 +37,12 @@
     } else {
       root.style.colorScheme = userTheme;
     }
+
+    syncThemeColorMeta(effectiveTheme);
   } catch (error) {
     root.dataset.userTheme = 'system';
     root.dataset.themeEffective = media.matches ? 'dark' : 'light';
+    syncThemeColorMeta(root.dataset.themeEffective);
   }
 })();
 </script>
