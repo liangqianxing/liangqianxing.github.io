@@ -1094,3 +1094,139 @@ body {
     color: #8ad9ff !important;
     background: rgba(125, 211, 252, 0.18) !important;
 }
+
+/* Dark mode visual polish: header / sidebar / footer */
+:root[data-theme-effective='dark'] .headband {
+    height: 4px;
+    background: linear-gradient(90deg, rgba(45, 212, 191, 0), rgba(45, 212, 191, 0.82), rgba(125, 211, 252, 0.88), rgba(125, 211, 252, 0));
+}
+
+:root[data-theme-effective='dark'] .site-brand-container,
+:root[data-theme-effective='dark'] .site-nav {
+    background: rgba(8, 18, 34, 0.72) !important;
+    border: 1px solid rgba(140, 182, 231, 0.24);
+    border-radius: 18px;
+    box-shadow: 0 18px 40px rgba(2, 8, 20, 0.45);
+    backdrop-filter: blur(14px) saturate(115%);
+}
+
+:root[data-theme-effective='dark'] .site-brand-container {
+    padding: 8px 14px !important;
+    margin-bottom: 12px;
+}
+
+:root[data-theme-effective='dark'] .site-nav {
+    padding: 4px 8px;
+}
+
+:root[data-theme-effective='dark'] .site-title {
+    color: #f1f7ff !important;
+    letter-spacing: 0.03em;
+}
+
+:root[data-theme-effective='dark'] .site-nav-toggle .toggle,
+:root[data-theme-effective='dark'] .site-nav-right .toggle {
+    border-radius: 12px;
+    background: rgba(125, 211, 252, 0.14);
+    border: 1px solid rgba(125, 211, 252, 0.26);
+}
+
+:root[data-theme-effective='dark'] .main-menu.menu {
+    gap: 0.32rem;
+    justify-content: flex-start !important;
+}
+
+:root[data-theme-effective='dark'] .main-menu .menu-item a {
+    color: #cae0fa !important;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    padding: 7px 12px !important;
+    transition: all 0.24s ease;
+}
+
+:root[data-theme-effective='dark'] .main-menu .menu-item a:hover,
+:root[data-theme-effective='dark'] .main-menu .menu-item-active a {
+    color: #041322 !important;
+    background: linear-gradient(135deg, rgba(125, 211, 252, 0.9), rgba(45, 212, 191, 0.9)) !important;
+    border-color: rgba(125, 211, 252, 0.56);
+    box-shadow: 0 8px 20px rgba(45, 212, 191, 0.24);
+}
+
+:root[data-theme-effective='dark'] .menu-item-theme-toggle a {
+    background: rgba(125, 211, 252, 0.14);
+    border: 1px solid rgba(125, 211, 252, 0.28) !important;
+}
+
+:root[data-theme-effective='dark'] .menu-item-theme-toggle.is-dark a {
+    background: linear-gradient(135deg, rgba(125, 211, 252, 0.9), rgba(45, 212, 191, 0.9)) !important;
+    border-color: rgba(125, 211, 252, 0.56) !important;
+    color: #041322 !important;
+}
+
+:root[data-theme-effective='dark'] .sidebar-inner {
+    border-radius: 22px;
+    background: rgba(10, 19, 34, 0.76) !important;
+    border: 1px solid rgba(140, 182, 231, 0.2);
+    box-shadow: 0 20px 44px rgba(2, 8, 20, 0.46) !important;
+}
+
+:root[data-theme-effective='dark'] .site-author-image {
+    border: 2px solid rgba(125, 211, 252, 0.52);
+    box-shadow: 0 10px 24px rgba(2, 8, 20, 0.45);
+}
+
+:root[data-theme-effective='dark'] .site-state-item a {
+    border: 1px solid rgba(140, 182, 231, 0.22);
+    border-radius: 14px;
+    background: rgba(8, 17, 32, 0.64);
+    transition: all 0.22s ease;
+}
+
+:root[data-theme-effective='dark'] .site-state-item a:hover {
+    border-color: rgba(125, 211, 252, 0.44);
+    background: rgba(45, 212, 191, 0.12);
+}
+
+:root[data-theme-effective='dark'] .links-of-author-item a,
+:root[data-theme-effective='dark'] .links-of-blogroll-item a {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(125, 211, 252, 0.24);
+    background: rgba(8, 17, 32, 0.58);
+    color: #cbe3ff !important;
+    transition: all 0.22s ease;
+}
+
+:root[data-theme-effective='dark'] .links-of-author-item a:hover,
+:root[data-theme-effective='dark'] .links-of-blogroll-item a:hover {
+    border-color: rgba(125, 211, 252, 0.46);
+    background: rgba(45, 212, 191, 0.14) !important;
+    color: #f2fbff !important;
+    transform: translateY(-1px);
+}
+
+:root[data-theme-effective='dark'] .footer {
+    margin-top: 22px;
+}
+
+:root[data-theme-effective='dark'] .footer-inner {
+    background: rgba(8, 17, 32, 0.72);
+    border: 1px solid rgba(140, 182, 231, 0.24);
+    border-radius: 18px;
+    padding: 15px 20px;
+    box-shadow: 0 16px 34px rgba(2, 8, 20, 0.42);
+    backdrop-filter: blur(12px);
+}
+
+:root[data-theme-effective='dark'] .copyright,
+:root[data-theme-effective='dark'] .powered-by,
+:root[data-theme-effective='dark'] .powered-by a {
+    color: #a8bfde !important;
+}
+
+:root[data-theme-effective='dark'] .with-love i {
+    color: #5eead4;
+}
