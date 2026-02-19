@@ -148,6 +148,10 @@ robotstxt:
 
 theme_config:
   scheme: Mist
+  darkmode: true
+  lightdark:
+    enable: true
+    check_supports: true
   language_switcher: false
   index_with_subtitle: true
   minify: true
@@ -198,6 +202,8 @@ theme_config:
     top_n_per_article: 3
     unescape: false
   custom_file_path:
+    head: source/_data/head.njk
+    bodyEnd: source/_data/body-end.njk
     style: source/_data/styles.styl
   math:
     every_page: false

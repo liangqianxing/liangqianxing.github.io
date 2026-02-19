@@ -1,0 +1,26 @@
+<script>
+(() => {
+  const storageKey = 'theme-preference';
+  const root = document.documentElement;
+  const media = window.matchMedia('(prefers-color-scheme: dark)');
+  const isValidTheme = value => value === 'dark' || value === 'light';
+
+  try {
+    const savedTheme = localStorage.getItem(storageKey);
+    const userTheme = isValidTheme(savedTheme) ? savedTheme : 'system';
+    const effectiveTheme = userTheme === 'system' ? (media.matches ? 'dark' : 'light') : userTheme;
+
+    root.dataset.userTheme = userTheme;
+    root.dataset.themeEffective = effectiveTheme;
+
+    if (userTheme === 'system') {
+      root.style.removeProperty('color-scheme');
+    } else {
+      root.style.colorScheme = userTheme;
+    }
+  } catch (error) {
+    root.dataset.userTheme = 'system';
+    root.dataset.themeEffective = media.matches ? 'dark' : 'light';
+  }
+})();
+</script>

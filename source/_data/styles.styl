@@ -882,3 +882,144 @@ body {
     color: #3a7bd5 !important;
 }
 
+
+/* Night mode toggle */
+.theme-toggle-button {
+    position: fixed;
+    right: 30px;
+    bottom: 145px;
+    z-index: 120;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 0;
+    border-radius: 999px;
+    padding: 9px 14px;
+    font-size: 13px;
+    line-height: 1;
+    font-weight: 700;
+    color: #f8fafc;
+    background: linear-gradient(135deg, #334155, #0f172a);
+    box-shadow: 0 10px 26px rgba(15, 23, 42, 0.34);
+    cursor: pointer;
+    opacity: 0.94;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.theme-toggle-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px rgba(15, 23, 42, 0.42);
+    opacity: 1;
+}
+
+.theme-toggle-button.is-dark {
+    background: linear-gradient(135deg, #f59e0b, #f97316);
+}
+
+@media (max-width: 768px) {
+    .theme-toggle-button {
+        right: 20px;
+        bottom: 125px;
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+}
+
+/* Dark theme overrides for custom styles */
+:root[data-theme-effective='dark'] {
+    --accent-primary: #7dd3fc;
+    --accent-secondary: #22d3ee;
+    --text-primary: #e2e8f0;
+    --text-secondary: #94a3b8;
+    --card-bg: #111827;
+    --border-soft: rgba(148, 163, 184, 0.2);
+    --muted-bg: rgba(148, 163, 184, 0.12);
+}
+
+:root[data-theme-effective='dark'] body {
+    color: #e2e8f0 !important;
+    background:
+      linear-gradient(rgba(8, 12, 20, 0.78), rgba(8, 12, 20, 0.78)),
+      url("https://images.unsplash.com/photo-1497436072909-60f360e1d4b0?q=80&w=2560&auto=format&fit=crop") center/cover fixed !important;
+}
+
+:root[data-theme-effective='dark'] .main-inner,
+:root[data-theme-effective='dark'] .sidebar-inner,
+:root[data-theme-effective='dark'] .graph-panel,
+:root[data-theme-effective='dark'] .graph-list,
+:root[data-theme-effective='dark'] .graph-preview,
+:root[data-theme-effective='dark'] .post-block,
+:root[data-theme-effective='dark'] .post-toc-wrap {
+    background: rgba(15, 23, 42, 0.82) !important;
+    border-color: rgba(148, 163, 184, 0.24) !important;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.42) !important;
+}
+
+:root[data-theme-effective='dark'] .graph-canvas {
+    border-color: rgba(125, 211, 252, 0.3) !important;
+    box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.15), 0 20px 40px rgba(0, 0, 0, 0.45) !important;
+}
+
+:root[data-theme-effective='dark'] .graph-post-item {
+    background: rgba(125, 211, 252, 0.08) !important;
+    border-color: rgba(125, 211, 252, 0.3) !important;
+}
+
+:root[data-theme-effective='dark'] .site-title,
+:root[data-theme-effective='dark'] .site-author-name,
+:root[data-theme-effective='dark'] .site-description,
+:root[data-theme-effective='dark'] .site-state-item-count,
+:root[data-theme-effective='dark'] .post-title,
+:root[data-theme-effective='dark'] .post-meta,
+:root[data-theme-effective='dark'] .post-body,
+:root[data-theme-effective='dark'] .post-body p,
+:root[data-theme-effective='dark'] .post-body h2,
+:root[data-theme-effective='dark'] .post-body h3,
+:root[data-theme-effective='dark'] .post-body h4,
+:root[data-theme-effective='dark'] .graph-lite-text,
+:root[data-theme-effective='dark'] .graph-panel__title,
+:root[data-theme-effective='dark'] .graph-panel__desc,
+:root[data-theme-effective='dark'] .graph-post-item span {
+    color: #e2e8f0 !important;
+}
+
+:root[data-theme-effective='dark'] .menu-item a:hover,
+:root[data-theme-effective='dark'] .menu-item-active a {
+    background: rgba(148, 163, 184, 0.16) !important;
+    color: #e2e8f0 !important;
+}
+
+:root[data-theme-effective='dark'] .post-body strong,
+:root[data-theme-effective='dark'] .post-body code,
+:root[data-theme-effective='dark'] .post-body blockquote,
+:root[data-theme-effective='dark'] .graph-node text {
+    color: #f8fafc !important;
+}
+
+:root[data-theme-effective='dark'] .post-body code {
+    background: rgba(148, 163, 184, 0.2) !important;
+}
+
+:root[data-theme-effective='dark'] .post-body blockquote {
+    border-left-color: rgba(125, 211, 252, 0.65) !important;
+    background: rgba(56, 189, 248, 0.16) !important;
+}
+
+:root[data-theme-effective='dark'] .post-body hr {
+    background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.4), transparent) !important;
+}
+
+:root[data-theme-effective='dark'] .post-body table {
+    border-color: rgba(148, 163, 184, 0.26) !important;
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.35) !important;
+}
+
+:root[data-theme-effective='dark'] .post-body tbody tr + tr {
+    border-top-color: rgba(148, 163, 184, 0.2) !important;
+}
+
+:root[data-theme-effective='dark'] .links-of-author-item a:hover,
+:root[data-theme-effective='dark'] .links-of-blogroll-item a:hover {
+    color: #7dd3fc !important;
+    background: rgba(125, 211, 252, 0.16) !important;
+}
