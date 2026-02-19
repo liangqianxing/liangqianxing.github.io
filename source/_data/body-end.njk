@@ -105,8 +105,6 @@
       backdrop.setAttribute('aria-hidden', 'true');
       backdrop.innerHTML = `
         <canvas id="rb-dark-squares"></canvas>
-        <div class="rb-dark-glow rb-dark-glow--one"></div>
-        <div class="rb-dark-glow rb-dark-glow--two"></div>
       `;
       document.body.prepend(backdrop);
     }
@@ -185,18 +183,7 @@
         }
       }
 
-      const vignette = ctx.createRadialGradient(
-        state.width * 0.5,
-        state.height * 0.5,
-        0,
-        state.width * 0.5,
-        state.height * 0.5,
-        Math.hypot(state.width, state.height) * 0.6
-      );
-      vignette.addColorStop(0, 'rgba(7, 14, 28, 0)');
-      vignette.addColorStop(1, 'rgba(7, 14, 28, 0.48)');
-      ctx.fillStyle = vignette;
-      ctx.fillRect(0, 0, state.width, state.height);
+      // Keep the background clean: no extra global vignette overlay.
     }
 
     function frame() {
