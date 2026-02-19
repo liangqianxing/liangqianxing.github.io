@@ -1207,6 +1207,31 @@ body {
     color: #5eead4;
 }
 
+/* Final dark cleanup: remove Mist container slabs */
+:root[data-theme-effective='dark'] .column,
+:root[data-theme-effective='dark'] header.header,
+:root[data-theme-effective='dark'] .footer,
+:root[data-theme-effective='dark'] .footer.footer-fixed {
+    background: transparent !important;
+}
+
+:root[data-theme-effective='dark'] .footer-inner {
+    width: fit-content;
+    max-width: 980px;
+    width: calc(100% - 44px);
+    margin: 0 auto;
+    text-align: left;
+    align-items: flex-start;
+}
+
+@media (max-width: 768px) {
+    :root[data-theme-effective='dark'] .footer-inner {
+        width: calc(100% - 24px);
+        text-align: center;
+        align-items: center;
+    }
+}
+
 /* Force clean light code blocks even when system prefers dark */
 :root[data-theme-effective='light'] {
     --highlight-background: #f6f9ff;
