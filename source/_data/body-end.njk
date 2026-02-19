@@ -1,13 +1,22 @@
 <script data-pjax>
 (() => {
+  if (window.__siteThemeController) {
+    window.__siteThemeController.refresh();
+    return;
+  }
+
   const STORAGE_KEY = 'theme-preference';
   const THEME_LIGHT = 'light';
   const THEME_DARK = 'dark';
   const THEME_SYSTEM = 'system';
+  const THEME_COLORS = {
+    light: '#edf5ff',
+    dark : '#071528'
+  };
   const root = document.documentElement;
   const media = window.matchMedia('(prefers-color-scheme: dark)');
-
   const isValidTheme = theme => theme === THEME_DARK || theme === THEME_LIGHT;
+  let squaresController = null;
 
   function getSavedTheme() {
     try {
@@ -21,6 +30,22 @@
   function getEffectiveTheme(theme) {
     if (isValidTheme(theme)) return theme;
     return media.matches ? THEME_DARK : THEME_LIGHT;
+  }
+
+  function ensureThemeColorMeta() {
+    let meta = document.querySelector('meta[name="theme-color"][data-managed="true"]');
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.name = 'theme-color';
+      meta.setAttribute('data-managed', 'true');
+      document.head.appendChild(meta);
+    }
+    return meta;
+  }
+
+  function syncThemeColorMeta(effectiveTheme) {
+    const meta = ensureThemeColorMeta();
+    meta.content = effectiveTheme === THEME_DARK ? THEME_COLORS.dark : THEME_COLORS.light;
   }
 
   function ensureMenuToggle() {
@@ -39,7 +64,6 @@
         menu.appendChild(item);
       }
     }
-
     return item.querySelector('a');
   }
 
@@ -49,7 +73,6 @@
 
     const item = trigger.closest('.menu-item-theme-toggle');
     const icon = trigger.querySelector('.theme-menu-icon');
-    const text = trigger.querySelector('.theme-menu-text');
     const isDark = effectiveTheme === THEME_DARK;
     const label = isDark ? 'Switch to light mode' : 'Switch to dark mode';
 
@@ -61,21 +84,182 @@
       icon.classList.toggle('fa-moon', !isDark);
       icon.classList.toggle('fa-sun', isDark);
     }
-    if (text) text.textContent = isDark ? 'Light' : 'Dark';
-  }
-
-  function updateButtons(effectiveTheme) {
-    updateMenuButton(effectiveTheme);
   }
 
   function bindToggle(trigger) {
     if (!trigger || trigger.dataset.bound === 'true') return;
-
     trigger.dataset.bound = 'true';
     trigger.addEventListener('click', event => {
       event.preventDefault();
       toggleTheme();
     });
+  }
+
+  function ensureBackdrop() {
+    let backdrop = document.getElementById('rb-dark-backdrop');
+    if (!backdrop) {
+      backdrop = document.createElement('div');
+      backdrop.id = 'rb-dark-backdrop';
+      backdrop.setAttribute('aria-hidden', 'true');
+      backdrop.innerHTML = `
+        <canvas id="rb-dark-squares"></canvas>
+        <div class="rb-dark-glow rb-dark-glow--one"></div>
+        <div class="rb-dark-glow rb-dark-glow--two"></div>
+      `;
+      document.body.prepend(backdrop);
+    }
+    return backdrop;
+  }
+
+  // Adapted from the React Bits "Squares" background effect.
+  function createSquaresController(canvas) {
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return null;
+
+    const state = {
+      squareSize: 56,
+      speed: 0.32,
+      borderColor: 'rgba(125, 211, 252, 0.18)',
+      hoverColor: 'rgba(45, 212, 191, 0.14)',
+      offsetX: 0,
+      offsetY: 0,
+      width: 0,
+      height: 0,
+      dpr: 1,
+      raf: 0,
+      running: false,
+      hoverCell: null,
+      mouse: { x: 0, y: 0, active: false }
+    };
+
+    function resize() {
+      const rect = canvas.getBoundingClientRect();
+      state.width = Math.max(1, Math.floor(rect.width));
+      state.height = Math.max(1, Math.floor(rect.height));
+      state.dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.floor(state.width * state.dpr);
+      canvas.height = Math.floor(state.height * state.dpr);
+      ctx.setTransform(state.dpr, 0, 0, state.dpr, 0, 0);
+    }
+
+    function resolveHoverCell() {
+      if (!state.mouse.active) {
+        state.hoverCell = null;
+        return;
+      }
+
+      const cellX = Math.floor((state.mouse.x + state.offsetX) / state.squareSize);
+      const cellY = Math.floor((state.mouse.y + state.offsetY) / state.squareSize);
+      state.hoverCell = { x: cellX, y: cellY };
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, state.width, state.height);
+      resolveHoverCell();
+
+      const startX = -state.squareSize - (state.offsetX % state.squareSize);
+      const startY = -state.squareSize - (state.offsetY % state.squareSize);
+      const cols = Math.ceil(state.width / state.squareSize) + 3;
+      const rows = Math.ceil(state.height / state.squareSize) + 3;
+
+      for (let row = 0; row < rows; row += 1) {
+        for (let col = 0; col < cols; col += 1) {
+          const x = startX + col * state.squareSize;
+          const y = startY + row * state.squareSize;
+          const logicalX = Math.floor((x + state.offsetX) / state.squareSize);
+          const logicalY = Math.floor((y + state.offsetY) / state.squareSize);
+
+          if (
+            state.hoverCell &&
+            logicalX === state.hoverCell.x &&
+            logicalY === state.hoverCell.y
+          ) {
+            ctx.fillStyle = state.hoverColor;
+            ctx.fillRect(x, y, state.squareSize, state.squareSize);
+          }
+
+          ctx.strokeStyle = state.borderColor;
+          ctx.strokeRect(x, y, state.squareSize, state.squareSize);
+        }
+      }
+
+      const vignette = ctx.createRadialGradient(
+        state.width * 0.5,
+        state.height * 0.5,
+        0,
+        state.width * 0.5,
+        state.height * 0.5,
+        Math.hypot(state.width, state.height) * 0.6
+      );
+      vignette.addColorStop(0, 'rgba(7, 14, 28, 0)');
+      vignette.addColorStop(1, 'rgba(7, 14, 28, 0.48)');
+      ctx.fillStyle = vignette;
+      ctx.fillRect(0, 0, state.width, state.height);
+    }
+
+    function frame() {
+      if (!state.running) return;
+
+      state.offsetX = (state.offsetX + state.speed) % state.squareSize;
+      state.offsetY = (state.offsetY + state.speed * 0.35) % state.squareSize;
+      draw();
+      state.raf = requestAnimationFrame(frame);
+    }
+
+    function onMouseMove(event) {
+      const rect = canvas.getBoundingClientRect();
+      state.mouse.x = event.clientX - rect.left;
+      state.mouse.y = event.clientY - rect.top;
+      state.mouse.active = (
+        state.mouse.x >= 0 &&
+        state.mouse.x <= rect.width &&
+        state.mouse.y >= 0 &&
+        state.mouse.y <= rect.height
+      );
+    }
+
+    function onMouseLeave() {
+      state.mouse.active = false;
+      state.hoverCell = null;
+    }
+
+    window.addEventListener('resize', resize);
+    window.addEventListener('mousemove', onMouseMove, { passive: true });
+    window.addEventListener('mouseleave', onMouseLeave, { passive: true });
+
+    resize();
+    draw();
+
+    return {
+      setActive(active) {
+        if (active === state.running) return;
+        state.running = active;
+
+        if (state.running) {
+          frame();
+        } else if (state.raf) {
+          cancelAnimationFrame(state.raf);
+          state.raf = 0;
+        }
+      }
+    };
+  }
+
+  function ensureSquaresController() {
+    if (squaresController) return squaresController;
+    const backdrop = ensureBackdrop();
+    const canvas = backdrop.querySelector('#rb-dark-squares');
+    squaresController = createSquaresController(canvas);
+    return squaresController;
+  }
+
+  function syncBackdrop(effectiveTheme) {
+    const isDark = effectiveTheme === THEME_DARK;
+    const backdrop = ensureBackdrop();
+    backdrop.classList.toggle('is-active', isDark);
+
+    const controller = ensureSquaresController();
+    if (controller) controller.setActive(isDark);
   }
 
   function applyTheme(theme, persist) {
@@ -99,7 +283,9 @@
       } catch (error) {}
     }
 
-    updateButtons(effectiveTheme);
+    syncThemeColorMeta(effectiveTheme);
+    updateMenuButton(effectiveTheme);
+    syncBackdrop(effectiveTheme);
   }
 
   function toggleTheme() {
@@ -109,7 +295,7 @@
     applyTheme(nextTheme, true);
   }
 
-  function initThemeToggle() {
+  function refresh() {
     bindToggle(ensureMenuToggle());
     applyTheme(getSavedTheme(), false);
   }
@@ -126,8 +312,10 @@
     media.addListener(syncSystemTheme);
   }
 
-  window.addEventListener('DOMContentLoaded', initThemeToggle);
-  document.addEventListener('pjax:success', initThemeToggle);
-  initThemeToggle();
+  window.addEventListener('DOMContentLoaded', refresh);
+  document.addEventListener('pjax:success', refresh);
+
+  window.__siteThemeController = { refresh };
+  refresh();
 })();
 </script>

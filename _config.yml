@@ -149,6 +149,9 @@ robotstxt:
 theme_config:
   scheme: Mist
   darkmode: true
+  theme_color:
+    light: "#edf5ff"
+    dark: "#071528"
   lightdark:
     enable: true
     check_supports: true
