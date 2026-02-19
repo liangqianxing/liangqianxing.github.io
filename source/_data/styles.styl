@@ -951,6 +951,98 @@ body {
     filter: saturate(1.02);
 }
 
+/* Theme switch fallback layer (non View Transition browsers) */
+#rb-theme-transition-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 3;
+    opacity: 0;
+}
+
+:root.theme-animating #rb-theme-transition-layer {
+    animation: rbThemeSwapFlash 0.46s ease both;
+}
+
+:root.theme-animating[data-theme-target='light'] #rb-theme-transition-layer {
+    background:
+      radial-gradient(900px 520px at 12% -8%, rgba(125, 211, 252, 0.22), transparent 66%),
+      radial-gradient(820px 540px at 90% -12%, rgba(45, 212, 191, 0.2), transparent 70%);
+}
+
+:root.theme-animating[data-theme-target='dark'] #rb-theme-transition-layer {
+    background:
+      radial-gradient(940px 620px at 18% -12%, rgba(6, 78, 140, 0.34), transparent 66%),
+      radial-gradient(920px 640px at 85% -14%, rgba(15, 118, 110, 0.24), transparent 72%),
+      linear-gradient(180deg, rgba(2, 8, 20, 0.16), rgba(2, 8, 20, 0.22));
+}
+
+@keyframes rbThemeSwapFlash {
+    0% {
+        opacity: 0;
+    }
+    45% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+/* Theme switch preferred animation (View Transition API) */
+@media (prefers-reduced-motion: no-preference) {
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+        animation-duration: 0.48s;
+        animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+
+    ::view-transition-old(root) {
+        animation-name: rbThemeViewOld;
+    }
+
+    :root[data-theme-effective='light']::view-transition-new(root) {
+        animation-name: rbThemeViewNewLight;
+    }
+
+    :root[data-theme-effective='dark']::view-transition-new(root) {
+        animation-name: rbThemeViewNewDark;
+    }
+}
+
+@keyframes rbThemeViewOld {
+    from {
+        opacity: 1;
+        filter: blur(0);
+    }
+    to {
+        opacity: 0.2;
+        filter: blur(3px);
+    }
+}
+
+@keyframes rbThemeViewNewLight {
+    from {
+        opacity: 0.6;
+        filter: saturate(0.92) blur(4px);
+    }
+    to {
+        opacity: 1;
+        filter: none;
+    }
+}
+
+@keyframes rbThemeViewNewDark {
+    from {
+        opacity: 0.55;
+        filter: saturate(0.84) blur(4px);
+    }
+    to {
+        opacity: 1;
+        filter: none;
+    }
+}
+
 /* Light mode ambient backdrop */
 #rb-light-backdrop {
     position: fixed;
