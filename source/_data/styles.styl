@@ -1208,6 +1208,7 @@ body {
 
 :root[data-theme-effective='dark'] .footer {
     margin-top: 22px;
+    text-align: center;
 }
 
 :root[data-theme-effective='dark'] .footer-inner {
@@ -1238,9 +1239,9 @@ body {
 }
 
 :root[data-theme-effective='dark'] .footer-inner {
-    width: fit-content;
-    max-width: 980px;
-    width: calc(100% - 44px);
+    display: inline-flex;
+    width: auto !important;
+    max-width: calc(100% - 24px);
     margin: 0 auto;
     text-align: left;
     align-items: flex-start;
@@ -1248,7 +1249,8 @@ body {
 
 @media (max-width: 768px) {
     :root[data-theme-effective='dark'] .footer-inner {
-        width: calc(100% - 24px);
+        width: auto !important;
+        max-width: calc(100% - 18px);
         text-align: center;
         align-items: center;
     }
@@ -1277,4 +1279,23 @@ body {
 :root[data-theme-effective='light'] pre code {
     background: var(--highlight-background) !important;
     color: var(--highlight-foreground) !important;
+}
+
+/* Make code blocks content-sized, avoid the large empty dark slab on right */
+.post-body figure.highlight {
+    display: inline-block;
+    max-width: 100%;
+    width: auto;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+.post-body figure.highlight table {
+    width: auto !important;
+}
+
+.post-body figure.highlight .code pre {
+    width: auto !important;
+    min-width: 0;
 }
