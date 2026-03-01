@@ -10,7 +10,7 @@ menu:
 - name: Archives
   slug: archives
   url: /archives
-- name: Friends
+- name: 友链
   slug: friends
   url: /links
 
