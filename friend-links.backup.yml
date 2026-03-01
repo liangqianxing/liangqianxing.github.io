@@ -1,0 +1,9 @@
+﻿updated_at: 2026-03-02
+usage: 未来需要恢复友链时，把下面 links 复制到你选定主题的 links 配置中。
+links:
+  - name: 小黄鼠
+    url: https://liumengxuan04.github.io/
+  - name: 陈驰水
+    url: https://blog.chencs.online/posts/
+  - name: 石上三年
+    url: https://blog.sssn.tech/
