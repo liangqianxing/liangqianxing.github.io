@@ -5,7 +5,7 @@
 ## 当前状态
 
 - 框架: Hexo 8
-- 主题: Landscape (现成主题)
+- 主题: Memory (`hexo-theme-memory`)
 - 内容: 已清空，仅保留 `source/_posts/.gitkeep`
 
 ## 友链备份

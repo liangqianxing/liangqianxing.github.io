@@ -1,0 +1,296 @@
+@import "variables";
+
+.content {
+  color: lighten($text-color, 2%);
+  font-size: 14px;
+  line-height: 1.75em;
+  padding: 0 30px;
+
+  @media (prefers-color-scheme: dark) {
+    color: $dark-mode-text-color;
+  }
+  @media (max-width: $on-phone) {
+    padding: 0 20px;
+  }
+  #pixiv-vol,
+  #pixiv-artist-count {
+    color: $brand-color;
+    font-weight: bolder;
+
+    @media (prefers-color-scheme: dark) {
+      color: $dark-mode-brand-color;
+    }
+  }
+  img {
+    position: relative;
+    display: block;
+    width: 114%;
+    margin: 0 -7%;
+    padding: 5px;
+    background-color: $white;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
+    transition: all 0.24s ease;
+
+    @media (prefers-color-scheme: dark) {
+      background-color: lighten($dark-mode-light-background, 5%);
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    }
+    @media (max-width: $on-phone)  {
+      width: 100%;
+      margin: 0;
+      box-shadow: none;
+    }
+  }
+  hr {
+    border: 0;
+    border-bottom: 1px solid #ddd;
+
+    @media (prefers-color-scheme: dark) {
+      border-bottom-color: lighten($dark-mode-light-background, 8%);
+    }
+  }
+  p.small-img,
+  div.small-img {
+    img {
+      width: auto;
+      max-width: 100%;
+      margin: 0;
+      box-shadow: none;
+    }
+  }
+  p {
+    margin: 20px 0;
+  }
+  ul,
+  ol {
+    list-style: circle;
+    margin: 20px 0;
+    padding-left: 30px;
+  }
+  a {
+    color: darken($brand-color, 2%);
+
+    @media (prefers-color-scheme: dark) {
+      color: darken($dark-mode-brand-color, 2%);
+    }
+    &:hover {
+      color: darken($brand-color, 4%);
+      background: rgba($brand-color, 0.1);
+
+      @media (prefers-color-scheme: dark) {
+        color: darken($dark-mode-brand-color, 4%);
+        background: rgba($dark-mode-brand-color, 0.1);
+      }
+    }
+    &:active {
+      color: $white;
+      background: rgba($brand-color, 0.6);
+
+      @media (prefers-color-scheme: dark) {
+        background: rgba($dark-mode-brand-color, 0.6);
+      }
+    }
+  }
+  h1, h2, h3, h4, h5, h6 {
+    position: relative;
+    font-family: $base-font-family;
+    font-weight: bold;
+    margin: 40px auto 30px auto;
+    left: 20px;
+
+    &::before {
+      position: absolute;
+      left: -20px;
+      top: 0;
+      content: "#";
+      color: $material-green;
+      font-weight: normal;
+    }
+  }
+  figure {
+    figcaption {
+      span {
+        display: inline-block;
+        margin-right: 5px;
+      }
+    }
+  }
+  blockquote {
+    position: relative;
+    width: 100%;
+    margin: 20px 0;
+    padding: 0 20px;
+    border-left: 4px solid $material-green;
+
+    footer {
+      strong {
+        margin-right: 7px;
+      }
+    }
+  }
+  pre {
+    display: block;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    font-family: $code-font-family;
+    width: 100%;
+    margin: 20px 0;
+    padding: 10px 15px;
+    white-space: pre;
+    overflow: auto;
+
+    code {
+      color: $text-color;
+      margin: 0;
+      font-size: 1em;
+      background-color: transparent;
+      border: 0;
+      white-space: inherit;
+    }
+    figure {
+      margin: 0;
+    }
+  }
+  code {
+    font-family: $code-font-family;
+    color: darken($brand-color, 2%);
+    padding: 3px 5px;
+    margin: 0 2px;
+    border-radius: 2px;
+    white-space: nowrap;
+    font-size: 1em;
+    background-color: lighten($background-color, 5%);
+
+    @media (prefers-color-scheme: dark) {
+      color: darken($dark-mode-brand-color, 2%);
+      background-color: darken($dark-mode-background, 5%);
+    }
+  }
+  .highlight {
+    width: 100%;
+    margin: 20px 0;
+    background-color: lighten($background-color, 5%);
+    overflow: auto;
+
+    @media (prefers-color-scheme: dark) {
+      background-color: darken($dark-mode-background, 5%);
+    }
+    figcaption {
+      background-color: transparent;
+      padding-bottom: 15px;
+    }
+    pre {
+      margin: 0;
+    }
+    .gutter {
+      pre {
+        padding: 10px;
+        text-align: right;
+      }
+    }
+    .line {
+      &.marked {
+        background-color: transparent;
+      }
+    }
+  }
+  .tags {
+    margin-top: 50px;
+
+    a {
+      position: relative;
+      padding: 4px 10px 4px 18px;
+      margin-right: 5px;
+      font-size: 12px;
+      border-radius: 2px;
+      vertical-align: middle;
+      line-height: 1.75em;
+      color: $text-color;
+      background-color: $background-color;
+
+      @media (prefers-color-scheme: dark) {
+        color: $dark-mode-text-color;
+        background-color: rgba(0, 0, 0, 0.2);
+      }
+
+      &:hover {
+        background-color: $text-color;
+        color: $dark-mode-light-text-color;
+
+        @media (prefers-color-scheme: dark) {
+          background-color: rgba(0, 0, 0, 0.4);
+        }
+      }
+      &::before {
+        position: absolute;
+        top: 1px;
+        left: 7px;
+        content: "#";
+      }
+    }
+  }
+  @media (max-width: $on-phone)  {
+
+    h1, h2, h3 {
+      margin: 30px 0;
+    }
+    h4, h5, h6 {
+      margin: 20px 0;
+    }
+    h1 {
+      font-size: 1.5em;
+    }
+    h2 {
+      font-size: 1.4em;
+    }
+    h3 {
+      font-size: 1.3em;
+    }
+    h4 {
+      font-size: 1.2em;
+    }
+    h5 {
+      font-size: 1.1em;
+    }
+    h6 {
+      font-size: 1em;
+    }
+    figure {
+      font-size: 13px;
+      line-height: 1.6em;
+    }
+  }
+}
+
+/* Tomorrow Theme */
+.tomorrow-comment, pre .comment, pre .title {
+  color: #8e908c;
+}
+
+.tomorrow-red, pre .variable, pre .attribute, pre .tag, pre .regexp, pre .ruby .constant, pre .xml .tag .title, pre .xml .pi, pre .xml .doctype, pre .html .doctype, pre .css .id, pre .css .class, pre .css .pseudo {
+  color: #c82829;
+}
+
+.tomorrow-orange, pre .number, pre .preprocessor, pre .built_in, pre .literal, pre .params, pre .constant {
+  color: #f5871f;
+}
+
+.tomorrow-yellow, pre .class, pre .ruby .class .title, pre .css .rules .attribute {
+  color: #eab700;
+}
+
+.tomorrow-green, pre .string, pre .value, pre .inheritance, pre .header, pre .ruby .symbol, pre .xml .cdata {
+  color: #718c00;
+}
+
+.tomorrow-aqua, pre .css .hexcolor {
+  color: #3e999f;
+}
+
+.tomorrow-blue, pre .function, pre .python .decorator, pre .python .title, pre .ruby .function .title, pre .ruby .title .keyword, pre .perl .sub, pre .javascript .title, pre .coffeescript .title {
+  color: #4271ae;
+}
+
+.tomorrow-purple, pre .keyword, pre .javascript .function {
+  color: #8959a8;
+}
