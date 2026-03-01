@@ -1,32 +1,47 @@
-﻿# Gu EnHao · Blog
+﻿# Gu EnHao Blog
 
-基于 Hexo 8 + NexT Mist 方案定制的个人博客，用来记录代码、设计与 side project 的全过程。项目托管在 GitHub Pages，通过 Actions 自动构建。
+基于 Hexo 8 + NexT Pisces 的个人博客，托管在 GitHub Pages，使用 GitHub Actions 自动构建并发布。
 
 ## 技术栈
 
-- **Hexo 8**：内容管理、Markdown 渲染。
-- **NexT 主题**：定制首页 Hero、色板与排版，样式集中在 `source/_data/styles.styl`。
-- **插件**：RSS（`hexo-generator-feed`）、站内搜索（`hexo-generator-searchdb`）。
-- **CI/CD**：GitHub Actions -> upload-pages-artifact -> deploy-pages。
+- Hexo 8: 内容管理与静态站点生成
+- NexT (Pisces): 主题与页面布局
+- 定制样式: `source/_data/styles.styl`
+- 主题脚本: `source/_data/head.njk` 与 `source/_data/body-end.njk`
+- 插件: `hexo-generator-feed`、`hexo-generator-searchdb`、`hexo-filter-mathjax`
 
 ## 本地开发
 
 ```bash
 npm install
-npm run dev  # http://localhost:4000
+npm run dev
 ```
 
-发布前可以运行：
+默认访问地址: `http://localhost:4000`
+
+发布前建议先执行:
 
 ```bash
-npm run clean && npm run build
+npm run clean
+npm run build
 ```
 
-## 内容结构
+## 部署到 GitHub Pages
 
-- `source/_posts`：日常博客文章。
-- `source/about`：关于页面。
-- `source/projects`：Side Project 集合。
-- `themes/next/layout/index.njk`：注入首页 Hero 的自定义内容。
+1. 推送到 `main` 分支会自动触发 `.github/workflows/deploy.yml`
+2. 在仓库设置中确认 `Settings -> Pages -> Build and deployment` 选择 `GitHub Actions`
+3. 日常发布命令:
 
-欢迎提出 Issue 或 PR，一起让这里更好看。
+```bash
+git add .
+git commit -m "update blog"
+git push origin main
+```
+
+## 内容目录
+
+- `source/_posts`: 博客文章
+- `source/about`: 关于页面
+- `source/projects`: 项目页面
+- `themes/next/layout/index.njk`: 首页 Hero 模板
+
