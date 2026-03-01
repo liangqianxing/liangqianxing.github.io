@@ -73,12 +73,6 @@ mathjax:
   cjk_width: false
   normal: false
 
-pandoc:
-  pandocPath: pandoc
-  timeout: 20000
-  args:
-    - --mathjax
-
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
 # per_page: Posts displayed per page. (0 = disable pagination)
@@ -147,11 +141,11 @@ robotstxt:
   sitemap: /sitemap.xml
 
 theme_config:
-  scheme: Mist
+  scheme: Pisces
   darkmode: true
   theme_color:
-    light: "#edf5ff"
-    dark: "#071528"
+    light: "#f7faff"
+    dark: "#0b1222"
   lightdark:
     enable: true
     check_supports: true

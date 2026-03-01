@@ -1,413 +1,530 @@
-﻿:root
-  --accent-primary #3a7bd5
-  --accent-secondary #3ad5b4
-  --text-primary #0f1e33
-  --text-secondary #5b6475
-  --card-bg #ffffff
-  --border-soft rgba(15,30,51,.08)
-  --muted-bg rgba(15,30,51,.04)
+﻿// ============================================================
+// Polished custom theme for Hexo NexT (Pisces)
+// ============================================================
+
+:root
+  --bg-start #f7faff
+  --bg-end #edf3ff
+  --surface rgba(255, 255, 255, .78)
+  --surface-strong rgba(255, 255, 255, .9)
+  --line rgba(42, 88, 160, .14)
+  --line-strong rgba(42, 88, 160, .26)
+  --text-main #15253b
+  --text-sub #5f7088
+  --accent #2f74d0
+  --accent-2 #11b8a3
+  --radius-xl 20px
+  --radius-md 14px
+  --shadow-soft 0 16px 42px rgba(17, 41, 78, .14)
+  --shadow-card 0 12px 32px rgba(12, 30, 61, .11)
+
+:root[data-theme-effective='dark']
+  --bg-start #0b1222
+  --bg-end #131b30
+  --surface rgba(16, 25, 43, .7)
+  --surface-strong rgba(18, 30, 52, .86)
+  --line rgba(139, 176, 228, .22)
+  --line-strong rgba(139, 176, 228, .36)
+  --text-main #e8efff
+  --text-sub #a6b9d8
+  --accent #7db8ff
+  --accent-2 #40e0c5
+  --shadow-soft 0 16px 48px rgba(2, 7, 18, .52)
+  --shadow-card 0 14px 34px rgba(2, 7, 18, .42)
+
+html,
+body
+  min-height 100%
+
+body
+  font-family "Avenir Next", "Space Grotesk", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif
+  color var(--text-main)
+  background linear-gradient(155deg, var(--bg-start), var(--bg-end)) fixed
+  letter-spacing .01em
+
+body::before,
+body::after
+  content ''
+  position fixed
+  pointer-events none
+  z-index 0
+  filter blur(36px)
+
+body::before
+  width 38vw
+  height 38vw
+  left -10vw
+  top -13vh
+  border-radius 999px
+  background radial-gradient(circle, rgba(47, 116, 208, .22), rgba(47, 116, 208, 0) 68%)
+
+body::after
+  width 34vw
+  height 34vw
+  right -12vw
+  top 12vh
+  border-radius 999px
+  background radial-gradient(circle, rgba(17, 184, 163, .2), rgba(17, 184, 163, 0) 70%)
+
+.main,
+.header,
+.footer,
+.back-to-top,
+.sidebar-toggle
+  position relative
+  z-index 1
+
+.headband
+  height 4px
+  background linear-gradient(90deg, rgba(17, 184, 163, 0), rgba(17, 184, 163, .86), rgba(47, 116, 208, .92), rgba(47, 116, 208, 0))
+
+.site-brand-container,
+.site-nav,
+.main-inner,
+.sidebar-inner,
+.post-block,
+.post-toc-wrap,
+.graph-panel,
+.graph-preview,
+.graph-list,
+.footer-inner
+  background var(--surface)
+  border 1px solid var(--line)
+  border-radius var(--radius-xl)
+  box-shadow var(--shadow-card)
+  backdrop-filter blur(12px) saturate(112%)
+
+.main-inner
+  padding 32px 30px
+
+.site-brand-container
+  margin-bottom 12px
+  padding 10px 14px
+  background var(--surface-strong)
+
+.site-title
+  font-weight 780
+  letter-spacing .02em
+  color var(--text-main) !important
+
+.site-subtitle
+  color var(--text-sub)
+
+.site-nav
+  padding 6px 8px
+
+.main-menu.menu
+  display flex
+  flex-wrap wrap
+  gap .38rem
+
+.main-menu .menu-item a
+  border-radius 12px
+  border 1px solid transparent
+  color var(--text-sub) !important
+  padding 7px 12px !important
+  transition all .22s ease
+
+.main-menu .menu-item a:hover,
+.main-menu .menu-item-active a
+  color #fff !important
+  border-color transparent
+  background linear-gradient(135deg, var(--accent), var(--accent-2)) !important
+  box-shadow 0 10px 20px rgba(18, 70, 141, .22)
+
+.menu-item-theme-toggle a
+  min-width 92px
+  justify-content center
+  display inline-flex !important
+  align-items center
+  gap 7px
+  background rgba(47, 116, 208, .08)
+  border 1px solid var(--line-strong) !important
+  color var(--accent) !important
+
+.menu-item-theme-toggle.is-dark a
+  background linear-gradient(135deg, rgba(125, 184, 255, .2), rgba(64, 224, 197, .22)) !important
+  color var(--text-main) !important
+
+.menu-item-theme-toggle .theme-menu-icon
+  transition transform .22s ease
+
+.menu-item-theme-toggle a:hover .theme-menu-icon
+  transform rotate(-14deg)
 
 .home-hero
-  margin 0 auto 2.5rem
-  padding 3rem
-  border-radius 28px
-  background linear-gradient(135deg, rgba(58,123,213,.95), rgba(58,213,180,.92)), url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80') center/cover
+  margin 0 auto 2.2rem
+  padding 2.4rem
+  border-radius 24px
+  border 1px solid rgba(255, 255, 255, .2)
+  box-shadow var(--shadow-soft)
   color #fff
-  box-shadow 0 25px 60px rgba(18, 38, 63, .35)
+  background linear-gradient(132deg, rgba(47, 116, 208, .96), rgba(17, 184, 163, .92) 72%)
   position relative
   overflow hidden
 
+.home-hero::after
+  content ''
+  position absolute
+  width 280px
+  height 280px
+  border-radius 999px
+  right -60px
+  top -90px
+  background radial-gradient(circle, rgba(255, 255, 255, .3), rgba(255, 255, 255, 0) 72%)
+
+.home-hero > *
+  position relative
+  z-index 1
+
 .home-hero__eyebrow
   text-transform uppercase
-  letter-spacing .25rem
-  font-size .85rem
-  opacity .8
+  letter-spacing .22em
+  font-size .82rem
+  opacity .86
 
 .home-hero__title
-  margin 1rem 0
-  font-size 2.8rem
+  margin .95rem 0
+  font-size clamp(1.9rem, 5vw, 2.65rem)
   line-height 1.2
 
 .home-hero__subtitle
-  font-size 1.1rem
-  max-width 40rem
-  opacity .9
+  max-width 44rem
+  font-size 1.05rem
+  opacity .92
 
 .home-hero__actions
-  margin-top 1.75rem
+  margin-top 1.4rem
   display flex
-  gap 1rem
+  flex-wrap wrap
+  gap .85rem
+
+.hero-btn,
+.ghost-btn
+  border-radius 999px
+  padding .75rem 1.35rem
+  font-weight 620
+  border 1px solid transparent
+  transition all .22s ease
 
 .hero-btn
-  display inline-flex
-  align-items center
   background #fff
-  color #0f172a
-  padding .85rem 1.9rem
-  border-radius 999px
-  font-weight 600
-  box-shadow 0 10px 25px rgba(15, 23, 42, .2)
+  color #163052
+  box-shadow 0 10px 24px rgba(15, 33, 58, .2)
+
+.hero-btn:hover
+  transform translateY(-1px)
 
 .ghost-btn
-  display inline-flex
-  align-items center
-  border 1px solid rgba(255,255,255,.7)
   color #fff
-  padding .8rem 1.9rem
-  border-radius 999px
-  background transparent
+  border-color rgba(255, 255, 255, .6)
+  background rgba(255, 255, 255, .1)
 
-.posts-expand
-  margin-top 1rem
-
-.post-meta
-  font-size .85rem
-  color var(--text-secondary)
-  letter-spacing .04em
+.ghost-btn:hover
+  background rgba(255, 255, 255, .2)
 
 .post-block
-  border-radius 18px
-  border 1px solid var(--border-soft)
-  box-shadow 0 15px 35px rgba(15, 23, 42, .08)
-  background var(--card-bg)
-  padding 2.25rem
+  padding 2rem
+  margin-bottom 1.6rem
 
 .post-header
-  margin-bottom 1.5rem
+  margin-bottom 1.2rem
 
-.post-title
-  font-weight 700
-  font-size 2.15rem
-  line-height 1.25
-  color var(--text-primary)
-  margin-bottom .7rem
+.post-title,
+.post-title-link
+  font-weight 760
+  color var(--text-main) !important
 
-.post-tags a
-  border-radius 999px
-  border 1px solid rgba(58,123,213,.3)
-  padding .15rem .85rem
-  color var(--accent-primary)
-  font-size .85rem
-  transition all .2s ease
-  &:hover
-    color var(--card-bg)
-    background linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))
-
-.tag-cloud a
-  border-radius 999px
-  padding .2rem .9rem
-  border 1px solid rgba(15, 23, 42, .1)
-
-.footer-inner
-  border-top 1px solid rgba(15, 23, 42, .1)
-  padding-top 1.5rem
-
-.post-toc-wrap
-  background var(--card-bg)
-  border 1px solid var(--border-soft)
-  border-radius 20px
-  padding 1.4rem
-  box-shadow 0 20px 40px rgba(15,23,42,.08)
-  margin-bottom 1.5rem
-
-.post-toc-title
-  font-size .95rem
-  letter-spacing .08em
-  text-transform uppercase
-  color var(--text-secondary)
-  margin-bottom .8rem
-
-.post-toc
-  .nav
-    list-style none
-    padding 0
-    margin 0
-  .nav-item
-    position relative
-    padding-left .4rem
-    margin-bottom .45rem
-    line-height 1.45
-    transition transform .2s ease, color .2s ease
-    &:hover
-      color var(--accent-primary)
-      transform translateX(2px)
-  .nav-child
-    margin-top .35rem
-    padding-left 1rem
-    border-left 1px dashed rgba(15,23,42,.08)
+.post-meta
+  color var(--text-sub)
 
 .post-body
-  font-size 1.08rem
-  line-height 1.9
-  color var(--text-primary)
-  letter-spacing .01em
-  max-width 780px
-  margin 0 auto
-  p
-    margin 0 0 1.5rem
-    color var(--text-primary)
-  h2, h3, h4
-    margin 2.8rem 0 1.2rem
-    font-weight 700
-    color var(--text-primary)
-    position relative
-  h2::after
-    content ''
-    display block
-    width 54px
-    height 4px
-    border-radius 999px
-    margin-top .6rem
-    background linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))
-  h3
-    font-size 1.35rem
-  h4
-    font-size 1.15rem
-  strong
-    color #0a1a2f
-  em
-    color var(--accent-primary)
-  a
-    color var(--accent-primary)
-    border-bottom 1px solid rgba(58,123,213,.4)
-    padding-bottom .08rem
-    transition color .2s ease, border-color .2s ease
-    &:hover
-      color var(--accent-secondary)
-      border-color rgba(58,213,180,.7)
-  ul, ol
-    padding-left 1.4rem
-    margin 0 0 1.5rem
-    color var(--text-secondary)
-  li + li
-    margin-top .5rem
-  li::marker
-    color var(--accent-primary)
-  code
-    background rgba(15,23,42,.08)
-    padding .22rem .55rem
-    border-radius 8px
-    font-size .95em
-    color #0f172a
-  pre
-    border-radius 20px
-    box-shadow 0 18px 35px rgba(15,23,42,.15)
-    font-size .95rem
-    padding 1.4rem
-    border 1px solid var(--border-soft)
-  blockquote
-    border-left 4px solid rgba(58,123,213,.6)
-    background rgba(58,123,213,.08)
-    padding 1.2rem 1.8rem
-    border-radius 0 18px 18px 0
-    color #0b1f33
-    font-style italic
-    margin 1.8rem 0
-  img
-    border-radius 24px
-    box-shadow 0 30px 60px rgba(15,23,42,.16)
-    margin 2rem 0
-  figure
-    margin 2.3rem 0
-    text-align center
-    figcaption
-      font-size .9rem
-      color var(--text-secondary)
-      margin-top .6rem
-  table
-    width 100%
-    border-collapse separate
-    border-spacing 0
-    margin 1.8rem 0
-    font-size .95rem
-    box-shadow 0 12px 25px rgba(15,23,42,.08)
-    border 1px solid var(--border-soft)
-    overflow hidden
-    border-radius 18px
-    thead
-      background var(--muted-bg)
-      text-transform uppercase
-      letter-spacing .08em
-      font-size .85rem
-    th, td
-      padding 1rem 1.2rem
-      text-align left
-    tbody tr + tr
-      border-top 1px solid rgba(15,23,42,.05)
-  /* Do not treat code highlight tables as content tables */
-  figure.highlight
-    margin 1.8rem 0
-    border-radius 20px
-    overflow auto
-    border 1px solid var(--border-soft)
-    box-shadow 0 18px 35px rgba(15,23,42,.15)
-  figure.highlight table
-    width auto
-    margin 0
-    border 0
-    border-radius 0
-    box-shadow none
-    overflow visible
-    th, td
-      padding 0
-  figure.highlight pre
-    border 0
-    border-radius 0
-    box-shadow none
-    margin 0
-    padding 10px 0
-  hr
-    border 0
-    height 1px
-    background linear-gradient(90deg, transparent, rgba(15,23,42,.2), transparent)
-    margin 2.5rem 0
+  font-size 1.04rem
+  line-height 1.88
+  color var(--text-main)
+
+.post-body p,
+.post-body li,
+.post-body td
+  color var(--text-main)
+
+.post-body h2,
+.post-body h3,
+.post-body h4
+  color var(--text-main)
+  font-weight 730
+
+.post-body h2::after
+  content ''
+  display block
+  width 52px
+  height 4px
+  margin-top .56rem
+  border-radius 999px
+  background linear-gradient(135deg, var(--accent), var(--accent-2))
+
+.post-body a
+  color var(--accent)
+  border-bottom 1px solid rgba(47, 116, 208, .3)
+  transition color .2s ease, border-color .2s ease
+
+.post-body a:hover
+  color var(--accent-2)
+  border-color rgba(17, 184, 163, .55)
+
+.post-body code
+  color var(--text-main)
+  background rgba(42, 88, 160, .12)
+  border-radius 7px
+  padding .16rem .42rem
+
+.post-body pre,
+.post-body figure.highlight
+  border 1px solid var(--line)
+  border-radius 14px
+  box-shadow none
+  overflow auto
+
+.post-body blockquote
+  margin 1.5rem 0
+  padding 1rem 1.2rem
+  border-radius 0 12px 12px 0
+  border-left 3px solid rgba(47, 116, 208, .7)
+  background rgba(47, 116, 208, .09)
+
+.post-body img
+  border-radius 16px
+  box-shadow var(--shadow-card)
+
+.post-body table
+  border-radius 14px
+  overflow hidden
+  border 1px solid var(--line)
+
+.post-body tbody tr + tr
+  border-top 1px solid rgba(42, 88, 160, .1)
+
+.post-tags a,
+.tag-cloud a
+  border-radius 999px
+  border 1px solid rgba(47, 116, 208, .28)
+  color var(--accent)
+  transition all .2s ease
+
+.post-tags a:hover,
+.tag-cloud a:hover
+  color #fff
+  background linear-gradient(135deg, var(--accent), var(--accent-2))
+  border-color transparent
+
+.post-toc-wrap
+  border-radius 16px
+  padding 1.1rem 1.2rem
+
+.post-toc-title
+  color var(--text-sub)
+  text-transform uppercase
+  letter-spacing .08em
+  font-size .84rem
+
+.post-toc .nav-item
+  transition transform .2s ease, color .2s ease
+
+.post-toc .nav-item:hover
+  transform translateX(2px)
+
+.sidebar-inner
+  padding 1.2rem
+
+.site-author-image
+  border-radius 18px
+  border 2px solid rgba(255, 255, 255, .78)
+  box-shadow 0 10px 28px rgba(15, 36, 71, .17)
+
+.site-author-name
+  font-weight 720
+
+.site-description,
+.site-state-item-count,
+.site-state-item-name,
+.links-of-author-item a,
+.links-of-blogroll-item a
+  color var(--text-sub) !important
+
+.site-state-item a,
+.links-of-author-item a,
+.links-of-blogroll-item a
+  border-radius 10px
+  border 1px solid transparent
+  padding 4px 8px
+  transition all .2s ease
+
+.site-state-item a:hover,
+.links-of-author-item a:hover,
+.links-of-blogroll-item a:hover
+  border-color var(--line-strong)
+  color var(--accent) !important
+  background rgba(47, 116, 208, .08)
+
+.footer
+  margin-top 24px
+
+.footer-inner
+  padding 14px 18px
+  display inline-flex
+  width auto
+  max-width calc(100% - 18px)
+
+.footer-inner,
+.footer-inner a,
+.powered-by,
+.copyright
+  color var(--text-sub) !important
+
+.back-to-top,
+.sidebar-toggle
+  width 40px
+  height 40px
+  border-radius 12px
+  border 1px solid var(--line)
+  box-shadow var(--shadow-card)
+  background var(--surface-strong) !important
+  color var(--accent) !important
+
+.back-to-top:hover,
+.sidebar-toggle:hover
+  transform translateY(-1px)
+
+::selection
+  background rgba(47, 116, 208, .3)
+  color var(--text-main)
+
+::-webkit-scrollbar
+  width 10px
+  height 10px
+
+::-webkit-scrollbar-thumb
+  background linear-gradient(180deg, rgba(47, 116, 208, .72), rgba(17, 184, 163, .72))
+  border-radius 999px
+
+::-webkit-scrollbar-track
+  background rgba(42, 88, 160, .12)
 
 .post-body.category-graph-body
   max-width none
   margin 0
-  padding-top .5rem
-
-.graph-intro
-  font-size 1rem
-  color var(--text-secondary)
-  background rgba(15,30,51,.03)
-  border 1px solid var(--border-soft)
-  padding 1rem 1.25rem
-  border-radius 16px
+  padding-top .4rem
 
 .graph-lite-guides
-  margin 1.5rem 0 1rem
-  padding 1rem 1.1rem
-  border-radius 16px
-  background rgba(58,123,213,.06)
-  border 1px solid rgba(58,123,213,.16)
+  margin 1.2rem 0 1rem
+  padding .95rem 1.05rem
+  border-radius var(--radius-md)
+  border 1px solid var(--line)
+  background rgba(47, 116, 208, .08)
   display flex
-  align-items center
   justify-content space-between
-  gap 1rem
+  align-items center
+  gap .8rem
 
 .graph-lite-text
   margin 0
-  color var(--text-primary)
-  font-size .98rem
+  color var(--text-main)
 
 .graph-lite-stats
   display flex
-  gap .8rem
-  font-size .92rem
-  color var(--text-secondary)
-  span
-    padding .35rem .8rem
-    border-radius 12px
-    background rgba(15,23,42,.05)
-    border 1px solid rgba(15,23,42,.08)
+  flex-wrap wrap
+  gap .6rem
+  color var(--text-sub)
+
+.graph-lite-stats span
+  border-radius 999px
+  border 1px solid var(--line)
+  background var(--surface-strong)
+  padding .3rem .72rem
 
 .category-graph-grid
   display grid
-  grid-template-columns minmax(0, 1.3fr) minmax(300px, .8fr)
-  gap 1.75rem
+  grid-template-columns minmax(0, 1.28fr) minmax(280px, .84fr)
+  gap 1.25rem
   align-items stretch
-  margin-top 1.75rem
 
 .graph-panel,
+.graph-preview,
 .graph-list
-  border 1px solid var(--border-soft)
-  border-radius 22px
-  background var(--card-bg)
-  box-shadow 0 25px 45px rgba(15,23,42,.08)
-  padding 1.75rem
+  padding 1.35rem
 
 .graph-panel--full
-  padding-bottom 2.5rem
-  position relative
-
-.graph-preview
-  border 1px solid var(--border-soft)
-  border-radius 22px
-  background var(--card-bg)
-  box-shadow 0 25px 45px rgba(15,23,42,.08)
-  padding 1.75rem
-  display flex
-  flex-direction column
-  position sticky
-  top 90px
-  max-height 740px
-  overflow hidden
-
-.graph-preview__header
-  margin-bottom 1.25rem
-  display flex
-  flex-direction column
-  gap .4rem
-
-.graph-preview__link
-  align-self flex-start
-  padding .5rem 1.1rem
-  border-radius 999px
-  border 1px solid rgba(58,123,213,.3)
-  color var(--accent-primary)
-  font-size .85rem
-  text-decoration none
-  transition all .2s ease
-  &.is-disabled
-    opacity .4
-    pointer-events none
-  &:not(.is-disabled):hover
-    background linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))
-    color #fff
-
-.graph-selection
-  margin-top .75rem
-  padding .75rem 1rem
-  border-radius 14px
-  background rgba(58,123,213,.08)
-  border 1px solid rgba(58,123,213,.18)
-  color var(--text-primary)
-  display flex
-  flex-wrap wrap
-  gap .75rem
-  font-size .95rem
+  padding-bottom 1.9rem
 
 .graph-panel__header
-  margin-bottom 1.25rem
+  margin-bottom 1rem
 
 .graph-panel__eyebrow
+  margin 0 0 .55rem
+  letter-spacing .26em
   text-transform uppercase
-  letter-spacing .35em
-  font-size .75rem
-  color var(--accent-secondary)
-  margin-bottom .6rem
+  font-size .72rem
+  color var(--accent-2)
 
 .graph-panel__title
-  font-size 1.7rem
-  margin 0 0 .4rem
-  color var(--text-primary)
+  margin .1rem 0 .35rem
+  color var(--text-main)
 
 .graph-panel__desc
   margin 0
-  color var(--text-secondary)
-  font-size .95rem
+  color var(--text-sub)
+
+.graph-selection
+  margin-top .72rem
+  border-radius 12px
+  border 1px solid var(--line)
+  background rgba(47, 116, 208, .09)
+  color var(--text-main)
+  padding .6rem .84rem
+  display flex
+  flex-wrap wrap
+  gap .7rem
 
 .graph-canvas
-  min-height 580px
-  border-radius 22px
-  background radial-gradient(circle at 25% 20%, rgba(58,123,213,.14), transparent 32%), radial-gradient(circle at 80% 60%, rgba(58,213,180,.12), transparent 35%), linear-gradient(125deg, rgba(58,123,213,.08), rgba(58,213,180,.06))
-  border 1px solid rgba(58,123,213,.15)
-  box-shadow inset 0 0 0 1px rgba(255,255,255,.15), 0 25px 60px rgba(15,23,42,.12)
-  position relative
+  min-height 540px
+  border-radius 16px
+  border 1px solid var(--line)
+  background radial-gradient(circle at 25% 15%, rgba(47, 116, 208, .13), transparent 42%), radial-gradient(circle at 85% 65%, rgba(17, 184, 163, .12), transparent 38%), linear-gradient(145deg, rgba(47, 116, 208, .07), rgba(17, 184, 163, .05))
   overflow hidden
-  margin-bottom 1rem
 
 .graph-canvas svg
   width 100%
   height 100%
-  filter drop-shadow(0 8px 25px rgba(15,23,42,.16))
 
-.graph-list__header
-  margin-bottom 1rem
+.graph-preview
+  position sticky
+  top 86px
+  max-height 720px
+  overflow auto
 
-.graph-list__header h3
-  margin .2rem 0
+.graph-preview__header
+  margin-bottom .92rem
+  display flex
+  flex-direction column
+  gap .35rem
+
+.graph-preview__link
+  width fit-content
+  border-radius 999px
+  border 1px solid rgba(47, 116, 208, .32)
+  padding .42rem .92rem
+  color var(--accent)
+  text-decoration none
+  transition all .2s ease
+
+.graph-preview__link:hover
+  color #fff
+  background linear-gradient(135deg, var(--accent), var(--accent-2))
+  border-color transparent
+
+.graph-preview__link.is-disabled
+  opacity .45
+  pointer-events none
 
 .graph-post-items
   list-style none
@@ -415,62 +532,60 @@
   padding 0
   display flex
   flex-direction column
-  gap .85rem
+  gap .7rem
 
 .graph-post-item
+  border-radius 12px
+  border 1px solid var(--line)
+  background rgba(47, 116, 208, .06)
+  padding .72rem .85rem
   display flex
   flex-direction column
-  gap .3rem
-  padding .9rem 1.1rem
-  border-radius 14px
-  border 1px solid rgba(58,123,213,.15)
-  background rgba(58,123,213,.04)
-  transition transform .15s ease, box-shadow .15s ease, border-color .15s ease
-  &:hover
-    transform translateY(-2px)
-    box-shadow 0 10px 25px rgba(15,23,42,.08)
-    border-color rgba(58,123,213,.35)
+  gap .24rem
+  transition transform .18s ease, border-color .18s ease
+
+.graph-post-item:hover
+  transform translateY(-1px)
+  border-color var(--line-strong)
 
 .graph-post-item a
-  font-weight 600
-  color var(--accent-primary)
+  color var(--accent)
+  font-weight 620
   text-decoration none
 
 .graph-post-item span
-  font-size .85rem
-  color var(--text-secondary)
+  color var(--text-sub)
+  font-size .86rem
 
 .graph-post-item--empty
-  align-items center
   text-align center
-  color var(--text-secondary)
+  color var(--text-sub)
 
 .graph-links line
-  stroke rgba(58,123,213,.2)
-  stroke-width 2.4
-
-.graph-node text
-  font-size .9rem
-  pointer-events none
-  fill var(--text-primary)
-  paint-order stroke
-  stroke rgba(255,255,255,.75)
-  stroke-width 2px
+  stroke rgba(47, 116, 208, .24)
+  stroke-width 2
 
 .graph-node circle
-  stroke-width 3
-  transition transform .2s ease, box-shadow .2s ease, stroke .2s ease, fill .2s ease
-  fill #fff
-  box-shadow 0 12px 30px rgba(15,23,42,.16)
+  fill var(--surface-strong)
+  stroke var(--accent)
+  stroke-width 2.6
+  transition transform .2s ease, stroke .2s ease
 
-.graph-node.is-active circle
-  stroke var(--accent-secondary)
-  box-shadow 0 0 30px rgba(58,213,180,.45)
-  transform scale(1.05)
+.graph-node text
+  fill var(--text-main)
+  font-size .88rem
+  paint-order stroke
+  stroke rgba(255, 255, 255, .78)
+  stroke-width 1.7px
+  pointer-events none
 
+:root[data-theme-effective='dark'] .graph-node text
+  stroke rgba(6, 12, 23, .75)
+
+.graph-node.is-active circle,
 .graph-node:hover circle
-  stroke var(--accent-primary)
-  transform scale(1.03)
+  stroke var(--accent-2)
+  transform scale(1.04)
 
 .graph-empty
   position absolute
@@ -478,1148 +593,49 @@
   display flex
   align-items center
   justify-content center
-  color var(--text-secondary)
-  font-size 1rem
+  color var(--text-sub)
 
-@media (max-width: 1024px)
+@media (max-width: 991px)
+  .main-inner
+    padding 24px 18px
+
   .category-graph-grid
     grid-template-columns 1fr
-  .graph-canvas
-    min-height 420px
+
   .graph-preview
-    margin-top 1.5rem
-    padding 1.5rem
+    position static
+    max-height none
+
+@media (max-width: 768px)
+  body::before,
+  body::after
+    display none
+
+  .home-hero
+    padding 1.75rem
+
+  .home-hero__actions
+    flex-direction column
+    align-items flex-start
+
+  .post-block
+    padding 1.35rem
+
+  .footer-inner
+    display block
+    text-align center
+
+  .graph-canvas
+    min-height 370px
+
   .graph-lite-guides
     flex-direction column
     align-items flex-start
 
-@media (max-width: 768px)
-  .home-hero
-    padding 2rem
-  .home-hero__title
-    font-size 2rem
-  .home-hero__actions
-    flex-direction column
-    align-items flex-start
-  .post-block
-    padding 1.6rem
-  .post-body
-    font-size 1rem
-    line-height 1.8
-  .graph-panel,
-  .graph-preview
-    padding 1.25rem
-  .graph-canvas
-    min-height 360px
-  .graph-lite-stats
-    width 100%
-    flex-wrap wrap
-
-
-
-
-
-// ==============================
-// 2. 全局毛玻璃半透明化 (Mist核心美化)
-// ==============================
-
-// 博客主体内容透明化
-.main-inner {
-    background: rgba(255, 255, 255, 0.85); // 白色背景，85%不透明度
-    padding: 25px;
-    border-radius: 15px; // 圆角
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); // 阴影增加立体感
-}
-
-
-
-// 假如你想做暗黑模式，把上面两个 background 改成 rgba(0,0,0,0.7) 
-// 并添加 color: #eee; 即可
-
-// ==============================
-// 3. 细节微调
-// ==============================
-
-// 鼠标选中文字的颜色（变得更显眼）
-::selection {
-    background: #00c4b6;
-    color: #fff;
-}
-
-// 滚动条美化 (Chrome/Edge)
-::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-}
-::-webkit-scrollbar-thumb {
-    background-color: #49b1f5; // 滚动条颜色
-    border-radius: 32px;
-}
-::-webkit-scrollbar-track {
-    background-color: rgba(255,255,255,0.5);
-}
-
-// 文章内图片鼠标悬停放大效果
-.post-body img:hover {
-    transform: scale(1.05);
-    transition: all 0.5s;
-    box-shadow: 0 0 15px rgba(0,0,0,0.3);
-}
-
-
-body {
-    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 16px;
-    line-height: 1.8;
-    color: #2c3e50;
-    // 这一张是高品质的抽象流体壁纸，不抢眼但很有质感
-    background: url("https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop");
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center;
-}
-
-.site-brand-container {
-    background: transparent;
-    box-shadow: none;
-}
-.site-title {
-    font-size: 28px;
-    font-weight: 800; // 特粗字体
-    color: #000 !important;
-    letter-spacing: 2px;
-}
-
-
-
-
-// 隐藏原来丑陋的背景条
-.site-brand-container {
-    background: transparent;
-    box-shadow: none;
-    padding: 0;
-    margin: 0;
-}
-
-// 网站标题（左侧）
-.site-title {
-    font-size: 20px;
-    font-weight: bold;
-    color: #333 !important;
-    line-height: 1.5;
-}
-.site-subtitle { display: none; } // 隐藏副标题，保持简洁
-
-
-// --------------------------------------
-// 2. Sidebar（侧边栏）整容 -> 变成“悬浮卡片”
-// --------------------------------------
-
-// 只有当侧边栏显示时生效
-.sidebar {
-    background: none; // 去掉默认的灰色背景
-    box-shadow: none;
-}
-
-.sidebar-inner {
-    background: rgba(255, 255, 255, 0.95); // 纯净白
-    border-radius: 20px; // 圆角
-    padding: 20px;
-    box-shadow: 0 15px 30px rgba(0,0,0,0.1); // 立体阴影
-    margin-top: 20px; // 离顶部远一点
-    border: 1px solid rgba(0,0,0,0.05);
-}
-
-// 头像圆形化
-.site-author-image {
-    border-radius: 50%; // 变成圆形
-    border: 3px solid #fff; // 加个白边
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    width: 100px;
-    height: 100px;
-}
-
-// 侧边栏文字美化
-.site-author-name {
-    font-weight: 700;
-    margin: 10px 0 5px;
-    color: #222;
-}
-.site-description {
-    font-size: 13px;
-    color: #666;
-}
-.site-state-item-count {
-    color: #000;
-    font-weight: bold;
-}
-
-
-
-
-// --------------------------------------
-// 3. 既然改了菜单，主体也要配合一下
-// --------------------------------------
-body {
-    // 还是保持那个高质感背景
-    background: #f0f2f5 url("https://images.unsplash.com/photo-1497436072909-60f360e1d4b0?q=80&w=2560&auto=format&fit=crop") center/cover fixed;
-}
-
-.main-inner {
-    margin-top: 40px; // 给悬浮菜单留出位置
-    background: rgba(255, 255, 255, 0.85);
-    border-radius: 24px;
-    padding: 40px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-}
-
-
-
-// =================================================================
-// 2. 改造 Main Menu (主菜单) -> 变成居中悬浮胶囊
-// =================================================================
-
-
-
-// 隐藏原本可能存在的 Logo 区域背景 (如果有的话)
-.site-brand-container {
-    background: transparent !important;
-    padding: 0;
-    margin: 0;
-    box-shadow: none;
-}
-
-// 网站标题 (Site Title)
-.site-title {
-    font-size: 22px;
-    font-weight: 800;
-    color: #222 !important;
-    line-height: 40px; // 垂直居中
-    vertical-align: middle;
-}
-.site-subtitle { display: none; } // 隐藏副标题，保持清爽
-
-// 菜单列表区域
-.menu {
-    margin-top: 0 !important;
-    padding-left: 0;
-    text-align: right; // 菜单项靠右
-    float: right; // 强制靠右
-    line-height: 40px; // 垂直居中
-}
-
-
-
-.back-to-top {
-    // 1. 位置：悬浮在侧边栏按钮的正上方
-    // (假设 sidebar-toggle 在 bottom: 30px，这里设 90px 留出间距)
-    right: 30px !important;
-    bottom: 100px !important;
-    width: 30px !important;  // 比主按钮稍小一点，更有层次感
-    height: 30px !important;
-    
-    // 2. 外观：圆形、渐变、投影
-    background: linear-gradient(135deg, #3a7bd5, #3ad5b4) !important;
-    border-radius: 50% !important;
-    box-shadow: 0 5px 15px rgba(58, 123, 213, 0.3) !important;
-    
-    // 3. 文字/图标样式
-    color: #fff !important;
-    font-size: 14px !important; // 字体大小
-    font-weight: bold;
-    
-    // 4. 居中对齐
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-    // 5. 交互动画
-    transition: all 0.3s ease-in-out;
-    opacity: 0.8; // 默认稍微淡一点
-    z-index: 99;
-}
-
-// 鼠标悬停效果
-.back-to-top:hover {
-    transform: translateY(-3px); // 轻微上浮
-    opacity: 1;
-    box-shadow: 0 8px 20px rgba(58, 123, 213, 0.5) !important;
-}
-
-// 如果你开启了 scrollpercent (显示百分比)，把数字修饰得好看点
-.back-to-top span {
-    font-size: 12px;
-    line-height: 1;
-}
-
-// 修复移动端可能的位置偏移
-@media (max-width: 768px) {
-    .back-to-top {
-        right: 20px !important;
-        bottom: 80px !important;
-    }
-    .sidebar-toggle{
-      right: 20px !important;
-        bottom: 40px !important;
-    }
-
-}
-
-
-
-// 2. 左侧：网站标题
-.site-brand-container {
-    background: transparent !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    flex-shrink: 0; // 禁止标题被压缩
-}
-
-.site-title {
-    font-size: 20px;
-    font-weight: 700;
-    color: #000 !important;
-    line-height: 60px; // 垂直居中
-}
-
-// 3. 右侧：菜单容器 (核心修复区)
-.menu {
-    margin: 0 !important;
-    padding: 0 !important;
-    
-    // ⚡️ 强制横排的核心代码 ⚡️
-    flex-wrap: nowrap !important; // 绝对禁止换行！
-    align-items: center !important;
-    
-    // 如果屏幕太小，允许横向滑动 (像 App 的顶部导航一样)
-    overflow-x: auto !important; 
-    overflow-y: hidden !important;
-    -webkit-overflow-scrolling: touch; // 手机滑动丝滑
-    
-    // 隐藏滚动条 (Chrome/Safari)
-    &::-webkit-scrollbar {
-        display: none; 
-    }
-    // 隐藏滚动条 (Firefox)
-    scrollbar-width: none; 
-}
-
-
-
-// 悬停效果
-.menu-item a:hover, .menu-item-active a {
-    color: #000 !important;
-    background: rgba(0,0,0,0.05) !important;
-}
-
-
-
-// -----------------------------------------------------------
-// 📱 移动端特殊优化 (当屏幕很窄时)
-// -----------------------------------------------------------
-@media (max-width: 768px) {
-    // 标题变小一点
-    .site-title {
-        font-size: 18px; 
-    }
-    
-    // 菜单容器填满剩余空间
-    .menu {
-        margin-left: 10px !important;
-        padding-right: 10px !important;
-        
-        // 让遮罩渐变提示用户可以滑动 (可选高级感)
-        mask-image: linear-gradient(to right, transparent, black 10px, black 90%, transparent);
-        -webkit-mask-image: linear-gradient(to right, transparent, black 10px, black 90%, transparent);
-    }
-
-    .menu-item a {
-        font-size: 13px; // 字体再小一点
-        padding: 5px 10px !important;
-    }
-    
-    // 既然导航栏固定了，主体内容要往下推，防止被挡住
-    .main-inner {
-        margin-top: 12px !important;
-    }
-}
-
-// 桌面端主体下推
-@media (min-width: 769px) {
-    .main-inner {
-        margin-top: 12px !important;
-    }
-}
-
-.sidebar-toggle { 
-  
-    background: linear-gradient(135deg, #3a7bd5, #3ad5b4) !important;
-    box-shadow: 0 8px 20px rgba(58, 123, 213, 0.4) !important;
-
-    backdrop-filter: blur(10px) !important;
-    border: 1px solid rgba(255,255,255,0.5) !important;
-
-    border-radius: 50% !important;
-    font-weight: var(--fa-style, 900);
-
-     transition: all 0.3s ease-in-out;
-    opacity: 0.8; // 默认稍微淡一点
-    z-index: 99;
-}
-
-
-.links-of-author-item a:hover {
-    // 1. 文字和图标颜色：改成你的主题蓝 (不要白色!)
-    color: #3a7bd5 !important; 
-    
-    // 2. 背景颜色：加一点点淡淡的蓝底，增加反馈感
-    background: rgba(58, 123, 213, 0.1) !important; 
-    
-    // 3. 细节优化
-    border-radius: 4px;
-    text-decoration: none !important;
-}
-
-// 强制内部的图标 (i标签) 和文字 (span标签) 也就是同步变色
-.links-of-author-item a:hover i, 
-.links-of-author-item a:hover span {
-    color: #3a7bd5 !important;
-}
-
-.links-of-blogroll-item a:hover {
-    // 1. 文字和图标颜色：改成你的主题蓝 (不要白色!)
-    color: #3a7bd5 !important; 
-    
-    // 2. 背景颜色：加一点点淡淡的蓝底，增加反馈感
-    background: rgba(58, 123, 213, 0.1) !important; 
-    
-    // 3. 细节优化
-    border-radius: 4px;
-    text-decoration: none !important;
-}
-
-// 强制内部的图标 (i标签) 和文字 (span标签) 也就是同步变色
-.links-of-blogroll-item a:hover i, 
-.links-of-blogroll-item a:hover span {
-    color: #3a7bd5 !important;
-}
-
-
-/* Theme menu toggle */
-.menu-item-theme-toggle a {
-    cursor: pointer !important;
-    user-select: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 2px;
-}
-
-.menu-item-theme-toggle .theme-menu-icon {
-    width: 1.2em;
-    transition: transform 0.2s ease;
-}
-
-.menu-item-theme-toggle:hover .theme-menu-icon {
-    transform: rotate(-10deg);
-}
-
-@media (max-width: 768px) {
-    .menu-item-theme-toggle .theme-menu-text {
-        display: none;
-    }
-}
-
-/* React Bits inspired dark backdrop */
-#rb-dark-backdrop {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0;
-    z-index: 0;
-    transition: opacity 0.28s ease;
-    overflow: hidden;
-}
-
-#rb-dark-backdrop.is-active {
-    opacity: 1;
-}
-
-#rb-dark-squares {
-    width: 100%;
-    height: 100%;
-    display: block;
-    filter: saturate(1.02);
-}
-
-/* Theme switch fallback layer (non View Transition browsers) */
-#rb-theme-transition-layer {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 3;
-    opacity: 0;
-}
-
-:root.theme-animating #rb-theme-transition-layer {
-    animation: rbThemeSwapFlash 0.46s ease both;
-}
-
-:root.theme-animating[data-theme-target='light'] #rb-theme-transition-layer {
-    background:
-      radial-gradient(900px 520px at 12% -8%, rgba(125, 211, 252, 0.22), transparent 66%),
-      radial-gradient(820px 540px at 90% -12%, rgba(45, 212, 191, 0.2), transparent 70%);
-}
-
-:root.theme-animating[data-theme-target='dark'] #rb-theme-transition-layer {
-    background:
-      radial-gradient(940px 620px at 18% -12%, rgba(6, 78, 140, 0.34), transparent 66%),
-      radial-gradient(920px 640px at 85% -14%, rgba(15, 118, 110, 0.24), transparent 72%),
-      linear-gradient(180deg, rgba(2, 8, 20, 0.16), rgba(2, 8, 20, 0.22));
-}
-
-@keyframes rbThemeSwapFlash {
-    0% {
-        opacity: 0;
-    }
-    45% {
-        opacity: 0.5;
-    }
-    100% {
-        opacity: 0;
-    }
-}
-
-/* Theme switch preferred animation (View Transition API) */
-@media (prefers-reduced-motion: no-preference) {
-    ::view-transition-old(root),
-    ::view-transition-new(root) {
-        animation-duration: 0.48s;
-        animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
-    }
-
-    ::view-transition-old(root) {
-        animation-name: rbThemeViewOld;
-    }
-
-    :root[data-theme-effective='light']::view-transition-new(root) {
-        animation-name: rbThemeViewNewLight;
-    }
-
-    :root[data-theme-effective='dark']::view-transition-new(root) {
-        animation-name: rbThemeViewNewDark;
-    }
-}
-
-@keyframes rbThemeViewOld {
-    from {
-        opacity: 1;
-        filter: blur(0);
-    }
-    to {
-        opacity: 0.2;
-        filter: blur(3px);
-    }
-}
-
-@keyframes rbThemeViewNewLight {
-    from {
-        opacity: 0.6;
-        filter: saturate(0.92) blur(4px);
-    }
-    to {
-        opacity: 1;
-        filter: none;
-    }
-}
-
-@keyframes rbThemeViewNewDark {
-    from {
-        opacity: 0.55;
-        filter: saturate(0.84) blur(4px);
-    }
-    to {
-        opacity: 1;
-        filter: none;
-    }
-}
-
-/* Light mode ambient backdrop */
-#rb-light-backdrop {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0;
-    z-index: 0;
-    transition: opacity 0.28s ease;
-    overflow: hidden;
-    background:
-      radial-gradient(960px 620px at 8% -10%, rgba(58, 123, 213, 0.18), transparent 66%),
-      radial-gradient(980px 560px at 92% -8%, rgba(58, 213, 180, 0.17), transparent 72%),
-      linear-gradient(180deg, #f8fbff 0%, #edf5ff 100%);
-}
-
-#rb-light-backdrop.is-active {
-    opacity: 1;
-}
-
-#rb-light-backdrop .rb-light-orb {
-    position: absolute;
-    border-radius: 999px;
-    filter: blur(40px);
-    opacity: 0.34;
-    transform: translate3d(0, 0, 0);
-}
-
-#rb-light-backdrop .orb-a {
-    width: 420px;
-    height: 420px;
-    left: -120px;
-    top: 4vh;
-    background: radial-gradient(circle, rgba(92, 184, 255, 0.9) 0%, rgba(92, 184, 255, 0.05) 72%);
-    animation: rbLightFloatA 14s ease-in-out infinite;
-}
-
-#rb-light-backdrop .orb-b {
-    width: 360px;
-    height: 360px;
-    right: -110px;
-    top: 18vh;
-    background: radial-gradient(circle, rgba(104, 226, 195, 0.9) 0%, rgba(104, 226, 195, 0.06) 72%);
-    animation: rbLightFloatB 17s ease-in-out infinite;
-}
-
-#rb-light-backdrop .rb-light-grid {
-    position: absolute;
-    inset: -35% -20%;
-    background-image:
-      repeating-linear-gradient(90deg, rgba(58, 123, 213, 0.055) 0 1px, transparent 1px 62px),
-      repeating-linear-gradient(0deg, rgba(58, 123, 213, 0.055) 0 1px, transparent 1px 62px);
-    opacity: 0.42;
-    transform: perspective(900px) rotateX(66deg) translateY(22%);
-    transform-origin: center top;
-    animation: rbLightGridShift 15s linear infinite;
-}
-
-@keyframes rbLightFloatA {
-    0%, 100% {
-        transform: translate3d(0, 0, 0);
-    }
-    50% {
-        transform: translate3d(40px, 26px, 0);
-    }
-}
-
-@keyframes rbLightFloatB {
-    0%, 100% {
-        transform: translate3d(0, 0, 0);
-    }
-    50% {
-        transform: translate3d(-34px, 18px, 0);
-    }
-}
-
-@keyframes rbLightGridShift {
-    0% {
-        transform: perspective(900px) rotateX(66deg) translateY(22%) translateX(0);
-    }
-    100% {
-        transform: perspective(900px) rotateX(66deg) translateY(24%) translateX(-62px);
-    }
-}
-
-:root[data-theme-effective='light'] body > .headband,
-:root[data-theme-effective='light'] body > .main,
-:root[data-theme-effective='light'] body > .footer,
-:root[data-theme-effective='dark'] body > .headband,
-:root[data-theme-effective='dark'] body > .main,
-:root[data-theme-effective='dark'] body > .footer {
-    position: relative;
-    z-index: 1;
-}
-
-/* Dark theme overrides */
-:root[data-theme-effective='dark'] {
-    background: #040913;
-    --accent-primary: #7dd3fc;
-    --accent-secondary: #2dd4bf;
-    --text-primary: #e6f0ff;
-    --text-secondary: #9ab0cb;
-    --card-bg: rgba(11, 23, 40, 0.76);
-    --border-soft: rgba(123, 162, 207, 0.24);
-    --muted-bg: rgba(42, 87, 143, 0.16);
-}
-
-:root[data-theme-effective='dark'] body {
-    color: var(--text-primary) !important;
-    background: linear-gradient(160deg, #040913 0%, #07172b 48%, #0a2342 100%) !important;
-}
-
-:root[data-theme-effective='dark'] .main-inner,
-:root[data-theme-effective='dark'] .sidebar-inner,
-:root[data-theme-effective='dark'] .graph-panel,
-:root[data-theme-effective='dark'] .graph-list,
-:root[data-theme-effective='dark'] .graph-preview,
-:root[data-theme-effective='dark'] .post-block,
-:root[data-theme-effective='dark'] .post-toc-wrap {
-    background: rgba(10, 19, 34, 0.72) !important;
-    border-color: rgba(140, 178, 224, 0.2) !important;
-    box-shadow: 0 18px 45px rgba(2, 8, 20, 0.55) !important;
-    backdrop-filter: blur(14px);
-}
-
-:root[data-theme-effective='dark'] .graph-canvas {
-    border-color: rgba(125, 211, 252, 0.28) !important;
-    box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.1), 0 20px 44px rgba(0, 0, 0, 0.42) !important;
-}
-
-:root[data-theme-effective='dark'] .graph-post-item {
-    background: rgba(61, 139, 219, 0.16) !important;
-    border-color: rgba(125, 211, 252, 0.34) !important;
-}
-
-:root[data-theme-effective='dark'] .graph-links line {
-    stroke: rgba(125, 211, 252, 0.3) !important;
-}
-
-:root[data-theme-effective='dark'] .graph-node circle {
-    fill: rgba(15, 23, 42, 0.92) !important;
-    stroke: rgba(125, 211, 252, 0.5) !important;
-}
-
-:root[data-theme-effective='dark'] .graph-node text {
-    fill: #e6f0ff !important;
-    stroke: rgba(7, 14, 28, 0.72) !important;
-}
-
-:root[data-theme-effective='dark'] .site-title,
-:root[data-theme-effective='dark'] .site-author-name,
-:root[data-theme-effective='dark'] .site-description,
-:root[data-theme-effective='dark'] .site-state-item-count,
-:root[data-theme-effective='dark'] .post-title,
-:root[data-theme-effective='dark'] .post-meta,
-:root[data-theme-effective='dark'] .post-body,
-:root[data-theme-effective='dark'] .post-body p,
-:root[data-theme-effective='dark'] .post-body h2,
-:root[data-theme-effective='dark'] .post-body h3,
-:root[data-theme-effective='dark'] .post-body h4,
-:root[data-theme-effective='dark'] .graph-lite-text,
-:root[data-theme-effective='dark'] .graph-panel__title,
-:root[data-theme-effective='dark'] .graph-panel__desc,
-:root[data-theme-effective='dark'] .graph-post-item span {
-    color: var(--text-primary) !important;
-}
-
-:root[data-theme-effective='dark'] .hero-btn {
-    background: rgba(15, 23, 42, 0.78);
-    color: #eaf2ff;
-    border: 1px solid rgba(148, 163, 184, 0.38);
-    box-shadow: 0 10px 24px rgba(5, 12, 24, 0.5);
-}
-
-:root[data-theme-effective='dark'] .ghost-btn {
-    border-color: rgba(226, 232, 240, 0.6);
-    color: #e6f0ff;
-}
-
-:root[data-theme-effective='dark'] .menu-item a:hover,
-:root[data-theme-effective='dark'] .menu-item-active a,
-:root[data-theme-effective='dark'] .menu-item-theme-toggle.is-dark a {
-    background: rgba(125, 211, 252, 0.16) !important;
-    color: #f8fbff !important;
-}
-
-:root[data-theme-effective='dark'] .post-body strong,
-:root[data-theme-effective='dark'] .post-body code,
-:root[data-theme-effective='dark'] .post-body blockquote {
-    color: #f3f8ff !important;
-}
-
-:root[data-theme-effective='dark'] .post-body code {
-    background: rgba(125, 211, 252, 0.15) !important;
-}
-
-:root[data-theme-effective='dark'] .post-body blockquote {
-    border-left-color: rgba(45, 212, 191, 0.68) !important;
-    background: rgba(45, 212, 191, 0.12) !important;
-}
-
-:root[data-theme-effective='dark'] .post-body hr {
-    background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.45), transparent) !important;
-}
-
-:root[data-theme-effective='dark'] .post-body table {
-    border-color: rgba(148, 163, 184, 0.28) !important;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.32) !important;
-}
-
-:root[data-theme-effective='dark'] .post-body tbody tr + tr {
-    border-top-color: rgba(148, 163, 184, 0.2) !important;
-}
-
-/* Keep highlight tables isolated from generic table polish */
-:root[data-theme-effective='dark'] .post-body figure.highlight table,
-:root[data-theme-effective='dark'] .post-body figure.highlight th,
-:root[data-theme-effective='dark'] .post-body figure.highlight td {
-    border: 0 !important;
-    box-shadow: none !important;
-    background: transparent !important;
-}
-
-:root[data-theme-effective='dark'] .post-body figure.highlight tbody tr,
-:root[data-theme-effective='dark'] .post-body figure.highlight tbody tr:hover {
-    background: transparent !important;
-}
-
-:root[data-theme-effective='dark'] .footer-inner {
-    border-top-color: rgba(148, 163, 184, 0.24);
-}
-
-:root[data-theme-effective='dark'] .sidebar-toggle {
-    background: linear-gradient(135deg, rgba(56, 189, 248, 0.88), rgba(45, 212, 191, 0.88)) !important;
-    box-shadow: 0 10px 24px rgba(6, 22, 44, 0.45) !important;
-    border-color: rgba(191, 219, 254, 0.32) !important;
-}
-
-:root[data-theme-effective='dark'] .links-of-author-item a:hover,
-:root[data-theme-effective='dark'] .links-of-blogroll-item a:hover {
-    color: #8ad9ff !important;
-    background: rgba(125, 211, 252, 0.18) !important;
-}
-
-/* Dark mode visual polish: header / sidebar / footer */
-:root[data-theme-effective='dark'] .headband {
-    height: 4px;
-    background: linear-gradient(90deg, rgba(45, 212, 191, 0), rgba(45, 212, 191, 0.82), rgba(125, 211, 252, 0.88), rgba(125, 211, 252, 0));
-}
-
-:root[data-theme-effective='dark'] .site-brand-container,
-:root[data-theme-effective='dark'] .site-nav {
-    background: rgba(8, 18, 34, 0.44) !important;
-    border: 1px solid rgba(140, 182, 231, 0.24);
-    border-radius: 18px;
-    box-shadow: 0 14px 34px rgba(2, 8, 20, 0.34);
-    backdrop-filter: blur(8px) saturate(108%);
-}
-
-:root[data-theme-effective='dark'] .site-brand-container {
-    padding: 8px 14px !important;
-    margin-bottom: 12px;
-}
-
-:root[data-theme-effective='dark'] .site-nav {
-    padding: 4px 8px;
-}
-
-:root[data-theme-effective='dark'] .site-title {
-    color: #f1f7ff !important;
-    letter-spacing: 0.03em;
-}
-
-:root[data-theme-effective='dark'] .site-nav-toggle .toggle,
-:root[data-theme-effective='dark'] .site-nav-right .toggle {
-    border-radius: 12px;
-    background: rgba(125, 211, 252, 0.14);
-    border: 1px solid rgba(125, 211, 252, 0.26);
-}
-
-:root[data-theme-effective='dark'] .main-menu.menu {
-    gap: 0.32rem;
-    justify-content: flex-start !important;
-}
-
-:root[data-theme-effective='dark'] .main-menu .menu-item a {
-    color: #cae0fa !important;
-    border: 1px solid transparent;
-    border-radius: 12px;
-    padding: 7px 12px !important;
-    transition: all 0.24s ease;
-}
-
-:root[data-theme-effective='dark'] .main-menu .menu-item a:hover,
-:root[data-theme-effective='dark'] .main-menu .menu-item-active a {
-    color: #041322 !important;
-    background: linear-gradient(135deg, rgba(125, 211, 252, 0.9), rgba(45, 212, 191, 0.9)) !important;
-    border-color: rgba(125, 211, 252, 0.56);
-    box-shadow: 0 8px 20px rgba(45, 212, 191, 0.24);
-}
-
-:root[data-theme-effective='dark'] .menu-item-theme-toggle a {
-    background: rgba(125, 211, 252, 0.14);
-    border: 1px solid rgba(125, 211, 252, 0.28) !important;
-}
-
-:root[data-theme-effective='dark'] .menu-item-theme-toggle.is-dark a {
-    background: linear-gradient(135deg, rgba(125, 211, 252, 0.9), rgba(45, 212, 191, 0.9)) !important;
-    border-color: rgba(125, 211, 252, 0.56) !important;
-    color: #041322 !important;
-}
-
-:root[data-theme-effective='dark'] .sidebar-inner {
-    border-radius: 22px;
-    background: rgba(10, 19, 34, 0.54) !important;
-    border: 1px solid rgba(140, 182, 231, 0.2);
-    box-shadow: 0 16px 34px rgba(2, 8, 20, 0.36) !important;
-}
-
-:root[data-theme-effective='dark'] .site-author-image {
-    border: 2px solid rgba(125, 211, 252, 0.52);
-    box-shadow: 0 10px 24px rgba(2, 8, 20, 0.45);
-}
-
-:root[data-theme-effective='dark'] .site-state-item a {
-    border: 1px solid rgba(140, 182, 231, 0.22);
-    border-radius: 14px;
-    background: rgba(8, 17, 32, 0.64);
-    transition: all 0.22s ease;
-}
-
-:root[data-theme-effective='dark'] .site-state-item a:hover {
-    border-color: rgba(125, 211, 252, 0.44);
-    background: rgba(45, 212, 191, 0.12);
-}
-
-:root[data-theme-effective='dark'] .links-of-author-item a,
-:root[data-theme-effective='dark'] .links-of-blogroll-item a {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 6px 10px;
-    border-radius: 10px;
-    border: 1px solid rgba(125, 211, 252, 0.24);
-    background: rgba(8, 17, 32, 0.58);
-    color: #cbe3ff !important;
-    transition: all 0.22s ease;
-}
-
-:root[data-theme-effective='dark'] .links-of-author-item a:hover,
-:root[data-theme-effective='dark'] .links-of-blogroll-item a:hover {
-    border-color: rgba(125, 211, 252, 0.46);
-    background: rgba(45, 212, 191, 0.14) !important;
-    color: #f2fbff !important;
-    transform: translateY(-1px);
-}
-
-:root[data-theme-effective='dark'] .footer {
-    margin-top: 22px;
-    text-align: center;
-}
-
-:root[data-theme-effective='dark'] .footer-inner {
-    background: rgba(8, 17, 32, 0.42);
-    border: 1px solid rgba(140, 182, 231, 0.24);
-    border-radius: 18px;
-    padding: 15px 20px;
-    box-shadow: 0 12px 28px rgba(2, 8, 20, 0.3);
-    backdrop-filter: blur(8px);
-}
-
-:root[data-theme-effective='dark'] .copyright,
-:root[data-theme-effective='dark'] .powered-by,
-:root[data-theme-effective='dark'] .powered-by a {
-    color: #a8bfde !important;
-}
-
-:root[data-theme-effective='dark'] .with-love i {
-    color: #5eead4;
-}
-
-/* Final dark cleanup: remove Mist container slabs */
-:root[data-theme-effective='dark'] .column,
-:root[data-theme-effective='dark'] header.header,
-:root[data-theme-effective='dark'] .footer,
-:root[data-theme-effective='dark'] .footer.footer-fixed {
-    background: transparent !important;
-}
-
-:root[data-theme-effective='dark'] .footer-inner {
-    display: inline-flex;
-    width: auto !important;
-    max-width: calc(100% - 24px);
-    margin: 0 auto;
-    text-align: left;
-    align-items: flex-start;
-}
-
-@media (max-width: 768px) {
-    :root[data-theme-effective='dark'] .footer-inner {
-        width: auto !important;
-        max-width: calc(100% - 18px);
-        text-align: center;
-        align-items: center;
-    }
-}
-
-/* Force clean light code blocks even when system prefers dark */
-:root[data-theme-effective='light'] {
-    --highlight-background: #f6f9ff;
-    --highlight-foreground: #2a3b52;
-    --highlight-gutter-background: #eaf2ff;
-    --highlight-gutter-foreground: #6b7f99;
-}
-
-:root[data-theme-effective='light'] figure.highlight,
-:root[data-theme-effective='light'] pre {
-    color-scheme: light !important;
-    background: var(--highlight-background) !important;
-}
-
-:root[data-theme-effective='light'] figure.highlight .gutter pre {
-    background: var(--highlight-gutter-background) !important;
-    color: var(--highlight-gutter-foreground) !important;
-}
-
-:root[data-theme-effective='light'] figure.highlight .code pre,
-:root[data-theme-effective='light'] pre code {
-    background: var(--highlight-background) !important;
-    color: var(--highlight-foreground) !important;
-}
-
-/* Light mode special effects: ambient glass + subtle motion */
-:root[data-theme-effective='light'] body {
-    background: linear-gradient(180deg, #f8fbff 0%, #edf5ff 100%) !important;
-}
-
-:root[data-theme-effective='light'] .site-brand-container,
-:root[data-theme-effective='light'] .site-nav,
-:root[data-theme-effective='light'] .main-inner,
-:root[data-theme-effective='light'] .sidebar-inner,
-:root[data-theme-effective='light'] .post-block,
-:root[data-theme-effective='light'] .post-toc-wrap,
-:root[data-theme-effective='light'] .graph-panel,
-:root[data-theme-effective='light'] .graph-list,
-:root[data-theme-effective='light'] .graph-preview,
-:root[data-theme-effective='light'] .footer-inner {
-    background: rgba(255, 255, 255, 0.78) !important;
-    border-color: rgba(58, 123, 213, 0.14) !important;
-    backdrop-filter: blur(10px) saturate(112%);
-}
-
-:root[data-theme-effective='light'] .site-nav {
-    position: relative;
-    overflow: hidden;
-}
-
-:root[data-theme-effective='light'] .site-nav::after {
-    content: '';
-    position: absolute;
-    inset: -40% auto auto -18%;
-    width: 220px;
-    height: 220px;
-    background: radial-gradient(circle, rgba(58, 123, 213, 0.2) 0%, rgba(58, 123, 213, 0) 72%);
-    pointer-events: none;
-    animation: rbLightFloatA 12s ease-in-out infinite;
-}
-
-:root[data-theme-effective='light'] .main-menu .menu-item a {
-    transition: transform 0.22s ease, box-shadow 0.22s ease, background-color 0.22s ease;
-}
-
-:root[data-theme-effective='light'] .main-menu .menu-item a:hover,
-:root[data-theme-effective='light'] .main-menu .menu-item-active a {
-    transform: translateY(-1px);
-    box-shadow: 0 8px 18px rgba(58, 123, 213, 0.2);
-}
-
-:root[data-theme-effective='light'] .post-block,
-:root[data-theme-effective='light'] .post-toc-wrap,
-:root[data-theme-effective='light'] .graph-panel,
-:root[data-theme-effective='light'] .graph-list,
-:root[data-theme-effective='light'] .graph-preview {
-    transition: transform 0.24s ease, box-shadow 0.24s ease, border-color 0.24s ease;
-}
-
-:root[data-theme-effective='light'] .post-block:hover,
-:root[data-theme-effective='light'] .post-toc-wrap:hover,
-:root[data-theme-effective='light'] .graph-panel:hover,
-:root[data-theme-effective='light'] .graph-list:hover,
-:root[data-theme-effective='light'] .graph-preview:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 16px 36px rgba(30, 73, 126, 0.14) !important;
-    border-color: rgba(58, 123, 213, 0.22) !important;
-}
-
-:root[data-theme-effective='light'] .footer,
-:root[data-theme-effective='light'] .footer.footer-fixed {
-    background: transparent !important;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    #rb-light-backdrop .orb-a,
-    #rb-light-backdrop .orb-b,
-    #rb-light-backdrop .rb-light-grid,
-    :root[data-theme-effective='light'] .site-nav::after,
-    :root[data-theme-effective='light'] .main-menu .menu-item a,
-    :root[data-theme-effective='light'] .post-block,
-    :root[data-theme-effective='light'] .post-toc-wrap,
-    :root[data-theme-effective='light'] .graph-panel,
-    :root[data-theme-effective='light'] .graph-list,
-    :root[data-theme-effective='light'] .graph-preview {
-        animation: none !important;
-        transition: none !important;
-    }
-}
-
-/* Code block layout: prevent clipping and keep clean horizontal scrolling */
-.post-body figure.highlight {
-    display: block;
-    width: max-content;
-    max-width: 100%;
-    overflow-x: auto;
-    background: transparent !important;
-    border: 0 !important;
-    box-shadow: none !important;
-}
-
-.post-body figure.highlight .table-container {
-    width: max-content;
-    min-width: 100%;
-}
-
-.post-body figure.highlight table {
-    width: max-content !important;
-    min-width: 100%;
-    border: 0 !important;
-    box-shadow: none !important;
-}
-
-.post-body figure.highlight .gutter pre {
-    padding-right: 12px !important;
-}
-
-.post-body figure.highlight .code pre {
-    width: auto !important;
-    min-width: max-content;
-    padding-right: 14px;
-}
-
-/* Tag page spacing: remove odd indentation and keep centered flow */
-.page .tag-cloud {
-    margin: 0;
-}
-
-.page .tag-cloud .tag-cloud-tags {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: baseline;
-    gap: 12px 20px;
-    margin: 18px auto 0;
-    max-width: 100%;
-}
-
-.page .tag-cloud .tag-cloud-tags a {
-    margin: 0 !important;
-}
-
-/* Prevent footer jump when sidebar opens on short pages */
-@media (min-width: 1200px) {
-    .sidebar-active {
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-    }
-
-    .sidebar-active .footer.footer-fixed {
-        left: 0 !important;
-        right: 0 !important;
-    }
-}
+  .main-menu.menu
+    flex-wrap nowrap
+    overflow-x auto
+    scrollbar-width none
+
+  .main-menu.menu::-webkit-scrollbar
+    display none
