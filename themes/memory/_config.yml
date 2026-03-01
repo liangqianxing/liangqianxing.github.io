@@ -32,7 +32,8 @@ search:
 
 # Miscellaneous
 google_analytics:
-author_url: https://artifact.me
+author_url: https://liangqianxing.github.io/
+favicon: /img/logo.png
 
 # Scss
 node_sass:
