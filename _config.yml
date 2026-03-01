@@ -92,7 +92,7 @@ exclude:
 ignore:
 
 # Theme
-theme: landscape
+theme: memory
 
 # Deployment
 deploy:

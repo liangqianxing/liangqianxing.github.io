@@ -1,0 +1,50 @@
+@import "variables";
+
+#page-nav {
+  position: relative;
+  width: 100%;
+  margin: 30px 0;
+  padding: 0;
+
+  .page-number,
+  .space {
+    display: none;
+  }
+  .next,
+  .prev {
+    font-size: 13px;
+    font-weight: normal;
+    color: lighten($text-color, 40%);
+    border-radius: 2px;
+
+    @media (prefers-color-scheme: dark) {
+      color: darken($dark-mode-text-color, 30%);
+    }
+    &:hover {
+      color: $white;
+      background-color: $text-color;
+
+      @media (prefers-color-scheme: dark) {
+        color: $dark-mode-text-color;
+        background-color: $dark-mode-dark-background;
+      }
+    }
+    span {
+      line-height: 20px;
+      vertical-align: middle;
+
+      &.icon {
+        position: relative;
+        top: 1px;
+      }
+    }
+  }
+  .next {
+    float: right;
+    padding: 0 7px 2px 10px;
+  }
+  .prev {
+    float: left;
+    padding: 0 10px 2px 7px;
+  }
+}
