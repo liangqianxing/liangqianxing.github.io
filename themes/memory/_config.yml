@@ -10,6 +10,9 @@ menu:
 - name: Archives
   slug: archives
   url: /archives
+- name: Friends
+  slug: friends
+  url: /links
 
 # Search
 search: 
