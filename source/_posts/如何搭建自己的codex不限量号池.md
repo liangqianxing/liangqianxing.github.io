@@ -41,7 +41,9 @@ categories:
 
 ## API系统
 
-### [New-API](https://github.com/QuantumNous/new-api)
+### New-API
+
+项目地址：[New-API](https://github.com/QuantumNous/new-api)
 
 现在大部分中间站都搭建在`New-api` ，可以一键导入号池，设置模型等
 
