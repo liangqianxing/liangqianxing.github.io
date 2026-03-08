@@ -2,12 +2,6 @@
 
 这是一个重新起步的 Hexo 博客仓库。
 
-## 入口链接
-
-- 博客: https://liangqianxing.github.io/posts/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84codex%E4%B8%8D%E9%99%90%E9%87%8F%E5%8F%B7%E6%B1%A0/
-- 中转站: http://81.70.32.82/
-- 卡密商店: https://pay.ldxp.cn/shop/TUQKNUNV
-
 ## 当前状态
 
 - 框架: Hexo 8
