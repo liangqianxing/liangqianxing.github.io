@@ -1,5 +1,7 @@
 ﻿---
 title: 如何搭建自己的 codex 不限量号池
+slug: codex-account-pool-setup
+permalink: posts/codex-account-pool-setup/
 date: 2026-03-08 23:30:00
 tags:
   - codex
