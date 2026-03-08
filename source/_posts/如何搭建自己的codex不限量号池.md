@@ -15,7 +15,7 @@ categories:
 > 您也可以使用我搭好的网站试一下效果  39元一个月2000刀余额
 > [Codex小店](https://pay.ldxp.cn/shop/TUQKNUNV)
 > [Codex中转站](http://81.70.32.82/)
-> [GitHub仓库](https://github.com/liangqianxing/liangqianxing.github.io)（欢迎点个 Star 支持一下）
+> [GitHub仓库](https://github.com/liangqianxing/codex-growth-playbook)（欢迎点个 Star 支持一下）
 
 ## 云服务器
 
@@ -27,7 +27,7 @@ categories:
 
 ![免费云服务器活动页](/images/posts/codex-account-pool/cloud-server-offer.png)
 
-![云服务器控制台](/images/posts/codex-account-pool/cloud-server-console.png)
+<p class="small-img"><img src="/images/posts/codex-account-pool/cloud-server-console.png" alt="云服务器控制台" style="width:50%; margin:0 auto;"></p>
 
 由于国内站点无法直连`chatgpt.com`和api.openai.com
 所以我设置了一下连接规则。
@@ -84,4 +84,4 @@ QQ:2264535298
 
 如果这篇文章对你有帮助，欢迎给我的 GitHub 仓库点个 Star：
 
-`https://github.com/liangqianxing/liangqianxing.github.io`
+`https://github.com/liangqianxing/codex-growth-playbook`
