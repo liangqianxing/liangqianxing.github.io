@@ -1,3 +1,4 @@
+@use "sass:color";
 // Font families
 $fallback-font-family: Helvetica, Arial, "Hiragino Sans GB", "Hiragino Sans GB W3", Microsoft JhengHei, WenQuanYi Micro Hei, "Microsoft YaHei", sans-serif;
 $base-font-family: "Roboto", $fallback-font-family;
@@ -54,15 +55,16 @@ $grey-color: #828282;
 // Dark mode
 $dark-mode-brand-color: $material-teal;
 $dark-mode-accent-color: $material-orange;
-$dark-mode-background: darken(#15202b, 5%);
-$dark-mode-light-background: lighten($dark-mode-background, 5%);
-$dark-mode-dark-background: darken($dark-mode-background, 5%);
-$dark-mode-text-color: lighten($dark-mode-background, 60%);
-$dark-mode-light-text-color: lighten($dark-mode-background, 80%);
-$dark-mode-dark-text-color: lighten($dark-mode-background, 40%);
+$dark-mode-background: color.adjust(#15202b, $lightness: -5%);
+$dark-mode-light-background: color.adjust($dark-mode-background, $lightness: 5%);
+$dark-mode-dark-background: color.adjust($dark-mode-background, $lightness: -5%);
+$dark-mode-text-color: color.adjust($dark-mode-background, $lightness: 60%);
+$dark-mode-light-text-color: color.adjust($dark-mode-background, $lightness: 80%);
+$dark-mode-dark-text-color: color.adjust($dark-mode-background, $lightness: 40%);
 
 // Responsive limits
 $modal-threshold: 680px;
 $on-phone: 820px;
 $on-laptop: 990px;
 $on-desktop: 1200px;
+

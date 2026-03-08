@@ -99,6 +99,10 @@ deploy:
   type: ''
 
 # Plugins
+sass:
+  silenceDeprecations:
+    - legacy-js-api
+
 feed:
   type: atom
   path: atom.xml
