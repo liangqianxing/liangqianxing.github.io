@@ -13,6 +13,57 @@
         <div class="article-entry" itemprop="articleBody">
             <%- post.content %>
         </div>
+        <% if (is_post()) { %>
+            <%
+            var shareTitle = post.title || config.title;
+            var shareRawDescription = post.description || post.excerpt || '';
+            var shareDescription = strip_html(shareRawDescription).replace(/\s+/g, ' ').trim();
+            if (shareDescription.length > 120) {
+                shareDescription = shareDescription.substring(0, 120);
+            }
+            var shareUrl = full_url_for(post.path || page.path || '/');
+            var shareImage = post.cover || post.thumbnail || (post.photos && post.photos[0]) || '/img/logo.png';
+            if (/^\/\//.test(shareImage)) {
+                shareImage = 'https:' + shareImage;
+            } else if (!/^https?:\/\//i.test(shareImage)) {
+                shareImage = full_url_for(shareImage);
+            }
+            var qzoneShareUrl = 'https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=' + encodeURIComponent(shareUrl) + '&title=' + encodeURIComponent(shareTitle) + '&summary=' + encodeURIComponent(shareDescription) + '&pics=' + encodeURIComponent(shareImage);
+            var wechatQrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=260x260&data=' + encodeURIComponent(shareUrl);
+            %>
+            <style>
+                .article-share { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-top:34px; }
+                .article-share .share-label { font-size:12px; color:#888; }
+                .article-share .share-btn { border:1px solid #d7d7d7; background:#f7f7f7; color:#444; border-radius:4px; padding:7px 12px; font-size:12px; line-height:1.2; cursor:pointer; text-decoration:none; }
+                .article-share .share-btn:hover { border-color:#98c379; background:#edf6e6; color:#2d2d2d; }
+                .article-share .share-btn.is-success { border-color:#98c379; background:#e1f2d6; color:#2d2d2d; }
+                .wechat-share-panel { margin-top:12px; border:1px dashed #d7d7d7; border-radius:8px; padding:16px; background:#fafafa; }
+                .wechat-share-panel[hidden] { display:none; }
+                .wechat-share-panel .wechat-share-inner { display:flex; flex-direction:column; align-items:center; gap:10px; text-align:center; }
+                .wechat-share-panel img { width:200px; max-width:100%; margin:0; padding:8px; border:1px solid #dedede; background:#fff; box-shadow:none; }
+                .wechat-share-panel p { margin:0; font-size:12px; color:#666; }
+                .wechat-share-panel .wechat-share-actions { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+                @media (max-width: 760px) {
+                    .article-share .share-btn { flex:1 1 auto; text-align:center; }
+                }
+            </style>
+            <div class="article-share" data-share-url="<%= shareUrl %>">
+                <span class="share-label">分享这篇文章</span>
+                <a class="share-btn" href="<%= qzoneShareUrl %>" target="_blank" rel="noopener noreferrer">QQ空间</a>
+                <button class="share-btn share-wechat-toggle" type="button" aria-expanded="false" aria-controls="wechat-share-panel">微信朋友圈</button>
+                <button class="share-btn share-copy" type="button" data-copy="<%= shareUrl %>">复制链接</button>
+            </div>
+            <div class="wechat-share-panel" id="wechat-share-panel" hidden>
+                <div class="wechat-share-inner">
+                    <img src="<%= wechatQrUrl %>" alt="微信扫码打开文章链接">
+                    <p>微信扫码打开后，点击右上角转发到朋友圈</p>
+                    <div class="wechat-share-actions">
+                        <button class="share-btn share-copy" type="button" data-copy="<%= shareUrl %>">复制链接</button>
+                        <button class="share-btn share-wechat-close" type="button">关闭</button>
+                    </div>
+                </div>
+            </div>
+        <% } %>
         <div class="article-tags tags">
             <% if (post.tags && post.tags.length){ %>
                 <%- list_tags(post.tags, {
