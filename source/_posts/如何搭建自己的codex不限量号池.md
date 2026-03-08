@@ -3,6 +3,8 @@ title: 如何搭建自己的 codex 不限量号池
 slug: codex-account-pool-setup
 permalink: posts/codex-account-pool-setup/
 date: 2026-03-08 23:30:00
+description: 从0元云服务器领取、代理配置到 New-API 接入，实测搭建 Codex 不限量号池，并记录首日收入 166.16 元。
+cover: /images/posts/codex-account-pool/cloud-server-offer.png
 tags:
   - codex
   - api

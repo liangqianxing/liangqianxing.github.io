@@ -15,20 +15,46 @@
     } else if (is_tag()) {
         title = 'Tag: ' + page.tag;
     }
+    var pageTitle = title ? title + ' | ' + config.title : config.title;
+    var locale = (config.language || 'zh-CN').replace('-', '_');
+    var rawDescription = page.description || page.excerpt || config.description || '';
+    var shareDescription = strip_html(rawDescription).replace(/\s+/g, ' ').trim();
+    if (shareDescription.length > 120) {
+        shareDescription = shareDescription.substring(0, 120);
+    }
+    if (!shareDescription) {
+        shareDescription = config.description || '';
+    }
+    function toAbsoluteUrl(path) {
+        if (!path) return '';
+        if (/^https?:\/\//i.test(path)) return path;
+        if (/^\/\//.test(path)) return 'https:' + path;
+        return full_url_for(path);
+    }
+    var pageUrl = full_url_for(page.path || '/');
+    var shareImage = toAbsoluteUrl(page.cover || page.thumbnail || (page.photos && page.photos[0]) || theme.favicon || '/img/logo.png');
     %>
-    <title><% if (title) { %><%= title %> | <% } %><%= config.title %></title>
+    <title><%= pageTitle %></title>
+    <link rel="canonical" href="<%= pageUrl %>">
+    <meta name="description" content="<%= shareDescription %>"/>
     <meta name="keywords" content="<%- theme.keywords %>"/>
     <meta name="HandheldFriendly" content="True"/>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="google-site-verification" content="<%= config.google_site_verification %>"/>
     <meta name="baidu-site-verification" content="<%= config.baidu_site_verification %>"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <%- open_graph({
-        twitter_id: theme.twitter,
-        google_plus: theme.google_plus,
-        fb_admins: theme.fb_admins,
-        fb_app_id: theme.fb_app_id
-    }) %>
+    <meta property="og:type" content="<%= is_post() ? 'article' : 'website' %>">
+    <meta property="og:title" content="<%= title || config.title %>">
+    <meta property="og:url" content="<%= pageUrl %>">
+    <meta property="og:site_name" content="<%= config.title %>">
+    <meta property="og:description" content="<%= shareDescription %>">
+    <meta property="og:locale" content="<%= locale %>">
+    <meta property="og:image" content="<%= shareImage %>">
+    <meta property="og:image:alt" content="<%= title || config.title %>">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<%= title || config.title %>">
+    <meta name="twitter:description" content="<%= shareDescription %>">
+    <meta name="twitter:image" content="<%= shareImage %>">
     <% if (theme.rss) { %>
         <link rel="alternative" href="<%- theme.rss %>" title="<%= config.title %>" type="application/atom+xml">
     <% } %>
