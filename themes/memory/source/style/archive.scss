@@ -1,5 +1,5 @@
-@import "variables";
-
+@use "sass:color";
+@use "variables" as *;
 #archive-page {
 
   .archive {
@@ -20,12 +20,12 @@
           color: $dark-mode-text-color;
         }
         &:hover {
-          border-left-color: lighten($brand-color, 10%);
-          background-color: lighten($background-color, 2%);
+          border-left-color: color.adjust($brand-color, $lightness: 10%);
+          background-color: color.adjust($background-color, $lightness: 2%);
 
           @media (prefers-color-scheme: dark) {
-            border-left-color: lighten($dark-mode-brand-color, 10%);
-            background-color: darken($dark-mode-light-background, 5%);
+            border-left-color: color.adjust($dark-mode-brand-color, $lightness: 10%);
+            background-color: color.adjust($dark-mode-light-background, $lightness: -5%);
           }
         }
       }
@@ -50,3 +50,4 @@
     }
   }
 }
+

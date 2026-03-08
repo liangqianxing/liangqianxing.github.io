@@ -1,5 +1,5 @@
-@import "variables";
-
+@use "sass:color";
+@use "variables" as *;
 #main {
   position: relative;
   width: 100%;
@@ -36,10 +36,10 @@
     h1 {
       font-size: 13px;
       font-weight: normal;
-      color: lighten($grey-color, 20%);
+      color: color.adjust($grey-color, $lightness: 20%);
 
       @media (prefers-color-scheme: dark) {
-        color: darken($dark-mode-text-color, 30%);
+        color: color.adjust($dark-mode-text-color, $lightness: -30%);
       }
     }
   }
@@ -104,17 +104,17 @@
         display: inline;
         line-height: 1.25;
         font-weight: normal;
-        color: lighten($text-color, 2%);
+        color: color.adjust($text-color, $lightness: 2%);
 
         @media (prefers-color-scheme: dark) {
-          color: lighten($dark-mode-text-color, 5%);
+          color: color.adjust($dark-mode-text-color, $lightness: 5%);
         }
 
         &:hover {
-          color: lighten($accent-color, 3%);
+          color: color.adjust($accent-color, $lightness: 3%);
 
           @media (prefers-color-scheme: dark) {
-            color: lighten($dark-mode-accent-color, 5%);
+            color: color.adjust($dark-mode-accent-color, $lightness: 5%);
           }
         }
       }
@@ -122,12 +122,12 @@
     > time {
       display: block;
       text-align: center;
-      color: lighten($grey-color, 20%);
+      color: color.adjust($grey-color, $lightness: 20%);
       font-size: 0.75em;
       margin-bottom: 30px;
 
       @media (prefers-color-scheme: dark) {
-        color: darken($dark-mode-text-color, 30%);
+        color: color.adjust($dark-mode-text-color, $lightness: -30%);
       }
     }
     .image {
@@ -151,3 +151,4 @@
     }
   }
 }
+

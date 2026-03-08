@@ -1,5 +1,5 @@
-@import "variables";
-
+@use "sass:color";
+@use "variables" as *;
 * {
   box-sizing: border-box;
   outline: none;
@@ -49,13 +49,13 @@ body {
 }
 
 ::-moz-selection {
-  background: rgba(lighten($material-orange, 15%), 70%);
-  color: darken($text-color, 20%);
+  background: rgba(color.adjust($material-orange, $lightness: 15%), 70%);
+  color: color.adjust($text-color, $lightness: -20%);
 }
 
 ::selection {
-  background: rgba(lighten($material-orange, 15%), 70%);
-  color: darken($text-color, 20%);
+  background: rgba(color.adjust($material-orange, $lightness: 15%), 70%);
+  color: color.adjust($text-color, $lightness: -20%);
 }
 
 h1, h2, h3,
@@ -115,38 +115,38 @@ pre {
 }
 
 ::-webkit-input-placeholder {
-  color: lighten($grey-color, 20%);
+  color: color.adjust($grey-color, $lightness: 20%);
   font-weight: normal;
 
   @media (prefers-color-scheme: dark) {
-    color: darken($dark-mode-text-color, 20%);
+    color: color.adjust($dark-mode-text-color, $lightness: -20%);
   }
 }
 
 :-moz-placeholder { /* Firefox 18- */
-  color: lighten($grey-color, 20%);
+  color: color.adjust($grey-color, $lightness: 20%);
   font-weight: normal;
 
   @media (prefers-color-scheme: dark) {
-    color: darken($dark-mode-text-color, 20%);
+    color: color.adjust($dark-mode-text-color, $lightness: -20%);
   }
 }
 
 ::-moz-placeholder {  /* Firefox 19+ */
-  color: lighten($grey-color, 20%);
+  color: color.adjust($grey-color, $lightness: 20%);
   font-weight: normal;
 
   @media (prefers-color-scheme: dark) {
-    color: darken($dark-mode-text-color, 20%);
+    color: color.adjust($dark-mode-text-color, $lightness: -20%);
   }
 }
 
 :-ms-input-placeholder {
-  color: lighten($grey-color, 20%);
+  color: color.adjust($grey-color, $lightness: 20%);
   font-weight: normal;
 
   @media (prefers-color-scheme: dark) {
-    color: darken($dark-mode-text-color, 20%);
+    color: color.adjust($dark-mode-text-color, $lightness: -20%);
   }
 }
 
@@ -232,3 +232,5 @@ pre {
     margin: 0 auto;
   }
 }
+
+

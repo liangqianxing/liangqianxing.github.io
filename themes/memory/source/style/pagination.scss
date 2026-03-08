@@ -1,5 +1,5 @@
-@import "variables";
-
+@use "sass:color";
+@use "variables" as *;
 #page-nav {
   position: relative;
   width: 100%;
@@ -14,11 +14,11 @@
   .prev {
     font-size: 13px;
     font-weight: normal;
-    color: lighten($text-color, 40%);
+    color: color.adjust($text-color, $lightness: 40%);
     border-radius: 2px;
 
     @media (prefers-color-scheme: dark) {
-      color: darken($dark-mode-text-color, 30%);
+      color: color.adjust($dark-mode-text-color, $lightness: -30%);
     }
     &:hover {
       color: $white;
@@ -48,3 +48,5 @@
     padding: 0 10px 2px 7px;
   }
 }
+
+

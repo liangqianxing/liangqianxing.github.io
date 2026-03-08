@@ -1,7 +1,7 @@
-@import "variables";
-
+@use "sass:color";
+@use "variables" as *;
 .content {
-  color: lighten($text-color, 2%);
+  color: color.adjust($text-color, $lightness: 2%);
   font-size: 14px;
   line-height: 1.75em;
   padding: 0 30px;
@@ -32,7 +32,7 @@
     transition: all 0.24s ease;
 
     @media (prefers-color-scheme: dark) {
-      background-color: lighten($dark-mode-light-background, 5%);
+      background-color: color.adjust($dark-mode-light-background, $lightness: 5%);
       box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
     }
     @media (max-width: $on-phone)  {
@@ -46,7 +46,7 @@
     border-bottom: 1px solid #ddd;
 
     @media (prefers-color-scheme: dark) {
-      border-bottom-color: lighten($dark-mode-light-background, 8%);
+      border-bottom-color: color.adjust($dark-mode-light-background, $lightness: 8%);
     }
   }
   p.small-img,
@@ -68,17 +68,17 @@
     padding-left: 30px;
   }
   a {
-    color: darken($brand-color, 2%);
+    color: color.adjust($brand-color, $lightness: -2%);
 
     @media (prefers-color-scheme: dark) {
-      color: darken($dark-mode-brand-color, 2%);
+      color: color.adjust($dark-mode-brand-color, $lightness: -2%);
     }
     &:hover {
-      color: darken($brand-color, 4%);
+      color: color.adjust($brand-color, $lightness: -4%);
       background: rgba($brand-color, 0.1);
 
       @media (prefers-color-scheme: dark) {
-        color: darken($dark-mode-brand-color, 4%);
+        color: color.adjust($dark-mode-brand-color, $lightness: -4%);
         background: rgba($dark-mode-brand-color, 0.1);
       }
     }
@@ -153,27 +153,27 @@
   }
   code {
     font-family: $code-font-family;
-    color: darken($brand-color, 2%);
+    color: color.adjust($brand-color, $lightness: -2%);
     padding: 3px 5px;
     margin: 0 2px;
     border-radius: 2px;
     white-space: nowrap;
     font-size: 1em;
-    background-color: lighten($background-color, 5%);
+    background-color: color.adjust($background-color, $lightness: 5%);
 
     @media (prefers-color-scheme: dark) {
-      color: darken($dark-mode-brand-color, 2%);
-      background-color: darken($dark-mode-background, 5%);
+      color: color.adjust($dark-mode-brand-color, $lightness: -2%);
+      background-color: color.adjust($dark-mode-background, $lightness: -5%);
     }
   }
   .highlight {
     width: 100%;
     margin: 20px 0;
-    background-color: lighten($background-color, 5%);
+    background-color: color.adjust($background-color, $lightness: 5%);
     overflow: auto;
 
     @media (prefers-color-scheme: dark) {
-      background-color: darken($dark-mode-background, 5%);
+      background-color: color.adjust($dark-mode-background, $lightness: -5%);
     }
     figcaption {
       background-color: transparent;
@@ -294,3 +294,5 @@
 .tomorrow-purple, pre .keyword, pre .javascript .function {
   color: #8959a8;
 }
+
+

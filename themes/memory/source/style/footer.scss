@@ -1,5 +1,5 @@
-@import "variables";
-
+@use "sass:color";
+@use "variables" as *;
 #footer {
   position: relative;
   padding: 0 20px 30px 20px;
@@ -15,17 +15,17 @@
   z-index: 3;
 
   @media (prefers-color-scheme: dark) {
-    color: darken($dark-mode-text-color, 20%);
+    color: color.adjust($dark-mode-text-color, $lightness: -20%);
   }
   &.loaded {
     transform: translate3d(0px, 0px, 0px);
     opacity: 1;
   }
   .codename {
-    color: darken($brand-color, 10%);
+    color: color.adjust($brand-color, $lightness: -10%);
 
     @media (prefers-color-scheme: dark) {
-      color: darken($dark-mode-brand-color, 5%);
+      color: color.adjust($dark-mode-brand-color, $lightness: -5%);
     }
   }
   .social-wrapper {
@@ -41,11 +41,11 @@
       color: $dark-mode-text-color;
     }
     &:hover {
-      color: darken($brand-color, 3%);
+      color: color.adjust($brand-color, $lightness: -3%);
       background-color: rgba($brand-color, 0.1);
 
       @media (prefers-color-scheme: dark) {
-        color: darken($dark-mode-brand-color, 3%);
+        color: color.adjust($dark-mode-brand-color, $lightness: -3%);
         background-color: rgba($dark-mode-brand-color, 0.1);
       }
     }
@@ -131,3 +131,5 @@
     }
   }
 }
+
+

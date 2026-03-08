@@ -1,5 +1,5 @@
-@import "variables";
-
+@use "sass:color";
+@use "variables" as *;
 #header {
   position: relative;
   width: 100%;
@@ -10,7 +10,7 @@
   z-index: 3;
 
   @media (prefers-color-scheme: dark) {
-    border-top-color: darken($dark-mode-background, 3%);
+    border-top-color: color.adjust($dark-mode-background, $lightness: -3%);
   }
 
   #header-wrapper {
@@ -19,7 +19,7 @@
     height: 70px;
     background: $white;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
-    border-bottom: 1px solid lighten(#DEDFE1, 1%);
+    border-bottom: 1px solid color.adjust(#DEDFE1, $lightness: 1%);
     padding: 0 20px;
     z-index: 3;
 
@@ -43,12 +43,12 @@
     transition: all 0.36s;
 
     @media (prefers-color-scheme: dark) {
-      background-color: darken($dark-mode-light-background, 3%);
+      background-color: color.adjust($dark-mode-light-background, $lightness: -3%);
     }
 
     &:hover {
       @media (prefers-color-scheme: dark) {
-        background-color: darken($dark-mode-light-background, 6%);
+        background-color: color.adjust($dark-mode-light-background, $lightness: -6%);
       }
     }
 
@@ -102,3 +102,5 @@
     }
   }
 }
+
+
