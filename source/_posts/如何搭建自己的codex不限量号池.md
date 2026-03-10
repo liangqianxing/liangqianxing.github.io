@@ -1,4 +1,5 @@
-﻿---
+---
+published: false
 title: 如何搭建自己的 codex 不限量号池
 slug: codex-account-pool-setup
 permalink: posts/codex-account-pool-setup/
