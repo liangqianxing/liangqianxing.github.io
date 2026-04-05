@@ -34,10 +34,26 @@
     }, { passive: true });
   }
 
-  // Highlight active TOC link on scroll
+  // Fix TOC links: Hexo toc() helper sometimes omits href for CJK headings
+  // Match each TOC item to the corresponding heading by text content
   const tocLinks = document.querySelectorAll('.post-toc .toc a');
   if (tocLinks.length) {
     const headings = Array.from(document.querySelectorAll('.post-content h1, .post-content h2, .post-content h3'));
+
+    // Patch missing hrefs by matching text
+    tocLinks.forEach(a => {
+      if (!a.getAttribute('href')) {
+        const text = a.querySelector('.toc-text');
+        if (!text) return;
+        const label = text.textContent.trim();
+        const heading = headings.find(h => h.textContent.trim() === label);
+        if (heading && heading.id) {
+          a.setAttribute('href', '#' + heading.id);
+        }
+      }
+    });
+
+    // Highlight active TOC link on scroll
     const onScroll = () => {
       const scrollY = window.scrollY + 100;
       let active = headings[0];

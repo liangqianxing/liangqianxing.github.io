@@ -121,3 +121,8 @@ robotstxt:
   allow:
     - /
   sitemap: /sitemap.xml
+
+# Markdown renderer
+marked:
+  headerIds: true
+  gfm: true
