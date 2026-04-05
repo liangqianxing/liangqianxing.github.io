@@ -35,10 +35,12 @@
   }
 
   // Build TOC dynamically from actual heading IDs in the page
-  const tocList = document.getElementById('tocList');
-  const headings = Array.from(document.querySelectorAll('.post-content h1, .post-content h2, .post-content h3'));
+  function buildToc() {
+    const tocList = document.getElementById('tocList');
+    if (!tocList) return;
+    const headings = Array.from(document.querySelectorAll('.post-content h1, .post-content h2, .post-content h3'));
+    if (!headings.length) return;
 
-  if (tocList && headings.length) {
     headings.forEach(h => {
       if (!h.id) return;
       const level = parseInt(h.tagName[1]);
@@ -68,5 +70,11 @@
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', buildToc);
+  } else {
+    buildToc();
   }
 })();
