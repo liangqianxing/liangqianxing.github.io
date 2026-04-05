@@ -34,26 +34,26 @@
     }, { passive: true });
   }
 
-  // Fix TOC links: Hexo toc() helper sometimes omits href for CJK headings
-  // Match each TOC item to the corresponding heading by text content
-  const tocLinks = document.querySelectorAll('.post-toc .toc a');
-  if (tocLinks.length) {
-    const headings = Array.from(document.querySelectorAll('.post-content h1, .post-content h2, .post-content h3'));
+  // Build TOC dynamically from actual heading IDs in the page
+  const tocList = document.getElementById('tocList');
+  const headings = Array.from(document.querySelectorAll('.post-content h1, .post-content h2, .post-content h3'));
 
-    // Patch missing hrefs by matching text
-    tocLinks.forEach(a => {
-      if (!a.getAttribute('href')) {
-        const text = a.querySelector('.toc-text');
-        if (!text) return;
-        const label = text.textContent.trim();
-        const heading = headings.find(h => h.textContent.trim() === label);
-        if (heading && heading.id) {
-          a.setAttribute('href', '#' + heading.id);
-        }
-      }
+  if (tocList && headings.length) {
+    headings.forEach(h => {
+      if (!h.id) return;
+      const level = parseInt(h.tagName[1]);
+      const li = document.createElement('li');
+      li.className = `toc-item toc-level-${level}`;
+      const a = document.createElement('a');
+      a.className = 'toc-link';
+      a.href = '#' + h.id;
+      a.textContent = h.textContent.trim();
+      li.appendChild(a);
+      tocList.appendChild(li);
     });
 
-    // Highlight active TOC link on scroll
+    // Highlight active on scroll
+    const tocLinks = tocList.querySelectorAll('a');
     const onScroll = () => {
       const scrollY = window.scrollY + 100;
       let active = headings[0];
@@ -62,7 +62,7 @@
       }
       tocLinks.forEach(a => a.classList.remove('active'));
       if (active) {
-        const match = document.querySelector(`.post-toc .toc a[href="#${CSS.escape(active.id)}"]`);
+        const match = tocList.querySelector(`a[href="#${CSS.escape(active.id)}"]`);
         if (match) match.classList.add('active');
       }
     };
