@@ -12,6 +12,8 @@
   --accent: #3b82f6;
   --accent-hover: #2563eb;
   --accent-muted: rgba(59, 130, 246, 0.1);
+  --accent-rgb: 59, 130, 246;
+  --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
   --border: #e9ecef;
   --border-hover: #dee2e6;
   --shadow-sm: 0 1px 2px rgba(0,0,0,.05);
@@ -38,6 +40,8 @@
   --accent: #60a5fa;
   --accent-hover: #93c5fd;
   --accent-muted: rgba(96, 165, 250, 0.1);
+  --accent-rgb: 96, 165, 250;
+  --accent-gradient: linear-gradient(135deg, #60a5fa 0%, #22d3ee 100%);
   --border: #334155;
   --border-hover: #475569;
   --shadow-sm: 0 1px 2px rgba(0,0,0,.4);
@@ -222,8 +226,19 @@ img { max-width: 100%; height: auto; display: block; }
   width: 140px; height: 140px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid var(--border);
-  box-shadow: var(--shadow-lg);
+  border: 3px solid var(--bg-primary);
+  box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.3), var(--shadow-lg);
+  animation: breathingGlow 4s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+.hero-avatar img:hover {
+  transform: rotate(4deg) scale(1.05);
+}
+
+@keyframes breathingGlow {
+  0%   { box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.2), 0 0 10px rgba(var(--accent-rgb), 0.1); }
+  50%  { box-shadow: 0 0 0 6px rgba(var(--accent-rgb), 0.1), 0 0 22px rgba(var(--accent-rgb), 0.25); }
+  100% { box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.2), 0 0 10px rgba(var(--accent-rgb), 0.1); }
 }
 
 .hero-info { flex: 1; }
@@ -241,7 +256,11 @@ img { max-width: 100%; height: auto; display: block; }
 .hero-name-cn {
   font-size: 1.25rem;
   font-weight: 400;
-  color: var(--text-tertiary);
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .hero-tagline {
@@ -296,8 +315,11 @@ img { max-width: 100%; height: auto; display: block; }
   border-color: var(--accent);
   color: var(--accent);
   background: var(--accent-muted);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-sm);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.2);
+}
+.social-btn:active {
+  transform: translateY(0) scale(0.96);
 }
 
 @media (max-width: 640px) {
@@ -334,7 +356,7 @@ img { max-width: 100%; height: auto; display: block; }
   position: absolute;
   left: 0; top: 0.2em; bottom: 0.2em;
   width: 3px;
-  background: var(--accent);
+  background: var(--accent-gradient);
   border-radius: 2px;
 }
 
@@ -398,12 +420,15 @@ img { max-width: 100%; height: auto; display: block; }
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: all var(--transition);
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+              box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+              border-color 0.2s ease;
+  will-change: transform;
 }
 .post-card:hover {
   border-color: var(--accent);
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(var(--accent-rgb), 0.15);
+  transform: translateY(-4px);
 }
 
 .post-card-body { padding: 1.25rem 1.25rem 0.75rem; flex: 1; }
@@ -620,8 +645,20 @@ img { max-width: 100%; height: auto; display: block; }
 
 .post-content p { margin: 1rem 0; }
 
-.post-content a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
-.post-content a:hover { color: var(--accent-hover); }
+.post-content a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  background: linear-gradient(to right, var(--accent), var(--accent)) no-repeat;
+  background-size: 0 2px;
+  background-position: left bottom;
+  padding-bottom: 1px;
+  transition: background-size 0.3s ease, color var(--transition);
+}
+.post-content a:hover {
+  color: var(--accent-hover);
+  background-size: 100% 2px;
+}
 
 .post-content ul, .post-content ol { margin: 1rem 0; padding-left: 1.75rem; }
 .post-content li { margin: 0.35rem 0; }
@@ -629,11 +666,20 @@ img { max-width: 100%; height: auto; display: block; }
 .post-content blockquote {
   margin: 1.5rem 0;
   padding: 0.75rem 1.25rem;
-  border-left: 3px solid var(--accent);
   background: var(--accent-muted);
+  border-left: none;
   border-radius: 0 var(--radius-md) var(--radius-md) 0;
   color: var(--text-secondary);
   font-style: italic;
+  position: relative;
+}
+.post-content blockquote::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: var(--accent-gradient);
+  border-radius: 4px;
 }
 
 .post-content code {
