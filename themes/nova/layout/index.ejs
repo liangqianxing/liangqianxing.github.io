@@ -1,107 +1,130 @@
-<section class="hero">
-  <div class="hero-inner">
-    <div class="hero-avatar">
-      <img src="<%- url_for(theme.profile.avatar || '/images/avatar.jpg') %>" alt="<%= theme.profile.name %>" onerror="this.src='https://ui-avatars.com/api/?name=<%= theme.profile.name %>&size=200&background=3b82f6&color=fff'">
-    </div>
-    <div class="hero-info">
-      <h1 class="hero-name">
-        <%= theme.profile.name %>
-        <% if (theme.profile.name_cn) { %><span class="hero-name-cn"><%= theme.profile.name_cn %></span><% } %>
-      </h1>
-      <p class="hero-tagline"><%= theme.profile.tagline %></p>
-      <p class="hero-bio"><%= theme.profile.bio %></p>
-      <div class="hero-meta">
+<div class="academic-wrapper">
+
+  <!-- 左侧固定 Sidebar -->
+  <aside class="academic-sidebar">
+    <div class="profile-sticky">
+      <img
+        src="<%- url_for(theme.profile.avatar || '/images/avatar.jpg') %>"
+        alt="<%= theme.profile.name %>"
+        class="profile-avatar"
+        onerror="this.src='https://ui-avatars.com/api/?name=<%= encodeURIComponent(theme.profile.name) %>&size=200&background=3b82f6&color=fff'"
+      >
+      <h1 class="profile-name"><%= theme.profile.name %></h1>
+      <% if (theme.profile.name_cn) { %>
+      <p class="profile-name-cn"><%= theme.profile.name_cn %></p>
+      <% } %>
+      <p class="profile-tagline"><%= theme.profile.tagline %></p>
+
+      <% if (theme.profile.location || theme.profile.institution) { %>
+      <div class="profile-meta">
+        <% if (theme.profile.institution) { %>
+        <p class="profile-meta-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <%= theme.profile.institution %>
+        </p>
+        <% } %>
         <% if (theme.profile.location) { %>
-        <span class="hero-location">
+        <p class="profile-meta-item">
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
           <%= theme.profile.location %>
-        </span>
+        </p>
+        <% } %>
+        <% if (theme.profile.email) { %>
+        <p class="profile-meta-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <%= theme.profile.email %>
+        </p>
         <% } %>
       </div>
-      <div class="hero-social">
-        <% const social = theme.social || {} %>
+      <% } %>
+
+      <div class="profile-social">
+        <% const social = theme.social ||  %>
         <% if (social.github) { %>
-        <a href="<%= social.github %>" class="social-btn" target="_blank" rel="noopener">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        <a href="<%= social.github %>" class="social-link" target="_blank" rel="noopener">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
           GitHub
         </a>
         <% } %>
-        <% if (social.email) { %>
-        <a href="mailto:<%= social.email %>" class="social-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          Email
+        <% if (social.twitter) { %>
+        <a href="<%= social.twitter %>" class="social-link" target="_blank" rel="noopener">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          Twitter
+        </a>
+        <% } %>
+        <% if (social.linkedin) { %>
+        <a href="<%= social.linkedin %>" class="social-link" target="_blank" rel="noopener">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
         </a>
         <% } %>
         <% if (social.rss) { %>
-        <a href="<%- url_for(social.rss) %>" class="social-btn" target="_blank" rel="noopener">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+        <a href="<%- url_for(social.rss) %>" class="social-link" target="_blank" rel="noopener">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
           RSS
+        </a>
+        <% } %>
+        <% if (social.cv) { %>
+        <a href="<%- url_for(social.cv) %>" class="social-link social-link-cv" target="_blank" rel="noopener">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          CV / Resume
         </a>
         <% } %>
       </div>
     </div>
-  </div>
-</section>
+  </aside>
 
-<% if (theme.skills && theme.skills.length) { %>
-<section class="skills-section">
-  <div class="section-inner">
-    <h2 class="section-title">技术栈</h2>
-    <div class="skills-grid">
-      <% theme.skills.forEach(group => { %>
-      <div class="skill-group">
-        <h3 class="skill-category"><%= group.category %></h3>
-        <div class="skill-tags">
-          <% group.items.forEach(item => { %>
-          <span class="skill-tag"><%= item %></span>
-          <% }) %>
-        </div>
+  <!-- 右侧主内容区 -->
+  <main class="academic-content">
+
+    <!-- Biography -->
+    <section class="ac-section" id="about">
+      <h2 class="ac-section-title">Biography</h2>
+      <div class="ac-bio">
+        <p><%= theme.profile.bio %></p>
       </div>
-      <% }) %>
-    </div>
-  </div>
-</section>
-<% } %>
+    </section>
 
-<section class="recent-posts-section">
-  <div class="section-inner">
-    <div class="section-header">
-      <h2 class="section-title">最新文章</h2>
-      <a href="<%- url_for('/blog/') %>" class="section-more">查看全部 →</a>
-    </div>
-    <div class="post-grid">
-      <% site.posts.sort('date', -1).limit(6).each(post => { %>
-      <article class="post-card">
-        <div class="post-card-body">
-          <div class="post-card-meta">
-            <time class="post-date"><%= post.date.format('YYYY-MM-DD') %></time>
-            <% if (post.categories && post.categories.length) { %>
-            <span class="post-category"><%= post.categories.toArray()[0].name %></span>
-            <% } %>
-          </div>
-          <h3 class="post-card-title">
-            <a href="<%- url_for(post.path) %>"><%= post.title %></a>
-          </h3>
-          <p class="post-card-excerpt"><%= post.excerpt ? strip_html(post.excerpt).substring(0, 100) : strip_html(post.content).substring(0, 100) %>...</p>
-        </div>
-        <div class="post-card-footer">
-          <% if (post.tags && post.tags.length) { %>
-          <div class="post-tags">
-            <% post.tags.toArray().slice(0, 3).forEach(tag => { %>
-            <span class="post-tag"># <%= tag.name %></span>
+    <% if (theme.skills && theme.skills.length) { %>
+    <!-- Skills -->
+    <section class="ac-section" id="skills">
+      <h2 class="ac-section-title">技术栈</h2>
+      <div class="ac-skills">
+        <% theme.skills.forEach(group => { %>
+        <div class="ac-skill-row">
+          <span class="ac-skill-cat"><%= group.category %></span>
+          <div class="ac-skill-tags">
+            <% group.items.forEach(item => { %>
+            <span class="ac-skill-tag"><%= item %></span>
             <% }) %>
           </div>
-          <% } %>
-          <a href="<%- url_for(post.path) %>" class="post-read-more">阅读 →</a>
         </div>
-      </article>
-      <% }) %>
-    </div>
-  </div>
-</section>
+        <% }) %>
+      </div>
+    </section>
+    <% } %>
 
-<section class="blog-cta">
-  <div class="section-inner">
-    <a href="<%- url_for('/blog/') %>" class="cta-btn">进入博客 →</a>
-  </div>
-</section>
+    <!-- Recent Posts -->
+    <section class="ac-section" id="posts">
+      <div class="ac-section-header">
+        <h2 class="ac-section-title">最新文章</h2>
+        <a href="<%- url_for('/blog/') %>" class="ac-more-link">查看全部 →</a>
+      </div>
+      <div class="ac-post-list">
+        <% site.posts.sort('date', -1).limit(5).each(post => { %>
+        <div class="ac-post-item">
+          <div class="ac-post-meta">
+            <time class="ac-post-date"><%= post.date.format('YYYY-MM-DD') %></time>
+            <% if (post.categories && post.categories.length) { %>
+            <span class="ac-post-cat"><%= post.categories.toArray()[0].name %></span>
+            <% } %>
+          </div>
+          <a href="<%- url_for(post.path) %>" class="ac-post-title"><%= post.title %></a>
+          <p class="ac-post-excerpt"><%= strip_html(post.content).substring(0, 100) %>...</p>
+        </div>
+        <% }) %>
+      </div>
+    </section>
+
+  </main>
+</div>
