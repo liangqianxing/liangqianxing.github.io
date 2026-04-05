@@ -65,7 +65,7 @@ markdown:
 
 # Home page setting
 index_generator:
-  path: '/blog/'
+  path: ''
   per_page: 10
   order_by: -date
 
