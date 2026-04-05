@@ -104,6 +104,28 @@
     </section>
     <% } %>
 
+    <% if (theme.education && theme.education.length) { %>
+    <!-- Education -->
+    <section class="ac-section" id="education">
+      <h2 class="ac-section-title">教育经历</h2>
+      <div class="ac-edu-list">
+        <% theme.education.forEach(edu => { %>
+        <div class="ac-edu-item">
+          <div class="ac-edu-icon"><%= edu.icon || '🎓' %></div>
+          <div class="ac-edu-body">
+            <div class="ac-edu-header">
+              <span class="ac-edu-school"><%= edu.school %></span>
+              <% if (edu.school_en) { %><span class="ac-edu-school-en"><%= edu.school_en %></span><% } %>
+              <span class="ac-edu-period"><%= edu.period %></span>
+            </div>
+            <p class="ac-edu-detail"><%= edu.degree %><% if (edu.dept) { %> · <%= edu.dept %><% } %></p>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+    </section>
+    <% } %>
+
     <!-- Recent Posts -->
     <section class="ac-section" id="posts">
       <div class="ac-section-header">

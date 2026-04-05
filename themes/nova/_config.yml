@@ -11,6 +11,21 @@ profile:
   institution:
   email:
 
+# Education
+education:
+  - school: 西湖大学
+    school_en: Westlake University
+    degree: 访问学生
+    dept: 自然语言处理实验室
+    period: 2025 – 至今
+    icon: 🔬
+  - school: 新疆大学
+    school_en: Xinjiang University
+    degree: 本科在读（大三）
+    dept: 软件工程
+    period: 2022 – 2026
+    icon: 🎓
+
 # Social links
 social:
   github: https://github.com/liangqianxing
