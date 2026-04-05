@@ -45,8 +45,6 @@ social:
 menu:
   - name: 博客
     url: /blog/
-  - name: Research
-    url: /research/
   - name: 关于
     url: /about/
   - name: 友链
