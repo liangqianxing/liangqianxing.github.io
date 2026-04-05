@@ -1139,6 +1139,60 @@ img { max-width: 100%; height: auto; display: block; }
   overflow: hidden;
 }
 
+/* Education */
+.ac-edu-list { display: flex; flex-direction: column; gap: 0; }
+
+.ac-edu-item {
+  display: flex;
+  gap: 1rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
+}
+.ac-edu-item:last-child { border-bottom: none; }
+
+.ac-edu-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.ac-edu-body { flex: 1; min-width: 0; }
+
+.ac-edu-header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.2rem;
+}
+
+.ac-edu-school {
+  font-weight: 700;
+  font-size: 0.975rem;
+  color: var(--text-primary);
+}
+
+.ac-edu-school-en {
+  font-size: 0.825rem;
+  color: var(--text-tertiary);
+}
+
+.ac-edu-period {
+  margin-left: auto;
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+
+.ac-edu-detail {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .academic-wrapper {
