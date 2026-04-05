@@ -30,7 +30,7 @@ layout: page
 - 开源项目的探索与使用心得
 - 偶尔的生活随笔
 
-博客使用 [Hexo](https://hexo.io) 构建，主题为 [Memory](https://github.com/Dreamer-Paul/Hexo-Theme-Memory)，托管在 GitHub Pages。
+博客使用 [Hexo](https://hexo.io) 构建，主题为 [Nova](https://github.com/liangqianxing/hexo-theme-nova)，托管在 GitHub Pages。
 
 ## 联系我
 
