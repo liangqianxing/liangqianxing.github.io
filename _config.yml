@@ -3,9 +3,9 @@
 
 # Site
 title: Gu EnHao Blog
-subtitle: ''
-description: ''
-keywords:
+subtitle: '记录技术与生活'
+description: '一个热爱技术的开发者的个人博客，分享编程、开源、以及日常思考'
+keywords: 博客,编程,开发,技术,开源
 author: Gu EnHao
 language: zh-CN
 timezone: Asia/Shanghai
