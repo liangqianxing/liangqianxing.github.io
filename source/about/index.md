@@ -3,7 +3,7 @@ title: About
 layout: page
 ---
 
-# 你好，我是 Gu EnHao 👋
+# 你好，我是古恩豪 👋
 
 一个热爱技术、喜欢折腾的开发者。
 
