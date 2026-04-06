@@ -1232,6 +1232,19 @@ img { max-width: 100%; height: auto; display: block; }
   border-top: 1px solid var(--border);
 }
 
+.project-users {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radius-full);
+  margin-right: 0.25rem;
+}
+
 .project-stars {
   display: flex;
   align-items: center;
