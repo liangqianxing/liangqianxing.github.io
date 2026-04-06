@@ -817,82 +817,146 @@ img { max-width: 100%; height: auto; display: block; }
   border: 1px solid var(--border);
 }
 
-.post-content pre {
-  margin: 2rem 0;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-sm);
-}
-
-.post-content pre > .code-container,
-.post-content figure.highlight,
-.post-content .highlight {
-  margin: 0;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-}
-
-/* Hexo highlight.js wrapper */
+/* Hexo highlight.js code blocks */
 .post-content figure.highlight {
+  position: relative;
   margin: 2rem 0;
-  border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  overflow: hidden;
+  border: 1px solid var(--border);
   box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  font-family: var(--font-mono);
+  background: var(--bg-secondary);
 }
 
+/* Language label top-right via ::before */
+.post-content figure.highlight::before {
+  content: "CODE";
+  position: absolute;
+  top: 0; right: 1rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  line-height: 2.5rem;
+  z-index: 3;
+  pointer-events: none;
+}
+.post-content figure.highlight.javascript::before,
+.post-content figure.highlight.js::before    { content: "JS"; }
+.post-content figure.highlight.typescript::before,
+.post-content figure.highlight.ts::before    { content: "TS"; }
+.post-content figure.highlight.html::before  { content: "HTML"; }
+.post-content figure.highlight.css::before   { content: "CSS"; }
+.post-content figure.highlight.python::before,
+.post-content figure.highlight.py::before    { content: "Python"; }
+.post-content figure.highlight.java::before  { content: "Java"; }
+.post-content figure.highlight.bash::before,
+.post-content figure.highlight.sh::before    { content: "Shell"; }
+.post-content figure.highlight.json::before  { content: "JSON"; }
+.post-content figure.highlight.yaml::before,
+.post-content figure.highlight.yml::before   { content: "YAML"; }
+.post-content figure.highlight.go::before    { content: "Go"; }
+.post-content figure.highlight.rust::before  { content: "Rust"; }
+.post-content figure.highlight.cpp::before,
+.post-content figure.highlight.c::before     { content: "C/C++"; }
+.post-content figure.highlight.sql::before   { content: "SQL"; }
+
+/* figcaption (optional filename) */
 .post-content figure.highlight figcaption {
   padding: 0.5rem 1rem;
   background: var(--bg-tertiary);
   border-bottom: 1px solid var(--border);
   font-size: 0.78rem;
   color: var(--text-tertiary);
-  font-family: var(--font-mono);
+  padding-right: 4rem;
 }
 
+/* Table layout — block + overflow for horizontal scroll */
 .post-content figure.highlight table {
-  margin: 0;
-  border: none;
+  display: block;
   width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.post-content figure.highlight tbody { display: table; width: 100%; }
+.post-content figure.highlight tr    { display: table-row; }
+.post-content figure.highlight td    { padding: 0; border: none; background: none; }
+
+/* Scrollbar styling */
+.post-content figure.highlight table::-webkit-scrollbar { height: 6px; }
+.post-content figure.highlight table::-webkit-scrollbar-track { background: transparent; }
+.post-content figure.highlight table::-webkit-scrollbar-thumb {
+  background: var(--border-hover);
+  border-radius: 3px;
 }
 
-.post-content figure.highlight td {
-  padding: 0;
-  border: none;
-  background: none;
-}
-
+/* Gutter (line numbers) — sticky left, not selectable */
 .post-content figure.highlight .gutter {
-  width: 2.5rem;
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  width: 3rem;
+  padding: 1.25rem 0.75rem;
+  text-align: right;
   background: var(--bg-tertiary);
   border-right: 1px solid var(--border);
-  text-align: right;
-  padding: 1.25rem 0.75rem;
   user-select: none;
+  -webkit-user-select: none;
+  vertical-align: top;
 }
-
 .post-content figure.highlight .gutter .line {
   font-size: 0.78rem;
   color: var(--text-tertiary);
-  font-family: var(--font-mono);
   line-height: 1.7;
 }
 
+/* Code area */
 .post-content figure.highlight .code {
   padding: 1.25rem 1.5rem;
-  overflow-x: auto;
   background: var(--bg-secondary);
+  vertical-align: top;
+  min-width: 0;
 }
-
+.post-content figure.highlight .code pre { margin: 0; padding: 0; border: none; background: transparent; }
 .post-content figure.highlight .code .line {
-  font-family: var(--font-mono);
   font-size: 0.875rem;
   line-height: 1.7;
   color: var(--text-primary);
+  white-space: pre;
 }
 
-/* Plain pre/code blocks */
+/* Dark mode overrides */
+[data-theme="dark"] .post-content figure.highlight {
+  background: #1a1a2e;
+  border-color: rgba(255,255,255,0.08);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+[data-theme="dark"] .post-content figure.highlight .gutter {
+  background: #16213e;
+  border-right-color: rgba(255,255,255,0.06);
+}
+[data-theme="dark"] .post-content figure.highlight .code { background: #1a1a2e; }
+[data-theme="dark"] .post-content figure.highlight figcaption {
+  background: #16213e;
+  border-bottom-color: rgba(255,255,255,0.06);
+}
+
+/* Plain pre/code (no highlight wrapper) */
+.post-content pre {
+  margin: 2rem 0;
+  padding: 1.25rem 1.5rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
 .post-content pre code {
   background: none;
   padding: 0;

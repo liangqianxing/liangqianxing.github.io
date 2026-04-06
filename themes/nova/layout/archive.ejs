@@ -22,7 +22,7 @@
       <article class="post-card">
         <div class="post-card-body">
           <div class="post-card-meta">
-            <time class="post-date"><%= post.date.format('YYYY-MM-DD') %></time>
+            <time class="post-date"><%- date(post.date, 'YYYY年M月D日') %></time>
             <% if (post.categories && post.categories.length) { %>
             <span class="post-category"><%= post.categories.toArray()[0].name %></span>
             <% } %>
