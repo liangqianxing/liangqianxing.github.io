@@ -109,15 +109,9 @@
     <section class="ac-section" id="education">
       <h2 class="ac-section-title">教育经历</h2>
       <div class="ac-edu-list">
-        <% theme.education.forEach(edu => { %>
-        <div class="ac-edu-item">
-          <div class="ac-edu-icon">
-            <% if (edu.logo) { %>
-            <img src="<%- url_for(edu.logo) %>" alt="<%= edu.school %> logo">
-            <% } else { %>
-            <%= edu.icon || '🎓' %>
-            <% } %>
-          </div>
+        <% const eduList = Array.isArray(theme.education) ? theme.education : [] %>
+        <% eduList.forEach(function(edu) { %>
+        <div class="ac-edu-item" data-dump="<%= String(edu) %>" data-school="<%= edu.school %>" data-logo="<%= edu.school_logo %>">
           <div class="ac-edu-body">
             <div class="ac-edu-header">
               <span class="ac-edu-school"><%= edu.school %></span>
