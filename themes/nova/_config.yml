@@ -69,7 +69,7 @@ projects:
     tags: [Hexo, CSS, JavaScript]
     lang: CSS
   - name: DeepScientist
-    desc: AI 驱动的科研管理平台，帮助研究者高效管理文献、笔记与研究进展
+    desc: AI 驱动的科研管理平台，帮助研究者高效管理文献、笔记与研究进展，用户 5000+
     url: https://deepscientist.cc/
     tags: [AI, Research, SaaS]
     lang: TypeScript
