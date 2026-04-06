@@ -20,11 +20,6 @@
     <div class="post-grid">
       <% posts.each(post => { %>
       <article class="post-card">
-        <% if (post.cover) { %>
-        <a href="<%- url_for(post.path) %>" class="post-card-cover">
-          <img src="<%- url_for(post.cover) %>" alt="<%= post.title %>" loading="lazy" />
-        </a>
-        <% } %>
         <div class="post-card-body">
           <div class="post-card-meta">
             <time class="post-date"><%- date(post.date, 'YYYY年M月D日') %></time>
