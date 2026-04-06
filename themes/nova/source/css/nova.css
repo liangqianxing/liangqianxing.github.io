@@ -436,24 +436,6 @@ img { max-width: 100%; height: auto; display: block; }
   position: relative;
 }
 
-.post-card-cover {
-  display: block;
-  width: 100%;
-  aspect-ratio: 16 / 7;
-  overflow: hidden;
-}
-
-.post-card-cover img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.4s ease;
-}
-
-.post-card:hover .post-card-cover img {
-  transform: scale(1.04);
-}
-
 /* Gradient cover strip per card, cycling through 6 palettes */
 .post-card::before {
   content: '';

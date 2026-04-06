@@ -2,7 +2,6 @@
 title: MiniCode 源码解析：用 5000 行 TypeScript 实现一个 AI 编程助手
 date: 2026-04-06
 categories: 技术
-cover: /images/posts/minicode.jpg
 tags:
   - TypeScript
   - CLI

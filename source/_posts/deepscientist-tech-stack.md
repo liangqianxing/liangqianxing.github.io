@@ -2,7 +2,6 @@
 title: DeepScientist 技术栈全解析：一个 AI 科研平台的架构设计
 date: 2026-04-06
 categories: 技术
-cover: /images/posts/deepscientist.jpg
 tags:
   - 全栈
   - FastAPI
