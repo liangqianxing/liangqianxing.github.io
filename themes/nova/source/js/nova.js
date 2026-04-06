@@ -42,13 +42,16 @@
     if (!headings.length) return;
 
     headings.forEach(h => {
-      if (!h.id) return;
+      // id may be on the heading itself or on an inner <span>
+      const idEl = h.id ? h : h.querySelector('[id]');
+      if (!idEl) return;
+      const id = idEl.id;
       const level = parseInt(h.tagName[1]);
       const li = document.createElement('li');
       li.className = `toc-item toc-level-${level}`;
       const a = document.createElement('a');
       a.className = 'toc-link';
-      a.href = '#' + h.id;
+      a.href = '#' + id;
       a.textContent = h.textContent.trim();
       li.appendChild(a);
       tocList.appendChild(li);
@@ -64,8 +67,11 @@
       }
       tocLinks.forEach(a => a.classList.remove('active'));
       if (active) {
-        const match = tocList.querySelector(`a[href="#${CSS.escape(active.id)}"]`);
-        if (match) match.classList.add('active');
+        const idEl = active.id ? active : active.querySelector('[id]');
+        if (idEl) {
+          const match = tocList.querySelector(`a[href="#${CSS.escape(idEl.id)}"]`);
+          if (match) match.classList.add('active');
+        }
       }
     };
     window.addEventListener('scroll', onScroll, { passive: true });
