@@ -8,10 +8,16 @@
   <div class="section-inner">
     <div class="projects-grid">
       <% (theme.projects || []).forEach(proj => { %>
-      <a href="<%= proj.url %>" target="_blank" rel="noopener" class="project-card">
+      <a href="<%= proj.url %>" target="_blank" rel="noopener" class="project-card<%= proj.featured ? ' project-card-featured' : '' %>">
         <div class="project-card-header">
           <svg class="project-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg>
           <span class="project-name"><%= proj.name %></span>
+          <% if (proj.stars) { %>
+          <span class="project-stars">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <%= proj.stars %>
+          </span>
+          <% } %>
           <svg class="project-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
         </div>
         <p class="project-desc"><%= proj.desc %></p>
