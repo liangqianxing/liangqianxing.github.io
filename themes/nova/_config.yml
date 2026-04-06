@@ -57,7 +57,7 @@ skills:
   - category: 前端
     items: [HTML, CSS, JavaScript, TypeScript]
   - category: 后端
-    items: [Node.js, Python]
+    items: [Node.js, Python, FastAPI]
   - category: 工具链
     items: [Git, GitHub Actions, Docker, Linux]
 
