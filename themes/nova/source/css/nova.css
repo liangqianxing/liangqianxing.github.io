@@ -862,6 +862,7 @@ img { max-width: 100%; height: auto; display: block; }
 .post-content figure.highlight.cpp::before,
 .post-content figure.highlight.c::before     { content: "C/C++"; }
 .post-content figure.highlight.sql::before   { content: "SQL"; }
+.post-content figure.highlight.ejs::before   { content: "EJS"; }
 
 /* figcaption (optional filename) */
 .post-content figure.highlight figcaption {
@@ -873,20 +874,31 @@ img { max-width: 100%; height: auto; display: block; }
   padding-right: 4rem;
 }
 
-/* Table layout — block + overflow for horizontal scroll */
+/* Table: flex row so gutter + code sit side by side */
 .post-content figure.highlight table {
-  display: block;
+  display: flex;
   width: 100%;
   border-collapse: collapse;
   margin: 0;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
-.post-content figure.highlight tbody { display: table; width: 100%; }
-.post-content figure.highlight tr    { display: table-row; }
-.post-content figure.highlight td    { padding: 0; border: none; background: none; }
+.post-content figure.highlight tbody {
+  display: flex;
+  width: 100%;
+}
+.post-content figure.highlight tr {
+  display: flex;
+  width: 100%;
+}
+.post-content figure.highlight td {
+  padding: 0;
+  border: none;
+  background: none;
+  display: flex;
+}
 
-/* Scrollbar styling */
+/* Scrollbar */
 .post-content figure.highlight table::-webkit-scrollbar { height: 6px; }
 .post-content figure.highlight table::-webkit-scrollbar-track { background: transparent; }
 .post-content figure.highlight table::-webkit-scrollbar-thumb {
@@ -894,42 +906,51 @@ img { max-width: 100%; height: auto; display: block; }
   border-radius: 3px;
 }
 
-/* Gutter (line numbers) — sticky left, not selectable */
+/* Gutter (line numbers) */
 .post-content figure.highlight .gutter {
-  position: sticky;
-  left: 0;
-  z-index: 1;
-  width: 3rem;
+  flex-shrink: 0;
   padding: 1.25rem 0.75rem;
   text-align: right;
   background: var(--bg-tertiary);
   border-right: 1px solid var(--border);
   user-select: none;
   -webkit-user-select: none;
-  vertical-align: top;
 }
-.post-content figure.highlight .gutter .line {
-  font-size: 0.78rem;
-  color: var(--text-tertiary);
+.post-content figure.highlight .gutter pre {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
   line-height: 1.7;
+  color: var(--text-tertiary);
 }
 
 /* Code area */
 .post-content figure.highlight .code {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
   padding: 1.25rem 1.5rem;
   background: var(--bg-secondary);
-  vertical-align: top;
-  min-width: 0;
 }
-.post-content figure.highlight .code pre { margin: 0; padding: 0; border: none; background: transparent; }
-.post-content figure.highlight .code .line {
+.post-content figure.highlight .code pre {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-family: var(--font-mono);
   font-size: 0.875rem;
   line-height: 1.7;
   color: var(--text-primary);
   white-space: pre;
 }
 
-/* Dark mode overrides */
+/* Neutralise the <br> Hexo injects after each line */
+.post-content figure.highlight .line br { display: none; }
+
+/* Dark mode */
 [data-theme="dark"] .post-content figure.highlight {
   background: #1a1a2e;
   border-color: rgba(255,255,255,0.08);
