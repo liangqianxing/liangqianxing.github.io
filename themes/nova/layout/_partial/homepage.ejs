@@ -136,7 +136,7 @@
         <% site.posts.sort('date', -1).limit(5).each(post => { %>
         <div class="ac-post-item">
           <div class="ac-post-meta">
-            <time class="ac-post-date"><%= post.date.format('YYYY-MM-DD') %></time>
+            <time class="ac-post-date"><%- date(post.date, 'YYYY年M月D日') %></time>
             <% if (post.categories && post.categories.length) { %>
             <span class="ac-post-cat"><%= post.categories.toArray()[0].name %></span>
             <% } %>
