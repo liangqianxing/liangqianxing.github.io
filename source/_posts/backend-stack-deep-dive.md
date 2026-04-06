@@ -2,6 +2,7 @@
 title: 后端五件套：FastAPI / Node.js / SQLAlchemy async / PostgreSQL / Docker 面试速通
 date: 2026-04-07
 categories: 技术
+cover: /images/posts/backend-stack.jpg
 tags:
   - 后端
   - FastAPI
