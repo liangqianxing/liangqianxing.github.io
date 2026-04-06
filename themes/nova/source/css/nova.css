@@ -425,6 +425,21 @@ img { max-width: 100%; height: auto; display: block; }
               border-color 0.2s ease;
   will-change: transform;
 }
+
+/* Gradient cover strip per card, cycling through 6 palettes */
+.post-card::before {
+  content: '';
+  display: block;
+  height: 4px;
+  background: var(--accent-gradient);
+}
+.post-card:nth-child(6n+1)::before { background: linear-gradient(90deg, #3b82f6, #06b6d4); }
+.post-card:nth-child(6n+2)::before { background: linear-gradient(90deg, #8b5cf6, #ec4899); }
+.post-card:nth-child(6n+3)::before { background: linear-gradient(90deg, #10b981, #3b82f6); }
+.post-card:nth-child(6n+4)::before { background: linear-gradient(90deg, #f59e0b, #ef4444); }
+.post-card:nth-child(6n+5)::before { background: linear-gradient(90deg, #06b6d4, #8b5cf6); }
+.post-card:nth-child(6n+6)::before { background: linear-gradient(90deg, #ec4899, #f59e0b); }
+
 .post-card:hover {
   border-color: var(--accent);
   box-shadow: 0 12px 28px rgba(var(--accent-rgb), 0.15);
@@ -884,6 +899,42 @@ img { max-width: 100%; height: auto; display: block; }
   display: flex;
   gap: 4rem;
   align-items: flex-start;
+  position: relative;
+}
+
+/* Decorative blurred blobs behind the academic layout */
+.academic-wrapper::before,
+.academic-wrapper::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.07;
+  pointer-events: none;
+  z-index: -1;
+}
+.academic-wrapper::before {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, #3b82f6, #06b6d4);
+  top: 10%; left: -10%;
+  animation: blobFloat 12s ease-in-out infinite;
+}
+.academic-wrapper::after {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, #8b5cf6, #ec4899);
+  bottom: 10%; right: -5%;
+  animation: blobFloat 16s ease-in-out infinite reverse;
+}
+
+@keyframes blobFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(30px, -20px) scale(1.05); }
+  66%       { transform: translate(-20px, 15px) scale(0.97); }
+}
+
+[data-theme="dark"] .academic-wrapper::before,
+[data-theme="dark"] .academic-wrapper::after {
+  opacity: 0.12;
 }
 
 /* Sidebar */
