@@ -6,6 +6,8 @@
   --bg-primary: #f8f9fa;
   --bg-secondary: #ffffff;
   --bg-tertiary: #f1f3f5;
+  --bg-elevated: #e9ecef;
+  --border-subtle: rgba(0,0,0,0.04);
   --text-primary: #1a1d20;
   --text-secondary: #495057;
   --text-tertiary: #868e96;
@@ -31,22 +33,24 @@
 }
 
 [data-theme="dark"] {
-  --bg-primary: #121212;
-  --bg-secondary: #1e1e1e;
-  --bg-tertiary: #2a2a2a;
-  --text-primary: #eaeaea;
-  --text-secondary: #a0a0a0;
-  --text-tertiary: #6b7280;
-  --accent: #60a5fa;
-  --accent-hover: #93c5fd;
-  --accent-muted: rgba(96, 165, 250, 0.1);
-  --accent-rgb: 96, 165, 250;
-  --accent-gradient: linear-gradient(135deg, #60a5fa 0%, #22d3ee 100%);
-  --border: rgba(255,255,255,0.08);
-  --border-hover: rgba(255,255,255,0.15);
-  --shadow-sm: none;
-  --shadow-md: 0 4px 24px rgba(0,0,0,.4);
-  --shadow-lg: 0 10px 40px rgba(0,0,0,.5);
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #141414;
+  --bg-tertiary: #1c1c1c;
+  --bg-elevated: #242424;
+  --text-primary: #ededed;
+  --text-secondary: #a1a1aa;
+  --text-tertiary: #71717a;
+  --accent: #3291ff;
+  --accent-hover: #52a8ff;
+  --accent-muted: rgba(50, 145, 255, 0.12);
+  --accent-rgb: 50, 145, 255;
+  --accent-gradient: linear-gradient(135deg, #3291ff 0%, #22d3ee 100%);
+  --border: rgba(255,255,255,0.09);
+  --border-subtle: rgba(255,255,255,0.04);
+  --border-hover: rgba(255,255,255,0.16);
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.4);
+  --shadow-md: 0 4px 24px rgba(0,0,0,0.6);
+  --shadow-lg: 0 10px 40px rgba(0,0,0,0.7);
 }
 
 /* ============================================================
@@ -102,7 +106,10 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 [data-theme="dark"] .nav {
-  background: rgba(15,23,42,0.85);
+  background: rgba(10, 10, 10, 0.8);
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  border-bottom-color: rgba(255,255,255,0.06);
 }
 
 .nav-inner {
@@ -952,17 +959,19 @@ img { max-width: 100%; height: auto; display: block; }
 
 /* Dark mode */
 [data-theme="dark"] .post-content figure.highlight {
-  background: #1a1a2e;
-  border-color: rgba(255,255,255,0.08);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  background: #000000;
+  border-color: rgba(255,255,255,0.06);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.6);
 }
 [data-theme="dark"] .post-content figure.highlight .gutter {
-  background: #16213e;
+  background: #0a0a0a;
   border-right-color: rgba(255,255,255,0.06);
+  color: #4b5563;
 }
-[data-theme="dark"] .post-content figure.highlight .code { background: #1a1a2e; }
+[data-theme="dark"] .post-content figure.highlight .code { background: #000000; }
+[data-theme="dark"] .post-content figure.highlight .code pre { color: #e4e4e7; }
 [data-theme="dark"] .post-content figure.highlight figcaption {
-  background: #16213e;
+  background: #0a0a0a;
   border-bottom-color: rgba(255,255,255,0.06);
 }
 
@@ -1588,4 +1597,125 @@ img { max-width: 100%; height: auto; display: block; }
   .profile-social { flex-direction: row; flex-wrap: wrap; }
   .social-link { flex: 1; min-width: 120px; justify-content: center; }
   .social-link-cv { flex: 100%; }
+}
+
+/* ============================================================
+   Unified Dark Mode Overrides
+   ============================================================ */
+
+/* Cards */
+[data-theme="dark"] .post-card {
+  background: var(--bg-secondary);
+  border-color: var(--border);
+}
+[data-theme="dark"] .post-card:hover {
+  background: var(--bg-tertiary);
+  border-color: var(--border-hover);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+}
+[data-theme="dark"] .post-card-footer {
+  background: var(--bg-tertiary);
+  border-top-color: var(--border);
+}
+
+/* TOC */
+[data-theme="dark"] .toc-inner {
+  background: var(--bg-secondary);
+  border-color: var(--border);
+}
+
+/* Post nav items */
+[data-theme="dark"] .post-nav-item {
+  background: var(--bg-secondary);
+  border-color: var(--border);
+}
+[data-theme="dark"] .post-nav-item:hover {
+  background: var(--bg-tertiary);
+  border-color: var(--border-hover);
+}
+
+/* Academic sidebar */
+[data-theme="dark"] .academic-sidebar .profile-card {
+  background: var(--bg-secondary);
+  border-color: var(--border);
+}
+[data-theme="dark"] .social-link {
+  background: var(--bg-tertiary);
+  border-color: var(--border);
+}
+[data-theme="dark"] .social-link:hover {
+  background: var(--bg-elevated);
+  border-color: var(--border-hover);
+}
+
+/* Education cards */
+[data-theme="dark"] .ac-edu-item {
+  background: var(--bg-secondary);
+  border-color: var(--border);
+}
+[data-theme="dark"] .ac-edu-item:hover {
+  border-color: var(--accent);
+  background: var(--bg-tertiary);
+}
+
+/* Skills */
+[data-theme="dark"] .skill-tag {
+  background: var(--bg-tertiary);
+  border-color: var(--border);
+  color: var(--text-secondary);
+}
+
+/* Blog header glow — more subtle on dark */
+[data-theme="dark"] .blog-header {
+  background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.08) 0%, transparent 100%);
+}
+[data-theme="dark"] .blog-header::before {
+  background: radial-gradient(circle, rgba(var(--accent-rgb), 0.18) 0%, transparent 70%);
+}
+
+/* Inline code */
+[data-theme="dark"] .post-content code {
+  background: #1c1c1c;
+  border-color: rgba(255,255,255,0.08);
+  color: #93c5fd;
+}
+
+/* Blockquote */
+[data-theme="dark"] .post-content blockquote {
+  background: rgba(50, 145, 255, 0.06);
+  color: var(--text-secondary);
+}
+
+/* Tables */
+[data-theme="dark"] .post-content th {
+  background: var(--bg-tertiary);
+}
+[data-theme="dark"] .post-content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+[data-theme="dark"] .post-content tr:hover td {
+  background: rgba(50, 145, 255, 0.06);
+}
+
+/* Footer */
+[data-theme="dark"] .footer {
+  background: var(--bg-secondary);
+  border-top-color: var(--border);
+}
+
+/* Pagination */
+[data-theme="dark"] .page-number,
+[data-theme="dark"] .prev,
+[data-theme="dark"] .next {
+  background: var(--bg-secondary);
+  border-color: var(--border);
+  color: var(--text-secondary);
+}
+[data-theme="dark"] .page-number:hover,
+[data-theme="dark"] .prev:hover,
+[data-theme="dark"] .next:hover,
+[data-theme="dark"] .page-number.current {
+  background: var(--bg-tertiary);
+  border-color: var(--accent);
+  color: var(--accent);
 }
