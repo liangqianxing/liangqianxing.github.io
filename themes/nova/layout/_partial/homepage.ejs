@@ -111,7 +111,13 @@
       <div class="ac-edu-list">
         <% theme.education.forEach(edu => { %>
         <div class="ac-edu-item">
-          <div class="ac-edu-icon"><%= edu.icon || '🎓' %></div>
+          <div class="ac-edu-icon">
+            <% if (edu.logo) { %>
+            <img src="<%- url_for(edu.logo) %>" alt="<%= edu.school %> logo">
+            <% } else { %>
+            <%= edu.icon || '🎓' %>
+            <% } %>
+          </div>
           <div class="ac-edu-body">
             <div class="ac-edu-header">
               <span class="ac-edu-school"><%= edu.school %></span>

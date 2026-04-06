@@ -567,24 +567,40 @@ img { max-width: 100%; height: auto; display: block; }
 .blog-page { padding-bottom: 4rem; }
 
 .blog-header {
-  padding: 4rem 0 3rem;
-  border-bottom: 1px solid var(--border);
+  padding: 4.5rem 0 3.5rem;
+  border-bottom: 1px solid rgba(var(--accent-rgb), 0.12);
   margin-bottom: 3rem;
-  background: var(--bg-secondary);
+  background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.06) 0%, transparent 100%);
   position: relative;
   overflow: hidden;
 }
 
+/* Radial glow behind the title */
 .blog-header::before {
   content: '';
   position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.04) 0%, transparent 60%);
+  top: -50%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(var(--accent-rgb), 0.15) 0%, transparent 70%);
+  filter: blur(40px);
   pointer-events: none;
+  z-index: 0;
+}
+
+[data-theme="dark"] .blog-header {
+  background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.1) 0%, transparent 100%);
+}
+
+[data-theme="dark"] .blog-header::before {
+  background: radial-gradient(circle, rgba(var(--accent-rgb), 0.25) 0%, transparent 70%);
 }
 
 .blog-header-inner {
   position: relative;
+  z-index: 1;
 }
 
 .blog-title {
@@ -1406,11 +1422,35 @@ img { max-width: 100%; height: auto; display: block; }
   box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.1);
 }
 
+/* Logo container — works for both emoji and <img> */
 .ac-edu-icon {
-  font-size: 1.5rem;
-  line-height: 1;
+  width: 44px;
+  height: 44px;
   flex-shrink: 0;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  line-height: 1;
+  overflow: hidden;
   margin-top: 0.1rem;
+}
+
+.ac-edu-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 6px;
+}
+
+/* Keep white bg in dark mode so dark logos stay visible */
+[data-theme="dark"] .ac-edu-icon {
+  background: #ffffff;
+  border-color: rgba(255,255,255,0.1);
 }
 
 .ac-edu-body { flex: 1; min-width: 0; }

@@ -18,19 +18,19 @@ education:
     degree: 访问学生
     dept: 自然语言处理实验室
     period: 2025.12 – 2026.03
-    icon: 🔬
+    logo: /images/logos/westlake.svg
   - school: 中南大学
     school_en: Central South University
     degree: 交换生
     dept: 计算机学院 · 软件工程
     period: 2023.08 – 2024.06
-    icon: 🏫
+    logo: /images/logos/csu.svg
   - school: 新疆大学
-    school_en:
+    school_en: Xinjiang University
     degree: 本科在读（大三）
     dept: 软件工程
     period: 至今
-    icon: 🎓
+    logo: /images/logos/xju.svg
 
 # Social links
 social:
