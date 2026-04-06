@@ -1,0 +1,35 @@
+<div class="projects-page">
+  <div class="projects-header">
+    <div class="section-inner projects-header-inner">
+      <h1 class="projects-title">项<span class="projects-title-accent">目</span></h1>
+      <p class="projects-subtitle">我参与或独立开发的开源项目</p>
+    </div>
+  </div>
+  <div class="section-inner">
+    <div class="projects-grid">
+      <% (theme.projects || []).forEach(proj => { %>
+      <a href="<%= proj.url %>" target="_blank" rel="noopener" class="project-card">
+        <div class="project-card-header">
+          <svg class="project-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg>
+          <span class="project-name"><%= proj.name %></span>
+          <svg class="project-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+        </div>
+        <p class="project-desc"><%= proj.desc %></p>
+        <div class="project-footer">
+          <% if (proj.lang) { %>
+          <span class="project-lang">
+            <span class="project-lang-dot"></span>
+            <%= proj.lang %>
+          </span>
+          <% } %>
+          <div class="project-tags">
+            <% (proj.tags || []).forEach(tag => { %>
+            <span class="project-tag"><%= tag %></span>
+            <% }) %>
+          </div>
+        </div>
+      </a>
+      <% }) %>
+    </div>
+  </div>
+</div>

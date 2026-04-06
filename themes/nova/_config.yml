@@ -45,6 +45,8 @@ social:
 menu:
   - name: 博客
     url: /blog/
+  - name: 项目
+    url: /projects/
   - name: 关于
     url: /about/
   - name: 友链
@@ -58,6 +60,24 @@ skills:
     items: [Node.js, Python]
   - category: 工具链
     items: [Git, GitHub Actions, Docker, Linux]
+
+# Projects page
+projects:
+  - name: hexo-theme-nova
+    desc: 学术主页 + 博客二合一的 Hexo 主题，支持暗色模式、TOC、响应式布局
+    url: https://github.com/liangqianxing/hexo-theme-nova
+    tags: [Hexo, CSS, JavaScript]
+    lang: CSS
+  - name: WeClone
+    desc: 基于微信聊天记录训练个人风格 LoRA 模型，克隆自己的数字分身
+    url: https://github.com/xming521/WeClone
+    tags: [Python, LLM, LoRA]
+    lang: Python
+  - name: echotrace
+    desc: 轻量级分布式追踪工具
+    url: https://github.com/liangqianxing/echotrace
+    tags: [Go, Observability]
+    lang: Go
 
 # Theme settings
 dark_mode: true   # enable dark mode toggle
