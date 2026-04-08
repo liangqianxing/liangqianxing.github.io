@@ -79,7 +79,7 @@ projects:
     url: https://github.com/LiuMengxuan04/MiniCode
     tags: [TypeScript, Rust, CLI, LLM]
     lang: TypeScript
-    stars: 181
+    stars: "200+"
     featured: true
 
 # Theme settings
