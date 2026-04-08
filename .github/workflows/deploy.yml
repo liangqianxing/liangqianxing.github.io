@@ -1,4 +1,4 @@
-﻿name: Build & Deploy Blog
+name: Build & Deploy Blog
 
 on:
   push:
@@ -48,4 +48,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deploy
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
