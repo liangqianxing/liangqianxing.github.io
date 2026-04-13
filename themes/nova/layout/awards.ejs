@@ -1,0 +1,33 @@
+<div class="awards-page">
+  <div class="awards-header">
+    <div class="section-inner awards-header-inner">
+      <h1 class="awards-title">竞<span class="awards-title-accent">赛</span></h1>
+      <p class="awards-subtitle">ACM-ICPC / CCPC 竞赛成绩</p>
+    </div>
+  </div>
+  <div class="section-inner">
+    <div class="awards-list">
+      <% const awards = [
+        { medal: '🥇', rank: '金牌（第二名）', contest: 'ICPC 省赛', location: '新疆', year: '2025.05', level: 'gold' },
+        { medal: '🥈', rank: '银牌', contest: 'CCPC 全国邀请赛', location: '南昌站', year: '2025', level: 'silver' },
+        { medal: '🥈', rank: '银牌', contest: 'ICPC 省赛', location: '新疆', year: '2024', level: 'silver' },
+        { medal: '🥈', rank: '银牌', contest: 'CCPC 省赛', location: '新疆', year: '2024', level: 'silver' },
+        { medal: '🥉', rank: '铜牌', contest: 'ICPC 亚洲区域赛', location: '成都站', year: '2024.10', level: 'bronze' },
+        { medal: '🥉', rank: '铜牌', contest: 'ICPC 全国邀请赛', location: '武汉站', year: '2025', level: 'bronze' },
+        { medal: '🥉', rank: '铜牌', contest: 'CCPC 全国邀请赛', location: '广东站', year: '2024', level: 'bronze' },
+        { medal: '🥉', rank: '铜牌', contest: 'CCPC 省赛', location: '新疆', year: '2023', level: 'bronze' },
+      ]; %>
+      <% awards.forEach(a => { %>
+      <div class="award-item award-<%= a.level %>">
+        <span class="award-medal"><%= a.medal %></span>
+        <div class="award-info">
+          <span class="award-contest"><%= a.contest %></span>
+          <span class="award-location"><%= a.location %></span>
+        </div>
+        <span class="award-rank"><%= a.rank %></span>
+        <span class="award-year"><%= a.year %></span>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+</div>
