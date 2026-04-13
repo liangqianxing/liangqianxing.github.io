@@ -47,6 +47,8 @@ menu:
     url: /blog/
   - name: 项目
     url: /projects/
+  - name: 奖项
+    url: /awards/
   - name: 关于
     url: /about/
   - name: 友链
