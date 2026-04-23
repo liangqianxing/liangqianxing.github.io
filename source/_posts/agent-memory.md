@@ -1,6 +1,6 @@
 ---
 title: Agent 对话记忆化：从原理到实现
-date: 2026-04-15
+date: 2026-04-24
 categories: 技术
 tags:
   - LLM
