@@ -68,9 +68,9 @@ experience:
   - company: vivo
     company_en: vivo
     role: 算法实习生
-    period: Offer
-    icon: 💼
-    desc: 已获算法实习生 Offer，即将参与算法研发与业务落地工作。
+    period: 2026.04 – 至今
+    company_logo: "/images/logos/vivo.svg"
+    desc: 端侧大模型开发
 
 # Projects page
 projects:
