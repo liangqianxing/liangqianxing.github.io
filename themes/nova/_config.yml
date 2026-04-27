@@ -84,13 +84,13 @@ projects:
     url: https://deepscientist.cc/
     tags: [AI, Research, SaaS]
     lang: TypeScript
-    users: "5000+"
+    users: "7000+"
   - name: MiniCode
     desc: 轻量级终端编程助手，类 Claude Code 工作流，支持 TypeScript / Rust 实现，TUI 架构，适合学习和二次开发
     url: https://github.com/LiuMengxuan04/MiniCode
     tags: [TypeScript, Rust, CLI, LLM]
     lang: TypeScript
-    stars: "200+"
+    stars: "500+"
     featured: true
 
 # Theme settings
