@@ -104,6 +104,29 @@
     </section>
     <% } %>
 
+    <% if (theme.experience && theme.experience.length) { %>
+    <!-- Experience -->
+    <section class="ac-section" id="experience">
+      <h2 class="ac-section-title">实习经历</h2>
+      <div class="ac-edu-list">
+        <% const expList = Array.isArray(theme.experience) ? theme.experience : [] %>
+        <% expList.forEach(function(exp) { %>
+        <div class="ac-edu-item">
+          <div class="ac-edu-icon"><%= exp.icon || '💼' %></div>
+          <div class="ac-edu-body">
+            <div class="ac-edu-header">
+              <span class="ac-edu-school"><%= exp.company %></span>
+              <% if (exp.company_en) { %><span class="ac-edu-school-en"><%= exp.company_en %></span><% } %>
+              <span class="ac-edu-period"><%= exp.period %></span>
+            </div>
+            <p class="ac-edu-detail"><%= exp.role %><% if (exp.desc) { %> · <%= exp.desc %><% } %></p>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+    </section>
+    <% } %>
+
     <% if (theme.education && theme.education.length) { %>
     <!-- Education -->
     <section class="ac-section" id="education">
