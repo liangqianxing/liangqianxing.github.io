@@ -112,7 +112,13 @@
         <% const expList = Array.isArray(theme.experience) ? theme.experience : [] %>
         <% expList.forEach(function(exp) { %>
         <div class="ac-edu-item">
-          <div class="ac-edu-icon"><%= exp.icon || '💼' %></div>
+          <div class="ac-edu-icon">
+            <% if (exp.company_logo) { %>
+            <img src="<%- url_for(exp.company_logo) %>" alt="<%= exp.company %>">
+            <% } else { %>
+            <%= exp.icon || '💼' %>
+            <% } %>
+          </div>
           <div class="ac-edu-body">
             <div class="ac-edu-header">
               <span class="ac-edu-school"><%= exp.company %></span>
