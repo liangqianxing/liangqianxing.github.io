@@ -63,6 +63,15 @@ skills:
   - category: 工具链
     items: [Git, GitHub Actions, Docker, Linux]
 
+# Experience shown on homepage
+experience:
+  - company: vivo
+    company_en: vivo
+    role: 算法实习生
+    period: Offer
+    icon: 💼
+    desc: 已获算法实习生 Offer，即将参与算法研发与业务落地工作。
+
 # Projects page
 projects:
   - name: hexo-theme-nova
