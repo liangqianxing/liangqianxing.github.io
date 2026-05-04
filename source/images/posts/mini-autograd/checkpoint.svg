@@ -1,0 +1,24 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560">
+  <rect width="1200" height="560" rx="28" fill="#f8fafc"/>
+  <text x="60" y="72" font-family="Inter,Arial" font-size="34" font-weight="700" fill="#111827">Activation Checkpoint：用计算换显存</text>
+  <text x="60" y="112" font-family="Inter,Arial" font-size="18" fill="#64748b">普通反向保存所有中间激活；checkpoint 只保存边界，反向时重算块内前向。</text>
+  <g font-family="Inter,Arial" text-anchor="middle">
+    <text x="180" y="172" font-size="22" fill="#0f172a">保存所有激活</text>
+    <text x="820" y="172" font-size="22" fill="#0f172a">只保存 checkpoint</text>
+    <g font-size="18">
+      <rect x="70" y="220" width="95" height="62" rx="12" fill="#dbeafe" stroke="#2563eb"/><text x="117" y="258">a1</text>
+      <rect x="190" y="220" width="95" height="62" rx="12" fill="#dbeafe" stroke="#2563eb"/><text x="237" y="258">a2</text>
+      <rect x="310" y="220" width="95" height="62" rx="12" fill="#dbeafe" stroke="#2563eb"/><text x="357" y="258">a3</text>
+      <rect x="430" y="220" width="95" height="62" rx="12" fill="#dbeafe" stroke="#2563eb"/><text x="477" y="258">a4</text>
+      <rect x="650" y="220" width="95" height="62" rx="12" fill="#dcfce7" stroke="#16a34a"/><text x="697" y="258">ckpt</text>
+      <rect x="770" y="220" width="95" height="62" rx="12" fill="#fee2e2" stroke="#ef4444" stroke-dasharray="8 6"/><text x="817" y="258">重算</text>
+      <rect x="890" y="220" width="95" height="62" rx="12" fill="#fee2e2" stroke="#ef4444" stroke-dasharray="8 6"/><text x="937" y="258">重算</text>
+      <rect x="1010" y="220" width="95" height="62" rx="12" fill="#dcfce7" stroke="#16a34a"/><text x="1057" y="258">ckpt</text>
+    </g>
+  </g>
+  <path d="M165 251 H190 M285 251 H310 M405 251 H430 M745 251 H770 M865 251 H890 M985 251 H1010" stroke="#64748b" stroke-width="4"/>
+  <g font-family="Inter,Arial" font-size="20">
+    <rect x="95" y="360" width="400" height="88" rx="18" fill="#fff" stroke="#cbd5e1"/><text x="125" y="395" fill="#334155">显存：高，需要保存每层输出</text><text x="125" y="425" fill="#334155">计算：低，反向直接使用缓存</text>
+    <rect x="650" y="360" width="420" height="88" rx="18" fill="#fff" stroke="#cbd5e1"/><text x="680" y="395" fill="#334155">显存：低，只保留少量边界张量</text><text x="680" y="425" fill="#334155">计算：高，反向额外跑一次局部前向</text>
+  </g>
+</svg>
