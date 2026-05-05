@@ -496,3 +496,50 @@
     console.warn('Fluid hero disabled:', error);
   }
 })();
+
+/* Homepage first-screen snap scroll */
+(function () {
+  'use strict';
+
+  const hero = document.querySelector('.fluid-landing');
+  const target = document.getElementById('academic-home');
+  if (!hero || !target) return;
+
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let snapping = false;
+  let touchStartY = 0;
+
+  function heroBottom() {
+    return hero.offsetTop + hero.offsetHeight;
+  }
+
+  function isNearHero() {
+    return window.scrollY < heroBottom() - window.innerHeight * 0.18;
+  }
+
+  function snapToContent() {
+    if (snapping || !isNearHero()) return;
+    snapping = true;
+    target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+    window.setTimeout(() => { snapping = false; }, reduceMotion ? 120 : 850);
+  }
+
+  window.addEventListener('wheel', event => {
+    if (event.defaultPrevented || event.deltaY <= 6 || !isNearHero()) return;
+    event.preventDefault();
+    snapToContent();
+  }, { passive: false });
+
+  window.addEventListener('touchstart', event => {
+    if (!event.touches.length) return;
+    touchStartY = event.touches[0].clientY;
+  }, { passive: true });
+
+  window.addEventListener('touchmove', event => {
+    if (!event.touches.length || !isNearHero()) return;
+    const deltaY = touchStartY - event.touches[0].clientY;
+    if (deltaY <= 18) return;
+    event.preventDefault();
+    snapToContent();
+  }, { passive: false });
+})();

@@ -2649,3 +2649,8 @@ img { max-width: 100%; height: auto; display: block; }
   .fluid-links,
   .fluid-scroll-down { opacity: 1; }
 }
+
+/* Keep snapped homepage content aligned below fixed nav */
+#academic-home {
+  scroll-margin-top: calc(var(--nav-height) + 1rem);
+}
