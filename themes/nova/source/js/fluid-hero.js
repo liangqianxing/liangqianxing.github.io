@@ -43,12 +43,12 @@
   const config = {
     simResolution: coarsePointer ? 64 : 96,
     dyeResolution: coarsePointer ? 256 : 512,
-    densityDissipation: 0.986,
-    velocityDissipation: 0.965,
+    densityDissipation: 0.992,
+    velocityDissipation: 0.975,
     pressureDissipation: 0.82,
     pressureIterations: coarsePointer ? 8 : 12,
-    curl: 18,
-    splatRadius: coarsePointer ? 0.018 : 0.014,
+    curl: 28,
+    splatRadius: coarsePointer ? 0.022 : 0.018,
   };
 
   const baseVertex = `
@@ -317,10 +317,14 @@
   let lastTime = Date.now();
   let colorIndex = 0;
   const palette = [
-    [0.61, 0.55, 1.0],
-    [0.27, 0.83, 1.0],
-    [0.43, 0.91, 0.72],
-    [1.0, 0.42, 0.72],
+    [0.10, 0.85, 1.00],
+    [0.12, 0.92, 0.18],
+    [0.95, 0.08, 0.82],
+    [1.00, 0.82, 0.05],
+    [0.15, 0.12, 1.00],
+    [1.00, 0.12, 0.06],
+    [0.00, 0.70, 0.55],
+    [0.70, 0.08, 1.00],
   ];
 
   function getResolution(resolution) {
@@ -370,11 +374,11 @@
   }
 
   function seed() {
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 18; i++) {
       const x = 0.18 + Math.random() * 0.64;
       const y = 0.16 + Math.random() * 0.68;
       const c = palette[i % palette.length];
-      splat(x, y, (Math.random() - 0.5) * 850, (Math.random() - 0.5) * 850, c);
+      splat(x, y, (Math.random() - 0.5) * 1450, (Math.random() - 0.5) * 1450, c);
     }
   }
 
@@ -480,8 +484,8 @@
 
   setInterval(() => {
     const c = palette[colorIndex++ % palette.length];
-    splat(0.18 + Math.random() * 0.64, 0.22 + Math.random() * 0.56, (Math.random() - 0.5) * 1200, (Math.random() - 0.5) * 1200, c);
-  }, coarsePointer ? 2600 : 1800);
+    splat(0.08 + Math.random() * 0.84, 0.10 + Math.random() * 0.78, (Math.random() - 0.5) * 1800, (Math.random() - 0.5) * 1800, c);
+  }, coarsePointer ? 1800 : 980);
 
   try {
     resizeCanvas();
