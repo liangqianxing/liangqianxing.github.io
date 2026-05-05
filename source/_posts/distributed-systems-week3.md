@@ -1,6 +1,6 @@
 ﻿---
 title: Week 3：分布式系统速成——MapReduce、Raft、容错与 Distributed KV Store
-date: 2026-05-05
+date: 2026-05-05 11:00:00
 categories: 技术
 tags:
   - 分布式系统
@@ -546,3 +546,4 @@ User Query
 分布式系统的核心不是把代码部署到多台机器上，而是用系统化方式处理不可靠性：网络不可靠、节点不可靠、时间不可靠、状态不可靠。MapReduce 教我们如何拆任务和重试，Raft 教我们如何复制状态并达成一致，fault tolerance 教我们如何面对失败，distributed KV store 则把这些思想浓缩成最小可理解系统。
 
 当你把这套心智模型带回 AI 系统，就会发现 Ray、分布式推理、多 agent、workflow engine 都不再神秘。它们都是在不同场景下回答同一组问题：任务怎么调度，状态怎么保存，失败怎么恢复，多个 worker 如何协作产出一个可靠结果。
+
