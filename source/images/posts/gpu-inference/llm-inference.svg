@@ -1,0 +1,22 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620">
+  <defs><linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#eef2ff"/><stop offset="1" stop-color="#f8fafc"/></linearGradient><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#4f46e5"/></marker></defs>
+  <rect width="1200" height="620" rx="28" fill="url(#bg)"/>
+  <text x="60" y="72" font-family="Inter,Arial" font-size="34" font-weight="700" fill="#0f172a">LLM 推理为什么慢：不是只看 FLOPs</text>
+  <text x="60" y="112" font-family="Inter,Arial" font-size="18" fill="#475569">每生成一个 token，都要读权重、读写 KV cache、调度 batch，并把结果流式返回。</text>
+  <g font-family="Inter,Arial" text-anchor="middle" font-size="19">
+    <rect x="70" y="230" width="150" height="86" rx="18" fill="#fff" stroke="#6366f1" stroke-width="3"/><text x="145" y="267">请求队列</text><text x="145" y="294" font-size="15" fill="#64748b">不同 prompt</text>
+    <rect x="290" y="230" width="170" height="86" rx="18" fill="#eef2ff" stroke="#6366f1" stroke-width="3"/><text x="375" y="267">Batch Scheduler</text><text x="375" y="294" font-size="15" fill="#64748b">吞吐 vs 延迟</text>
+    <rect x="540" y="175" width="185" height="70" rx="16" fill="#f0fdfa" stroke="#14b8a6" stroke-width="3"/><text x="632" y="218">读模型权重</text>
+    <rect x="540" y="280" width="185" height="70" rx="16" fill="#fff7ed" stroke="#f97316" stroke-width="3"/><text x="632" y="323">读写 KV Cache</text>
+    <rect x="805" y="230" width="165" height="86" rx="18" fill="#fefce8" stroke="#eab308" stroke-width="3"/><text x="887" y="267">GPU Kernels</text><text x="887" y="294" font-size="15" fill="#64748b">attention / MLP</text>
+    <rect x="1040" y="230" width="120" height="86" rx="18" fill="#fef2f2" stroke="#ef4444" stroke-width="3"/><text x="1100" y="267">Next</text><text x="1100" y="294">Token</text>
+  </g>
+  <g stroke="#4f46e5" stroke-width="4" fill="none" marker-end="url(#arrow)">
+    <path d="M220 273 H290"/><path d="M460 273 C500 273 500 210 540 210"/><path d="M460 273 C500 273 500 315 540 315"/><path d="M725 210 C760 210 765 250 805 260"/><path d="M725 315 C760 315 765 292 805 286"/><path d="M970 273 H1040"/>
+  </g>
+  <g font-family="Inter,Arial" font-size="18" fill="#334155">
+    <rect x="90" y="410" width="300" height="92" rx="18" fill="#fff" stroke="#cbd5e1"/><text x="120" y="445">Prefill：并行处理 prompt</text><text x="120" y="475">吞吐高，但首 token 延迟受影响</text>
+    <rect x="450" y="410" width="300" height="92" rx="18" fill="#fff" stroke="#cbd5e1"/><text x="480" y="445">Decode：一次只生成 1 token</text><text x="480" y="475">小矩阵乘多，容易 memory bound</text>
+    <rect x="810" y="410" width="300" height="92" rx="18" fill="#fff" stroke="#cbd5e1"/><text x="840" y="445">Streaming：边算边返回</text><text x="840" y="475">提升体感速度，不减少总计算</text>
+  </g>
+</svg>
