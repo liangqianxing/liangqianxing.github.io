@@ -2808,3 +2808,23 @@ body {
     radial-gradient(circle at 50% 44%, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0.12) 34%, rgba(0,0,0,0.38) 100%),
     linear-gradient(180deg, rgba(4,6,10,0.10) 0%, rgba(4,6,10,0.30) 70%, #f5f7fb 100%);
 }
+
+/* Text-only compact Travelling badge */
+.fluid-travelling {
+  gap: 0;
+  padding: 0.12rem 0.32rem;
+  font-size: 0.78rem;
+  border-radius: 0.26rem;
+  line-height: 1.15;
+}
+
+.fluid-travelling-logo {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .fluid-travelling {
+    font-size: 0.72rem;
+    padding: 0.1rem 0.28rem;
+  }
+}
