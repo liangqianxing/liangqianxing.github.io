@@ -1,0 +1,22 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620">
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#0f766e"/></marker></defs>
+  <rect width="1200" height="620" rx="28" fill="#f0fdfa"/>
+  <text x="60" y="72" font-family="Inter,Arial" font-size="34" font-weight="700" fill="#0f172a">RAG Pipeline：数据库视角下的检索链路</text>
+  <text x="60" y="112" font-family="Inter,Arial" font-size="18" fill="#475569">从 chunk 到 embedding，再到 ANN index、metadata filter、rerank 与 cache，每一步都影响 retrieval latency。</text>
+  <g font-family="Inter,Arial" text-anchor="middle" font-size="18">
+    <rect x="60" y="250" width="130" height="78" rx="16" fill="#fff" stroke="#14b8a6" stroke-width="3"/><text x="125" y="283">Docs</text><text x="125" y="309" font-size="15" fill="#64748b">PDF/Web</text>
+    <rect x="260" y="250" width="140" height="78" rx="16" fill="#ccfbf1" stroke="#0d9488" stroke-width="3"/><text x="330" y="283">Chunking</text><text x="330" y="309" font-size="15" fill="#64748b">text blocks</text>
+    <rect x="470" y="250" width="150" height="78" rx="16" fill="#dbeafe" stroke="#2563eb" stroke-width="3"/><text x="545" y="283">Embedding</text><text x="545" y="309" font-size="15" fill="#64748b">vectors</text>
+    <rect x="690" y="170" width="160" height="78" rx="16" fill="#fef3c7" stroke="#f59e0b" stroke-width="3"/><text x="770" y="203">ANN Index</text><text x="770" y="229" font-size="15" fill="#64748b">HNSW/IVF</text>
+    <rect x="690" y="340" width="160" height="78" rx="16" fill="#ede9fe" stroke="#7c3aed" stroke-width="3"/><text x="770" y="373">Metadata</text><text x="770" y="399" font-size="15" fill="#64748b">filter</text>
+    <rect x="930" y="250" width="140" height="78" rx="16" fill="#fee2e2" stroke="#ef4444" stroke-width="3"/><text x="1000" y="283">Rerank</text><text x="1000" y="309" font-size="15" fill="#64748b">top-k</text>
+  </g>
+  <g stroke="#0f766e" stroke-width="4" fill="none" marker-end="url(#arrow)">
+    <path d="M190 289 H260"/><path d="M400 289 H470"/><path d="M620 289 C660 289 660 209 690 209"/><path d="M620 289 C660 289 660 379 690 379"/><path d="M850 209 C900 209 895 270 930 278"/><path d="M850 379 C900 379 895 310 930 304"/>
+  </g>
+  <g font-family="Inter,Arial" font-size="18" fill="#334155">
+    <rect x="120" y="485" width="960" height="72" rx="18" fill="#fff" stroke="#99f6e4"/>
+    <text x="155" y="520">优化心法：召回阶段要快而广，重排阶段要准而窄；缓存命中会直接改变整条链路的尾延迟。</text>
+    <text x="155" y="547">Vector DB 不是魔法，它是向量索引 + 标量过滤 + 存储布局 + 缓存策略 + 查询优化。</text>
+  </g>
+</svg>
