@@ -1,6 +1,6 @@
 ﻿---
 title: Week 4：数据库速成——从 Storage、Index、Query Optimization 到 Vector DB 与 RAG
-date: 2026-05-05
+date: 2026-05-05 12:00:00
 categories: 技术
 tags:
   - 数据库
@@ -573,3 +573,4 @@ Vector DB 一般包括：
 数据库不是 AI 系统的外围组件，而是 RAG、Vector DB、LLM memory 的底层骨架。Storage 决定数据怎么放，Buffer Pool 决定热数据怎么留在内存，Index 决定如何避免全量扫描，Query Optimization 决定执行顺序，Caching 决定尾延迟。
 
 当你用这套视角看 RAG，就不会只停留在“换 embedding 模型”或“调 prompt”。你会开始系统性地问：数据布局对吗，索引选型对吗，filter 顺序对吗，缓存 key 对吗，P99 慢在哪里。这才是把 AI 应用做成可靠系统的关键。
+
