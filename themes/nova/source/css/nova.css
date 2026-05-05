@@ -2654,3 +2654,10 @@ img { max-width: 100%; height: auto; display: block; }
 #academic-home {
   scroll-margin-top: calc(var(--nav-height) + 1rem);
 }
+
+.fluid-travelling-logo {
+  width: 1.55rem;
+  height: 1.55rem;
+  object-fit: contain;
+  display: inline-block;
+}
