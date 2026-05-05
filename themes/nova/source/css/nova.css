@@ -2661,3 +2661,21 @@ img { max-width: 100%; height: auto; display: block; }
   object-fit: contain;
   display: inline-block;
 }
+
+/* Full-page hero snap refinement */
+.fluid-landing {
+  min-height: calc(100vh - var(--nav-height));
+  margin-top: 0;
+  padding: 0 1.5rem 3rem;
+}
+
+#academic-home {
+  margin-top: 0;
+  padding-top: 3rem;
+  scroll-margin-top: var(--nav-height);
+}
+
+@media (max-width: 768px) {
+  .fluid-landing { min-height: calc(100svh - var(--nav-height)); }
+  #academic-home { margin-top: 0; padding-top: 2rem; }
+}

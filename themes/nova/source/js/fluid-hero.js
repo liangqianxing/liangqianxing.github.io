@@ -497,7 +497,7 @@
   }
 })();
 
-/* Homepage first-screen snap scroll */
+/* Homepage full-page snap scroll */
 (function () {
   'use strict';
 
@@ -509,25 +509,48 @@
   let snapping = false;
   let touchStartY = 0;
 
-  function heroBottom() {
-    return hero.offsetTop + hero.offsetHeight;
+  function navHeight() {
+    const value = getComputedStyle(document.documentElement).getPropertyValue('--nav-height');
+    return Number.parseFloat(value) || 64;
   }
 
-  function isNearHero() {
-    return window.scrollY < heroBottom() - window.innerHeight * 0.18;
+  function targetTop() {
+    return Math.max(0, target.getBoundingClientRect().top + window.scrollY - navHeight());
+  }
+
+  function heroZoneBottom() {
+    return targetTop() - 2;
+  }
+
+  function scrollToY(y) {
+    snapping = true;
+    window.scrollTo({ top: y, behavior: reduceMotion ? 'auto' : 'smooth' });
+    window.setTimeout(() => { snapping = false; }, reduceMotion ? 120 : 760);
   }
 
   function snapToContent() {
-    if (snapping || !isNearHero()) return;
-    snapping = true;
-    target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
-    window.setTimeout(() => { snapping = false; }, reduceMotion ? 120 : 850);
+    scrollToY(targetTop());
+  }
+
+  function snapToHero() {
+    scrollToY(0);
   }
 
   window.addEventListener('wheel', event => {
-    if (event.defaultPrevented || event.deltaY <= 6 || !isNearHero()) return;
-    event.preventDefault();
-    snapToContent();
+    if (event.defaultPrevented || snapping) return;
+    const y = window.scrollY;
+    const boundary = heroZoneBottom();
+
+    if (event.deltaY > 6 && y < boundary) {
+      event.preventDefault();
+      snapToContent();
+      return;
+    }
+
+    if (event.deltaY < -6 && y <= boundary + window.innerHeight * 0.45) {
+      event.preventDefault();
+      snapToHero();
+    }
   }, { passive: false });
 
   window.addEventListener('touchstart', event => {
@@ -536,10 +559,20 @@
   }, { passive: true });
 
   window.addEventListener('touchmove', event => {
-    if (!event.touches.length || !isNearHero()) return;
+    if (!event.touches.length || snapping) return;
     const deltaY = touchStartY - event.touches[0].clientY;
-    if (deltaY <= 18) return;
-    event.preventDefault();
-    snapToContent();
+    const y = window.scrollY;
+    const boundary = heroZoneBottom();
+
+    if (deltaY > 18 && y < boundary) {
+      event.preventDefault();
+      snapToContent();
+      return;
+    }
+
+    if (deltaY < -18 && y <= boundary + window.innerHeight * 0.45) {
+      event.preventDefault();
+      snapToHero();
+    }
   }, { passive: false });
 })();
