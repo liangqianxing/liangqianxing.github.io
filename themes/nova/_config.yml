@@ -1,4 +1,4 @@
-# Nova Theme Configuration
+﻿# Nova Theme Configuration
 
 # Profile (shown on homepage)
 profile:
@@ -67,7 +67,7 @@ skills:
 experience:
   - company: vivo
     company_en: vivo
-    role: 算法实习生
+    role: 算法工程师
     period: 2026.04 – 至今
     company_logo: "/images/logos/vivo.svg"
     desc: 
@@ -97,3 +97,4 @@ projects:
 dark_mode: true   # enable dark mode toggle
 toc: true         # table of contents in posts
 reading_time: true
+
