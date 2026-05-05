@@ -2740,3 +2740,83 @@ img { max-width: 100%; height: auto; display: block; }
     radial-gradient(circle at 50% 44%, rgba(0,0,0,0.03) 0%, rgba(0,0,0,0.18) 34%, rgba(0,0,0,0.48) 100%),
     linear-gradient(180deg, rgba(4, 6, 10, 0.18) 0%, rgba(4, 6, 10, 0.38) 68%, var(--bg-primary) 100%);
 }
+
+/* Light variant for the WebGL fluid landing */
+[data-theme="light"] .fluid-landing {
+  background: #f7fbff;
+  color-scheme: light;
+}
+
+[data-theme="light"] .fluid-landing .fluid-hero-canvas {
+  background:
+    radial-gradient(circle at 24% 24%, rgba(125, 92, 255, 0.24), transparent 24rem),
+    radial-gradient(circle at 72% 28%, rgba(14, 165, 233, 0.22), transparent 26rem),
+    radial-gradient(circle at 48% 76%, rgba(16, 185, 129, 0.18), transparent 24rem),
+    linear-gradient(180deg, #f8fcff 0%, #eaf4ff 100%);
+  filter: saturate(1.02) contrast(0.92) brightness(1.22) opacity(0.52);
+}
+
+[data-theme="light"] .fluid-landing .fluid-hero-overlay {
+  background:
+    radial-gradient(circle at 50% 42%, rgba(255,255,255,0.18) 0%, rgba(248,252,255,0.48) 42%, rgba(239,246,255,0.82) 100%),
+    linear-gradient(180deg, rgba(248,252,255,0.30) 0%, rgba(239,246,255,0.76) 72%, var(--bg-primary) 100%);
+}
+
+[data-theme="light"] .fluid-landing::after {
+  background-image:
+    radial-gradient(rgba(15,23,42,0.055) 0.75px, transparent 0.75px),
+    linear-gradient(rgba(15,23,42,0.026) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15,23,42,0.020) 1px, transparent 1px);
+  opacity: 0.36;
+  mix-blend-mode: multiply;
+}
+
+[data-theme="light"] .fluid-signature {
+  color: #172033;
+  text-shadow:
+    0 1px 0 rgba(255,255,255,0.95),
+    0 0 12px rgba(56, 189, 248, 0.48),
+    0 0 28px rgba(99, 102, 241, 0.24),
+    0 18px 55px rgba(30,41,59,0.14);
+}
+
+[data-theme="light"] .fluid-role {
+  color: #334155;
+  border-right-color: rgba(79, 70, 229, 0.72);
+  text-shadow: 0 0 14px rgba(255,255,255,0.82), 0 0 18px rgba(56,189,248,0.20);
+}
+
+[data-theme="light"] .fluid-links {
+  color: rgba(51,65,85,0.52);
+}
+
+[data-theme="light"] .fluid-links a {
+  color: rgba(51,65,85,0.64);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.85);
+}
+
+[data-theme="light"] .fluid-links a:hover {
+  color: #4f46e5;
+  text-shadow: 0 0 18px rgba(99,102,241,0.26);
+}
+
+[data-theme="light"] .fluid-scroll-down span,
+[data-theme="light"] .fluid-scroll-down span::after {
+  border-color: #4f46e5;
+  filter: drop-shadow(0 0 10px rgba(79,70,229,0.34));
+}
+
+[data-theme="light"] .fluid-travelling {
+  background: rgba(255,255,255,0.72);
+  color: #334155;
+  border-color: rgba(51,65,85,0.22);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.95), 0 10px 28px rgba(30,41,59,0.12);
+  backdrop-filter: blur(12px) saturate(145%);
+  -webkit-backdrop-filter: blur(12px) saturate(145%);
+}
+
+[data-theme="light"] .fluid-travelling:hover {
+  color: #111827;
+  border-color: rgba(79,70,229,0.34);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,1), 0 14px 34px rgba(30,41,59,0.16);
+}
