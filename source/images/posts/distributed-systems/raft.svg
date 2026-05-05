@@ -1,0 +1,23 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620">
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#7c3aed"/></marker></defs>
+  <rect width="1200" height="620" rx="28" fill="#faf5ff"/>
+  <text x="60" y="72" font-family="Inter,Arial" font-size="34" font-weight="700" fill="#111827">Raft：复制状态机的一致性协议</text>
+  <text x="60" y="112" font-family="Inter,Arial" font-size="18" fill="#6b7280">Leader 接收写请求，把日志复制到多数派，commit 后所有节点按相同顺序应用日志。</text>
+  <g font-family="Inter,Arial" text-anchor="middle" font-size="19">
+    <rect x="80" y="265" width="140" height="80" rx="18" fill="#fff" stroke="#7c3aed" stroke-width="3"/><text x="150" y="300">Client</text><text x="150" y="326" font-size="15" fill="#64748b">put x=1</text>
+    <rect x="380" y="140" width="180" height="96" rx="20" fill="#ede9fe" stroke="#7c3aed" stroke-width="4"/><text x="470" y="180" font-weight="700">Leader</text><text x="470" y="208" font-size="15" fill="#64748b">term 8, log append</text>
+    <rect x="720" y="100" width="180" height="82" rx="18" fill="#fff" stroke="#a78bfa" stroke-width="3"/><text x="810" y="135">Follower 1</text><text x="810" y="160" font-size="15" fill="#64748b">replicate log</text>
+    <rect x="720" y="260" width="180" height="82" rx="18" fill="#fff" stroke="#a78bfa" stroke-width="3"/><text x="810" y="295">Follower 2</text><text x="810" y="320" font-size="15" fill="#64748b">replicate log</text>
+    <rect x="720" y="420" width="180" height="82" rx="18" fill="#fff" stroke="#a78bfa" stroke-width="3"/><text x="810" y="455">Follower 3</text><text x="810" y="480" font-size="15" fill="#64748b">may lag</text>
+    <rect x="1000" y="265" width="120" height="80" rx="18" fill="#fef3c7" stroke="#f59e0b" stroke-width="3"/><text x="1060" y="299">Commit</text><text x="1060" y="326" font-size="15" fill="#64748b">majority</text>
+  </g>
+  <g stroke="#7c3aed" stroke-width="4" fill="none" marker-end="url(#arrow)">
+    <path d="M220 305 C285 305 310 188 380 188"/>
+    <path d="M560 180 C625 180 650 141 720 141"/><path d="M560 188 C630 188 650 301 720 301"/><path d="M560 206 C630 206 650 461 720 461" stroke-dasharray="8 8"/>
+    <path d="M900 141 C950 141 960 280 1000 290"/><path d="M900 301 H1000"/>
+  </g>
+  <g font-family="Inter,Arial" font-size="18" fill="#374151">
+    <rect x="105" y="535" width="990" height="52" rx="16" fill="#fff" stroke="#ddd6fe"/>
+    <text x="135" y="568">核心保证：同一条 committed log 不会丢；所有状态机按同一日志顺序执行，因此得到同一状态。</text>
+  </g>
+</svg>
