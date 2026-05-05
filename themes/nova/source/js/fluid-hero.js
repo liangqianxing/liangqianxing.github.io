@@ -48,7 +48,7 @@
     pressureDissipation: 0.82,
     pressureIterations: coarsePointer ? 8 : 12,
     curl: 28,
-    splatRadius: coarsePointer ? 0.022 : 0.018,
+    splatRadius: coarsePointer ? 0.026 : 0.022,
   };
 
   const baseVertex = `
@@ -467,20 +467,46 @@
     const x = (clientX - rect.left) / rect.width;
     const y = 1 - (clientY - rect.top) / rect.height;
     if (x < 0 || x > 1 || y < 0 || y > 1) return;
+
     const prev = lastPointer || { x, y };
-    const dx = (x - prev.x) * 9000;
-    const dy = (y - prev.y) * 9000;
+    const vx = x - prev.x;
+    const vy = y - prev.y;
+    const speed = Math.min(Math.hypot(vx, vy) * 90, 1.8);
+    const force = 14000 + speed * 11500;
+    const dx = vx * force;
+    const dy = vy * force;
     const color = palette[colorIndex++ % palette.length];
+
     splat(x, y, dx, dy, color);
+
+    const trailCount = coarsePointer ? 1 : 3;
+    for (let i = 1; i <= trailCount; i++) {
+      const t = i / (trailCount + 1);
+      const trailX = prev.x + vx * t;
+      const trailY = prev.y + vy * t;
+      const trailColor = palette[(colorIndex + i) % palette.length];
+      splat(trailX, trailY, dx * 0.45, dy * 0.45, trailColor);
+    }
+
     lastPointer = { x, y };
+  }
+
+  function pointerPulse(clientX, clientY) {
+    lastPointer = null;
+    pointerMove(clientX, clientY);
+    const rect = canvas.getBoundingClientRect();
+    const x = (clientX - rect.left) / rect.width;
+    const y = 1 - (clientY - rect.top) / rect.height;
+    for (let i = 0; i < 5; i++) {
+      const angle = (Math.PI * 2 * i) / 5;
+      const color = palette[(colorIndex + i) % palette.length];
+      splat(x, y, Math.cos(angle) * 2200, Math.sin(angle) * 2200, color);
+    }
   }
 
   canvas.addEventListener('pointermove', event => pointerMove(event.clientX, event.clientY), { passive: true });
   canvas.addEventListener('pointerleave', () => { lastPointer = null; }, { passive: true });
-  canvas.addEventListener('pointerdown', event => {
-    lastPointer = null;
-    pointerMove(event.clientX, event.clientY);
-  }, { passive: true });
+  canvas.addEventListener('pointerdown', event => pointerPulse(event.clientX, event.clientY), { passive: true });
 
   setInterval(() => {
     const c = palette[colorIndex++ % palette.length];
