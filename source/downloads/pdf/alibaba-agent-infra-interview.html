@@ -1,0 +1,112 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>阿里 Agent Infra 工程师面试准备</title>
+<style>
+@page { size: A4; margin: 16mm 15mm; }
+* { box-sizing: border-box; }
+body { font-family: "Microsoft YaHei", "Noto Sans SC", Arial, sans-serif; color: #111827; line-height: 1.62; font-size: 12.2px; }
+h1 { font-size: 26px; margin: 0 0 8px; letter-spacing: -0.02em; }
+h2 { font-size: 18px; margin: 22px 0 8px; padding-bottom: 4px; border-bottom: 1px solid #dbe3ef; color: #0f172a; }
+h3 { font-size: 14.5px; margin: 14px 0 6px; color: #1e293b; }
+p { margin: 6px 0; }
+ul, ol { margin: 6px 0 8px 20px; padding: 0; }
+li { margin: 2px 0; }
+table { width: 100%; border-collapse: collapse; margin: 8px 0 12px; font-size: 11.4px; page-break-inside: avoid; }
+th, td { border: 1px solid #d9e2ef; padding: 5px 7px; vertical-align: top; }
+th { background: #eef4ff; color: #0f172a; }
+pre { background: #0f172a; color: #e5e7eb; padding: 9px 11px; border-radius: 8px; overflow: hidden; font-size: 10.8px; line-height: 1.45; page-break-inside: avoid; }
+code { font-family: "Consolas", "Fira Code", monospace; }
+.badge { display: inline-block; padding: 3px 8px; border-radius: 999px; background: #eef2ff; color: #4338ca; font-weight: 700; font-size: 11px; margin-bottom: 8px; }
+.cover { border: 1px solid #dbe3ef; border-radius: 14px; padding: 18px; margin-bottom: 14px; background: linear-gradient(135deg,#f8fbff,#eef2ff); }
+.meta { color: #64748b; font-size: 12px; }
+.strong { font-weight: 700; color: #0f172a; }
+.page-break { page-break-before: always; }
+</style>
+</head>
+<body>
+<div class="cover">
+  <div class="badge">Alibaba Agent Infra Interview</div>
+  <h1>阿里 Agent Infra 工程师面试准备</h1>
+  <p class="meta">AI Infra · Agent Runtime · RAG / Memory · LLM Serving · Reliability Engineering</p>
+  <p>核心定位：把 Agent / LLM 应用做成稳定、可观测、可扩展、可恢复的平台基础设施。</p>
+</div>
+
+<h2>1. 岗位画像</h2>
+<table><tr><th>方向</th><th>重点</th></tr><tr><td>Agent Infra</td><td>Agent runtime、工具调用、任务编排、记忆系统、RAG、评测、权限、沙箱、可观测性。</td></tr><tr><td>稳定性工程</td><td>高可用、超时、重试、幂等、限流、熔断、降级、监控告警、SLO、成本控制。</td></tr></table>
+<p><span class="strong">一句话表达：</span>我关注如何把 Agent 从 demo 做成平台能力：任务可编排、状态可恢复、工具调用可审计、检索链路可观测、失败可降级、成本可控制。</p>
+
+<h2>2. 六块准备重点</h2>
+<table><tr><th>模块</th><th>必须掌握</th></tr><tr><td>Agent 系统设计</td><td>Planner、Executor、Tool、Memory、Evaluator、Workflow 如何拆。</td></tr><tr><td>RAG / Memory</td><td>chunk、embedding、ANN、metadata filter、rerank、cache、权限隔离。</td></tr><tr><td>LLM Serving</td><td>prefill、decode、KV cache、batching、streaming、vLLM。</td></tr><tr><td>稳定性工程</td><td>timeout、retry、idempotency、限流、熔断、降级、SLO。</td></tr><tr><td>分布式系统</td><td>task queue、worker crash、checkpoint、workflow、Raft 概念。</td></tr><tr><td>工程基础</td><td>Python/Go/Java、Redis、MySQL、MQ、Docker、K8s、Linux。</td></tr></table>
+
+<h2>3. Agent 平台架构</h2>
+<pre><code>User Request
+  -> API Gateway
+  -> Planner
+  -> Task Scheduler
+  -> Agent Runtime
+  -> Tool Executor
+  -> Memory / RAG
+  -> Evaluator
+  -> Response Aggregator</code></pre>
+<ul><li>API Gateway：鉴权、限流、租户隔离。</li><li>Planner：把用户目标拆成步骤。</li><li>Scheduler：调度任务到 worker。</li><li>Agent Runtime：执行 Agent loop，管理上下文。</li><li>Tool Executor：工具调用、参数校验、沙箱、超时。</li><li>Memory / RAG：检索知识和历史状态。</li><li>Evaluator：质量评估、安全检查、终止判断。</li></ul>
+
+<h2>4. Tool Calling 稳定性</h2>
+<ul><li>工具注册中心：schema、权限、timeout、retry 策略。</li><li>参数校验：JSON Schema / Pydantic。</li><li>权限控制：不同用户、租户、Agent 可用工具不同。</li><li>超时控制：每个工具必须有 timeout。</li><li>幂等设计：可重试工具必须有 request id。</li><li>审计日志：记录谁在何时调用了什么工具。</li><li>沙箱隔离：代码执行、文件操作、浏览器操作不能裸跑。</li><li>结果截断：防止工具返回过大内容撑爆上下文。</li></ul>
+
+<h2>5. RAG 与 Memory</h2>
+<pre><code>Offline: document -> parse -> chunk -> embedding -> vector index
+Online: query -> query embedding -> ANN search -> metadata filter -> rerank -> context packing -> LLM</code></pre>
+<p>Retrieval latency 拆解：</p>
+<pre><code>embedding latency
++ vector DB network latency
++ ANN search latency
++ metadata filter latency
++ fetch chunk latency
++ rerank latency
++ prompt assembly latency</code></pre>
+<p>Memory 设计字段：id、user_id、content、embedding、importance、timestamp、source、expires_at。难点是错误记忆污染、过期策略、去重合并、权限隔离和延迟控制。</p>
+
+<h2>6. LLM Serving</h2>
+<ul><li>Prefill：处理 prompt，建立 KV cache。</li><li>Decode：一次生成一个 token，逐步追加 KV cache。</li><li>LLM 推理慢：权重大、decode 自回归、KV cache 占显存、小 batch GPU 利用率低。</li><li>vLLM：PagedAttention + continuous batching，降低 KV cache 碎片，提高并发。</li><li>Streaming：优化体感延迟和 time to first token，不减少总计算。</li></ul>
+
+<h2>7. 稳定性工程</h2>
+<table><tr><th>机制</th><th>要点</th></tr><tr><td>Timeout</td><td>LLM、embedding、vector DB、tool、browser/code execution 都要有 timeout。</td></tr><tr><td>Retry</td><td>指数退避；副作用操作不能盲目重试。</td></tr><tr><td>Idempotency</td><td>request id、幂等 key、去重表、状态机。</td></tr><tr><td>Rate Limit</td><td>保护系统不被流量打爆。</td></tr><tr><td>Circuit Breaker</td><td>依赖持续失败时暂时停止调用。</td></tr><tr><td>Fallback</td><td>rerank 挂了退化为 vector top-k，高级模型限流切便宜模型。</td></tr><tr><td>SLO</td><td>Availability、P95/P99、TTFT、task success rate、tool success rate、cost per task。</td></tr></table>
+
+<div class="page-break"></div>
+<h2>8. DeepScientist 项目包装</h2>
+<p><span class="strong">一句话：</span>DeepScientist 是一个面向科研任务的 multi-agent workflow 系统，本质是 mini distributed system。它把复杂科研问题拆成检索、阅读、总结、写作、评估等可恢复步骤，并通过 RAG 和 memory 管理中间知识。</p>
+<pre><code>User Query
+  -> Planner
+  -> Search Workers
+  -> PDF / Web Parser Workers
+  -> Memory / Vector Store
+  -> Draft Writer
+  -> Critic / Evaluator
+  -> Final Aggregator</code></pre>
+<p><span class="strong">稳定性点：</span>tool timeout、search/parser retry、LLM fallback、中间结果 checkpoint、trace 记录耗时、缓存搜索和 embedding、外部 API 限流。</p>
+
+<h2>9. 高频系统设计题</h2>
+<ol><li>设计一个企业内部 Agent 平台：多租户鉴权、tool registry、workflow runtime、memory/RAG、sandbox、observability、evaluation、model router、cost control。</li><li>Agent 调工具超时怎么办：timeout、按工具类型 retry、幂等工具可重试、副作用工具不自动重试、记录 trace、返回降级结果。</li><li>RAG 检索慢怎么排查：embedding、vector search、metadata filter、fetch chunk、rerank、context packing 分段看 P99。</li><li>Agent 死循环怎么办：最大 step、最大 token budget、重复 action 检测、evaluator、重新规划、人工接管。</li><li>如何做 Agent 可观测性：request id、model、prompt hash、token usage、tool input/output、retrieval top-k、rerank scores、step latency、error stack。</li></ol>
+
+<h2>10. 高频八股清单</h2>
+<table><tr><th>方向</th><th>问题</th></tr><tr><td>AI Infra</td><td>prefill/decode、KV cache、vLLM、streaming、RAG vs fine-tuning、rerank、embedding cache。</td></tr><tr><td>稳定性</td><td>timeout/retry、幂等、熔断限流、SLO/SLA/error budget、P99 latency、服务雪崩、灰度发布。</td></tr><tr><td>分布式</td><td>MapReduce、Raft majority、leader 挂了怎么办、task queue 不丢任务、worker crash 恢复。</td></tr><tr><td>数据库/RAG</td><td>B+ Tree vs LSM、ANN、HNSW、metadata filter 顺序、cache invalidation、LLM memory。</td></tr></table>
+
+<h2>11. 7 天冲刺计划</h2>
+<table><tr><th>天数</th><th>主题</th><th>输出</th></tr><tr><td>Day 1</td><td>Agent Infra 架构</td><td>企业 Agent 平台系统设计图</td></tr><tr><td>Day 2</td><td>RAG / Vector DB / Memory</td><td>RAG 优化 checklist</td></tr><tr><td>Day 3</td><td>LLM Serving</td><td>一页 vLLM / KV cache 笔记</td></tr><tr><td>Day 4</td><td>稳定性工程</td><td>工具调用超时处理方案</td></tr><tr><td>Day 5</td><td>分布式系统</td><td>DeepScientist = mini distributed system 讲稿</td></tr><tr><td>Day 6</td><td>项目包装</td><td>3 分钟介绍 + 10 分钟深挖</td></tr><tr><td>Day 7</td><td>模拟面试</td><td>3 个系统设计题 + 20 个八股题</td></tr></table>
+
+<h2>12. 自我介绍模板</h2>
+<p>面试官您好，我是古恩豪。我主要关注 AI Infra 和 Agent 系统工程，最近系统学习了深度学习框架、GPU 推理加速、分布式系统和数据库/RAG。项目上我做过一个 DeepScientist，多 Agent 科研工作流系统，里面涉及任务拆解、工具调用、RAG 检索、memory 管理、失败重试和中间状态持久化。我对如何把 Agent 从 demo 做成稳定、可观测、可恢复的平台能力比较感兴趣，也希望在 Agent Infra 和稳定性工程方向深入实践。</p>
+
+<h2>13. 反问问题</h2>
+<ol><li>团队现在的 Agent Infra 更偏 runtime、tool platform，还是 serving / evaluation？</li><li>稳定性工程在 Agent 场景里最关注哪些指标？</li><li>目前 Agent 平台最大的挑战是 tool reliability、latency、cost，还是 observability？</li><li>实习生进去后会参与平台建设、稳定性治理，还是具体业务 Agent 落地？</li><li>团队技术栈主要是 Java、Go、Python，还是混合？</li></ol>
+
+<h2>14. 最后总结</h2>
+<p>Agent Infra 工程师不是单纯的大模型应用开发，而是 AI 时代的平台工程岗位。核心能力是把 Agent 应用做成可靠系统：可编排、可恢复、可观测、可扩展、可降级、可控成本。</p>
+<pre><code>Agent Runtime
+RAG / Memory
+LLM Serving
+Reliability Engineering</code></pre>
+</body>
+</html>
