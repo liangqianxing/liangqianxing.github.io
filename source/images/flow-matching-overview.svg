@@ -1,0 +1,55 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="960" height="430" viewBox="0 0 960 430" role="img" aria-labelledby="title desc">
+  <title id="title">Diffusion 与 Flow Matching 对比</title>
+  <desc id="desc">扩散模型一步步去噪，Flow Matching 学习连续速度场。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#f8fbff"/>
+      <stop offset="1" stop-color="#eef5ff"/>
+    </linearGradient>
+    <marker id="arrowBlue" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#2f6fed"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#16a06a"/>
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#1d3557" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+  <rect width="960" height="430" rx="26" fill="url(#bg)"/>
+  <text x="480" y="48" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="700" fill="#172033">Diffusion vs Flow Matching</text>
+  <g filter="url(#shadow)">
+    <rect x="54" y="84" width="395" height="292" rx="22" fill="#ffffff"/>
+    <rect x="511" y="84" width="395" height="292" rx="22" fill="#ffffff"/>
+  </g>
+  <text x="252" y="125" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="700" fill="#2f6fed">Diffusion</text>
+  <text x="709" y="125" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="700" fill="#16a06a">Flow Matching</text>
+  <text x="252" y="154" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#526070">一步步预测如何去噪</text>
+  <text x="709" y="154" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#526070">学习连续速度场并积分</text>
+  <g font-family="Inter, Arial, sans-serif" font-size="14" fill="#334155">
+    <circle cx="122" cy="245" r="42" fill="#e8efff" stroke="#8fb0ff" stroke-width="2"/>
+    <text x="122" y="250" text-anchor="middle">noise</text>
+    <circle cx="252" cy="245" r="42" fill="#eef4ff" stroke="#8fb0ff" stroke-width="2"/>
+    <text x="252" y="250" text-anchor="middle">less noisy</text>
+    <circle cx="382" cy="245" r="42" fill="#fff2d8" stroke="#f4b44d" stroke-width="2"/>
+    <text x="382" y="250" text-anchor="middle">data</text>
+    <path d="M166 245 H206" stroke="#2f6fed" stroke-width="4" marker-end="url(#arrowBlue)"/>
+    <path d="M296 245 H336" stroke="#2f6fed" stroke-width="4" marker-end="url(#arrowBlue)"/>
+    <text x="252" y="320" text-anchor="middle" fill="#64748b">局部反向过程：p(xₜ₋₁ | xₜ)</text>
+  </g>
+  <g font-family="Inter, Arial, sans-serif" font-size="14" fill="#334155">
+    <circle cx="579" cy="265" r="38" fill="#e7f8f0" stroke="#70d6ad" stroke-width="2"/>
+    <text x="579" y="270" text-anchor="middle">noise</text>
+    <circle cx="838" cy="188" r="38" fill="#fff2d8" stroke="#f4b44d" stroke-width="2"/>
+    <text x="838" y="193" text-anchor="middle">data</text>
+    <path d="M617 257 C675 237, 727 215, 800 194" fill="none" stroke="#16a06a" stroke-width="5" marker-end="url(#arrowGreen)"/>
+    <g stroke="#16a06a" stroke-width="2" marker-end="url(#arrowGreen)" opacity="0.75">
+      <path d="M650 290 l36 -18"/>
+      <path d="M690 248 l36 -18"/>
+      <path d="M738 281 l36 -18"/>
+      <path d="M758 212 l36 -18"/>
+      <path d="M640 204 l36 -18"/>
+    </g>
+    <text x="709" y="320" text-anchor="middle" fill="#64748b">连续动力系统：dx/dt = vθ(x,t)</text>
+  </g>
+</svg>
