@@ -2826,3 +2826,80 @@ img { max-width: 100%; height: auto; display: block; }
   letter-spacing: 0.01em;
   white-space: nowrap;
 }
+
+/* ============================================================
+   Dark Mode Atmospheric Background
+   ============================================================ */
+[data-theme="dark"] body {
+  background:
+    radial-gradient(circle at 16% 12%, rgba(139, 92, 246, 0.18), transparent 28rem),
+    radial-gradient(circle at 84% 10%, rgba(6, 182, 212, 0.14), transparent 30rem),
+    radial-gradient(circle at 72% 86%, rgba(34, 197, 94, 0.08), transparent 32rem),
+    linear-gradient(180deg, #070a12 0%, #0b1020 42%, #080b12 100%);
+  background-attachment: fixed;
+}
+
+[data-theme="dark"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -2;
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.035) 1px, transparent 1px),
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.045), transparent 30rem);
+  background-size: 56px 56px, 56px 56px, 100% 100%;
+  mask-image: linear-gradient(180deg, rgba(0,0,0,0.72), rgba(0,0,0,0.18) 55%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,0.72), rgba(0,0,0,0.18) 55%, transparent 100%);
+}
+
+[data-theme="dark"] body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 22% 22%, rgba(139, 92, 246, 0.16), transparent 18rem),
+    radial-gradient(circle at 76% 28%, rgba(6, 182, 212, 0.12), transparent 20rem),
+    linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.025) 48%, transparent 58%);
+  filter: blur(0.2px);
+}
+
+[data-theme="dark"] .hero {
+  background:
+    linear-gradient(135deg, rgba(15, 23, 42, 0.36), rgba(30, 41, 59, 0.18)),
+    transparent;
+  border-bottom-color: rgba(148, 163, 184, 0.14);
+}
+
+[data-theme="dark"] .post-card,
+[data-theme="dark"] .toc-inner,
+[data-theme="dark"] .project-card,
+[data-theme="dark"] .ac-edu-item,
+[data-theme="dark"] .award-card {
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.78), rgba(15, 23, 42, 0.62));
+  border-color: rgba(148, 163, 184, 0.16);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.035);
+  backdrop-filter: blur(14px) saturate(130%);
+  -webkit-backdrop-filter: blur(14px) saturate(130%);
+}
+
+[data-theme="dark"] .post-card:hover,
+[data-theme="dark"] .project-card:hover,
+[data-theme="dark"] .award-card:hover {
+  background: linear-gradient(180deg, rgba(30, 41, 59, 0.82), rgba(15, 23, 42, 0.7));
+  border-color: rgba(139, 92, 246, 0.36);
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.42), 0 0 32px rgba(139, 92, 246, 0.10);
+}
+
+[data-theme="dark"] .nav {
+  background: rgba(7, 10, 18, 0.72);
+  border-bottom-color: rgba(148, 163, 184, 0.12);
+  box-shadow: 0 12px 38px rgba(0, 0, 0, 0.24);
+}
+
+[data-theme="dark"] .footer {
+  background: linear-gradient(180deg, transparent, rgba(7, 10, 18, 0.74));
+}
