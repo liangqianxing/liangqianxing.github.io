@@ -903,6 +903,7 @@ img { max-width: 100%; height: auto; display: block; }
   border: none;
   background: none;
   display: flex;
+  vertical-align: top;
 }
 
 /* Scrollbar */
@@ -929,7 +930,7 @@ img { max-width: 100%; height: auto; display: block; }
   border: none;
   background: transparent;
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 0.875rem;
   line-height: 1.7;
   color: var(--text-tertiary);
 }
@@ -952,6 +953,16 @@ img { max-width: 100%; height: auto; display: block; }
   line-height: 1.7;
   color: var(--text-primary);
   white-space: pre;
+}
+
+.post-content figure.highlight .gutter pre,
+.post-content figure.highlight .code pre,
+.post-content figure.highlight .line {
+  line-height: 1.7;
+}
+
+.post-content figure.highlight .line {
+  min-height: 1.4875rem;
 }
 
 /* Syntax colors for Hexo highlight.js token classes */
