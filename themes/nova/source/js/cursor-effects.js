@@ -3,7 +3,10 @@
 
   const finePointer = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
   const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!finePointer || reduceMotion) return;
+  if (!finePointer || reduceMotion) {
+    document.documentElement.classList.remove('nova-cursor-preload');
+    return;
+  }
 
   const root = document.documentElement;
   const dot = document.createElement('div');
@@ -18,6 +21,7 @@
   spark.className = 'nova-cursor-spark';
   document.body.append(aura, ring, glow, spark, dot);
   root.classList.add('nova-custom-cursor');
+  root.classList.remove('nova-cursor-preload');
 
   let mouseX = window.innerWidth / 2;
   let mouseY = window.innerHeight / 2;
