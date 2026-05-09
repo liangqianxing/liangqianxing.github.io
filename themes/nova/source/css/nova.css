@@ -3113,3 +3113,16 @@ img { max-width: 100%; height: auto; display: block; }
     display: none !important;
   }
 }
+
+/* Hide native cursor while the polished cursor is active. */
+.nova-custom-cursor,
+.nova-custom-cursor * {
+  cursor: none !important;
+}
+
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .nova-custom-cursor,
+  .nova-custom-cursor * {
+    cursor: auto !important;
+  }
+}
