@@ -2903,3 +2903,106 @@ img { max-width: 100%; height: auto; display: block; }
 [data-theme="dark"] .footer {
   background: linear-gradient(180deg, transparent, rgba(7, 10, 18, 0.74));
 }
+
+/* ============================================================
+   Homepage Three.js Neural Hero
+   ============================================================ */
+.ac-three-hero {
+  display: none;
+}
+
+[data-theme="dark"] .ac-three-hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 0.72fr);
+  align-items: center;
+  min-height: 220px;
+  margin: 0 0 2.2rem;
+  padding: clamp(1.2rem, 3vw, 1.8rem);
+  overflow: hidden;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 1.35rem;
+  background:
+    radial-gradient(circle at 78% 48%, rgba(34, 211, 238, 0.16), transparent 18rem),
+    radial-gradient(circle at 24% 18%, rgba(167, 139, 250, 0.18), transparent 16rem),
+    linear-gradient(135deg, rgba(15, 23, 42, 0.78), rgba(7, 10, 18, 0.58));
+  box-shadow:
+    0 24px 80px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.045);
+  backdrop-filter: blur(18px) saturate(135%);
+  -webkit-backdrop-filter: blur(18px) saturate(135%);
+  isolation: isolate;
+}
+
+[data-theme="dark"] .ac-three-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.04) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mask-image: radial-gradient(circle at 72% 50%, rgba(0,0,0,0.74), transparent 72%);
+  -webkit-mask-image: radial-gradient(circle at 72% 50%, rgba(0,0,0,0.74), transparent 72%);
+  z-index: -1;
+}
+
+.ac-three-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 34rem;
+}
+
+.ac-three-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.65rem;
+  color: #67e8f9;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.ac-three-kicker::before {
+  content: "";
+  width: 0.48rem;
+  height: 0.48rem;
+  border-radius: 999px;
+  background: #34d399;
+  box-shadow: 0 0 18px rgba(52, 211, 153, 0.8);
+}
+
+.ac-three-copy h2 {
+  margin: 0 0 0.55rem;
+  color: #f8fafc;
+  font-size: clamp(1.45rem, 3vw, 2.15rem);
+  line-height: 1.08;
+  letter-spacing: -0.045em;
+}
+
+.ac-three-copy p {
+  margin: 0;
+  max-width: 30rem;
+  color: #aebdda;
+  font-size: 0.96rem;
+  line-height: 1.75;
+}
+
+.ac-three-canvas {
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: min(48%, 360px);
+  height: 100%;
+  opacity: 0.95;
+  pointer-events: auto;
+  z-index: 1;
+}
+
+@media (max-width: 860px), (prefers-reduced-motion: reduce), (pointer: coarse) {
+  [data-theme="dark"] .ac-three-hero {
+    display: none;
+  }
+}
