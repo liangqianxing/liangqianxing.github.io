@@ -954,6 +954,71 @@ img { max-width: 100%; height: auto; display: block; }
   white-space: pre;
 }
 
+/* Syntax colors for Hexo highlight.js token classes */
+.post-content figure.highlight .comment,
+.post-content figure.highlight .quote {
+  color: #64748b;
+  font-style: italic;
+}
+.post-content figure.highlight .keyword,
+.post-content figure.highlight .selector-tag,
+.post-content figure.highlight .subst {
+  color: #7c3aed;
+  font-weight: 600;
+}
+.post-content figure.highlight .number,
+.post-content figure.highlight .literal,
+.post-content figure.highlight .variable,
+.post-content figure.highlight .template-variable,
+.post-content figure.highlight .tag .attr {
+  color: #dc2626;
+}
+.post-content figure.highlight .string,
+.post-content figure.highlight .doctag {
+  color: #059669;
+}
+.post-content figure.highlight .title,
+.post-content figure.highlight .section,
+.post-content figure.highlight .selector-id {
+  color: #2563eb;
+  font-weight: 600;
+}
+.post-content figure.highlight .type,
+.post-content figure.highlight .class .title {
+  color: #0891b2;
+  font-weight: 600;
+}
+.post-content figure.highlight .tag,
+.post-content figure.highlight .name,
+.post-content figure.highlight .attribute {
+  color: #1d4ed8;
+}
+.post-content figure.highlight .regexp,
+.post-content figure.highlight .link {
+  color: #0d9488;
+}
+.post-content figure.highlight .symbol,
+.post-content figure.highlight .bullet {
+  color: #9333ea;
+}
+.post-content figure.highlight .built_in,
+.post-content figure.highlight .builtin-name {
+  color: #ea580c;
+}
+.post-content figure.highlight .meta {
+  color: #475569;
+}
+.post-content figure.highlight .deletion {
+  color: #b91c1c;
+  background: #fee2e2;
+}
+.post-content figure.highlight .addition {
+  color: #047857;
+  background: #dcfce7;
+}
+.post-content figure.highlight .emphasis { font-style: italic; }
+.post-content figure.highlight .strong { font-weight: 700; }
+
 /* Neutralise the <br> Hexo injects after each line */
 .post-content figure.highlight .line br { display: none; }
 
@@ -973,6 +1038,63 @@ img { max-width: 100%; height: auto; display: block; }
 [data-theme="dark"] .post-content figure.highlight figcaption {
   background: #0a0a0a;
   border-bottom-color: rgba(255,255,255,0.06);
+}
+[data-theme="dark"] .post-content figure.highlight .comment,
+[data-theme="dark"] .post-content figure.highlight .quote {
+  color: #71717a;
+}
+[data-theme="dark"] .post-content figure.highlight .keyword,
+[data-theme="dark"] .post-content figure.highlight .selector-tag,
+[data-theme="dark"] .post-content figure.highlight .subst {
+  color: #c084fc;
+}
+[data-theme="dark"] .post-content figure.highlight .number,
+[data-theme="dark"] .post-content figure.highlight .literal,
+[data-theme="dark"] .post-content figure.highlight .variable,
+[data-theme="dark"] .post-content figure.highlight .template-variable,
+[data-theme="dark"] .post-content figure.highlight .tag .attr {
+  color: #f87171;
+}
+[data-theme="dark"] .post-content figure.highlight .string,
+[data-theme="dark"] .post-content figure.highlight .doctag {
+  color: #34d399;
+}
+[data-theme="dark"] .post-content figure.highlight .title,
+[data-theme="dark"] .post-content figure.highlight .section,
+[data-theme="dark"] .post-content figure.highlight .selector-id {
+  color: #60a5fa;
+}
+[data-theme="dark"] .post-content figure.highlight .type,
+[data-theme="dark"] .post-content figure.highlight .class .title {
+  color: #22d3ee;
+}
+[data-theme="dark"] .post-content figure.highlight .tag,
+[data-theme="dark"] .post-content figure.highlight .name,
+[data-theme="dark"] .post-content figure.highlight .attribute {
+  color: #93c5fd;
+}
+[data-theme="dark"] .post-content figure.highlight .regexp,
+[data-theme="dark"] .post-content figure.highlight .link {
+  color: #2dd4bf;
+}
+[data-theme="dark"] .post-content figure.highlight .symbol,
+[data-theme="dark"] .post-content figure.highlight .bullet {
+  color: #d8b4fe;
+}
+[data-theme="dark"] .post-content figure.highlight .built_in,
+[data-theme="dark"] .post-content figure.highlight .builtin-name {
+  color: #fb923c;
+}
+[data-theme="dark"] .post-content figure.highlight .meta {
+  color: #94a3b8;
+}
+[data-theme="dark"] .post-content figure.highlight .deletion {
+  color: #fecaca;
+  background: rgba(127, 29, 29, 0.38);
+}
+[data-theme="dark"] .post-content figure.highlight .addition {
+  color: #bbf7d0;
+  background: rgba(20, 83, 45, 0.38);
 }
 
 /* Plain pre/code (no highlight wrapper) */
