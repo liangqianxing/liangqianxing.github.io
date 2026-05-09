@@ -1,4 +1,4 @@
-﻿# Nova Theme Configuration
+# Nova Theme Configuration
 
 # Profile (shown on homepage)
 profile:
@@ -47,6 +47,8 @@ menu:
     url: /blog/
   - name: 项目
     url: /projects/
+  - name: Three.js
+    url: /three-playground/
   - name: 奖项
     url: /awards/
   - name: 关于

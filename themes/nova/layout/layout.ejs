@@ -14,8 +14,12 @@
   <script src="<%- url_for('/js/cursor-effects.js') %>?v=1"></script>
   <% if (is_home()) { %>
   <script src="https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.min.js"></script>
+  <% } %>
+  <% if (is_home()) { %>
   <script src="<%- url_for('/js/academic-three-hero.js') %>?v=1"></script>
+  <% } %>
+  <% if (page.layout === 'three-playground') { %>
+  <script src="<%- url_for('/js/three-playground.js') %>?v=1"></script>
   <% } %>
 </body>
 </html>
-
