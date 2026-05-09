@@ -98,11 +98,7 @@ $$
 于是训练目标就非常直接：
 
 $$
-\mathcal{L}(\theta)
-= \mathbb{E}_{x_0, x_1, t}
-\left[
-\lVert v_{\theta}(x_t, t) - (x_1 - x_0) \rVert_2^2
-\right]
+\mathcal{L}(\theta) = \operatorname{E}_{x_0, x_1, t} \left[ \left\| v_{\theta}(x_t, t) - (x_1 - x_0) \right\|_2^2 \right]
 $$
 
 也就是说，模型输入中间状态 $x_t$ 和时间 $t$，输出这个点应该具有的速度。监督信号不是复杂的后验分布，而是一个明确的向量。
