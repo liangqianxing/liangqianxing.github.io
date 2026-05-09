@@ -20,11 +20,11 @@
   aura.className = 'nova-cursor-aura';
   spark.className = 'nova-cursor-spark';
   document.body.append(aura, ring, glow, spark, dot);
-  root.classList.add('nova-custom-cursor');
+  root.classList.add('nova-custom-cursor', 'nova-cursor-hidden');
   root.classList.remove('nova-cursor-preload');
 
-  let mouseX = window.innerWidth / 2;
-  let mouseY = window.innerHeight / 2;
+  let mouseX = 0;
+  let mouseY = 0;
   let ringX = mouseX;
   let ringY = mouseY;
   let glowX = mouseX;
@@ -37,6 +37,7 @@
   let angle = 0;
   let raf = 0;
   let idleTimer = 0;
+  let hasPointer = false;
 
   const interactiveSelector = 'a, button, input, textarea, select, summary, label, [role="button"], .post-card, .project-card, .social-link, .nav-link, .theme-toggle, .ac-post-item, .ac-edu-item';
   const magneticSelector = 'a, button, .post-card, .project-card, .social-link, .nav-link, .theme-toggle, .ac-post-item, .ac-edu-item';
@@ -58,6 +59,11 @@
   function move(event) {
     const nextX = event.clientX;
     const nextY = event.clientY;
+    if (!hasPointer) {
+      hasPointer = true;
+      mouseX = ringX = glowX = auraX = prevX = nextX;
+      mouseY = ringY = glowY = auraY = prevY = nextY;
+    }
     const dx = nextX - prevX;
     const dy = nextY - prevY;
     velocity = Math.min(1, Math.hypot(dx, dy) / 42);
@@ -67,7 +73,6 @@
     mouseX = nextX;
     mouseY = nextY;
     dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
-  spark.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
     spark.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%) rotate(${angle}deg) scaleX(${1 + velocity * 1.35})`;
     root.style.setProperty('--cursor-speed', velocity.toFixed(3));
     setVisible(true);
@@ -105,14 +110,11 @@
   }, { passive: true });
 
   window.addEventListener('blur', () => setVisible(false));
-  window.addEventListener('focus', () => setVisible(true));
+  window.addEventListener('focus', () => { if (hasPointer) setVisible(true); });
   window.addEventListener('pagehide', () => {
     window.cancelAnimationFrame(raf);
     window.clearTimeout(idleTimer);
   }, { once: true });
 
-  dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
-  spark.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
   animate();
-  wake();
 })();
