@@ -9,8 +9,10 @@
     <%- body %>
   </main>
   <%- partial('_partial/footer') %>
-  <script src="<%- url_for('/js/nova.js') %>?v=2"></script>
-  <script src="<%- url_for('/js/fluid-hero.js') %>?v=1"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.min.js" defer></script>
+  <script src="<%- url_for('/js/nova.js') %>?v=2" defer></script>
+  <script src="<%- url_for('/js/fluid-hero.js') %>?v=1" defer></script>
+  <script src="<%- url_for('/js/three-backdrop.js') %>?v=1" defer></script>
 </body>
 </html>
 

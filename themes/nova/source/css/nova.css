@@ -2351,7 +2351,7 @@ img { max-width: 100%; height: auto; display: block; }
 .fluid-hero-overlay {
   position: absolute;
   inset: 0;
-  z-index: -2;
+  z-index: 0;
   background:
     radial-gradient(circle at 50% 38%, transparent 0%, rgba(7, 10, 19, 0.15) 36%, rgba(7, 10, 19, 0.78) 100%),
     linear-gradient(180deg, rgba(7, 10, 19, 0.18) 0%, rgba(7, 10, 19, 0.48) 72%, var(--bg-primary) 100%);
@@ -2825,4 +2825,65 @@ img { max-width: 100%; height: auto; display: block; }
 .fluid-travelling {
   letter-spacing: 0.01em;
   white-space: nowrap;
+}
+
+/* ============================================================
+   Three.js Ambient Backdrop
+   ============================================================ */
+body {
+  background:
+    linear-gradient(180deg, rgba(248, 249, 250, 0.92), rgba(248, 249, 250, 0.86)),
+    var(--bg-primary);
+}
+
+[data-theme="dark"] body {
+  background:
+    linear-gradient(180deg, rgba(8, 11, 18, 0.9), rgba(8, 11, 18, 0.84)),
+    var(--bg-primary);
+}
+
+#novaThreeBackdrop {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.72;
+  mix-blend-mode: multiply;
+}
+
+[data-theme="dark"] #novaThreeBackdrop {
+  opacity: 0.9;
+  mix-blend-mode: screen;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(var(--accent-rgb), 0.18), transparent 34rem),
+    radial-gradient(circle at 82% 12%, rgba(6, 182, 212, 0.13), transparent 30rem),
+    radial-gradient(circle at 78% 82%, rgba(139, 92, 246, 0.11), transparent 34rem);
+}
+
+[data-theme="dark"] body::before {
+  background:
+    radial-gradient(circle at 12% 18%, rgba(139, 92, 246, 0.22), transparent 34rem),
+    radial-gradient(circle at 82% 12%, rgba(6, 182, 212, 0.16), transparent 30rem),
+    radial-gradient(circle at 78% 82%, rgba(34, 197, 94, 0.10), transparent 34rem);
+}
+
+.nav,
+#main,
+.footer {
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce), (pointer: coarse) {
+  #novaThreeBackdrop { display: none; }
 }
