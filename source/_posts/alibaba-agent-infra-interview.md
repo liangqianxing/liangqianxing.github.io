@@ -1,6 +1,7 @@
-﻿---
+---
 title: 阿里 Agent Infra 工程师面试准备：AI Infra、稳定性工程与项目包装
 date: 2026-05-06 10:00:00
+hidden: true
 categories: 技术
 tags:
   - 面试

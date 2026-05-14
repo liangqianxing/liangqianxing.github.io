@@ -189,7 +189,7 @@
         <a href="<%- url_for('/blog/') %>" class="ac-more-link">查看全部 →</a>
       </div>
       <div class="ac-post-list">
-        <% site.posts.sort('date', -1).limit(5).each(post => { %>
+        <% site.posts.filter(post => !post.hidden).sort('date', -1).limit(5).each(post => { %>
         <div class="ac-post-item">
           <div class="ac-post-meta">
             <time class="ac-post-date"><%- date(post.date, 'YYYY年M月D日') %></time>

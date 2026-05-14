@@ -1,6 +1,7 @@
 ---
 title: 量化开发面试准备：从 ACM 背景切入的完整指南
 date: 2026-04-08
+hidden: true
 categories: 技术
 tags:
   - 量化开发
