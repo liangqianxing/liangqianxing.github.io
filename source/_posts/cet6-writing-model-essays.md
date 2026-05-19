@@ -1,4 +1,4 @@
----
+﻿---
 title: 六级写作范文背诵包：10 个高频话题
 date: 2026-05-20 09:00:00
 tags:
@@ -10,6 +10,10 @@ categories:
 ---
 
 整理 10 篇大学英语六级写作高频话题范文。每篇控制在六级常见篇幅内，结构尽量固定：现象/观点引入 → 原因或论证 → 做法/总结。背诵时优先背开头、转折句和结尾句，再替换关键词迁移到其他题目。
+
+
+
+> 打印背诵版 PDF：[下载 CET-6 写作范文背诵包](/downloads/pdf/cet6-writing-model-essays.pdf)
 
 <!-- more -->
 
@@ -140,4 +144,5 @@ In conclusion, traditional culture should be protected, inherited, and creativel
 3. Only when we combine awareness with action can we make real progress.
 4. As college students, we are expected to develop a responsible attitude and turn it into daily practice.
 5. In the long run, small but continuous efforts will lead to meaningful changes.
+
 
