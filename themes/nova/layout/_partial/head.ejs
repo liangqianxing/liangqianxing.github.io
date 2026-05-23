@@ -19,7 +19,6 @@
   if(t) el.setAttribute('data-theme',t);
   var fine=window.matchMedia&&window.matchMedia('(pointer: fine)').matches;
   var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(fine&&!reduce) el.classList.add('nova-cursor-preload');
   el.classList.add('no-transition');
   window.addEventListener('DOMContentLoaded',function(){
     requestAnimationFrame(function(){
@@ -30,12 +29,14 @@
   });
 })();
 </script>
-<style>.no-transition,.no-transition *{transition:none!important;}@media (pointer:fine) and (prefers-reduced-motion:no-preference){.nova-cursor-preload,.nova-cursor-preload *{cursor:none!important;}}</style>
+<style>.no-transition,.no-transition *{transition:none!important;}</style>
 
+<% if (theme.performance && theme.performance.google_fonts) { %>
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<% } %>
 
 <!-- Styles -->
 <link rel="stylesheet" href="<%- url_for('/css/nova.css') %>">

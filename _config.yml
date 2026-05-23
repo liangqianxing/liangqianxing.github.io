@@ -1,4 +1,4 @@
-﻿# Hexo Configuration
+# Hexo Configuration
 # Docs: https://hexo.io/docs/configuration.html
 
 # Site
@@ -106,12 +106,12 @@ sass:
 feed:
   type: atom
   path: atom.xml
-  limit: 20
+  limit: 10
 
 search:
   path: search.json
   field: post
-  content: true
+  content: false
 
 sitemap:
   path: sitemap.xml

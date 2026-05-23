@@ -98,3 +98,6 @@ dark_mode: true   # enable dark mode toggle
 toc: true         # table of contents in posts
 reading_time: true
 
+# Performance-heavy visual effects are opt-in.
+performance:
+  google_fonts: false
