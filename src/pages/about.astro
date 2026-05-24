@@ -1,0 +1,102 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import OrgIcon from '../components/OrgIcon.astro';
+import { siteConfig } from '../lib/site';
+import { formatMonthDay, sortPosts } from '../lib/posts';
+
+const recent = sortPosts(await getCollection('posts')).slice(0, 5);
+---
+<Base title="关于" description={`关于 ${siteConfig.author} 与本站。`}>
+  <div class="shell">
+    <header class="profile-header">
+      <div class="profile-name-cn">{siteConfig.authorCN}</div>
+      <h1 class="profile-name-en">{siteConfig.authorEN}</h1>
+      <p class="profile-role">{siteConfig.role}</p>
+      <p class="profile-loc">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+        {siteConfig.location}
+      </p>
+      <div class="profile-links">
+        <a href={siteConfig.social.github} rel="noreferrer noopener">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2c-3.2.69-3.87-1.35-3.87-1.35-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.76 2.69 1.25 3.35.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.16 1.18.92-.26 1.9-.39 2.88-.39s1.96.13 2.88.39c2.2-1.49 3.16-1.18 3.16-1.18.62 1.58.23 2.75.11 3.04.74.8 1.18 1.82 1.18 3.08 0 4.42-2.7 5.4-5.27 5.69.41.36.78 1.06.78 2.13v3.16c0 .31.21.66.8.55C20.22 21.39 23.5 17.07 23.5 12 23.5 5.65 18.35.5 12 .5Z"/></svg>
+          GitHub
+        </a>
+        <a href="/rss.xml">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1.5"/></svg>
+          RSS
+        </a>
+      </div>
+    </header>
+
+    <section class="bio-section">
+      <h2 class="section-title">Biography</h2>
+      <p class="bio-text">{siteConfig.bio}</p>
+    </section>
+
+    <section class="bio-section">
+      <h2 class="section-title">技术栈</h2>
+      <div class="stack-grid">
+        {siteConfig.techStack.map((g) => (
+          <div class="stack-group">
+            <div class="stack-group-name">{g.group}</div>
+            <div class="stack-items">
+              {g.items.map((it) => <span class="stack-item">{it}</span>)}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="bio-section">
+      <h2 class="section-title">实习经历</h2>
+      <div class="timeline">
+        {siteConfig.experience.map((e) => (
+          <article class="timeline-item">
+            <div class="timeline-icon" aria-hidden="true">
+              <OrgIcon name={e.org} />
+            </div>
+            <div class="timeline-when">{e.from} – {e.to}</div>
+            <div class="timeline-what">
+              <div class="timeline-org">{e.org}</div>
+              <div class="timeline-role">{e.role}</div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="bio-section">
+      <h2 class="section-title">教育经历</h2>
+      <div class="timeline">
+        {siteConfig.education.map((e) => (
+          <article class="timeline-item">
+            <div class="timeline-icon" aria-hidden="true">
+              <OrgIcon name={e.school} />
+            </div>
+            <div class="timeline-when">{e.from ? `${e.from} – ` : ''}{e.to}</div>
+            <div class="timeline-what">
+              <div class="timeline-org">{e.school}<span class="timeline-org-en">{e.schoolEN}</span></div>
+              <div class="timeline-role">{e.role}{e.detail ? ` · ${e.detail}` : ''}</div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+    <section class="bio-section">
+      <div class="section-eyebrow" style="margin-top: 0;">
+        <h2>最新文章</h2>
+        <a href="/posts" class="more">查看全部 →</a>
+      </div>
+      <div>
+        {recent.map((post) => (
+          <a href={`/posts/${post.slug}`} class="post-row">
+            <time class="post-row-date" datetime={post.data.date.toISOString()}>{formatMonthDay(post.data.date)}</time>
+            <span class="post-row-title">{post.data.title}</span>
+            {post.data.tags && post.data.tags[0] && <span class="post-row-tag">{post.data.tags[0]}</span>}
+          </a>
+        ))}
+      </div>
+    </section>
+  </div>
+</Base>

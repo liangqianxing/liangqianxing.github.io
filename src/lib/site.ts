@@ -1,0 +1,106 @@
+export const siteConfig = {
+  title: 'Gu EnHao',
+  brandShort: 'gu.log',
+  author: 'Gu EnHao',
+  authorCN: '古恩豪',
+  authorEN: 'Gu EnHao',
+  role: 'Developer & Open Source Enthusiast',
+  location: 'China',
+  tagline: '记录技术与思考',
+  description: '一个热爱技术的开发者的个人博客，分享编程、开源、以及日常思考。',
+  url: 'https://liangqianxing.github.io',
+  lang: 'zh-CN',
+  locale: 'zh_CN',
+  bio: '热爱技术，喜欢折腾。专注于开源项目与工具开发，记录技术探索与日常思考。',
+  nav: [
+    { label: '首页', href: '/' },
+    { label: '文章', href: '/posts' },
+    { label: '标签', href: '/tags' },
+    { label: '友链', href: '/friends' },
+    { label: '关于', href: '/about' },
+  ],
+  social: {
+    github: 'https://github.com/LiangQianXing',
+    rss: '/rss.xml',
+  },
+  postsPerHomepage: 8,
+  techStack: [
+    { group: '前端', items: ['HTML', 'CSS', 'JavaScript', 'TypeScript'] },
+    { group: '后端', items: ['Node.js', 'Python', 'FastAPI'] },
+    { group: '工具链', items: ['Git', 'GitHub Actions', 'Docker', 'Linux'] },
+  ],
+  experience: [
+    {
+      org: 'vivo',
+      orgEN: 'vivo',
+      role: '算法工程师',
+      kind: '实习',
+      from: '2026.04',
+      to: '至今',
+    },
+  ],
+  education: [
+    {
+      school: '西湖大学',
+      schoolEN: 'Westlake University',
+      role: '访问学生',
+      detail: '自然语言处理实验室',
+      from: '2025.12',
+      to: '2026.03',
+    },
+    {
+      school: '中南大学',
+      schoolEN: 'Central South University',
+      role: '交换生',
+      detail: '计算机学院 · 软件工程',
+      from: '2023.08',
+      to: '2024.06',
+    },
+    {
+      school: '新疆大学',
+      schoolEN: 'Xinjiang University',
+      role: '本科在读（大三）',
+      detail: '软件工程',
+      from: '',
+      to: '至今',
+    },
+  ],
+  friends: [
+    {
+      name: '小黄鼠',
+      url: 'https://liumengxuan04.github.io/',
+      avatar: 'https://github.com/liumengxuan04.png',
+      desc: '一只爱写代码的小黄鼠',
+    },
+    {
+      name: '陈驰水',
+      url: 'https://blog.chencs.online/posts/',
+      avatar: 'https://github.com/chenchishui.png',
+      desc: '陈驰水的博客',
+    },
+    {
+      name: '石上三年',
+      url: 'https://blog.sssn.tech/',
+      avatar: '',
+      desc: '石上三年',
+    },
+  ],
+  rings: [
+    {
+      name: '开往',
+      desc: '友链接力，去随机的下一个博客',
+      url: 'https://www.travellings.cn/go.html',
+      logo: 'https://www.travellings.cn/assets/logo.svg',
+      site: 'https://www.travellings.cn/',
+    },
+    {
+      name: '萌国接力',
+      desc: '另一个友链接力',
+      url: 'https://travel.moe/go.html',
+      logo: '/logos/travel-moe.ico',
+      site: 'https://travel.moe/',
+    },
+  ],
+} as const;
+
+export type SiteConfig = typeof siteConfig;

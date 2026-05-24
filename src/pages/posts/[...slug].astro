@@ -1,0 +1,118 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Post from '../../layouts/Post.astro';
+import { formatMonthDay, readingTime, sortPosts, tagSlug } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
+}
+
+const { post } = Astro.props as { post: CollectionEntry<'posts'> };
+const { Content, headings } = await post.render();
+const minutes = readingTime(post.body ?? '');
+
+const all = sortPosts(await getCollection('posts'));
+const idx = all.findIndex((p) => p.slug === post.slug);
+const prev = idx > 0 ? all[idx - 1] : null;
+const next = idx < all.length - 1 ? all[idx + 1] : null;
+
+const toc = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
+const hasToc = toc.length > 2;
+---
+<Post title={post.data.title} description={post.data.description} hasToc={hasToc}>
+  <a href="/posts" class="text-link mb-6 inline-block text-[13px]" style="color: var(--text-soft);">← 返回文章列表</a>
+  <header class="post-header not-prose mb-8">
+    <h1>{post.data.title}</h1>
+    {post.data.description && <p class="m-0 mt-1 text-[15px]" style="color: var(--text-soft);">{post.data.description}</p>}
+    <div class="meta mt-4">
+      <time datetime={post.data.date.toISOString()}>{post.data.date.getFullYear()}-{formatMonthDay(post.data.date)}</time>
+      <span aria-hidden="true">·</span>
+      <span>{minutes} min read</span>
+      {post.data.updated && <>
+        <span aria-hidden="true">·</span>
+        <span>更新于 {post.data.updated.getFullYear()}-{formatMonthDay(post.data.updated)}</span>
+      </>}
+    </div>
+    {post.data.tags && post.data.tags.length > 0 && (
+      <div class="tags">
+        {post.data.tags.map((tag) => (
+          <a href={`/tags/${encodeURIComponent(tagSlug(tag))}`} class="tag-chip">{tag}</a>
+        ))}
+      </div>
+    )}
+  </header>
+
+  <Content />
+
+  <nav class="not-prose mt-14 grid grid-cols-1 gap-3 border-t pt-6 sm:grid-cols-2" style="border-color: var(--line);" aria-label="文章导航">
+    {prev ? (
+      <a href={`/posts/${prev.slug}`} class="block rounded-md border p-4 transition-colors hover:border-[var(--accent)]" style="border-color: var(--line);">
+        <div class="text-[11.5px] uppercase tracking-[0.12em]" style="color: var(--text-mute);">← 上一篇</div>
+        <div class="mt-1 text-[14.5px]" style="color: var(--text);">{prev.data.title}</div>
+      </a>
+    ) : <span></span>}
+    {next ? (
+      <a href={`/posts/${next.slug}`} class="block rounded-md border p-4 text-right transition-colors hover:border-[var(--accent)]" style="border-color: var(--line);">
+        <div class="text-[11.5px] uppercase tracking-[0.12em]" style="color: var(--text-mute);">下一篇 →</div>
+        <div class="mt-1 text-[14.5px]" style="color: var(--text);">{next.data.title}</div>
+      </a>
+    ) : <span></span>}
+  </nav>
+</Post>
+
+{hasToc && (
+  <nav class="toc-sidebar not-prose" id="toc-sidebar" aria-label="文章目录">
+    <div class="toc-sidebar-title">目录</div>
+    <ul>
+      {toc.map((h) => (
+        <li>
+          <a
+            href={`#${h.slug}`}
+            class={`toc-link${h.depth === 3 ? ' toc-link-sub' : ''}`}
+            data-slug={h.slug}
+          >{h.text}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}
+
+<script>
+  const sidebar = document.getElementById('toc-sidebar');
+  if (sidebar) {
+    const links = sidebar.querySelectorAll<HTMLAnchorElement>('.toc-link');
+    const slugs = Array.from(links).map((a) => a.dataset.slug!);
+    const headingEls = slugs.map((s) => document.getElementById(s)).filter(Boolean) as HTMLElement[];
+
+    let active = '';
+    const setActive = (slug: string) => {
+      if (slug === active) return;
+      active = slug;
+      links.forEach((a) => {
+        a.classList.toggle('toc-link-active', a.dataset.slug === slug);
+      });
+    };
+
+    const obs = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            setActive(e.target.id);
+            return;
+          }
+        }
+        // fallback: find the last heading above viewport
+        const scrollY = window.scrollY + 120;
+        let best = headingEls[0];
+        for (const el of headingEls) {
+          if (el.offsetTop <= scrollY) best = el;
+        }
+        if (best) setActive(best.id);
+      },
+      { rootMargin: '-80px 0px -60% 0px', threshold: 0 }
+    );
+
+    headingEls.forEach((el) => obs.observe(el));
+  }
+</script>

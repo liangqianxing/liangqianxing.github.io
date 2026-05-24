@@ -1,43 +1,85 @@
-﻿# Gu EnHao Blog (Fresh Start)
+# qx.log
 
-这是一个重新起步的 Hexo 博客仓库。
+> 个人技术博客 · 基于 [Astro](https://astro.build) 构建，托管在 GitHub Pages。
 
-## 当前状态
+记录关于 LLM、Agent、AI Infra、后端工程与日常的笔记。
 
-- 框架: Hexo 8
-- 主题: Memory (`hexo-theme-memory`)
-- 内容: 已清空，仅保留 `source/_posts/.gitkeep`
+[在线访问 →](https://liangqianxing.github.io)
 
-## 友链备份
+## 项目结构
 
-旧站友链已保存到:
+```
+.
+├── astro.config.mjs        # Astro 配置（站点、集成、Markdown）
+├── tailwind.config.mjs     # Tailwind 主题
+├── src/
+│   ├── content/
+│   │   ├── config.ts       # 文章 collection schema
+│   │   └── posts/          # 所有 Markdown 文章
+│   ├── layouts/
+│   │   ├── Base.astro      # 全站布局（导航、页脚、主题切换）
+│   │   └── Post.astro      # 文章排版与正文样式
+│   ├── lib/
+│   │   ├── posts.ts        # 列表排序 / 阅读时长 / 标签 slug
+│   │   └── site.ts         # 站点元数据（标题、导航、社交）
+│   ├── pages/
+│   │   ├── index.astro     # 首页
+│   │   ├── 404.astro
+│   │   ├── about.astro
+│   │   ├── posts/          # 文章列表 + 详情
+│   │   ├── tags/           # 标签索引 + 详情
+│   │   └── rss.xml.js      # RSS 输出
+│   └── styles/
+│       └── global.css      # 主题变量、组件样式
+├── public/                 # 静态资源（favicon、图片）
+└── scripts/
+    └── fetch-covers.ts     # 可选：拉取 Pixiv 封面到本地
+```
 
-- `friend-links.backup.yml`
+## 本地开发
 
-后续换主题或重新加友链时，可直接复制该文件中的 `links`。
-
-## 本地启动
+要求 Node.js 18+。
 
 ```bash
 npm install
-npm run dev
+npm run dev          # http://localhost:4321
+npm run build        # 输出到 dist/
+npm run preview      # 预览构建结果
 ```
 
-## 构建
+## 写新文章
 
-```bash
-npm run clean
-npm run build
+在 [src/content/posts/](src/content/posts/) 下新建 `.md` 文件，frontmatter 字段如下：
+
+```yaml
+---
+title: 文章标题
+date: 2026-05-24
+description: 一句话摘要（可选，会用于首页和 RSS）
+tags: [LLM, Agent]            # 可选
+categories: [AI]              # 可选
+updated: 2026-05-25           # 可选
+---
+
+正文内容…
 ```
 
-## 发布
+文件名即 URL slug。例如 `agent-memory.md` → `/posts/agent-memory`。
 
-推送到 `main` 后会自动触发 GitHub Actions 部署到 GitHub Pages。
+## 自定义站点信息
 
-## 文章图片放置规范（可直接用于 Actions 部署）
+编辑 [src/lib/site.ts](src/lib/site.ts) 即可修改站点标题、描述、导航和社交链接，无需在多处替换。
 
-- 图片统一放在 `source/images/posts/` 下，建议按文章分子目录。
-  - 例如：`source/images/posts/my-first-post/cover.png`
-- 在 Markdown 中使用以 `/` 开头的站点绝对路径引用：
-  - `![封面](/images/posts/my-first-post/cover.png)`
-- 不要把图片放到 `public/`，该目录是构建产物，每次构建会被覆盖。
+## 隐私 & Git
+
+- [.env](.env) 已在 [.gitignore](.gitignore) 中忽略，绝不会被推送。可参考 [.env.example](.env.example) 了解格式。
+- 不要将带有 cookie / token 的文件加入版本控制。新增脚本时请通过环境变量读取敏感值。
+- `public/covers/` 也被忽略：封面图通过 `npm run fetch-covers` 按需在本地生成。
+
+## 部署
+
+push 到 `main` 分支后，[.github/workflows/deploy.yml](.github/workflows/deploy.yml) 会自动构建并发布到 GitHub Pages。
+
+## 协议
+
+文章内容版权归作者所有；模板代码以 MIT 协议开放。

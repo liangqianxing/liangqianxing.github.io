@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="404 · 找不到页面" description="页面不存在。" noFooter={true}>
+  <div class="shell" style="text-align: center; padding-top: 6rem;">
+    <div class="text-[6rem] font-semibold leading-none" style="font-family: var(--font-serif); color: var(--accent);">404</div>
+    <p class="mt-4 text-[15px]" style="color: var(--text-soft);">这个页面不存在，或者已经被搬走了。</p>
+    <div class="mt-6 flex justify-center gap-4 text-[14px]">
+      <a href="/" class="text-link" style="color: var(--text);">回到首页</a>
+      <a href="/posts" class="text-link" style="color: var(--text);">浏览文章</a>
+    </div>
+  </div>
+</Base>

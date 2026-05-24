@@ -1,37 +1,23 @@
 {
   "name": "liangqianxing-blog",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
-  "description": "Gu EnHao 的 Hexo 个人博客",
+  "type": "module",
+  "description": "A minimal technical blog",
   "scripts": {
-    "build": "hexo generate",
-    "clean": "hexo clean",
-    "dev": "hexo server",
-    "deploy": "hexo deploy"
-  },
-  "hexo": {
-    "version": "8.1.1"
-  },
-  "overrides": {
-    "strip-ansi": "6.0.1"
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "fetch-covers": "tsx scripts/fetch-covers.ts"
   },
   "dependencies": {
-    "hexo": "^8.0.0",
-    "hexo-filter-mathjax": "^0.9.1",
-    "hexo-generator-archive": "^2.0.0",
-    "hexo-generator-category": "^2.0.0",
-    "hexo-generator-feed": "^3.0.0",
-    "hexo-generator-index": "^4.0.0",
-    "hexo-generator-robotstxt": "^0.2.0",
-    "hexo-generator-searchdb": "^1.4.1",
-    "hexo-generator-sitemap": "^3.0.1",
-    "hexo-generator-tag": "^2.0.0",
-    "hexo-pagination": "^2.0.0",
-    "hexo-renderer-dartsass": "^0.1.2",
-    "hexo-renderer-ejs": "^2.0.0",
-    "hexo-renderer-marked": "^7.0.1",
-    "hexo-renderer-stylus": "^3.0.1",
-    "hexo-server": "^3.0.0",
-    "hexo-toc": "^1.1.0"
+    "@astrojs/rss": "^4.0.18",
+    "@astrojs/sitemap": "^3.2.1",
+    "@astrojs/tailwind": "^5.1.5",
+    "@tailwindcss/typography": "^0.5.16",
+    "astro": "^4.16.18",
+    "dotenv": "^16.4.7",
+    "tailwindcss": "^3.4.17",
+    "tsx": "^4.19.2"
   }
 }
