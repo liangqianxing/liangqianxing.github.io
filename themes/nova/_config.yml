@@ -13,12 +13,6 @@ profile:
 
 # Education
 education:
-  - school: 西湖大学
-    school_en: Westlake University
-    degree: 访问学生
-    dept: 自然语言处理实验室
-    period: 2025.12 – 2026.03
-    school_logo: "/images/logos/westlake.png"
   - school: 中南大学
     school_en: Central South University
     degree: 交换生
@@ -76,6 +70,12 @@ experience:
     role: Agent 工程师
     period: 2026.04 – 2026.05
     company_logo: "/images/logos/vivo.svg"
+    desc: 
+  - company: 西湖大学
+    company_en: Westlake University
+    role: 访问学生 · 自然语言处理实验室
+    period: 2025.12 – 2026.03
+    company_logo: "/images/logos/westlake.png"
     desc: 
 
 # Projects page

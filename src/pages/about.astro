@@ -58,8 +58,8 @@ const recent = sortPosts(await getCollection('posts')).slice(0, 5);
             </div>
             <div class="timeline-when">{e.from} – {e.to}</div>
             <div class="timeline-what">
-              <div class="timeline-org">{e.org}</div>
-              <div class="timeline-role">{e.role}</div>
+              <div class="timeline-org">{e.org}{e.orgEN && e.orgEN !== e.org ? <span class="timeline-org-en">{e.orgEN}</span> : null}</div>
+              <div class="timeline-role">{e.role}{e.detail ? ` · ${e.detail}` : ''}</div>
             </div>
           </article>
         ))}

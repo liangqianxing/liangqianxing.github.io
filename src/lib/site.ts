@@ -46,16 +46,17 @@ export const siteConfig = {
       from: '2026.04',
       to: '2026.05',
     },
-  ],
-  education: [
     {
-      school: '西湖大学',
-      schoolEN: 'Westlake University',
+      org: '西湖大学',
+      orgEN: 'Westlake University',
       role: '访问学生',
       detail: '自然语言处理实验室',
+      kind: '实习',
       from: '2025.12',
       to: '2026.03',
     },
+  ],
+  education: [
     {
       school: '中南大学',
       schoolEN: 'Central South University',
