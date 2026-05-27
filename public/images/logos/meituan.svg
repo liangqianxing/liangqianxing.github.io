@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title desc">
+  <title id="title">Meituan logo</title>
+  <desc id="desc">A yellow Meituan badge with Chinese characters</desc>
+  <rect width="96" height="96" rx="24" fill="#FFD100"/>
+  <circle cx="48" cy="48" r="35" fill="#FFB000" opacity="0.32"/>
+  <text x="48" y="56" text-anchor="middle" font-family="Arial, 'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="30" font-weight="700" fill="#222222">美团</text>
+</svg>

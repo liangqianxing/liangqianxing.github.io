@@ -4,7 +4,7 @@ export const siteConfig = {
   author: 'Gu EnHao',
   authorCN: '古恩豪',
   authorEN: 'Gu EnHao',
-  role: 'Developer & Open Source Enthusiast',
+  role: 'Full-Stack Developer @ Meituan',
   location: 'China',
   tagline: '记录技术与思考',
   description: '一个热爱技术的开发者的个人博客，分享编程、开源、以及日常思考。',
@@ -31,12 +31,20 @@ export const siteConfig = {
   ],
   experience: [
     {
+      org: '美团',
+      orgEN: 'Meituan',
+      role: '全栈工程师',
+      kind: '全职',
+      from: '2026.05',
+      to: '至今',
+    },
+    {
       org: 'vivo',
       orgEN: 'vivo',
-      role: '算法工程师',
+      role: 'Agent 工程师',
       kind: '实习',
       from: '2026.04',
-      to: '至今',
+      to: '2026.05',
     },
   ],
   education: [
