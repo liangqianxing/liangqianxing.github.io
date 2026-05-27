@@ -34,7 +34,7 @@ export const siteConfig = {
       org: '美团',
       orgEN: 'Meituan',
       role: '全栈工程师',
-      kind: '全职',
+      kind: '实习',
       from: '2026.05',
       to: '至今',
     },
