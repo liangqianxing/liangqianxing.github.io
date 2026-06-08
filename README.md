@@ -32,8 +32,7 @@
 │   └── styles/
 │       └── global.css      # 主题变量、组件样式
 ├── public/                 # 静态资源（favicon、图片）
-└── scripts/
-    └── fetch-covers.ts     # 可选：拉取 Pixiv 封面到本地
+└── scripts/                # 旧 Hexo 辅助脚本
 ```
 
 ## 本地开发
@@ -74,7 +73,6 @@ updated: 2026-05-25           # 可选
 
 - [.env](.env) 已在 [.gitignore](.gitignore) 中忽略，绝不会被推送。可参考 [.env.example](.env.example) 了解格式。
 - 不要将带有 cookie / token 的文件加入版本控制。新增脚本时请通过环境变量读取敏感值。
-- `public/covers/` 也被忽略：封面图通过 `npm run fetch-covers` 按需在本地生成。
 
 ## 部署
 

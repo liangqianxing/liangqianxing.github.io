@@ -21,10 +21,6 @@ pnpm-debug.log*
 .env.test.local
 .env.production.local
 
-# Pixiv covers: the JPGs themselves are public artwork — track them so the site
-# renders without running fetch-covers locally. The cookie used to fetch them
-# stays in .env and never gets committed.
-
 # Legacy Hexo artefacts
 db.json
 .deploy*/

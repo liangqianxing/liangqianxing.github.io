@@ -3,7 +3,6 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { siteConfig } from '../lib/site';
 import { formatMonthDay, readingTime, sortPosts } from '../lib/posts';
-import { coverFor, hasCovers } from '../lib/covers';
 
 const posts = sortPosts(await getCollection('posts'));
 const recent = posts.slice(0, siteConfig.postsPerHomepage);
@@ -19,8 +18,6 @@ for (const p of posts) {
   }
 }
 const topTags = [...tagCounts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 8);
-
-const featuredCover = featured && hasCovers ? coverFor(featured.slug) : undefined;
 ---
 <Base>
   <div class="shell-wide">
@@ -44,11 +41,6 @@ const featuredCover = featured && hasCovers ? coverFor(featured.slug) : undefine
           <a href={`/posts/${featured.slug}`} class="more">阅读全文 →</a>
         </div>
         <a href={`/posts/${featured.slug}`} class="featured-card group">
-          {featuredCover && (
-            <div class="featured-cover">
-              <img src={featuredCover} alt="" loading="eager" decoding="async" />
-            </div>
-          )}
           <div class="featured-body">
             <h3 class="featured-title">{featured.data.title}</h3>
             {featured.data.description && <p class="featured-desc">{featured.data.description}</p>}
@@ -73,23 +65,15 @@ const featuredCover = featured && hasCovers ? coverFor(featured.slug) : undefine
           <a href="/posts" class="more">归档 →</a>
         </div>
         <div class="showcase-grid">
-          {showcase.map((post) => {
-            const cover = hasCovers ? coverFor(post.slug) : undefined;
-            return (
-              <a href={`/posts/${post.slug}`} class="showcase-card">
-                {cover && (
-                  <div class="showcase-cover">
-                    <img src={cover} alt="" loading="lazy" decoding="async" />
-                  </div>
-                )}
-                <div class="showcase-body">
-                  <time class="showcase-date" datetime={post.data.date.toISOString()}>{post.data.date.getFullYear()}-{formatMonthDay(post.data.date)}</time>
-                  <h3 class="showcase-title">{post.data.title}</h3>
-                  {post.data.tags && post.data.tags[0] && <span class="showcase-tag">{post.data.tags[0]}</span>}
-                </div>
-              </a>
-            );
-          })}
+          {showcase.map((post) => (
+            <a href={`/posts/${post.slug}`} class="showcase-card">
+              <div class="showcase-body">
+                <time class="showcase-date" datetime={post.data.date.toISOString()}>{post.data.date.getFullYear()}-{formatMonthDay(post.data.date)}</time>
+                <h3 class="showcase-title">{post.data.title}</h3>
+                {post.data.tags && post.data.tags[0] && <span class="showcase-tag">{post.data.tags[0]}</span>}
+              </div>
+            </a>
+          ))}
         </div>
       </section>
     )}
