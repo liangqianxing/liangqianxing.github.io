@@ -101,7 +101,8 @@
 </template>
 
 <script setup lang="ts">
-import { formatDate, tagSlug, isVisible, readingTime } from '~/utils/blog'
+import { formatDate, tagSlug, readingTime } from '~/utils/blog'
+import type { PostMeta } from '~/server/api/posts.get'
 
 const route = useRoute()
 const appConfig = useAppConfig()
@@ -118,35 +119,34 @@ const { data: page } = await useAsyncData(`post-${path.value}`, () =>
   queryCollection('posts').path(path.value).first()
 )
 
-// Fetch all visible posts for prev/next
-const { data: allPosts } = await useAsyncData('all-posts-nav', () =>
-  queryCollection('posts').order('date', 'DESC').all()
-)
-
-const visiblePosts = computed(() =>
-  (allPosts.value ?? []).filter(isVisible)
+// 用轻量 API 获取导航用的文章列表（只含 metadata，无 body AST）
+// 替换原来的 queryCollection('.all()') 避免把 35 篇 body AST 塞进 payload
+const { data: navPosts } = await useAsyncData<PostMeta[]>('all-posts-nav', () =>
+  $fetch('/api/posts')
 )
 
 const currentIndex = computed(() =>
-  visiblePosts.value.findIndex(p => p.path === path.value)
+  (navPosts.value ?? []).findIndex(p => p.path === path.value)
 )
 
-const prevPost = computed(() =>
-  currentIndex.value > 0 ? visiblePosts.value[currentIndex.value - 1] : null
-)
+const prevPost = computed(() => {
+  const posts = navPosts.value ?? []
+  return currentIndex.value > 0 ? posts[currentIndex.value - 1] : null
+})
 
-const nextPost = computed(() =>
-  currentIndex.value < visiblePosts.value.length - 1
-    ? visiblePosts.value[currentIndex.value + 1]
-    : null
-)
+const nextPost = computed(() => {
+  const posts = navPosts.value ?? []
+  return currentIndex.value < posts.length - 1 ? posts[currentIndex.value + 1] : null
+})
 
 const toc = computed(() => page.value?.body?.toc ?? null)
 
+// 优先从轻量 API 返回的预计算值取，fallback 再从 body AST 计算
 const postReadingTime = computed(() => {
+  const meta = (navPosts.value ?? []).find(p => p.path === path.value)
+  if (meta?.readingTime) return meta.readingTime
   if (!page.value) return 1
-  const bodyStr = JSON.stringify(page.value.body ?? '')
-  return readingTime(bodyStr)
+  return readingTime(JSON.stringify(page.value.body ?? ''))
 })
 
 // TOC active heading tracking
