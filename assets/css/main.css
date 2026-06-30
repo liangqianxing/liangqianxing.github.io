@@ -61,7 +61,7 @@ html.light {
   --bg-base:        #f6f6f9;
   --bg-surface:     #ffffff;
   --bg-elevated:    #f0f0f5;
-  --bg-code:        #1e1e2e;
+  --bg-code:        #f6f8fa;   /* github-light 代码块背景 */
   --bg-selection:   rgba(8, 145, 178, 0.1);
 
   --border-default: #e0e0ea;
@@ -810,13 +810,13 @@ html.light .nav-travellings:hover {
   font-style: italic;
 }
 
-/* Inline code */
+/* Inline code — 用 CSS variable 避免亮色模式撞色 */
 .prose :not(pre) > code {
   font-family: var(--font-mono);
   font-size: 0.85em;
   color: var(--accent-cyan);
-  background: rgba(103, 232, 249, 0.08);
-  border: 1px solid rgba(103, 232, 249, 0.15);
+  background: color-mix(in srgb, var(--accent-cyan) 8%, var(--bg-surface));
+  border: 1px solid color-mix(in srgb, var(--accent-cyan) 20%, transparent);
   border-radius: 4px;
   padding: 0.1em 0.4em;
 }
@@ -1701,6 +1701,26 @@ html.transitioning *::after {
 /* ============================================================
    SHIKI / CODE HIGHLIGHTING OVERRIDES
    ============================================================ */
+
+/*
+ * Shiki 双主题原理：
+ *   - 每页生成 <style> tag，把颜色存为 CSS 自定义属性：
+ *       .sXxxx { --shiki-default: #F47067; --shiki-light: #D73A49 }
+ *   - 但不会自动应用到 color，需要手动写 color: var(--shiki-default)
+ *   - 否则 token 全部继承父元素的文字颜色，高亮失效
+ */
+
+/* —— 暗色默认：应用 --shiki-default 颜色 —— */
+.shiki code .line span {
+  color: var(--shiki-default, var(--text-primary));
+}
+
+/* —— 亮色：切换到 --shiki-light 颜色 —— */
+html.light .shiki code .line span {
+  color: var(--shiki-light, var(--text-primary));
+}
+
+/* 背景 */
 .shiki,
 .shiki code {
   background: var(--bg-code) !important;
