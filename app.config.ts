@@ -1,0 +1,66 @@
+export default defineAppConfig({
+  authorCN: '古恩豪',
+  authorEN: 'Gu EnHao',
+  title: 'gu.log',
+  role: 'Full-Stack Developer @ Meituan',
+  status: '正在美团实习 · 新疆大学在读',
+  bio: '喜欢折腾。在 AI Infra 和后端之间反复横跳，最近在美团写全栈。有时候打 XCPC，有时候去旅行。',
+  description: '写 LLM、Agent、后端工程，偶尔写比赛、实习和旅行。新疆大学在读，美团实习中。',
+  github: 'https://github.com/LiangQianXing',
+  url: 'https://liangqianxing.github.io',
+  friends: [
+    {
+      name: '小黄鼠',
+      url: 'https://liumengxuan04.github.io/',
+      avatar: 'https://github.com/liumengxuan04.png',
+      desc: '一只爱写代码的小黄鼠',
+    },
+    {
+      name: '陈驰水',
+      url: 'https://blog.chencs.online/posts/',
+      avatar: 'https://github.com/chenchishui.png',
+      desc: '陈驰水的博客',
+    },
+    {
+      name: '石上三年',
+      url: 'https://blog.sssn.tech/',
+      avatar: '',
+      desc: '石上三年',
+    },
+  ],
+  nav: [
+    { label: '首页', path: '/' },
+    { label: '文章', path: '/posts' },
+    { label: '标签', path: '/tags' },
+    { label: '友链', path: '/friends' },
+    { label: '关于', path: '/about' },
+  ],
+  techStack: [
+    { name: 'TypeScript', icon: '⬡' },
+    { name: 'Go', icon: '⬡' },
+    { name: 'Python', icon: '⬡' },
+    { name: 'Vue / Nuxt', icon: '⬡' },
+    { name: 'Node.js', icon: '⬡' },
+    { name: 'PostgreSQL', icon: '⬡' },
+    { name: 'Redis', icon: '⬡' },
+    { name: 'Docker', icon: '⬡' },
+    { name: 'Kubernetes', icon: '⬡' },
+    { name: 'LLM / Agent', icon: '⬡' },
+  ],
+  experience: [
+    {
+      company: '美团',
+      role: '全栈开发实习生',
+      period: '2025.03 – 至今',
+      desc: '参与美团内部平台全栈开发，涉及 LLM 相关工程和后端服务。',
+    },
+  ],
+  education: [
+    {
+      school: '新疆大学',
+      degree: '计算机科学与技术 本科',
+      period: '2022 – 2026',
+      desc: 'XCPC 竞赛选手，参与 ACM 校队训练。',
+    },
+  ],
+})

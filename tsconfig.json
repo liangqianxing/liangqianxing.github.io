@@ -1,7 +1,3 @@
 {
-  "extends": "astro/tsconfigs/strict",
-  "compilerOptions": {
-    "resolveJsonModule": true
-  },
-  "include": ["src", "scripts", "astro.config.mjs"]
+  "extends": "./.nuxt/tsconfig.json"
 }
