@@ -57,14 +57,6 @@ export default defineAppConfig({
       desc: '参与美团内部平台全栈开发，涉及 LLM 相关工程和后端服务。',
     },
     {
-      company: 'vivo',
-      companyEN: 'vivo',
-      logo: '/logos/vivo.svg',
-      role: 'Agent 工程师（实习）',
-      period: '2026.04 – 2026.05',
-      desc: '',
-    },
-    {
       company: '西湖大学',
       companyEN: 'Westlake University',
       logo: '/logos/westlake.png',
