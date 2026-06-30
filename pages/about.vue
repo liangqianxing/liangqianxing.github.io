@@ -54,21 +54,6 @@
       </div>
     </div>
 
-    <!-- Education -->
-    <div class="about-section">
-      <div class="about-section-title">教育经历</div>
-      <div class="timeline">
-        <div v-for="edu in appConfig.education" :key="edu.school" class="timeline-item">
-          <div class="timeline-period">{{ edu.period }}</div>
-          <div>
-            <div class="timeline-content-title">{{ edu.school }}</div>
-            <div class="timeline-content-sub">{{ edu.degree }}</div>
-            <div class="timeline-content-desc">{{ edu.desc }}</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- Recent Posts -->
     <div class="about-section">
       <div class="about-section-title">近期文章</div>

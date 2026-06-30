@@ -42,22 +42,22 @@ onMounted(() => {
   }
 })
 
-// Toggle theme
+// Toggle theme — 切换时加 transitioning class 统一覆盖为 80ms 快速过渡
 function toggleTheme() {
-  document.documentElement.classList.add('transitioning')
+  const h = document.documentElement
+  h.classList.add('transitioning')
   isDark.value = !isDark.value
   if (isDark.value) {
-    document.documentElement.classList.add('dark')
-    document.documentElement.classList.remove('light')
+    h.classList.add('dark')
+    h.classList.remove('light')
     localStorage.setItem('theme', 'dark')
   } else {
-    document.documentElement.classList.remove('dark')
-    document.documentElement.classList.add('light')
+    h.classList.remove('dark')
+    h.classList.add('light')
     localStorage.setItem('theme', 'light')
   }
-  setTimeout(() => {
-    document.documentElement.classList.remove('transitioning')
-  }, 350)
+  // 80ms 足够完成过渡，移除 class 后恢复元素各自的 hover 过渡
+  setTimeout(() => h.classList.remove('transitioning'), 80)
 }
 
 // Keyboard shortcut: T to toggle theme

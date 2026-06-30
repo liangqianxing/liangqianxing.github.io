@@ -1563,8 +1563,15 @@ html.light .nav-travellings:hover {
 }
 
 /* Theme transition */
-html.transitioning * {
-  transition: background-color 300ms ease, color 300ms ease, border-color 300ms ease !important;
+/* 主题切换时的过渡：只覆盖颜色相关属性，保持极短 80ms 不拖泥带水 */
+html.transitioning *,
+html.transitioning *::before,
+html.transitioning *::after {
+  transition:
+    background-color 80ms ease,
+    color            80ms ease,
+    border-color     80ms ease,
+    box-shadow       80ms ease !important;
 }
 
 /* ============================================================
