@@ -18,7 +18,7 @@ tags:
 
 ![Forward and backward graph](/images/posts/mini-autograd/graph.svg)
 
-## 1. 为什么先学 Autograd
+## 为什么先学 Autograd
 
 深度学习框架表面上提供了很多能力：GPU 张量、神经网络层、优化器、数据加载、分布式训练、模型导出。但如果把这些能力拆到底，核心闭环只有四步：
 
@@ -48,7 +48,7 @@ loss.backward()
 
 所以学 Autograd，本质是在学 PyTorch / TensorFlow 的“训练引擎”。
 
-## 2. Computation Graph：计算图是什么
+## Computation Graph：计算图是什么
 
 计算图是一个有向无环图。节点代表数据或操作，边代表依赖关系。
 
@@ -78,7 +78,7 @@ w ----/                                      ^
 
 静态图框架早期 TensorFlow 1.x 则先定义图，再统一编译执行。静态图更利于全局优化，动态图更符合 Python 调试习惯。今天 PyTorch 2.x 通过 `torch.compile` 又把动态图捕获为可优化图，本质上是在易用性和编译优化之间折中。
 
-## 3. Forward Graph：前向图保存什么
+## Forward Graph：前向图保存什么
 
 前向阶段不只是算数值，还要为反向传播留线索。一个 Tensor 通常至少需要这些字段：
 
@@ -109,7 +109,7 @@ dw = x.T @ dz
 
 这里的“上游梯度”就是 `loss` 对 `z` 的梯度，通常写作 `dL/dz`。反向函数负责把 `dL/dz` 变成 `dL/dx` 和 `dL/dw`。
 
-## 4. Backpropagation：反向传播的本质
+## Backpropagation：反向传播的本质
 
 反向传播不是神秘算法，它就是链式法则在计算图上的系统化应用。
 
@@ -143,7 +143,7 @@ dloss/dx = dloss/da * da/dx + dloss/db * db/dx
 
 反向传播的执行顺序必须是拓扑逆序：先算离 loss 最近的节点，再算更早的节点。因为某个节点只有收齐所有下游贡献，才能继续把梯度传给它的父节点。
 
-## 5. Automatic Differentiation：自动微分不是数值微分
+## Automatic Differentiation：自动微分不是数值微分
 
 常见的求导方法有三种：
 
@@ -162,11 +162,11 @@ dloss/dx = dloss/da * da/dx + dloss/db * db/dx
 
 神经网络训练几乎都用 reverse-mode AD。一次 backward 就能得到所有参数对同一个标量 loss 的梯度。
 
-## 6. 四个核心算子的反向公式
+## 四个核心算子的反向公式
 
 下面是 mini autograd 要支持的四个算子。
 
-### 6.1 MatMul
+### MatMul
 
 前向：
 
@@ -191,7 +191,7 @@ dB = A.T @ dC
 
 直觉：矩阵乘法把 `A` 的每一行和 `B` 的每一列做内积。上游梯度 `dC` 告诉我们每个输出元素对 loss 的影响，再乘回另一个输入，就得到当前输入的梯度。
 
-### 6.2 ReLU
+### ReLU
 
 前向：
 
@@ -207,7 +207,7 @@ dx = dout * (x > 0)
 
 如果前向时 `x <= 0`，ReLU 输出被截断为 0，局部导数为 0；如果 `x > 0`，ReLU 是恒等映射，局部导数为 1。
 
-### 6.3 Softmax
+### Softmax
 
 前向：
 
@@ -237,7 +237,7 @@ Softmax 的完整 Jacobian 是：
 dx = s * (dout - sum(dout * s))
 ```
 
-### 6.4 Cross Entropy
+### Cross Entropy
 
 对于分类任务，标签 `y` 是类别 id，预测 `p` 是 softmax 概率：
 
@@ -265,7 +265,7 @@ dlogits = (softmax(logits) - one_hot(y)) / N
 
 这也是 PyTorch 中 `torch.nn.CrossEntropyLoss` 接收 logits 而不是 softmax 后概率的原因。
 
-## 7. Mini Autograd 完整代码
+## Mini Autograd 完整代码
 
 这个实现只依赖 NumPy，代码目标不是功能完整，而是把 autograd 的核心结构讲清楚。
 
@@ -398,13 +398,13 @@ class Tensor:
             self.grad = self.grad + grad
 ```
 
-## 8. 每个结构体和函数细讲
+## 每个结构体和函数细讲
 
-### 8.1 `Tensor.data`
+### `Tensor.data`
 
 `data` 是真实数值。这里用 `np.ndarray` 保存。真实框架里，Tensor 不只保存数据，还要保存设备、dtype、stride、storage、layout 等信息。例如 PyTorch Tensor 可能在 CPU 或 CUDA 上，可能是 `float32`、`float16`、`bfloat16`，也可能是非连续内存视图。
 
-### 8.2 `Tensor.requires_grad`
+### `Tensor.requires_grad`
 
 `requires_grad` 表示是否需要追踪梯度。输入数据通常不需要梯度，模型参数需要梯度。
 
@@ -421,7 +421,7 @@ requires_grad=self.requires_grad or other.requires_grad
 
 这就是梯度追踪在图上传播的方式。
 
-### 8.3 `Tensor.grad`
+### `Tensor.grad`
 
 `grad` 保存当前 Tensor 的梯度，也就是 `dLoss/dTensor`。注意它不是局部导数，而是最终 loss 对这个 Tensor 的总导数。
 
@@ -434,13 +434,13 @@ loss.backward()
 
 PyTorch 也是默认累加梯度，所以训练循环里必须写 `optimizer.zero_grad()`。
 
-### 8.4 `Tensor.parents`
+### `Tensor.parents`
 
 `parents` 保存当前 Tensor 的输入依赖。例如 `z = x @ w`，那么 `z.parents = (x, w)`。反向传播构建拓扑排序时要沿着 `parents` 一直追溯到叶子节点。
 
 叶子节点一般是用户直接创建的 Tensor，例如输入和参数。中间节点是由操作产生的 Tensor。
 
-### 8.5 `Tensor.op`
+### `Tensor.op`
 
 `op` 只是为了调试展示。真实框架里会有更复杂的 `grad_fn` 或 `Function` 对象，里面保存算子类型、反向规则、上下文缓存等。
 
@@ -453,7 +453,7 @@ print(z.grad_fn)
 
 你会看到类似 `MmBackward` 的对象。
 
-### 8.6 `Tensor._backward`
+### `Tensor._backward`
 
 `_backward` 是 mini autograd 的核心。每个操作在前向时创建输出 Tensor，并给输出 Tensor 塞一个闭包函数。这个闭包知道：
 
@@ -473,7 +473,7 @@ def _backward():
 
 闭包会捕获 `self`、`other`、`out`。这就是动态图框架非常自然的地方：Python 执行到哪里，反向函数就记录到哪里。
 
-### 8.7 `ensure_tensor`
+### `ensure_tensor`
 
 `ensure_tensor` 负责把普通数字或数组包装成 Tensor。这样以后可以支持：
 
@@ -483,7 +483,7 @@ x @ np_array
 
 真实框架中类似逻辑会更复杂，因为要处理 dtype promotion、device 对齐、广播规则等。
 
-### 8.8 `backward`
+### `backward`
 
 `backward` 做三件事：
 
@@ -500,7 +500,7 @@ for tensor in reversed(topo):
 
 为什么要反过来？因为 `topo` 是从叶子到 loss 的顺序，反向传播必须从 loss 回到叶子。
 
-### 8.9 `_accumulate_grad`
+### `_accumulate_grad`
 
 梯度必须累加：
 
@@ -510,7 +510,7 @@ self.grad = self.grad + grad
 
 如果一个 Tensor 影响 loss 的路径不止一条，每条路径都会贡献一部分梯度。Autograd 的正确性依赖累加，而不是覆盖。
 
-## 9. 跑一个最小训练例子
+## 跑一个最小训练例子
 
 下面构造一个两层分类模型：
 
@@ -560,7 +560,7 @@ x @ w1
 
 这个例子虽然小，但已经包含了深度学习训练最重要的机制。
 
-## 10. 梯度流：为什么会消失或爆炸
+## 梯度流：为什么会消失或爆炸
 
 梯度流指梯度从 loss 往前层传播的过程。每经过一个操作，梯度都会乘上局部导数。
 
@@ -580,7 +580,7 @@ dL/dx = dL/dh_n * dh_n/dh_{n-1} * ... * dh_1/dx
 
 理解梯度流之后，很多训练技巧不再是经验魔法，而是为了让链式法则的乘积更稳定。
 
-## 11. Memory Optimization：显存到底花在哪里
+## Memory Optimization：显存到底花在哪里
 
 训练时显存主要来自：
 
@@ -592,7 +592,7 @@ dL/dx = dL/dh_n * dh_n/dh_{n-1} * ... * dh_1/dx
 
 很多人以为显存主要被参数占用，但在大 batch、长序列、深网络里，激活值经常非常可观。因为反向传播需要前向时的中间结果。例如 ReLU backward 要知道前向输入是否大于 0，matmul backward 要知道另一个输入矩阵。
 
-## 12. Activation Checkpoint：用计算换显存
+## Activation Checkpoint：用计算换显存
 
 ![Activation checkpoint](/images/posts/mini-autograd/checkpoint.svg)
 
@@ -636,7 +636,7 @@ out = checkpoint(block, x)
 - 不是所有层都值得 checkpoint，通常选显存占用大的 block；
 - checkpoint 会增加训练时间，不是免费优化。
 
-## 13. PyTorch 和 TensorFlow 本质上做了什么
+## PyTorch 和 TensorFlow 本质上做了什么
 
 当你写 PyTorch：
 
@@ -661,7 +661,7 @@ loss.backward()
 Tensor + Op + Graph + Chain Rule + Scheduler + Memory Planner
 ```
 
-## 14. Mini Autograd 的限制
+## Mini Autograd 的限制
 
 这个 mini 版本故意省略了很多真实框架能力：
 
@@ -675,7 +675,7 @@ Tensor + Op + Graph + Chain Rule + Scheduler + Memory Planner
 
 但它已经完整覆盖了深度学习框架最核心的训练闭环。
 
-## 15. Week 1 学完应该掌握什么
+## Week 1 学完应该掌握什么
 
 学完这一周，不要求背公式，而是要能解释清楚这些问题：
 
@@ -690,7 +690,7 @@ Tensor + Op + Graph + Chain Rule + Scheduler + Memory Planner
 
 如果这些问题都能讲顺，基本就理解了深度学习框架的本质。
 
-## 16. 最后总结
+## 最后总结
 
 Autograd 的核心非常朴素：前向时记录图，反向时套链式法则。复杂的是工程化：如何让它在 GPU 上快、在大模型上省显存、在动态图里易调试、在编译图里可优化。
 
