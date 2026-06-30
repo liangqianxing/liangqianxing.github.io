@@ -22,6 +22,25 @@
 
       <!-- Actions -->
       <div class="nav-actions">
+        <!-- 开往：友链接力，开源社区要求保留 -->
+        <a
+          href="https://www.travellings.cn/go.html"
+          target="_blank"
+          rel="noreferrer noopener"
+          class="nav-travellings"
+          title="开往 · 友链接力"
+          aria-label="开往 - 友链接力"
+        >
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="4" y="3" width="16" height="14" rx="3"/>
+            <path d="M4 9h16"/>
+            <circle cx="9" cy="13" r="1.2" fill="currentColor"/>
+            <circle cx="15" cy="13" r="1.2" fill="currentColor"/>
+            <path d="M7 21l3-3m4 0 3 3"/>
+          </svg>
+          <span class="nav-travellings-text">开往</span>
+        </a>
+
         <!-- GitHub link (hidden on very small screens) -->
         <a
           :href="appConfig.github"

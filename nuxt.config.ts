@@ -76,7 +76,14 @@ export default defineNuxtConfig({
       link: [
         { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
         { rel: 'alternate', type: 'application/rss+xml', title: 'gu.log', href: '/rss.xml' },
-      ]
+      ],
+      // 防主题闪烁：在 DOM 渲染前读取 localStorage 并立即应用主题 class
+      script: [
+        {
+          innerHTML: `(function(){var t=localStorage.getItem('theme');var h=document.documentElement;if(t==='light'){h.classList.add('light');}else{h.classList.add('dark');}})();`,
+          type: 'text/javascript',
+        },
+      ],
     }
   }
 })
