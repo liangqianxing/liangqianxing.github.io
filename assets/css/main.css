@@ -1315,11 +1315,45 @@ html.light .nav-travellings:hover {
 
 .timeline-item {
   display: grid;
-  grid-template-columns: 120px 1fr;
-  gap: 1.5rem;
+  grid-template-columns: 40px 100px 1fr;
+  gap: 1rem;
   padding: 1.25rem 0;
   border-bottom: 1px solid var(--border-subtle);
   position: relative;
+  align-items: start;
+}
+
+/* 公司 Logo */
+.timeline-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border-default);
+  background: var(--bg-elevated);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.timeline-logo-img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+.timeline-logo-fallback {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--accent-cyan);
+}
+.timeline-company-en {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-very-muted);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  margin-left: 0.5rem;
 }
 
 .timeline-item:last-child {
@@ -1566,8 +1600,19 @@ html.transitioning * {
   }
 
   .timeline-item {
-    grid-template-columns: 1fr;
-    gap: 0.25rem;
+    grid-template-columns: 40px 1fr;
+    gap: 0.75rem 1rem;
+  }
+  /* 时间段在 logo 右边，跨到内容列 */
+  .timeline-item .timeline-period {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .timeline-item .timeline-logo {
+    grid-row: 1;
+  }
+  .timeline-item > div:last-child {
+    grid-column: 1 / -1;
   }
 
   .post-nav {

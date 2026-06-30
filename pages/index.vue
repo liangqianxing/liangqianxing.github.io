@@ -21,7 +21,7 @@
       <!-- Pills -->
       <div class="hero-pills">
         <NuxtLink to="/posts" class="pill">
-          <span class="pill-count">{{ visiblePosts.length }}</span>
+          <span class="pill-count">{{ posts.length }}</span>
           篇文章
         </NuxtLink>
         <a :href="appConfig.github" target="_blank" rel="noopener noreferrer" class="pill">
@@ -136,27 +136,26 @@
 </template>
 
 <script setup lang="ts">
-import { readingTime, formatDate, formatMonthDay, tagSlug, isVisible } from '~/utils/blog'
+import { formatDate, formatMonthDay, tagSlug } from '~/utils/blog'
+import type { PostMeta } from '~/server/api/posts.get'
 
 const appConfig = useAppConfig()
 
-// Fetch all posts
-const { data: allPosts } = await useAsyncData('index-posts', () =>
-  queryCollection('posts').order('date', 'DESC').all()
+// 直接调用 server API route，SSR prerender 时也能正确读取文件系统
+const { data: visiblePosts } = await useAsyncData<PostMeta[]>('index-posts', () =>
+  $fetch('/api/posts')
 )
 
-const visiblePosts = computed(() =>
-  (allPosts.value ?? []).filter(isVisible)
-)
+const posts = computed(() => visiblePosts.value ?? [])
 
-const featured = computed(() => visiblePosts.value[0] ?? null)
-const showcase = computed(() => visiblePosts.value.slice(1, 4))
-const morePosts = computed(() => visiblePosts.value.slice(4, 8))
+const featured = computed(() => posts.value[0] ?? null)
+const showcase = computed(() => posts.value.slice(1, 4))
+const morePosts = computed(() => posts.value.slice(4, 8))
 
 // Compute top 8 tags by frequency
 const topTags = computed(() => {
   const counts = new Map<string, number>()
-  for (const post of visiblePosts.value) {
+  for (const post of posts.value) {
     for (const tag of post.tags ?? []) {
       counts.set(tag, (counts.get(tag) ?? 0) + 1)
     }

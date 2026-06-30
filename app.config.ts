@@ -50,9 +50,27 @@ export default defineAppConfig({
   experience: [
     {
       company: '美团',
-      role: '全栈开发实习生',
-      period: '2025.03 – 至今',
+      companyEN: 'Meituan',
+      logo: '/logos/meituan.svg',
+      role: '全栈工程师（实习）',
+      period: '2026.05 – 至今',
       desc: '参与美团内部平台全栈开发，涉及 LLM 相关工程和后端服务。',
+    },
+    {
+      company: 'vivo',
+      companyEN: 'vivo',
+      logo: '/logos/vivo.svg',
+      role: 'Agent 工程师（实习）',
+      period: '2026.04 – 2026.05',
+      desc: '',
+    },
+    {
+      company: '西湖大学',
+      companyEN: 'Westlake University',
+      logo: '/logos/westlake.png',
+      role: '访问学生',
+      period: '2025.12 – 2026.03',
+      desc: '自然语言处理实验室。',
     },
   ],
   education: [

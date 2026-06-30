@@ -39,25 +39,25 @@
 </template>
 
 <script setup lang="ts">
-import { tagSlug, formatMonthDay, isVisible } from '~/utils/blog'
+import { tagSlug, formatMonthDay } from '~/utils/blog'
+import type { PostMeta } from '~/server/api/posts.get'
 
 const route = useRoute()
 const tagParam = computed(() => route.params.tag as string)
 const decodedTag = computed(() => decodeURIComponent(tagParam.value))
 
-const { data: allPosts } = await useAsyncData(`tag-${tagParam.value}`, () =>
-  queryCollection('posts').order('date', 'DESC').all()
+const { data: allPosts } = await useAsyncData<PostMeta[]>(`tag-${tagParam.value}`, () =>
+  $fetch('/api/posts')
 )
 
-const tagPosts = computed(() => {
-  return (allPosts.value ?? []).filter(post => {
-    if (!isVisible(post)) return false
-    return (post.tags ?? []).some(t => tagSlug(t) === tagParam.value)
-  })
-})
+const tagPosts = computed(() =>
+  (allPosts.value ?? []).filter(post =>
+    (post.tags ?? []).some(t => tagSlug(t) === tagParam.value)
+  )
+)
 
 const postsByYear = computed(() => {
-  const map = new Map<string, typeof tagPosts.value>()
+  const map = new Map<string, PostMeta[]>()
   for (const post of tagPosts.value) {
     const year = new Date(post.date).getFullYear().toString()
     if (!map.has(year)) map.set(year, [])

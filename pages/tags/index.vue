@@ -18,19 +18,16 @@
 </template>
 
 <script setup lang="ts">
-import { tagSlug, isVisible } from '~/utils/blog'
+import { tagSlug } from '~/utils/blog'
+import type { PostMeta } from '~/server/api/posts.get'
 
-const { data: allPosts } = await useAsyncData('tags-all', () =>
-  queryCollection('posts').all()
-)
-
-const visiblePosts = computed(() =>
-  (allPosts.value ?? []).filter(isVisible)
+const { data: allPosts } = await useAsyncData<PostMeta[]>('tags-all', () =>
+  $fetch('/api/posts')
 )
 
 const sortedTags = computed(() => {
   const counts = new Map<string, number>()
-  for (const post of visiblePosts.value) {
+  for (const post of allPosts.value ?? []) {
     for (const tag of post.tags ?? []) {
       counts.set(tag, (counts.get(tag) ?? 0) + 1)
     }

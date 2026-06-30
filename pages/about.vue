@@ -37,11 +37,18 @@
       <div class="about-section-title">工作经历</div>
       <div class="timeline">
         <div v-for="exp in appConfig.experience" :key="exp.company" class="timeline-item">
+          <div class="timeline-logo">
+            <img v-if="exp.logo" :src="exp.logo" :alt="exp.company" class="timeline-logo-img" />
+            <span v-else class="timeline-logo-fallback">{{ exp.company[0] }}</span>
+          </div>
           <div class="timeline-period">{{ exp.period }}</div>
           <div>
-            <div class="timeline-content-title">{{ exp.company }}</div>
+            <div class="timeline-content-title">
+              {{ exp.company }}
+              <span v-if="exp.companyEN" class="timeline-company-en">{{ exp.companyEN }}</span>
+            </div>
             <div class="timeline-content-sub">{{ exp.role }}</div>
-            <div class="timeline-content-desc">{{ exp.desc }}</div>
+            <div v-if="exp.desc" class="timeline-content-desc">{{ exp.desc }}</div>
           </div>
         </div>
       </div>
@@ -80,17 +87,16 @@
 </template>
 
 <script setup lang="ts">
-import { formatMonthDay, isVisible } from '~/utils/blog'
+import { formatMonthDay } from '~/utils/blog'
+import type { PostMeta } from '~/server/api/posts.get'
 
 const appConfig = useAppConfig()
 
-const { data: allPosts } = await useAsyncData('about-posts', () =>
-  queryCollection('posts').order('date', 'DESC').all()
+const { data: allPosts } = await useAsyncData<PostMeta[]>('about-posts', () =>
+  $fetch('/api/posts')
 )
 
-const recentPosts = computed(() =>
-  (allPosts.value ?? []).filter(isVisible).slice(0, 5)
-)
+const recentPosts = computed(() => (allPosts.value ?? []).slice(0, 5))
 
 useHead({
   title: '关于',
