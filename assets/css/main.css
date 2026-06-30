@@ -52,6 +52,40 @@
 }
 
 /* ============================================================
+   LIGHT MODE OVERRIDES
+   html.light 由 theme toggle 注入
+   ============================================================ */
+html.light {
+  color-scheme: light;
+
+  --bg-base:        #f6f6f9;
+  --bg-surface:     #ffffff;
+  --bg-elevated:    #f0f0f5;
+  --bg-code:        #1e1e2e;
+  --bg-selection:   rgba(8, 145, 178, 0.1);
+
+  --border-default: #e0e0ea;
+  --border-subtle:  #ebebf2;
+
+  --text-primary:   #18181c;
+  --text-muted:     #626278;
+  --text-very-muted:#9898a8;
+  --text-inverted:  #f6f6f9;
+
+  /* 亮色模式下用偏深的青色保证对比度 */
+  --accent-cyan:    #0891b2;
+  --accent-violet:  #7c3aed;
+  --accent-green:   #16a34a;
+  --accent-red:     #dc2626;
+
+  --glow-cyan:      0 0 16px rgba(8, 145, 178, 0.12);
+  --glow-cyan-lg:   0 0 32px rgba(8, 145, 178, 0.18);
+  --glow-violet:    0 0 16px rgba(124, 58, 237, 0.12);
+  --shadow-card:    0 2px 12px rgba(0, 0, 0, 0.08);
+  --shadow-nav:     0 1px 0 rgba(0, 0, 0, 0.06);
+}
+
+/* ============================================================
    GLOBAL RESET & BASE
    ============================================================ */
 *, *::before, *::after {
@@ -241,6 +275,43 @@ a {
   border-color: rgba(103, 232, 249, 0.3);
   background: rgba(103, 232, 249, 0.06);
   box-shadow: var(--glow-cyan);
+}
+
+/* 开往 - 友链接力（开源社区要求保留，亮暗模式均适配） */
+.nav-travellings {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border-default);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+.nav-travellings:hover {
+  color: var(--accent-cyan);
+  border-color: rgba(103, 232, 249, 0.45);
+  background: rgba(103, 232, 249, 0.06);
+  box-shadow: var(--glow-cyan);
+}
+/* 亮色模式 */
+html.light .nav-travellings {
+  border-color: var(--border-default);
+  color: var(--text-muted);
+}
+html.light .nav-travellings:hover {
+  color: var(--accent-cyan);
+  border-color: var(--accent-cyan);
+  background: rgba(8, 145, 178, 0.06);
+  box-shadow: 0 0 12px rgba(8, 145, 178, 0.12);
+}
+/* 移动端隐藏文字，只显示图标 */
+@media (max-width: 480px) {
+  .nav-travellings-text { display: none; }
 }
 
 /* ============================================================

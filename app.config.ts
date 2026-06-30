@@ -60,7 +60,7 @@ export default defineAppConfig({
       school: '新疆大学',
       degree: '计算机科学与技术 本科',
       period: '2022 – 2026',
-      desc: 'XCPC 竞赛选手，参与 ACM 校队训练。',
+      desc: '',
     },
   ],
 })
