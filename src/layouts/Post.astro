@@ -5,11 +5,13 @@ interface Props {
   title: string;
   description?: string;
   hasToc?: boolean;
+  /** 透传给 Base.astro 的 JSON-LD 结构化数据 */
+  jsonLd?: Record<string, unknown>;
 }
 
-const { title, description, hasToc = false } = Astro.props;
+const { title, description, hasToc = false, jsonLd } = Astro.props;
 ---
-<Base title={title} description={description}>
+<Base title={title} description={description} jsonLd={jsonLd}>
   <div class={hasToc ? 'post-with-toc' : ''}>
     <main class="shell">
       <article class="prose dark:prose-invert">

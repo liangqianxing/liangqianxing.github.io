@@ -1,9 +1,9 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import { formatMonthDay, sortPosts } from '../../lib/posts';
+import { filterDrafts, formatMonthDay, sortPosts } from '../../lib/posts';
 
-const posts = sortPosts(await getCollection('posts'));
+const posts = sortPosts(filterDrafts(await getCollection('posts')));
 const groups = posts.reduce<Record<string, typeof posts>>((acc, post) => {
   const year = String(post.data.date.getFullYear());
   acc[year] ??= [];
