@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { ViewTransitions } from 'astro:transitions';
 import { siteConfig } from '../lib/site';
 
 interface Props {
@@ -7,6 +8,8 @@ interface Props {
   description?: string;
   image?: string;
   noFooter?: boolean;
+  /** 结构化数据 JSON-LD，用于 SEO */
+  jsonLd?: Record<string, unknown>;
 }
 
 const {
@@ -14,6 +17,7 @@ const {
   description = siteConfig.description,
   image,
   noFooter = false,
+  jsonLd,
 } = Astro.props;
 
 const pageTitle = !title || title === siteConfig.title
@@ -32,6 +36,7 @@ const isActive = (href: string) => {
 <!doctype html>
 <html lang={siteConfig.lang}>
   <head>
+    <!-- 主题检测脚本必须内联且最先执行，避免暗色模式闪烁 -->
     <script is:inline>
       const t = localStorage.getItem('theme');
       if (t === 'dark' || (!t && matchMedia('(prefers-color-scheme: dark)').matches))
@@ -40,12 +45,16 @@ const isActive = (href: string) => {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="author" content={siteConfig.author} />
     <link rel="canonical" href={canonical} />
+    <!-- 预连接加速外部资源加载 -->
+    <link rel="dns-prefetch" href="https://github.com" />
     <link rel="alternate" type="application/rss+xml" title={siteConfig.title} href="/rss.xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
+    <!-- Open Graph -->
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
@@ -53,9 +62,16 @@ const isActive = (href: string) => {
     <meta property="og:locale" content={siteConfig.locale} />
     <meta property="og:site_name" content={siteConfig.title} />
     {ogImage && <meta property="og:image" content={ogImage} />}
+    <!-- Twitter Card -->
     <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
     <meta name="theme-color" content="#f7f8f4" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0d1211" media="(prefers-color-scheme: dark)" />
+    <!-- JSON-LD 结构化数据（文章页面传入） -->
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+    <!-- View Transitions API：页面切换丝滑动画 -->
+    <ViewTransitions />
   </head>
   <body>
     <div class="reading-bar" id="reading-bar" aria-hidden="true"></div>
@@ -100,26 +116,54 @@ const isActive = (href: string) => {
       </footer>
     )}
 
-    <script is:inline>
-      document.getElementById('theme-toggle')?.addEventListener('click', () => {
-        const r = document.documentElement;
-        r.classList.add('transitioning');
-        const dark = r.classList.toggle('dark');
-        localStorage.setItem('theme', dark ? 'dark' : 'light');
-        setTimeout(() => r.classList.remove('transitioning'), 280);
-      });
+    <!-- 回到顶部按钮 -->
+    <button id="back-to-top" class="back-to-top" aria-label="回到顶部" title="回到顶部">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
 
-      const bar = document.getElementById('reading-bar');
-      if (bar) {
-        const update = () => {
-          const h = document.documentElement;
-          const max = h.scrollHeight - h.clientHeight;
-          const pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
-          bar.style.width = pct + '%';
-        };
-        update();
-        document.addEventListener('scroll', update, { passive: true });
+    <script>
+      /**
+       * 所有交互脚本统一在 astro:page-load 内初始化
+       * 确保 View Transitions 切换页面后正确重新注册事件
+       */
+      function init() {
+        // ── 主题切换 ──────────────────────────────────────────────
+        document.getElementById('theme-toggle')?.addEventListener('click', () => {
+          const r = document.documentElement;
+          r.classList.add('transitioning');
+          const dark = r.classList.toggle('dark');
+          localStorage.setItem('theme', dark ? 'dark' : 'light');
+          setTimeout(() => r.classList.remove('transitioning'), 280);
+        });
+
+        // ── 阅读进度条 ─────────────────────────────────────────────
+        const bar = document.getElementById('reading-bar');
+        if (bar) {
+          // 切换页面后进度条归零
+          bar.style.width = '0';
+          const update = () => {
+            const h = document.documentElement;
+            const max = h.scrollHeight - h.clientHeight;
+            bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
+          };
+          update();
+          document.addEventListener('scroll', update, { passive: true });
+        }
+
+        // ── 回到顶部 ───────────────────────────────────────────────
+        const toTop = document.getElementById('back-to-top');
+        if (toTop) {
+          document.addEventListener('scroll', () => {
+            toTop.classList.toggle('visible', window.scrollY > 400);
+          }, { passive: true });
+          toTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          });
+        }
       }
+
+      // 首次加载 + 每次 View Transitions 切换后都执行
+      document.addEventListener('astro:page-load', init);
     </script>
   </body>
 </html>

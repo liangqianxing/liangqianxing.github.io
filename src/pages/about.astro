@@ -3,9 +3,9 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import OrgIcon from '../components/OrgIcon.astro';
 import { siteConfig } from '../lib/site';
-import { formatMonthDay, sortPosts } from '../lib/posts';
+import { filterDrafts, formatMonthDay, sortPosts } from '../lib/posts';
 
-const posts = sortPosts(await getCollection('posts'));
+const posts = sortPosts(filterDrafts(await getCollection('posts')));
 const recent = posts.slice(0, 5);
 ---
 <Base title="关于" description={`关于 ${siteConfig.author} 与本站。`}>

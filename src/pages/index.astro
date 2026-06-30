@@ -2,9 +2,9 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { siteConfig } from '../lib/site';
-import { formatMonthDay, readingTime, sortPosts } from '../lib/posts';
+import { filterDrafts, formatMonthDay, readingTime, sortPosts } from '../lib/posts';
 
-const posts = sortPosts(await getCollection('posts'));
+const posts = sortPosts(filterDrafts(await getCollection('posts')));
 const recent = posts.slice(0, siteConfig.postsPerHomepage);
 const featured = recent[0];
 const showcase = recent.slice(1, 4);
