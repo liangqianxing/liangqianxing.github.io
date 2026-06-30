@@ -1,57 +1,26 @@
-# Build output
-dist/
-.astro/
+# Nuxt build output
+.nuxt/
+.output/
+.data/
 
 # Dependencies
 node_modules/
-.pnp
-.pnp.js
 
 # Logs
 *.log
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
 
 # Environment & secrets
 .env
 .env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.*.local
 
-# Legacy Hexo artefacts
-db.json
-.deploy*/
-_multiconfig.yml
-.hexo-preview.pid
-*.pid
-# Old Hexo build output sitting in public/ (Astro builds to dist/ instead)
-public/about/
-public/archives/
-public/atom.xml
-public/awards/
-public/blog/
-public/categories/
-public/css/
-public/downloads/
-public/images/
-public/index.html
-public/js/
-public/links/
-public/page/
-public/posts/
-public/projects/
-public/search.json
-public/sitemap.xml
-public/tags/
+# Claude Code worktrees
+.claude/
 
 # Editors / OS
 .vscode/
 .idea/
-.superdesign/
-.playwright-mcp/
 .DS_Store
 Thumbs.db
 *.swp
