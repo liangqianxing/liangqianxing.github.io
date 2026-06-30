@@ -23,7 +23,7 @@ Flow Matching 是近几年生成模型里非常重要的一条路线。它和 Di
 
 
 
-## 1. 从 Diffusion 说起
+## 从 Diffusion 说起
 
 经典扩散模型包含两个过程。
 
@@ -43,7 +43,7 @@ $$
 
 Flow Matching 的出发点是：能不能不绕这么多弯，直接学习从噪声到数据的“流动方向”？
 
-## 2. Flow Matching 的核心思想
+## Flow Matching 的核心思想
 
 假设有两个端点：
 
@@ -75,7 +75,7 @@ $$
 
 所以，Diffusion 更像“每一步帮你擦掉一点噪声”，Flow Matching 更像“直接告诉你该往哪里走”。
 
-## 3. 最常见的训练形式：Conditional Flow Matching
+## 最常见的训练形式：Conditional Flow Matching
 
 Flow Matching 的关键是：训练时我们需要知道中间点 $x_t$ 的目标速度。
 
@@ -109,7 +109,7 @@ $$
 
 这也是 Flow Matching 很吸引人的地方：训练目标简单、稳定、直观。
 
-## 4. 推理时怎么生成
+## 推理时怎么生成
 
 训练完成后，我们已经得到了一个速度场 $v_\theta(x, t)$。
 
@@ -129,7 +129,7 @@ $$
 
 这里要注意一个符号方向问题：如果训练路径定义为 $x_t=(1-t)x_0+tx_1$，那么 $t=0$ 是数据，$t=1$ 是噪声。生成时需要从 $1 \rightarrow 0$ 反向积分。不同论文可能会把时间方向反过来，但本质相同。
 
-## 5. 它和 Diffusion 的区别
+## 它和 Diffusion 的区别
 
 Diffusion 和 Flow Matching 并不是完全割裂的两类模型，而是有很强的统一关系。但从建模直觉上看，它们有明显差异。
 
@@ -158,7 +158,7 @@ $$
 
 不过很多现代扩散模型也可以写成 probability flow ODE，所以二者在理论上存在交汇。
 
-## 6. 它和 CNF 的关系
+## 它和 CNF 的关系
 
 Flow Matching 和 Continuous Normalizing Flow（CNF）关系也很深。
 
@@ -174,7 +174,7 @@ $$
 
 因此可以把 Flow Matching 理解为一种更实用、更易训练的连续流生成模型训练方式。
 
-## 7. Rectified Flow：把路径拉直
+## Rectified Flow：把路径拉直
 
 Rectified Flow 是 Flow Matching 相关方向里非常重要的一支。
 
@@ -191,7 +191,7 @@ Rectified Flow 是 Flow Matching 相关方向里非常重要的一支。
 
 这也是为什么很多人会把 Rectified Flow 和 Optimal Transport（最优传输）联系起来：理想情况下，我们希望噪声分布到数据分布的搬运路径既正确又高效。
 
-## 8. 为什么 Flow Matching 适合 DiT
+## 为什么 Flow Matching 适合 DiT
 
 现在图像和视频生成里，Transformer 架构越来越重要，例如 DiT、视频 DiT、多模态 Transformer 等。
 
@@ -205,7 +205,7 @@ Flow Matching 与这类架构很契合，原因包括：
 
 在工程上，一个 Flow Matching Transformer 和一个 Diffusion Transformer 往往非常相似：都是输入 noisy latent、time embedding、condition embedding，然后输出一个与 latent 同形状的张量。差别主要在训练目标和采样方程。
 
-## 9. 极简 PyTorch 伪代码
+## 极简 PyTorch 伪代码
 
 下面是一个非常简化的训练形式，用来体现核心思想：
 
@@ -247,7 +247,7 @@ def sample(model, shape, steps, device):
 
 这里用的是最简单的 Euler 积分。真实系统里通常会使用更好的 noise schedule、time sampling、ODE solver、classifier-free guidance，以及在 latent space 中训练。
 
-## 10. Flow Matching 为什么火
+## Flow Matching 为什么火
 
 它受欢迎的原因可以总结为四点。
 
@@ -259,7 +259,7 @@ def sample(model, shape, steps, device):
 
 第四，工程迁移成本低。对于已经有 Diffusion / DiT 系统的团队来说，把预测噪声改成预测 velocity，并调整采样器，是一条相对自然的演进路线。
 
-## 11. 如何继续深入
+## 如何继续深入
 
 如果想系统学习，建议按这个顺序：
 
@@ -278,7 +278,7 @@ def sample(model, shape, steps, device):
 - Consistency Models
 - Scalable Diffusion Models with Transformers
 
-## 12. 总结
+## 总结
 
 Flow Matching 的核心不是“去噪”，而是“流动”。
 

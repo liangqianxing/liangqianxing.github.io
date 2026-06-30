@@ -1410,6 +1410,108 @@ html.dark {
   }
 }
 
+/* ── 首页个人英雄区 ──────────────────────────────────────────────── */
+.hero-personal {
+  padding: 4rem 0 2.5rem;
+  position: relative;
+}
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 1.1rem;
+}
+.hero-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--accent);
+  /* 绿色呼吸灯：在线状态 */
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
+  animation: pulse-dot 2.8s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes pulse-dot {
+  0%, 100% { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent); }
+  50%       { box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 6%, transparent); }
+}
+.hero-status {
+  font-size: 12.5px;
+  color: var(--text-mute);
+  letter-spacing: 0.02em;
+}
+.hero-name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 0.75rem;
+  margin: 0;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+.hero-name-cn {
+  font-family: var(--font-serif);
+  font-size: clamp(2.4rem, 4vw + 1.2rem, 3.8rem);
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+.hero-name-sep {
+  font-family: var(--font-sans);
+  font-size: clamp(1.2rem, 2vw + 0.6rem, 1.8rem);
+  color: var(--text-mute);
+  font-weight: 300;
+  letter-spacing: 0;
+}
+.hero-name-en {
+  font-family: var(--font-sans);
+  font-size: clamp(1.1rem, 1.8vw + 0.5rem, 1.6rem);
+  color: var(--text-soft);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.hero-bio {
+  margin: 1rem 0 0;
+  color: var(--text-soft);
+  font-size: 1.03rem;
+  max-width: 44rem;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+.hero-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+.hero-link-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.38rem;
+  padding: 5px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 13px;
+  color: var(--text-soft);
+  background: color-mix(in srgb, var(--surface) 80%, var(--bg-soft));
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+  letter-spacing: 0.01em;
+}
+.hero-link-pill:hover {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
+  background: color-mix(in srgb, var(--accent) 7%, var(--surface));
+  transform: translateY(-1px);
+}
+
+@media (max-width: 640px) {
+  .hero-personal { padding: 2.5rem 0 1.5rem; }
+  .hero-name-cn { font-size: 2.1rem; }
+  .hero-name-en { font-size: 1rem; }
+  .hero-bio { font-size: 0.96rem; }
+}
+
 /* ── 代码块复制按钮 ─────────────────────────────────────────────── */
 .prose pre {
   position: relative;
