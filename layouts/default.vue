@@ -1,6 +1,7 @@
 <template>
   <div id="app-root">
     <div id="reading-bar" />
+    <SiteEffects />
     <AppNav />
     <main>
       <slot />
@@ -32,13 +33,23 @@ onMounted(() => {
   // Reading progress bar
   const bar = document.getElementById('reading-bar')
   if (bar) {
+    let ticking = false
     const updateBar = () => {
       const scrollTop = window.scrollY
       const docHeight = document.documentElement.scrollHeight - window.innerHeight
       const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0
       bar.style.width = `${pct}%`
+      ticking = false
     }
-    window.addEventListener('scroll', updateBar, { passive: true })
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateBar)
+        ticking = true
+      }
+    }
+    updateBar()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onUnmounted(() => window.removeEventListener('scroll', onScroll))
   }
 })
 

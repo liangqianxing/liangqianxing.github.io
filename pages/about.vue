@@ -1,87 +1,140 @@
 <template>
-  <div class="about-page">
-    <!-- Hero -->
-    <div class="about-hero">
-      <div class="about-role">
-        <span class="hero-status-dot" aria-hidden="true" />
-        {{ appConfig.role }}
-      </div>
-      <h1 class="about-name">{{ appConfig.authorCN }}</h1>
-      <p style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-very-muted); letter-spacing: 0.04em; margin-bottom: 0.25rem">
-        {{ appConfig.authorEN }}
-      </p>
-      <p class="about-bio">{{ appConfig.bio }}</p>
-      <div class="hero-pills" style="margin-top: 1.5rem">
-        <a :href="appConfig.github" target="_blank" rel="noopener noreferrer" class="pill">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
-          </svg>
-          GitHub
-        </a>
-        <a href="/rss.xml" class="pill">RSS</a>
-      </div>
-    </div>
-
-    <!-- Tech Stack -->
-    <div class="about-section">
-      <div class="about-section-title">技术栈</div>
-      <div class="tech-grid">
-        <span v-for="tech in appConfig.techStack" :key="tech.name" class="tech-item">
-          {{ tech.name }}
-        </span>
-      </div>
-    </div>
-
-    <!-- Experience -->
-    <div class="about-section">
-      <div class="about-section-title">工作经历</div>
-      <div class="timeline">
-        <div v-for="exp in appConfig.experience" :key="exp.company" class="timeline-item">
-          <div class="timeline-logo">
-            <img v-if="exp.logo" :src="exp.logo" :alt="exp.company" class="timeline-logo-img" />
-            <span v-else class="timeline-logo-fallback">{{ exp.company[0] }}</span>
-          </div>
-          <div class="timeline-period">{{ exp.period }}</div>
-          <div>
-            <div class="timeline-content-title">
-              {{ exp.company }}
-              <span v-if="exp.companyEN" class="timeline-company-en">{{ exp.companyEN }}</span>
-            </div>
-            <div class="timeline-content-sub">{{ exp.role }}</div>
-            <div v-if="exp.desc" class="timeline-content-desc">{{ exp.desc }}</div>
+  <main class="page-frame">
+    <section class="about-hero">
+      <div class="about-profile">
+        <img src="/avatar.jpg" :alt="appConfig.authorCN" width="148" height="148" />
+        <div class="about-identity">
+          <p class="eyebrow">{{ appConfig.role }}</p>
+          <h1>{{ appConfig.authorCN }}</h1>
+          <p class="about-en">{{ appConfig.authorEN }}</p>
+          <p class="about-summary">{{ appConfig.bio }}</p>
+          <div class="about-actions">
+            <a :href="appConfig.github" target="_blank" rel="noopener noreferrer" class="primary-action">GitHub</a>
+            <NuxtLink to="/posts" class="secondary-action">文章库</NuxtLink>
+            <NuxtLink to="/tags" class="secondary-action">主题索引</NuxtLink>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Recent Posts -->
-    <div class="about-section">
-      <div class="about-section-title">近期文章</div>
-      <NuxtLink
-        v-for="post in recentPosts"
-        :key="post.path"
-        :to="post.path"
-        class="post-row"
-      >
-        <span class="post-row-date">{{ formatMonthDay(post.date) }}</span>
-        <span class="post-row-title">{{ post.title }}</span>
-        <span class="post-row-tag">{{ post.tags?.[0] ?? '' }}</span>
-      </NuxtLink>
+      <aside class="about-snapshot" aria-label="个人站点概览">
+        <p class="snapshot-label">PROFILE SNAPSHOT</p>
+        <div class="snapshot-grid">
+          <div>
+            <span>{{ posts.length }}</span>
+            <em>公开文章</em>
+          </div>
+          <div>
+            <span>{{ topicCount }}</span>
+            <em>主题方向</em>
+          </div>
+          <div>
+            <span>{{ latestYear }}</span>
+            <em>最近更新</em>
+          </div>
+        </div>
+        <p class="snapshot-note">关注 AI Infra、后端系统、工程实践和可复用的技术笔记沉淀。</p>
+      </aside>
+    </section>
+
+    <div class="about-layout">
+      <div>
+        <SiteBlock eyebrow="Focus" title="关注方向" description="把个人介绍拆成更具体的工程兴趣，方便快速判断内容边界。">
+          <div class="focus-grid">
+            <article v-for="item in focusAreas" :key="item.key" class="focus-card">
+              <span>{{ item.key }}</span>
+              <h3>{{ item.title }}</h3>
+              <p>{{ item.desc }}</p>
+            </article>
+          </div>
+        </SiteBlock>
+
+        <SiteBlock eyebrow="Stack" title="技术栈" description="偏工程落地的全栈组合：后端、AI Infra、前端框架和基础设施。">
+          <div class="stack-panel">
+            <span v-for="tech in appConfig.techStack" :key="tech.name" class="skill-chip">{{ tech.name }}</span>
+          </div>
+        </SiteBlock>
+
+        <SiteBlock eyebrow="Experience" title="经历">
+          <div class="timeline">
+            <article v-for="exp in appConfig.experience" :key="exp.company" class="timeline-card">
+              <div class="timeline-logo">
+                <img v-if="exp.logo" :src="exp.logo" :alt="exp.company" width="34" height="34" />
+                <span v-else>{{ exp.company[0] }}</span>
+              </div>
+              <div>
+                <time>{{ exp.period }}</time>
+                <h3>
+                  {{ exp.company }}
+                  <span v-if="exp.companyEN">{{ exp.companyEN }}</span>
+                </h3>
+                <p class="timeline-role">{{ exp.role }}</p>
+                <p v-if="exp.desc" class="timeline-desc">{{ exp.desc }}</p>
+              </div>
+            </article>
+          </div>
+        </SiteBlock>
+      </div>
+
+      <aside>
+        <SiteBlock eyebrow="Now" title="当前状态" tone="panel">
+          <div class="now-card">
+            <p>持续整理后端、AI Infra 和工程实践相关的学习笔记，也会把项目拆解、源码阅读和面试准备沉淀成可检索的资料库。</p>
+          </div>
+        </SiteBlock>
+
+        <SiteBlock eyebrow="Recent" title="近期文章" tone="panel">
+          <ArticleStream :posts="recentPosts" />
+        </SiteBlock>
+      </aside>
     </div>
-  </div>
+  </main>
 </template>
 
 <script setup lang="ts">
-import { formatMonthDay } from '~/utils/blog'
 import type { PostMeta } from '~/server/api/posts.get'
 
 const appConfig = useAppConfig()
 
-const { data: allPosts } = await useAsyncData<PostMeta[]>('about-posts', () =>
+const { data } = await useAsyncData<PostMeta[]>('about-posts', () =>
   $fetch('/api/posts')
 )
 
-const recentPosts = computed(() => (allPosts.value ?? []).slice(0, 5))
+const recentPosts = computed(() => (data.value ?? []).slice(0, 6))
+const posts = computed(() => data.value ?? [])
+const topicCount = computed(() => {
+  const topics = new Set<string>()
+  for (const post of posts.value) {
+    for (const tag of post.tags ?? []) topics.add(tag)
+  }
+  return topics.size
+})
+const latestYear = computed(() => {
+  const firstPost = posts.value[0]
+  return firstPost ? new Date(firstPost.date).getFullYear() : new Date().getFullYear()
+})
+
+const focusAreas = [
+  {
+    key: 'AI',
+    title: 'AI Infra / Agent',
+    desc: 'RAG、上下文工程、记忆系统、推理优化和 Agent 产品化。',
+  },
+  {
+    key: 'SYS',
+    title: 'Backend Systems',
+    desc: '高并发、缓存、数据库、消息队列和分布式系统设计。',
+  },
+  {
+    key: 'SRC',
+    title: 'Source Reading',
+    desc: '从源码和项目结构里提炼可迁移的工程经验。',
+  },
+  {
+    key: 'DOC',
+    title: 'Knowledge Base',
+    desc: '把零散学习转成可搜索、可复盘、可长期维护的笔记库。',
+  },
+]
 
 useHead({
   title: '关于',

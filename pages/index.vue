@@ -1,172 +1,149 @@
 <template>
   <div>
-    <!-- Hero -->
-    <section class="hero">
-      <!-- Status -->
-      <div class="hero-status">
-        <span class="hero-status-dot" aria-hidden="true" />
-        <span>{{ appConfig.status }}</span>
+    <section class="hero-frame">
+      <div class="hero-main">
+        <p class="eyebrow">{{ appConfig.status }}</p>
+        <h1>
+          {{ appConfig.authorCN }}
+          <span>工程笔记库</span>
+        </h1>
+        <p class="hero-summary">{{ appConfig.description }}</p>
+        <div class="hero-actions">
+          <NuxtLink to="/posts" class="primary-action">进入文章库</NuxtLink>
+          <NuxtLink to="/tags" class="secondary-action">按主题浏览</NuxtLink>
+        </div>
       </div>
 
-      <!-- Name -->
-      <h1>
-        <span class="hero-name-cn">{{ appConfig.authorCN }}</span>
-        <span class="hero-cursor" aria-hidden="true">_</span>
-        <span class="hero-name-en">{{ appConfig.authorEN }}</span>
-      </h1>
-
-      <!-- Bio -->
-      <p class="hero-bio">{{ appConfig.bio }}</p>
-
-      <!-- Pills -->
-      <div class="hero-pills">
-        <NuxtLink to="/posts" class="pill">
-          <span class="pill-count">{{ posts.length }}</span>
-          篇文章
-        </NuxtLink>
-        <a :href="appConfig.github" target="_blank" rel="noopener noreferrer" class="pill">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
-          </svg>
-          GitHub
-        </a>
-        <a href="/rss.xml" class="pill">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M6.18 15.64a2.18 2.18 0 010 4.36 2.18 2.18 0 010-4.36M4 4.44A15.56 15.56 0 0119.56 20h-2.83A12.73 12.73 0 004 7.27V4.44m0 5.66a9.9 9.9 0 019.9 9.9h-2.83A7.07 7.07 0 004 12.93V10.1z"/>
-          </svg>
-          RSS
-        </a>
-        <NuxtLink to="/about" class="pill">关于我</NuxtLink>
-      </div>
+      <aside class="hero-dossier" aria-label="站点概览">
+        <img src="/avatar.jpg" :alt="appConfig.authorCN" width="84" height="84" />
+        <div>
+          <strong>{{ appConfig.authorEN }}</strong>
+          <span>{{ appConfig.role }}</span>
+        </div>
+        <dl>
+          <div>
+            <dt>Posts</dt>
+            <dd>{{ posts.length }}</dd>
+          </div>
+          <div>
+            <dt>Topics</dt>
+            <dd>{{ topicCounts.length }}</dd>
+          </div>
+          <div>
+            <dt>Latest</dt>
+            <dd>{{ latestYear }}</dd>
+          </div>
+        </dl>
+      </aside>
     </section>
 
-    <!-- Content sections -->
-    <div class="page-wrapper" style="padding-top: 0">
+    <main class="site-main">
+      <SiteBlock
+        eyebrow="Map"
+        title="知识地图"
+        description="把文章按学习路径组织起来，而不是只按发布时间堆叠。"
+      >
+        <KnowledgeMap :items="knowledgeMap" />
+      </SiteBlock>
 
-      <!-- Latest post (featured) -->
-      <template v-if="featured">
-        <div class="section-label">
-          <span class="section-label-accent">LATEST</span>
-          <span>/</span>
-          <span>POST</span>
+      <SiteBlock
+        v-if="featured"
+        eyebrow="Latest"
+        title="最近更新"
+        description="最新文章放在首页核心位置，其他文章进入连续阅读流。"
+        action-to="/posts"
+        action-label="查看全部"
+      >
+        <div class="home-latest">
+          <ArticleCard :post="featured" large />
+          <ArticleStream :posts="recentPosts" />
         </div>
-        <NuxtLink :to="featured.path" class="post-card" style="margin-bottom: 2.5rem; display: block">
-          <div class="post-card-label">最新文章</div>
-          <h2 class="post-card-title">{{ featured.title }}</h2>
-          <p v-if="featured.description" class="post-card-desc">{{ featured.description }}</p>
-          <div class="post-card-meta">
-            <span>{{ formatDate(featured.date) }}</span>
-            <span>·</span>
-            <span>{{ readingTime(featured.body ?? '') }} min read</span>
-          </div>
-          <div v-if="featured.tags?.length" class="post-card-tags">
-            <span v-for="tag in featured.tags.slice(0, 3)" :key="tag" class="tag-chip">{{ tag }}</span>
-          </div>
-        </NuxtLink>
-      </template>
+      </SiteBlock>
 
-      <!-- Showcase grid (posts 2-4) -->
-      <template v-if="showcase.length">
-        <div class="section-label">
-          <span class="section-label-accent">RECENT</span>
-          <span>/</span>
-          <span>POSTS</span>
+      <SiteBlock
+        v-if="selectedPosts.length"
+        eyebrow="Selected"
+        title="精选入口"
+        description="适合作为新读者进入站点的三篇文章。"
+      >
+        <div class="card-grid">
+          <ArticleCard v-for="post in selectedPosts" :key="post.path" :post="post" />
         </div>
-        <div class="showcase-grid" style="margin-bottom: 2.5rem">
-          <NuxtLink
-            v-for="post in showcase"
-            :key="post.path"
-            :to="post.path"
-            class="showcase-card"
-          >
-            <h3 class="showcase-card-title">{{ post.title }}</h3>
-            <div class="showcase-card-meta">{{ formatDate(post.date) }}</div>
-          </NuxtLink>
-        </div>
-      </template>
+      </SiteBlock>
 
-      <!-- More posts list (posts 5-8) -->
-      <template v-if="morePosts.length">
-        <div class="section-label">
-          <span class="section-label-accent">MORE</span>
-          <span>/</span>
-          <span>POSTS</span>
+      <SiteBlock
+        v-if="topicCounts.length"
+        eyebrow="Topics"
+        title="热门主题"
+        description="从主题进入，比从时间线翻找更快。"
+        action-to="/tags"
+        action-label="完整标签云"
+      >
+        <div class="topic-cloud">
+          <TopicChip v-for="[tag, count] in topicCounts.slice(0, 16)" :key="tag" :tag="tag" :count="count" />
         </div>
-        <div style="margin-bottom: 2.5rem">
-          <NuxtLink
-            v-for="post in morePosts"
-            :key="post.path"
-            :to="post.path"
-            class="post-row"
-          >
-            <span class="post-row-date">{{ formatMonthDay(post.date) }}</span>
-            <span class="post-row-title">{{ post.title }}</span>
-            <span class="post-row-tag">{{ post.tags?.[0] ?? '' }}</span>
-          </NuxtLink>
-        </div>
-        <div style="text-align: center; margin-top: 1rem">
-          <NuxtLink to="/posts" class="pill" style="display: inline-flex">
-            查看全部文章 →
-          </NuxtLink>
-        </div>
-      </template>
-
-      <!-- Top tags -->
-      <template v-if="topTags.length">
-        <div class="section-label" style="margin-top: 3rem">
-          <span class="section-label-accent">TOP</span>
-          <span>/</span>
-          <span>TAGS</span>
-        </div>
-        <div class="tags-grid">
-          <NuxtLink
-            v-for="[tag, count] in topTags"
-            :key="tag"
-            :to="`/tags/${tagSlug(tag)}`"
-            class="tag-item"
-          >
-            {{ tag }}
-            <span class="tag-item-count">{{ count }}</span>
-          </NuxtLink>
-        </div>
-      </template>
-
-    </div>
+      </SiteBlock>
+    </main>
   </div>
 </template>
 
 <script setup lang="ts">
-import { formatDate, formatMonthDay, tagSlug } from '~/utils/blog'
 import type { PostMeta } from '~/server/api/posts.get'
 
 const appConfig = useAppConfig()
 
-// 直接调用 server API route，SSR prerender 时也能正确读取文件系统
-const { data: visiblePosts } = await useAsyncData<PostMeta[]>('index-posts', () =>
+const { data } = await useAsyncData<PostMeta[]>('home-posts', () =>
   $fetch('/api/posts')
 )
 
-const posts = computed(() => visiblePosts.value ?? [])
-
+const posts = computed(() => data.value ?? [])
 const featured = computed(() => posts.value[0] ?? null)
-const showcase = computed(() => posts.value.slice(1, 4))
-const morePosts = computed(() => posts.value.slice(4, 8))
+const recentPosts = computed(() => posts.value.slice(1, 7))
+const selectedPosts = computed(() => posts.value.slice(7, 10))
+const latestYear = computed(() => featured.value ? new Date(featured.value.date).getFullYear() : new Date().getFullYear())
 
-// Compute top 8 tags by frequency
-const topTags = computed(() => {
+const topicCounts = computed(() => {
   const counts = new Map<string, number>()
   for (const post of posts.value) {
-    for (const tag of post.tags ?? []) {
-      counts.set(tag, (counts.get(tag) ?? 0) + 1)
-    }
+    for (const tag of post.tags ?? []) counts.set(tag, (counts.get(tag) ?? 0) + 1)
   }
-  return [...counts.entries()]
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 8)
+  return [...counts.entries()].sort((a, b) => b[1] - a[1])
 })
+
+const knowledgeMap = [
+  {
+    key: 'AI',
+    title: 'AI Infra / Agent',
+    desc: 'RAG、上下文压缩、记忆系统、推理链路和 Agent 工程化。',
+    label: '看 AI Infra',
+    to: '/tags/ai-infra',
+  },
+  {
+    key: 'SYS',
+    title: 'Backend / Distributed',
+    desc: '后端框架、数据库、缓存、高并发、分布式系统和系统设计。',
+    label: '看后端系统',
+    to: '/tags/后端',
+  },
+  {
+    key: 'SRC',
+    title: 'Source Reading',
+    desc: '源码导读、框架拆解、项目复盘和可落地的工程细节。',
+    label: '看源码分析',
+    to: '/tags/源码分析',
+  },
+  {
+    key: 'INT',
+    title: 'Interview Kit',
+    desc: '面试准备、项目包装、CS 基础和岗位方向速查。',
+    label: '看面试',
+    to: '/tags/面试',
+  },
+]
 
 useHead({
   title: appConfig.title,
+  titleTemplate: () => appConfig.title,
   meta: [
     { name: 'description', content: appConfig.description },
     { property: 'og:title', content: appConfig.title },

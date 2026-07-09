@@ -15,6 +15,7 @@ export interface PostMeta {
   date: string
   tags: string[]
   description: string
+  excerpt: string
   draft: boolean
   hidden: boolean
   published: boolean
@@ -74,6 +75,19 @@ function readingTime(body: string): number {
   return Math.max(1, Math.ceil(zh / 300 + en / 200))
 }
 
+function excerptFromBody(body: string): string {
+  return body
+    .replace(/```[\s\S]*?```/g, ' ')
+    .replace(/!\[[^\]]*]\([^)]*\)/g, ' ')
+    .replace(/\[[^\]]+]\([^)]*\)/g, (m) => m.replace(/^\[([^\]]+)].*$/, '$1'))
+    .replace(/^#+\s+/gm, '')
+    .replace(/^>\s?/gm, '')
+    .replace(/[*_`~>-]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 116)
+}
+
 export default defineEventHandler((_event): PostMeta[] => {
   const dir = join(process.cwd(), 'content', 'posts')
   const files = readdirSync(dir).filter((f) => f.endsWith('.md'))
@@ -97,6 +111,7 @@ export default defineEventHandler((_event): PostMeta[] => {
       date: String(data.date ?? '2020-01-01'),
       tags: Array.isArray(data.tags) ? (data.tags as string[]) : [],
       description: String(data.description ?? ''),
+      excerpt: excerptFromBody(body),
       draft: Boolean(data.draft),
       hidden: Boolean(data.hidden),
       published: data.published !== false,

@@ -3,12 +3,53 @@ import { defineNuxtConfig } from 'nuxt/config'
 import { readFileSync, readdirSync } from 'node:fs'
 import { join, basename } from 'node:path'
 
-// 在构建时静态读取所有 post 文件，提取 slug
+function parsePostFrontmatter(source: string): Record<string, unknown> {
+  const match = source.match(/^---\r?\n([\s\S]*?)\r?\n---/)
+  if (!match) return {}
+  const yaml = match[1]
+  const data: Record<string, unknown> = {}
+
+  for (const line of yaml.split('\n')) {
+    const colon = line.indexOf(':')
+    if (colon < 0) continue
+    const key = line.slice(0, colon).trim()
+    const val = line.slice(colon + 1).trim()
+    if (!key || key.startsWith('-')) continue
+    if (val === 'true') { data[key] = true; continue }
+    if (val === 'false') { data[key] = false; continue }
+    if (val) data[key] = val.replace(/^['"]|['"]$/g, '')
+  }
+
+  const mlArray = yaml.matchAll(/^(\w+):\s*\n((?:\s+-\s+.+\n?)*)/gm)
+  for (const m of mlArray) {
+    const [, k, block] = m
+    data[k] = block.split('\n')
+      .filter((l) => l.trim().startsWith('-'))
+      .map((l) => l.trim().replace(/^-\s*/, '').replace(/^['"]|['"]$/g, ''))
+  }
+
+  return data
+}
+
+function isVisiblePost(data: Record<string, unknown>) {
+  return data.draft !== true && data.hidden !== true && data.published !== false
+}
+
+function toTagSlug(tag: string) {
+  return tag
+    .trim()
+    .replace(/\s*\/\s*/g, '-')
+    .replace(/\s+/g, '-')
+    .toLowerCase()
+}
+
+// 在构建时静态读取所有公开 post 文件，提取 slug
 function getPostSlugs() {
   try {
     const dir = join(process.cwd(), 'content', 'posts')
     return readdirSync(dir)
       .filter((f) => f.endsWith('.md'))
+      .filter((f) => isVisiblePost(parsePostFrontmatter(readFileSync(join(dir, f), 'utf-8'))))
       .map((f) => `/posts/${basename(f, '.md')}`)
   } catch {
     return []
@@ -22,11 +63,11 @@ function getTagRoutes() {
     const tags = new Set<string>()
     for (const f of readdirSync(dir).filter((f) => f.endsWith('.md'))) {
       const text = readFileSync(join(dir, f), 'utf-8')
-      const m = text.match(/^tags:\s*\n((?:\s+-\s+.+\n)*)/m)
-      if (m) {
-        for (const line of m[1].split('\n')) {
-          const tag = line.trim().replace(/^-\s*/, '')
-          if (tag) tags.add(tag.replace(/\//g, '-'))
+      const data = parsePostFrontmatter(text)
+      if (!isVisiblePost(data)) continue
+      if (Array.isArray(data.tags)) {
+        for (const tag of data.tags) {
+          if (typeof tag === 'string' && tag) tags.add(toTagSlug(tag))
         }
       }
     }
@@ -38,7 +79,7 @@ function getTagRoutes() {
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-01-01',
-  modules: ['@nuxt/content', '@nuxt/fonts'],
+  modules: ['@nuxt/content'],
   css: ['~/assets/css/main.css'],
   vite: { plugins: [tailwindcss()] },
   content: {
@@ -51,12 +92,6 @@ export default defineNuxtConfig({
         toc: { depth: 3 }
       }
     }
-  },
-  fonts: {
-    families: [
-      { name: 'JetBrains Mono', provider: 'google', weights: ['400', '500', '600'] },
-      { name: 'Inter', provider: 'google', weights: ['400', '500', '600'] },
-    ]
   },
   nitro: {
     preset: 'github-pages',

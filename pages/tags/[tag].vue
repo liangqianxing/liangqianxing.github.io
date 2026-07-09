@@ -1,45 +1,28 @@
 <template>
-  <div class="page-wrapper">
-    <NuxtLink to="/tags" class="post-header-back" style="display: inline-flex; align-items: center; gap: 0.4rem; margin-bottom: 1.5rem">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <polyline points="15 18 9 12 15 6"/>
-      </svg>
-      所有标签
-    </NuxtLink>
+  <main class="page-frame">
+    <NuxtLink to="/tags" class="back-link">← 所有主题</NuxtLink>
+    <header class="page-hero">
+      <p class="eyebrow">Topic</p>
+      <h1>#{{ displayTag }}</h1>
+      <p>{{ tagPosts.length }} 篇文章收录在这个主题下。</p>
+    </header>
 
-    <h1 class="page-title">
-      <span style="color: var(--text-very-muted); font-size: 0.8em">#</span>
-      {{ decodedTag }}
-    </h1>
-    <p class="page-desc">{{ tagPosts.length }} 篇文章</p>
-
-    <div v-if="tagPosts.length">
-      <div v-for="[year, posts] in postsByYear" :key="year" class="year-block">
-        <div class="year-label">
+    <template v-if="postsByYear.length">
+      <section v-for="[year, yearPosts] in postsByYear" :key="year" class="year-section">
+        <h2>
           {{ year }}
-          <span class="year-count">{{ posts.length }} 篇</span>
-        </div>
-        <NuxtLink
-          v-for="post in posts"
-          :key="post.path"
-          :to="post.path"
-          class="post-row"
-        >
-          <span class="post-row-date">{{ formatMonthDay(post.date) }}</span>
-          <span class="post-row-title">{{ post.title }}</span>
-          <span class="post-row-tag">{{ post.tags?.[0] ?? '' }}</span>
-        </NuxtLink>
-      </div>
-    </div>
+          <span>{{ yearPosts.length }} 篇</span>
+        </h2>
+        <ArticleStream :posts="yearPosts" />
+      </section>
+    </template>
 
-    <div v-else style="text-align: center; padding: 4rem 0; color: var(--text-muted)">
-      <p>该标签下暂无文章</p>
-    </div>
-  </div>
+    <p v-else class="empty-state">该主题下暂无文章。</p>
+  </main>
 </template>
 
 <script setup lang="ts">
-import { tagSlug, formatMonthDay } from '~/utils/blog'
+import { tagSlug } from '~/utils/blog'
 import type { PostMeta } from '~/server/api/posts.get'
 
 const route = useRoute()
@@ -56,6 +39,14 @@ const tagPosts = computed(() =>
   )
 )
 
+const displayTag = computed(() => {
+  for (const post of allPosts.value ?? []) {
+    const match = (post.tags ?? []).find(t => tagSlug(t) === tagParam.value)
+    if (match) return match
+  }
+  return decodedTag.value
+})
+
 const postsByYear = computed(() => {
   const map = new Map<string, PostMeta[]>()
   for (const post of tagPosts.value) {
@@ -67,7 +58,7 @@ const postsByYear = computed(() => {
 })
 
 useHead(() => ({
-  title: `#${decodedTag.value}`,
-  meta: [{ name: 'description', content: `标签 ${decodedTag.value} 下的所有文章` }],
+  title: `#${displayTag.value}`,
+  meta: [{ name: 'description', content: `主题 ${displayTag.value} 下的所有文章` }],
 }))
 </script>
