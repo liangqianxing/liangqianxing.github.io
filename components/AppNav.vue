@@ -49,10 +49,10 @@
         <button
           class="icon-button"
           type="button"
-          :aria-label="isDark ? '切换到亮色模式' : '切换到暗色模式'"
+          :aria-label="isThemeReady && !isDark ? 'Switch to dark mode' : 'Switch to light mode'"
           @click="toggleTheme()"
         >
-          <span aria-hidden="true">{{ isDark ? '☼' : '☾' }}</span>
+          <span aria-hidden="true" data-allow-mismatch="text" v-html="isThemeReady && !isDark ? '&#9790;' : '&#9788;'" />
         </button>
       </div>
     </div>
@@ -64,6 +64,7 @@ const appConfig = useAppConfig()
 const route = useRoute()
 
 const isDark = inject<Ref<boolean>>('isDark', ref(true))
+const isThemeReady = inject<Ref<boolean>>('isThemeReady', ref(false))
 const toggleTheme = inject<() => void>('toggleTheme', () => {})
 
 function isActive(path: string): boolean {

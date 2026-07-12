@@ -16,6 +16,7 @@ const appConfig = useAppConfig()
 
 // Theme state
 const isDark = ref(true)
+const isThemeReady = ref(false)
 
 // Initialize theme from localStorage on client
 onMounted(() => {
@@ -29,6 +30,7 @@ onMounted(() => {
     document.documentElement.classList.add('dark')
     document.documentElement.classList.remove('light')
   }
+  isThemeReady.value = true
 
   // Reading progress bar
   const bar = document.getElementById('reading-bar')
@@ -86,6 +88,7 @@ onMounted(() => {
 
 // Provide theme state to children
 provide('isDark', isDark)
+provide('isThemeReady', isThemeReady)
 provide('toggleTheme', toggleTheme)
 
 useHead({
