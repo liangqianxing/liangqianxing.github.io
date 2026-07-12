@@ -2,7 +2,9 @@
   <nav class="site-nav" aria-label="主导航">
     <div class="nav-shell">
       <NuxtLink to="/" class="brand" aria-label="回到首页">
-        <span class="brand-mark">g</span>
+        <span class="brand-mark" aria-hidden="true">
+          <img src="/logo.svg" alt="" width="42" height="42" />
+        </span>
         <span class="brand-copy">
           <strong>{{ appConfig.title }}</strong>
           <em>{{ appConfig.authorEN }}</em>

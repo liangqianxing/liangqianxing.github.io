@@ -3,9 +3,9 @@ export default defineAppConfig({
   authorEN: 'Gu EnHao',
   title: 'gu.log',
   role: 'Full-Stack Developer @ Meituan',
-  status: '正在美团实习 · 新疆大学在读',
+  status: '正在美团实习',
   bio: '喜欢折腾。在 AI Infra 和后端之间反复横跳，最近在美团写全栈。有时候打 XCPC，有时候去旅行。',
-  description: '写 LLM、Agent、后端工程，偶尔写比赛、实习和旅行。新疆大学在读，美团实习中。',
+  description: '写 LLM、Agent、后端工程，偶尔写比赛、实习和旅行。美团实习中。',
   github: 'https://github.com/LiangQianXing',
   url: 'https://liangqianxing.github.io',
   friends: [
@@ -65,12 +65,5 @@ export default defineAppConfig({
       desc: '自然语言处理实验室。',
     },
   ],
-  education: [
-    {
-      school: '新疆大学',
-      degree: '计算机科学与技术 本科',
-      period: '2022 – 2026',
-      desc: '',
-    },
-  ],
+  education: [],
 })

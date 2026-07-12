@@ -40,7 +40,8 @@
       <div>
         <SiteBlock eyebrow="Focus" title="关注方向" description="把个人介绍拆成更具体的工程兴趣，方便快速判断内容边界。">
           <div class="focus-grid">
-            <article v-for="item in focusAreas" :key="item.key" class="focus-card">
+            <article v-for="(item, index) in focusAreas" :key="item.key" class="focus-card">
+              <small>0{{ index + 1 }}</small>
               <span>{{ item.key }}</span>
               <h3>{{ item.title }}</h3>
               <p>{{ item.desc }}</p>

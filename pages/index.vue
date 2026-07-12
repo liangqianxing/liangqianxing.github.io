@@ -2,7 +2,6 @@
   <div>
     <section class="hero-frame">
       <div class="hero-main">
-        <p class="eyebrow">{{ appConfig.status }}</p>
         <h1>
           {{ appConfig.authorCN }}
           <span>工程笔记库</span>

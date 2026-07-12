@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="logo-title logo-desc">
+  <title id="logo-title">gu.log logo</title>
+  <desc id="logo-desc">A refined lowercase g monogram.</desc>
+  <defs>
+    <linearGradient id="obsidian" x1="11" y1="7" x2="53" y2="58" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#252A34"/>
+      <stop offset="0.48" stop-color="#11141A"/>
+      <stop offset="1" stop-color="#07080B"/>
+    </linearGradient>
+    <linearGradient id="rim" x1="14" y1="9" x2="48" y2="57" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity="0.28"/>
+      <stop offset="0.45" stop-color="#FFFFFF" stop-opacity="0.05"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.14"/>
+    </linearGradient>
+  </defs>
+  <rect x="5" y="5" width="54" height="54" rx="17" fill="url(#obsidian)"/>
+  <rect x="5.75" y="5.75" width="52.5" height="52.5" rx="16.25" fill="none" stroke="url(#rim)" stroke-width="1.5"/>
+  <circle cx="31" cy="30.5" r="10" fill="none" stroke="#F7F8FA" stroke-width="4"/>
+  <path d="M41 30.5v10.2c0 7-4.2 11.3-10.8 11.3-3.3 0-6.3-1-8.5-2.9" fill="none" stroke="#F7F8FA" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="44.5" cy="18.5" r="3" fill="#5B8CFF"/>
+</svg>

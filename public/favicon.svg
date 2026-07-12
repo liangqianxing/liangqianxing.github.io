@@ -1,5 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="6" fill="#fbfaf7"/>
-  <text x="16" y="22" text-anchor="middle" font-family="Georgia,serif" font-size="20" font-weight="600" fill="#1c1b1a">g</text>
-  <circle cx="24" cy="9" r="2.4" fill="#b3502e"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs><linearGradient id="favicon-bg" x1="10" y1="7" x2="54" y2="58" gradientUnits="userSpaceOnUse"><stop stop-color="#252A34"/><stop offset="0.5" stop-color="#11141A"/><stop offset="1" stop-color="#07080B"/></linearGradient></defs>
+  <rect x="4" y="4" width="56" height="56" rx="18" fill="url(#favicon-bg)"/>
+  <circle cx="31" cy="30.5" r="10" fill="none" stroke="#F7F8FA" stroke-width="4.2"/>
+  <path d="M41 30.5v10.2c0 7-4.2 11.3-10.8 11.3-3.3 0-6.3-1-8.5-2.9" fill="none" stroke="#F7F8FA" stroke-width="4.2" stroke-linecap="round"/>
+  <circle cx="44.5" cy="18.5" r="3" fill="#5B8CFF"/>
 </svg>

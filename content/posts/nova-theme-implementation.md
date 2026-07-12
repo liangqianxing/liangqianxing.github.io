@@ -94,7 +94,7 @@ profile:
   name: Gu EnHao
   name_cn: 古恩豪
   avatar: /images/avatar.jpg
-  bio: 新疆大学软件工程在读...
+  bio: AI Infra 与后端工程实践...
 
 education:
   - school: 西湖大学

@@ -262,18 +262,20 @@ main {
 .brand-mark {
   position: relative;
   overflow: hidden;
-  width: 38px;
-  height: 38px;
+  width: 42px;
+  height: 42px;
   display: grid;
   place-items: center;
-  border: 1px solid var(--line-strong);
-  border-radius: 13px;
-  background: var(--surface);
-  color: var(--accent);
-  font-family: var(--font-mono);
-  font-size: 1rem;
-  font-weight: 900;
-  box-shadow: var(--shadow-soft);
+  flex: 0 0 auto;
+  border-radius: 14px;
+  box-shadow: 0 8px 22px rgba(5, 8, 16, 0.18), 0 1px 2px rgba(5, 8, 16, 0.24);
+  transition: transform 240ms var(--ease-out), box-shadow 240ms var(--ease-out);
+}
+
+.brand-mark img {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .brand-mark::after {
@@ -287,6 +289,11 @@ main {
 
 .brand:hover .brand-mark::after {
   transform: translateX(140%);
+}
+
+.brand:hover .brand-mark {
+  transform: translateY(-1px);
+  box-shadow: 0 11px 28px rgba(5, 8, 16, 0.23), 0 2px 5px rgba(5, 8, 16, 0.2);
 }
 
 .brand-copy {
@@ -1126,10 +1133,11 @@ main {
 .stack-panel {
   position: relative;
   overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: color-mix(in srgb, var(--surface) 88%, transparent);
-  box-shadow: var(--shadow-soft);
+  border: 1px solid color-mix(in srgb, var(--line-strong) 72%, transparent);
+  border-radius: 24px;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--surface) 96%, white 2%), color-mix(in srgb, var(--surface-2) 88%, transparent));
+  box-shadow: 0 18px 52px color-mix(in srgb, black 10%, transparent), inset 0 1px 0 color-mix(in srgb, white 9%, transparent);
 }
 
 .about-profile {
@@ -1137,16 +1145,35 @@ main {
   grid-template-columns: 148px minmax(0, 1fr);
   gap: 34px;
   align-items: center;
-  padding: 28px;
+  padding: 34px;
+}
+
+.about-profile::after,
+.about-snapshot::after,
+.focus-card::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  border-radius: 999px;
+  background: var(--accent);
+  filter: blur(54px);
+  opacity: 0.08;
+}
+
+.about-profile::after {
+  top: -90px;
+  right: -50px;
+  width: 220px;
+  height: 220px;
 }
 
 .about-profile > img {
   width: 148px;
   height: 148px;
-  border: 1px solid var(--line-strong);
-  border-radius: 34px;
+  border: 1px solid color-mix(in srgb, var(--line-strong) 80%, white 8%);
+  border-radius: 38px;
   object-fit: cover;
-  box-shadow: var(--shadow-soft);
+  box-shadow: 0 18px 42px color-mix(in srgb, black 18%, transparent), inset 0 0 0 1px color-mix(in srgb, white 10%, transparent);
 }
 
 .about-identity {
@@ -1179,7 +1206,14 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 24px;
+  padding: 28px;
+}
+
+.about-snapshot::after {
+  right: -70px;
+  bottom: -100px;
+  width: 210px;
+  height: 210px;
 }
 
 .snapshot-label {
@@ -1202,12 +1236,14 @@ main {
   align-items: baseline;
   justify-content: space-between;
   gap: 18px;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--line);
+  padding: 14px 16px;
+  border: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
+  border-radius: 15px;
+  background: color-mix(in srgb, var(--surface) 68%, transparent);
 }
 
 .snapshot-grid div:last-child {
-  border-bottom: 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
 }
 
 .snapshot-grid span {
@@ -1242,11 +1278,40 @@ main {
 
 .focus-card {
   min-height: 172px;
-  padding: 20px;
+  padding: 22px;
   transition:
     transform 220ms var(--ease-out),
     border-color 180ms var(--ease),
     background 180ms var(--ease);
+}
+
+.focus-card::after {
+  right: -70px;
+  bottom: -90px;
+  width: 170px;
+  height: 170px;
+  transition: opacity 220ms var(--ease), transform 300ms var(--ease-out);
+}
+
+.focus-card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--accent) 42%, var(--line));
+  background: linear-gradient(145deg, color-mix(in srgb, var(--surface) 96%, white 2%), color-mix(in srgb, var(--accent) 7%, var(--surface-2)));
+}
+
+.focus-card:hover::after {
+  opacity: 0.14;
+  transform: scale(1.15);
+}
+
+.focus-card small {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  color: var(--faint);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
 }
 
 .focus-card span {
@@ -1272,7 +1337,7 @@ main {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  padding: 18px;
+  padding: 22px;
 }
 
 .timeline {
@@ -1286,7 +1351,7 @@ main {
   position: absolute;
   top: 10px;
   bottom: 10px;
-  left: 26px;
+  left: 29px;
   width: 1px;
   background: linear-gradient(180deg, var(--accent), var(--line), transparent);
   opacity: 0.6;
@@ -1295,19 +1360,26 @@ main {
 .timeline-card {
   position: relative;
   display: grid;
-  grid-template-columns: 54px minmax(0, 1fr);
-  gap: 16px;
-  padding: 18px;
+  grid-template-columns: 58px minmax(0, 1fr);
+  gap: 20px;
+  padding: 22px;
+  border-color: color-mix(in srgb, var(--line-strong) 68%, transparent);
+  border-radius: 22px;
+  background: linear-gradient(145deg, color-mix(in srgb, var(--surface) 94%, white 2%), color-mix(in srgb, var(--surface-2) 86%, transparent));
+  box-shadow: 0 14px 38px color-mix(in srgb, black 8%, transparent), inset 0 1px 0 color-mix(in srgb, white 8%, transparent);
 }
 
 .timeline-logo {
-  width: 54px;
-  height: 54px;
+  position: relative;
+  z-index: 1;
+  width: 58px;
+  height: 58px;
   display: grid;
   place-items: center;
   border: 1px solid var(--line);
-  border-radius: 16px;
-  background: var(--surface-2);
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--surface-2) 90%, white 3%);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, white 10%, transparent);
 }
 
 .timeline-logo img {
@@ -1349,7 +1421,8 @@ main {
 }
 
 .now-card {
-  padding: 18px;
+  padding: 22px;
+  line-height: 1.8;
 }
 
 .now-card p {
