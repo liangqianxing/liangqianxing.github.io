@@ -1,0 +1,15 @@
+{
+  "name": "gu.log",
+  "short_name": "gu.log",
+  "icons": [
+    {
+      "src": "/favicon.svg?v=2",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "theme_color": "#11141a",
+  "background_color": "#11141a",
+  "display": "standalone"
+}

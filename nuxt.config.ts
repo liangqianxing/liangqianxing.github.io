@@ -109,7 +109,10 @@ export default defineNuxtConfig({
         { charset: 'utf-8' },
       ],
       link: [
-        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
+        { rel: 'icon', type: 'image/svg+xml', sizes: 'any', href: '/favicon.svg?v=2' },
+        { rel: 'shortcut icon', type: 'image/svg+xml', href: '/favicon.svg?v=2' },
+        { rel: 'apple-touch-icon', href: '/favicon.svg?v=2' },
+        { rel: 'manifest', href: '/site.webmanifest?v=2' },
         { rel: 'alternate', type: 'application/rss+xml', title: 'gu.log', href: '/rss.xml' },
       ],
       // 防主题闪烁：在 DOM 渲染前读取 localStorage 并立即应用主题 class
