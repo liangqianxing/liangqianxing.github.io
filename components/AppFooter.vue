@@ -19,7 +19,7 @@
           rel="noopener noreferrer"
           class="footer-link"
           aria-label="萌ICP备案"
-        >萌ICP</a>
+        >萌ICP备20262170号</a>
       </div>
     </div>
   </footer>

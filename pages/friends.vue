@@ -37,7 +37,12 @@
     <section class="link-callout">
       <h2>申请友链</h2>
       <p>欢迎互换友链。请在 GitHub 提 Issue，附上博客名称、URL、描述和头像链接。</p>
-      <a :href="`${appConfig.github}/issues`" target="_blank" rel="noopener noreferrer" class="secondary-action">
+      <a
+        href="https://github.com/liangqianxing/liangqianxing.github.io/issues/new"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="secondary-action"
+      >
         提交申请
       </a>
     </section>
