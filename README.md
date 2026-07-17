@@ -1,83 +1,109 @@
-# qx.log
+# gu.log
 
-> 个人技术博客 · 基于 [Astro](https://astro.build) 构建，托管在 GitHub Pages。
+个人技术博客，记录 LLM、Agent、AI Infra、后端系统、源码阅读和学习复盘。
 
-记录关于 LLM、Agent、AI Infra、后端工程与日常的笔记。
+基于 [Nuxt 4](https://nuxt.com/) 与 [Nuxt Content 3](https://content.nuxt.com/) 构建，静态生成后部署到 GitHub Pages。
 
-[在线访问 →](https://liangqianxing.github.io)
+[访问博客](https://liangqianxing.github.io) · [文章库](https://liangqianxing.github.io/posts) · [主题索引](https://liangqianxing.github.io/tags)
+
+## 内容地图
+
+- **AI 系统基础课**：Autograd、GPU 推理、分布式系统、数据库与 RAG。
+- **LLM / Agent**：Transformer、模型训练、推理服务、记忆与上下文工程。
+- **源码导读**：从入口、数据流和关键抽象拆解 AI 项目与开源框架。
+- **后端工程**：Go、缓存、消息队列、高并发、限流与系统设计。
+- **项目与面试复盘**：工程项目、岗位准备、算法与 CS 基础。
+
+文章通过 `series` 与 `seriesOrder` 组织为连续阅读路径，首页提供知识地图，文章库支持关键词搜索和标签筛选。
+
+## 三大会论文精读
+
+每天从 NeurIPS、ICML、ICLR 选择一篇论文进行中文精读。文章会核对官方原文、实验结果与开源资源，并附带授权明确的论文插图或注明来源的原创重绘图。
+
+<!-- PAPER_READING_START -->
+论文精读系列尚未发布首篇文章。
+<!-- PAPER_READING_END -->
+
+## 技术栈
+
+- Nuxt 4、Vue 3、TypeScript
+- Nuxt Content 3、Markdown
+- Tailwind CSS 4
+- Nitro 静态生成、GitHub Pages
+- GitHub Actions、Dependabot
 
 ## 项目结构
 
-```
+```text
 .
-├── astro.config.mjs        # Astro 配置（站点、集成、Markdown）
-├── tailwind.config.mjs     # Tailwind 主题
-├── src/
-│   ├── content/
-│   │   ├── config.ts       # 文章 collection schema
-│   │   └── posts/          # 所有 Markdown 文章
-│   ├── layouts/
-│   │   ├── Base.astro      # 全站布局（导航、页脚、主题切换）
-│   │   └── Post.astro      # 文章排版与正文样式
-│   ├── lib/
-│   │   ├── posts.ts        # 列表排序 / 阅读时长 / 标签 slug
-│   │   └── site.ts         # 站点元数据（标题、导航、社交）
-│   ├── pages/
-│   │   ├── index.astro     # 首页
-│   │   ├── 404.astro
-│   │   ├── about.astro
-│   │   ├── posts/          # 文章列表 + 详情
-│   │   ├── tags/           # 标签索引 + 详情
-│   │   └── rss.xml.js      # RSS 输出
-│   └── styles/
-│       └── global.css      # 主题变量、组件样式
-├── public/                 # 静态资源（favicon、图片）
-└── scripts/                # 旧 Hexo 辅助脚本
+├── assets/css/main.css       # 全站主题、排版和响应式样式
+├── components/               # 导航、文章卡片、知识地图等组件
+├── content/posts/            # Markdown 文章
+├── content.config.ts         # Nuxt Content collection schema
+├── pages/                    # 首页、文章、标签、友链和关于页面
+├── public/images/posts/      # 文章配图，按 slug 分目录
+├── server/api/posts.get.ts   # 静态文章元数据接口
+├── utils/blog.ts             # 日期、阅读时长和标签工具
+├── app.config.ts             # 作者、导航和站点信息
+└── nuxt.config.ts            # 构建、Markdown 与预渲染配置
 ```
 
 ## 本地开发
 
-要求 Node.js 18+。
+要求 Node.js 22，和 GitHub Actions 的构建环境保持一致。
 
 ```bash
-npm install
-npm run dev          # http://localhost:4321
-npm run build        # 输出到 dist/
-npm run preview      # 预览构建结果
+npm ci
+npm run dev       # 默认 http://localhost:3000
+npm run build     # 静态产物输出到 .output/public
+npm run preview   # 预览生产构建
 ```
 
 ## 写新文章
 
-在 [src/content/posts/](src/content/posts/) 下新建 `.md` 文件，frontmatter 字段如下：
+在 [`content/posts/`](content/posts/) 下新建 Markdown 文件。文件名即 URL slug，例如 `agent-memory.md` 对应 `/posts/agent-memory`。
 
 ```yaml
 ---
 title: 文章标题
-date: 2026-05-24
-description: 一句话摘要（可选，会用于首页和 RSS）
-tags: [LLM, Agent]            # 可选
-categories: [AI]              # 可选
-updated: 2026-05-25           # 可选
+date: 2026-07-17 09:00:00
+description: 用一句话说明文章解决的问题和覆盖范围。
+categories:
+  - AI
+tags:
+  - LLM
+  - AI Infra
+series: 系列名称
+seriesOrder: 1
 ---
-
-正文内容…
 ```
 
-文件名即 URL slug。例如 `agent-memory.md` → `/posts/agent-memory`。
+可见性字段：
 
-## 自定义站点信息
+- `draft: true`：草稿，不进入公开列表。
+- `hidden: true`：保留页面内容，但不进入文章列表。
+- `published: false`：暂不发布。
+- `legacy: true`：隐藏文章仍生成静态路由，用于兼容旧链接。
 
-编辑 [src/lib/site.ts](src/lib/site.ts) 即可修改站点标题、描述、导航和社交链接，无需在多处替换。
+## 文章配图
 
-## 隐私 & Git
+图片放在 `public/images/posts/<slug>/`，正文使用 `/images/posts/<slug>/image.svg` 引用。
 
-- [.env](.env) 已在 [.gitignore](.gitignore) 中忽略，绝不会被推送。可参考 [.env.example](.env.example) 了解格式。
-- 不要将带有 cookie / token 的文件加入版本控制。新增脚本时请通过环境变量读取敏感值。
+- 优先使用带 `title`、`desc` 和 `viewBox` 的 SVG，保证清晰度和可访问性。
+- 论文原图只有在许可明确允许时才收录，并保留 caption、来源和许可说明。
+- 无法确认复用许可时，根据论文机制原创重绘，并在正文标注“本文原创重绘”和论文链接。
+- 禁止热链、来源不明图片和未经核对的实验图表。
 
 ## 部署
 
-push 到 `main` 分支后，[.github/workflows/deploy.yml](.github/workflows/deploy.yml) 会自动构建并发布到 GitHub Pages。
+推送到 `main` 后，[GitHub Actions](.github/workflows/deploy.yml) 会执行：
 
-## 协议
+1. 使用 Node.js 22 安装锁定依赖。
+2. 运行 `npm run build` 生成静态站点。
+3. 上传 `.output/public` 并部署到 GitHub Pages。
 
-文章内容版权归作者所有；模板代码以 MIT 协议开放。
+## 安全与协议
+
+- `.env` 已被 Git 忽略，环境变量格式参考 [`.env.example`](.env.example)。
+- 不要提交 cookie、token、私钥或包含个人数据的调试文件。
+- 文章内容版权归作者所有，仓库代码遵循 [MIT License](LICENSE)。
