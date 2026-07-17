@@ -17,6 +17,10 @@
   --accent-2: #7dd3c7;
   --danger: #fb7185;
   --ok: #86efac;
+  --code-bg: #0f141a;
+  --code-text: #e5e7eb;
+  --code-border: rgba(245, 239, 226, 0.14);
+  --code-label: #9ca3af;
   --shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
   --shadow-soft: 0 12px 36px rgba(0, 0, 0, 0.18);
   --font-sans: "Inter", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
@@ -53,6 +57,10 @@ html.light {
   --line-strong: rgba(31, 36, 40, 0.2);
   --accent: #b35c00;
   --accent-2: #0f8f83;
+  --code-bg: #fffdf8;
+  --code-text: #24292e;
+  --code-border: rgba(31, 36, 40, 0.18);
+  --code-label: #59636e;
   --shadow: 0 24px 80px rgba(31, 36, 40, 0.1);
   --shadow-soft: 0 12px 36px rgba(31, 36, 40, 0.08);
 }
@@ -1883,10 +1891,10 @@ html.theme-switching .theme-transition-sheen {
   position: relative;
   overflow-x: auto;
   padding: 1.25rem 1.35rem;
-  border: 1px solid var(--line);
+  border: 1px solid var(--code-border);
   border-radius: var(--radius-sm);
-  background: #0f141a !important;
-  color: #e5e7eb;
+  background: var(--code-bg) !important;
+  color: var(--code-text);
   line-height: 1.65;
 }
 
@@ -2265,7 +2273,7 @@ html.theme-switching .theme-transition-sheen {
 
 .shiki,
 .shiki code {
-  background: #0f141a !important;
+  background: var(--code-bg) !important;
   font-family: var(--font-mono) !important;
 }
 
@@ -2384,7 +2392,7 @@ pre[class*="language-"]::before,
   position: absolute;
   top: 11px;
   left: 16px;
-  color: #9ca3af;
+  color: var(--code-label);
   font-family: var(--font-mono);
   font-size: 0.68rem;
   font-weight: 900;
