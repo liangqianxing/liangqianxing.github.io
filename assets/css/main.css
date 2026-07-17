@@ -34,6 +34,8 @@
   --tilt-y: 0deg;
   --spot-x: 50%;
   --spot-y: 0%;
+  --theme-x: calc(100vw - 74px);
+  --theme-y: 42px;
 }
 
 html.light {
@@ -53,6 +55,27 @@ html.light {
   --accent-2: #0f8f83;
   --shadow: 0 24px 80px rgba(31, 36, 40, 0.1);
   --shadow-soft: 0 12px 36px rgba(31, 36, 40, 0.08);
+}
+
+html.cyber {
+  color-scheme: dark;
+  --bg: #07110f;
+  --bg-2: #091a16;
+  --surface: #0b211c;
+  --surface-2: #102d25;
+  --paper: #06100d;
+  --ink: #dfffee;
+  --text: #e7fff1;
+  --muted: #94b9a6;
+  --faint: #618274;
+  --line: rgba(137, 255, 194, 0.13);
+  --line-strong: rgba(137, 255, 194, 0.25);
+  --accent: #7dffb5;
+  --accent-2: #55d9f2;
+  --danger: #ff7d91;
+  --ok: #9affc4;
+  --shadow: 0 24px 80px rgba(0, 10, 7, 0.42);
+  --shadow-soft: 0 12px 36px rgba(0, 10, 7, 0.3);
 }
 
 *,
@@ -80,6 +103,17 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition:
+    color 420ms var(--ease),
+    background-color 420ms var(--ease),
+    border-color 420ms var(--ease);
+}
+
+html.cyber body {
+  background:
+    linear-gradient(180deg, rgba(125, 255, 181, 0.035), transparent 22%),
+    linear-gradient(90deg, rgba(85, 217, 242, 0.025), transparent 38%, rgba(125, 255, 181, 0.02)),
+    linear-gradient(180deg, var(--bg), var(--bg-2));
 }
 
 button,
@@ -147,6 +181,82 @@ main {
   height: 3px;
   background: linear-gradient(90deg, var(--accent), var(--accent-2));
   box-shadow: 0 0 18px color-mix(in srgb, var(--accent) 42%, transparent);
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 2;
+}
+
+.theme-transition-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  contain: strict;
+}
+
+.theme-transition-orb {
+  position: absolute;
+  left: var(--theme-x);
+  top: var(--theme-y);
+  width: 24vmax;
+  aspect-ratio: 1;
+  border: 1px solid color-mix(in srgb, var(--accent) 42%, transparent);
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle,
+      color-mix(in srgb, var(--surface) 96%, var(--accent) 4%) 0 42%,
+      color-mix(in srgb, var(--surface) 74%, transparent) 62%,
+      transparent 72%
+    );
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, white 7%, transparent) inset,
+    0 0 72px color-mix(in srgb, var(--accent) 16%, transparent);
+  filter: blur(1px) saturate(1.08);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.05);
+  will-change: transform, opacity;
+}
+
+.theme-transition-sheen {
+  position: absolute;
+  inset: -30%;
+  background: linear-gradient(
+    108deg,
+    transparent 32%,
+    color-mix(in srgb, white 10%, transparent) 45%,
+    color-mix(in srgb, var(--accent-2) 8%, transparent) 50%,
+    transparent 62%
+  );
+  opacity: 0;
+  transform: translateX(-48%) rotate(-7deg);
+  mix-blend-mode: soft-light;
+  will-change: transform, opacity;
+}
+
+html.theme-switching .theme-transition-layer {
+  opacity: 1;
+}
+
+html.theme-switching .theme-transition-orb {
+  animation: theme-bloom 720ms var(--ease-out) both;
+}
+
+html.theme-switching .theme-transition-sheen {
+  animation: theme-sheen 660ms 70ms var(--ease-out) both;
 }
 
 .effect-stage {
@@ -397,6 +507,131 @@ main {
 .icon-button {
   width: 38px;
   height: 38px;
+}
+
+.theme-toggle {
+  --theme-index: 1;
+  position: relative;
+  width: 104px;
+  height: 38px;
+  padding: 3px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 90%, transparent);
+  color: var(--muted);
+  box-shadow:
+    0 8px 22px color-mix(in srgb, black 11%, transparent),
+    inset 0 1px 0 color-mix(in srgb, white 9%, transparent),
+    inset 0 0 0 1px color-mix(in srgb, black 3%, transparent);
+  cursor: pointer;
+  transition:
+    transform 180ms var(--ease-out),
+    border-color 220ms var(--ease),
+    background 220ms var(--ease),
+    box-shadow 220ms var(--ease);
+}
+
+.theme-toggle[data-theme="light"] {
+  --theme-index: 0;
+}
+
+.theme-toggle[data-theme="dark"] {
+  --theme-index: 1;
+}
+
+.theme-toggle[data-theme="cyber"] {
+  --theme-index: 2;
+}
+
+.theme-toggle-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+}
+
+.theme-toggle-glow {
+  position: absolute;
+  right: 8px;
+  bottom: -2px;
+  left: 8px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), var(--accent-2), transparent);
+  opacity: 0.45;
+  filter: blur(1px);
+}
+
+.theme-toggle-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--text) 96%, white 4%), color-mix(in srgb, var(--text) 86%, var(--accent) 14%));
+  box-shadow:
+    0 4px 12px color-mix(in srgb, black 22%, transparent),
+    0 1px 2px color-mix(in srgb, black 16%, transparent),
+    inset 0 1px 0 color-mix(in srgb, white 28%, transparent);
+  transform: translateX(calc(var(--theme-index) * 32px));
+  transition:
+    transform 520ms var(--ease-out),
+    background 420ms var(--ease),
+    box-shadow 420ms var(--ease);
+  will-change: transform;
+}
+
+.theme-toggle-option {
+  position: relative;
+  z-index: 1;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--faint);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  line-height: 1;
+  opacity: 0.72;
+  transform: scale(0.92);
+  cursor: pointer;
+  transition:
+    color 280ms var(--ease),
+    opacity 280ms var(--ease),
+    transform 420ms var(--ease-out);
+}
+
+.theme-toggle-terminal {
+  font-size: 0.66rem;
+  font-weight: 900;
+}
+
+.theme-toggle-option.active {
+  color: var(--bg);
+  opacity: 1;
+  transform: scale(1);
+}
+
+.theme-toggle:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--accent) 44%, var(--line));
+  background: color-mix(in srgb, var(--surface) 80%, var(--accent) 4%);
+  box-shadow:
+    0 12px 28px color-mix(in srgb, black 15%, transparent),
+    inset 0 1px 0 color-mix(in srgb, white 12%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--accent) 7%, transparent);
+}
+
+.theme-toggle:active {
+  transform: translateY(0) scale(0.985);
 }
 
 .nav-chip,
@@ -2033,6 +2268,37 @@ html.light .shiki code .line span {
   }
 }
 
+@keyframes theme-bloom {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.05);
+  }
+  20% {
+    opacity: 0.92;
+  }
+  72% {
+    opacity: 0.72;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(8);
+  }
+}
+
+@keyframes theme-sheen {
+  0% {
+    opacity: 0;
+    transform: translateX(-48%) rotate(-7deg);
+  }
+  38% {
+    opacity: 0.54;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(48%) rotate(-7deg);
+  }
+}
+
 pre[class*="language-"]::before,
 .shiki[data-language]::before {
   content: attr(data-language);
@@ -2051,10 +2317,13 @@ html.transitioning *,
 html.transitioning *::before,
 html.transitioning *::after {
   transition:
-    background-color 80ms ease,
-    color 80ms ease,
-    border-color 80ms ease,
-    box-shadow 80ms ease !important;
+    background-color 460ms var(--ease),
+    color 460ms var(--ease),
+    border-color 460ms var(--ease),
+    box-shadow 460ms var(--ease),
+    fill 460ms var(--ease),
+    stroke 460ms var(--ease),
+    transform 520ms var(--ease-out) !important;
 }
 
 .sr-only {
@@ -2128,6 +2397,21 @@ html.transitioning *::after {
   .icon-button {
     width: 36px;
     height: 36px;
+  }
+
+  .theme-toggle {
+    width: 101px;
+    height: 36px;
+  }
+
+  .theme-toggle-indicator,
+  .theme-toggle-option {
+    width: 28px;
+    height: 28px;
+  }
+
+  .theme-toggle-indicator {
+    transform: translateX(calc(var(--theme-index) * 31px));
   }
 
   .nav-center {
@@ -2221,5 +2505,9 @@ html.transitioning *::after {
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .theme-transition-layer {
+    display: none;
   }
 }
