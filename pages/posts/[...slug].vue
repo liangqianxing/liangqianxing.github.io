@@ -1,10 +1,18 @@
 <template>
   <div>
     <aside v-if="page" class="author-sidebar" aria-label="关于作者">
-      <div class="post-author-card">
-        <p class="post-author-head">About the author</p>
+      <div
+        class="post-author-card"
+        :style="{ '--reading-progress': readingProgress }"
+      >
+        <p class="post-author-head">
+          <span>About</span>
+          <strong>{{ String(readingProgress).padStart(2, '0') }}%</strong>
+        </p>
         <NuxtLink to="/about" class="post-author-identity">
-          <img class="post-author-avatar" src="/avatar.jpg" alt="" width="46" height="46" />
+          <span class="post-author-orbit" aria-hidden="true">
+            <img class="post-author-avatar" src="/avatar.jpg" alt="" width="44" height="44" />
+          </span>
           <span class="post-author-name">
             <strong>{{ appConfig.authorCN }}</strong>
             <small>{{ appConfig.authorEN }}</small>
@@ -12,7 +20,11 @@
           <span class="post-author-arrow" aria-hidden="true">↗</span>
         </NuxtLink>
         <p class="post-author-role">{{ appConfig.role }}</p>
-        <p class="post-author-focus">LLM · Agent · Backend</p>
+        <div class="post-author-focus" aria-label="关注领域">
+          <span>LLM</span>
+          <span>Agent</span>
+          <span>Backend</span>
+        </div>
         <div
           class="post-author-progress"
           role="progressbar"
@@ -22,8 +34,8 @@
           :aria-valuenow="readingProgress"
         >
           <div>
-            <span>Reading</span>
-            <strong>{{ readingProgress }}%</strong>
+            <span>Reading track</span>
+            <a href="#article-start" aria-label="跳到文章正文">↓</a>
           </div>
           <span class="post-author-progress-track" aria-hidden="true">
             <span :style="{ width: `${readingProgress}%` }" />
@@ -87,20 +99,30 @@
       <template v-if="page">
         <!-- Post header -->
         <header class="post-header">
+          <div class="post-header-overline">
+            <span>{{ primaryTopic }}</span>
+            <time :datetime="page.date">{{ formatDate(page.date) }}</time>
+          </div>
           <h1 class="post-title">{{ page.title }}</h1>
           <p v-if="page.description" class="post-desc">{{ page.description }}</p>
-          <div class="post-meta">
-            <span>{{ formatDate(page.date) }}</span>
-            <span class="post-meta-sep">·</span>
-            <span>{{ postReadingTime }} min read</span>
-            <template v-if="page.series">
-              <span class="post-meta-sep">·</span>
-              <span>{{ page.series }}<template v-if="page.seriesOrder"> · 第 {{ page.seriesOrder }} 篇</template></span>
-            </template>
-            <template v-if="page.categories?.length">
-              <span class="post-meta-sep">·</span>
-              <span>{{ page.categories.join(', ') }}</span>
-            </template>
+          <div class="post-header-footer">
+            <div class="post-meta">
+              <span>{{ postReadingTime }} min read</span>
+              <template v-if="page.series">
+                <span class="post-meta-sep">·</span>
+                <span>{{ page.series }}<template v-if="page.seriesOrder"> · 第 {{ page.seriesOrder }} 篇</template></span>
+              </template>
+              <template v-else-if="page.tags?.length">
+                <span class="post-meta-sep">·</span>
+                <span>{{ page.tags.length }} keywords</span>
+              </template>
+            </div>
+            <a class="post-header-jump" href="#article-start" aria-label="开始阅读" title="开始阅读">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 4v15" />
+                <path d="m6.5 13.5 5.5 5.5 5.5-5.5" />
+              </svg>
+            </a>
           </div>
           <div v-if="page.tags?.length" class="post-tags">
             <NuxtLink
@@ -113,7 +135,7 @@
         </header>
 
         <!-- Article body -->
-        <article class="prose" ref="articleRef">
+        <article id="article-start" class="prose" ref="articleRef">
           <ContentRenderer :value="page" />
         </article>
 
@@ -213,6 +235,7 @@ const seriesPosts = computed(() => {
 })
 
 const toc = computed(() => page.value?.body?.toc ?? null)
+const primaryTopic = computed(() => page.value?.categories?.[0] ?? '技术随笔')
 
 // 优先从轻量 API 返回的预计算值取，fallback 再从 body AST 计算
 const postReadingTime = computed(() => {
