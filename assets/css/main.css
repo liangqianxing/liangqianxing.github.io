@@ -1993,6 +1993,24 @@ html.theme-switching .theme-transition-sheen {
   width: 100%;
 }
 
+.prose .katex {
+  color: var(--text);
+  font-size: 1.02em;
+}
+
+.prose .katex-display {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin: 1.5em 0;
+  padding: 0.35rem 0;
+}
+
+.prose .katex-display > .katex {
+  font-size: 1.08em;
+  text-align: center;
+}
+
 .prose hr {
   height: 1px;
   margin: 2.2em 0;

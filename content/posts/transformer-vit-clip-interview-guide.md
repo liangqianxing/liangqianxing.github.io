@@ -13,7 +13,6 @@ tags:
   - 多模态
   - 深度学习
   - 面试
-mathjax: true
 ---
 
 Transformer、Vision Transformer（ViT）与 CLIP 是理解现代大模型、多模态模型和视觉基础模型最重要的三个入口。它们分别回答了三个问题：
@@ -29,8 +28,6 @@ Transformer、Vision Transformer（ViT）与 CLIP 是理解现代大模型、多
 3. *Learning Transferable Visual Models From Natural Language Supervision*（Radford et al., 2021）
 
 目标不是逐句翻译论文，而是建立一套适合面试复习的知识框架：**动机、结构、公式、训练目标、优缺点、模型关系与高频追问**。
-
-![Transformer、ViT 与 CLIP 的演进关系](/images/posts/transformer-vit-clip/roadmap.svg)
 
 ## 1. 一张表看懂三者关系
 
@@ -102,7 +99,9 @@ $$
 
 不同头可以关注不同类型的关系，例如局部搭配、句法结构、指代关系或全局语义。需要注意：**多头并不保证每个头都天然具有可解释语义**，它首先是一种增加表示能力的参数化方式。
 
-![Transformer 编码器与解码器结构](/images/posts/transformer-vit-clip/transformer-block.svg)
+![Transformer 原论文中的编码器与解码器架构](/images/posts/transformer-vit-clip/transformer-figure-1.png)
+
+*图源：Vaswani et al., [Attention Is All You Need](https://proceedings.neurips.cc/paper/7181-attention-is-all-you-need), Figure 1, NeurIPS 2017。原图用于论文结构解读。*
 
 ### 2.4 Encoder 与 Decoder
 
@@ -218,7 +217,9 @@ $$
 
 每个 Patch 展平后维度为 $P^2C$，再经过线性层映射到 $D$ 维 token embedding。
 
-![ViT 从图像 Patch 到分类 token](/images/posts/transformer-vit-clip/vit-pipeline.svg)
+![ViT 原论文中的模型总览](/images/posts/transformer-vit-clip/vit-figure-1.png)
+
+*图源：Dosovitskiy et al., [An Image is Worth 16x16 Words](https://arxiv.org/abs/2010.11929), Figure 1, ICLR 2021。原图用于模型流程解读。*
 
 ### 3.2 ViT 的输入序列
 
@@ -328,7 +329,9 @@ $$
 
 归一化后，点积等价于余弦相似度。
 
-![CLIP 的双塔结构与对比学习矩阵](/images/posts/transformer-vit-clip/clip-contrastive.svg)
+![CLIP 原论文中的对比预训练与零样本分类流程](/images/posts/transformer-vit-clip/clip-figure-1.png)
+
+*图源：Radford et al., [Learning Transferable Visual Models From Natural Language Supervision](https://proceedings.mlr.press/v139/radford21a.html), Figure 1, ICML 2021。原图用于训练目标与零样本流程解读。*
 
 ### 4.3 对比学习目标
 
@@ -338,16 +341,36 @@ $$
 S_{ij}=\frac{v_i^\top t_j}{\tau}
 $$
 
-其中 $\tau$ 是温度参数。矩阵对角线 $(i=i)$ 是正样本，其余位置是负样本。
+其中 $\tau$ 是温度参数。矩阵对角线 $(i=j)$ 是正样本，其余位置是负样本。
 
 CLIP 使用对称的交叉熵损失：
 
 $$
+\mathcal{L}_{\mathrm{image}\rightarrow\mathrm{text}}
+=-
+\frac{1}{N}
+\sum_{i=1}^{N}
+\log
+\frac{\exp(S_{ii})}{\sum_{j=1}^{N}\exp(S_{ij})}
+$$
+
+$$
+\mathcal{L}_{\mathrm{text}\rightarrow\mathrm{image}}
+=-
+\frac{1}{N}
+\sum_{i=1}^{N}
+\log
+\frac{\exp(S_{ii})}{\sum_{j=1}^{N}\exp(S_{ji})}
+$$
+
+最终的对称损失为：
+
+$$
 \mathcal{L}=\frac{1}{2}
 \left(
-\mathcal{L}_{image\rightarrow text}
+\mathcal{L}_{\mathrm{image}\rightarrow\mathrm{text}}
 +
-\mathcal{L}_{text\rightarrow image}
+\mathcal{L}_{\mathrm{text}\rightarrow\mathrm{image}}
 \right)
 $$
 

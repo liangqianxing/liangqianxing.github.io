@@ -83,7 +83,7 @@ function getTagRoutes() {
 export default defineNuxtConfig({
   compatibilityDate: '2025-01-01',
   modules: ['@nuxt/content'],
-  css: ['~/assets/css/main.css'],
+  css: ['katex/dist/katex.min.css', '~/assets/css/main.css'],
   vite: { plugins: [tailwindcss()] },
   content: {
     build: {
@@ -91,6 +91,18 @@ export default defineNuxtConfig({
         highlight: {
           theme: { default: 'github-dark-dimmed', light: 'github-light' },
           langs: ['typescript', 'javascript', 'python', 'go', 'rust', 'bash', 'json', 'yaml', 'markdown', 'sql', 'cpp', 'java', 'vue', 'css', 'html'],
+        },
+        remarkPlugins: {
+          'remark-math': {
+            src: 'remark-math',
+            options: { singleDollarTextMath: true },
+          },
+        },
+        rehypePlugins: {
+          'rehype-katex': {
+            src: 'rehype-katex',
+            options: { strict: false },
+          },
         },
         toc: { depth: 3 }
       }

@@ -35,7 +35,7 @@ onMounted(() => {
     root.classList.toggle('is-scrolled', window.scrollY > 18)
   }
 
-  const revealTargets = Array.from(document.querySelectorAll<HTMLElement>([
+  const pageRevealTargets = Array.from(document.querySelectorAll<HTMLElement>([
     '.hero-main > *',
     '.hero-dossier',
     '.site-block',
@@ -52,8 +52,15 @@ onMounted(() => {
     '.friend-card',
     '.timeline-card',
     '.post-header',
-    '.prose > *',
   ].join(',')))
+  const proseRoot = document.querySelector<HTMLElement>('.prose')
+  const proseChildren = proseRoot?.children.length === 1
+    ? proseRoot.firstElementChild?.children
+    : proseRoot?.children
+  const revealTargets = [
+    ...pageRevealTargets,
+    ...Array.from(proseChildren ?? []),
+  ] as HTMLElement[]
 
   let observer: IntersectionObserver | null = null
   if (!reduceMotion) {
