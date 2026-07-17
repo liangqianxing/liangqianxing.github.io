@@ -32,6 +32,7 @@ const isDark = ref(true)
 const isThemeReady = ref(false)
 const themeMode = ref<ThemeMode>('dark')
 const themeModes: ThemeMode[] = ['dark', 'light', 'cyber']
+const themeTransitionDuration = 440
 let themeTimer: ReturnType<typeof window.setTimeout> | undefined
 
 function normalizeTheme(value: string | null): ThemeMode {
@@ -91,6 +92,7 @@ function setTheme(nextTheme: ThemeMode, event?: MouseEvent) {
 
   const transitionDocument = document as ThemeTransitionDocument
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const contentHeavy = document.getElementsByTagName('*').length > 1400
   const x = event?.clientX ?? window.innerWidth - 74
   const y = event?.clientY ?? 42
 
@@ -109,7 +111,13 @@ function setTheme(nextTheme: ThemeMode, event?: MouseEvent) {
     delete h.dataset.themeNext
   }
 
-  if (!reduceMotion && transitionDocument.startViewTransition) {
+  if (reduceMotion || contentHeavy) {
+    applyTheme(nextTheme)
+    finishTransition()
+    return
+  }
+
+  if (transitionDocument.startViewTransition) {
     const transition = transitionDocument.startViewTransition(() => applyTheme(nextTheme))
 
     transition.ready.then(() => {
@@ -126,7 +134,7 @@ function setTheme(nextTheme: ThemeMode, event?: MouseEvent) {
           ],
         },
         {
-          duration: 580,
+          duration: 360,
           easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
           pseudoElement: '::view-transition-new(root)',
         } as KeyframeAnimationOptions & { pseudoElement: string },
@@ -134,19 +142,13 @@ function setTheme(nextTheme: ThemeMode, event?: MouseEvent) {
     }).catch(() => {})
 
     transition.finished.then(finishTransition, finishTransition)
-    themeTimer = window.setTimeout(finishTransition, 760)
+    themeTimer = window.setTimeout(finishTransition, themeTransitionDuration)
     return
   }
 
-  if (!reduceMotion) {
-    h.classList.add('theme-switching')
-    window.requestAnimationFrame(() => applyTheme(nextTheme))
-    themeTimer = window.setTimeout(finishTransition, 760)
-    return
-  }
-
-  applyTheme(nextTheme)
-  finishTransition()
+  h.classList.add('theme-switching')
+  window.requestAnimationFrame(() => applyTheme(nextTheme))
+  themeTimer = window.setTimeout(finishTransition, themeTransitionDuration)
 }
 
 function toggleTheme(event?: MouseEvent) {

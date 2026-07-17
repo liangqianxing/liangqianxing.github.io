@@ -236,8 +236,7 @@ main {
     );
   box-shadow:
     0 0 0 1px color-mix(in srgb, white 7%, transparent) inset,
-    0 0 72px color-mix(in srgb, var(--accent) 16%, transparent);
-  filter: blur(1px) saturate(1.08);
+    0 0 36px color-mix(in srgb, var(--accent) 14%, transparent);
   opacity: 0;
   transform: translate(-50%, -50%) scale(0.05);
   will-change: transform, opacity;
@@ -255,7 +254,6 @@ main {
   );
   opacity: 0;
   transform: translateX(-48%) rotate(-7deg);
-  mix-blend-mode: soft-light;
   will-change: transform, opacity;
 }
 
@@ -264,11 +262,11 @@ html.theme-switching .theme-transition-layer {
 }
 
 html.theme-switching .theme-transition-orb {
-  animation: theme-bloom 720ms var(--ease-out) both;
+  animation: theme-bloom 400ms var(--ease-out) both;
 }
 
 html.theme-switching .theme-transition-sheen {
-  animation: theme-sheen 660ms 70ms var(--ease-out) both;
+  animation: theme-sheen 340ms 30ms var(--ease-out) both;
 }
 
 .effect-stage {
@@ -591,9 +589,9 @@ html.theme-switching .theme-transition-sheen {
     inset 0 1px 0 color-mix(in srgb, white 28%, transparent);
   transform: translateX(calc(var(--theme-index) * 32px));
   transition:
-    transform 520ms var(--ease-out),
-    background 420ms var(--ease),
-    box-shadow 420ms var(--ease);
+    transform 260ms var(--ease-out),
+    background 220ms var(--ease),
+    box-shadow 220ms var(--ease);
   will-change: transform;
 }
 
@@ -616,9 +614,9 @@ html.theme-switching .theme-transition-sheen {
   transform: scale(0.92);
   cursor: pointer;
   transition:
-    color 280ms var(--ease),
-    opacity 280ms var(--ease),
-    transform 420ms var(--ease-out);
+    color 180ms var(--ease),
+    opacity 180ms var(--ease),
+    transform 220ms var(--ease-out);
 }
 
 .theme-toggle-terminal {
@@ -2376,7 +2374,7 @@ html.cyber .shiki code .line span {
   }
   100% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(8);
+    transform: translate(-50%, -50%) scale(5);
   }
 }
 
@@ -2406,19 +2404,6 @@ pre[class*="language-"]::before,
   font-weight: 900;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-}
-
-html.transitioning *,
-html.transitioning *::before,
-html.transitioning *::after {
-  transition:
-    background-color 460ms var(--ease),
-    color 460ms var(--ease),
-    border-color 460ms var(--ease),
-    box-shadow 460ms var(--ease),
-    fill 460ms var(--ease),
-    stroke 460ms var(--ease),
-    transform 520ms var(--ease-out) !important;
 }
 
 .sr-only {
