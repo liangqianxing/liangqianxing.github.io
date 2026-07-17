@@ -1,6 +1,10 @@
 <template>
   <div id="app-root">
     <div id="reading-bar" />
+    <div class="theme-transition-layer" aria-hidden="true">
+      <span class="theme-transition-orb" />
+      <span class="theme-transition-sheen" />
+    </div>
     <SiteEffects />
     <AppNav />
     <main>
@@ -14,22 +18,47 @@
 <script setup lang="ts">
 const appConfig = useAppConfig()
 
+type ThemeMode = 'dark' | 'light' | 'cyber'
+type ThemeViewTransition = {
+  ready: Promise<void>
+  finished: Promise<void>
+}
+type ThemeTransitionDocument = Document & {
+  startViewTransition?: (callback: () => void) => ThemeViewTransition
+}
+
 // Theme state
 const isDark = ref(true)
 const isThemeReady = ref(false)
+const themeMode = ref<ThemeMode>('dark')
+const themeModes: ThemeMode[] = ['dark', 'light', 'cyber']
+let themeTimer: ReturnType<typeof window.setTimeout> | undefined
+
+function normalizeTheme(value: string | null): ThemeMode {
+  return value === 'light' || value === 'cyber' || value === 'dark' ? value : 'dark'
+}
+
+function applyTheme(mode: ThemeMode, persist = true) {
+  const h = document.documentElement
+  themeMode.value = mode
+  isDark.value = mode !== 'light'
+
+  h.classList.toggle('light', mode === 'light')
+  h.classList.toggle('dark', mode !== 'light')
+  h.classList.toggle('cyber', mode === 'cyber')
+  h.dataset.theme = mode
+  document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')
+    ?.setAttribute('content', mode === 'light' ? '#f5f1e8' : mode === 'cyber' ? '#07110f' : '#101214')
+
+  if (persist) {
+    localStorage.setItem('theme', mode)
+  }
+}
 
 // Initialize theme from localStorage on client
 onMounted(() => {
-  const stored = localStorage.getItem('theme')
-  if (stored === 'light') {
-    isDark.value = false
-    document.documentElement.classList.remove('dark')
-    document.documentElement.classList.add('light')
-  } else {
-    isDark.value = true
-    document.documentElement.classList.add('dark')
-    document.documentElement.classList.remove('light')
-  }
+  const stored = normalizeTheme(localStorage.getItem('theme'))
+  applyTheme(stored, false)
   isThemeReady.value = true
 
   // Reading progress bar
@@ -55,22 +84,75 @@ onMounted(() => {
   }
 })
 
-// Toggle theme — 切换时加 transitioning class 统一覆盖为 80ms 快速过渡
-function toggleTheme() {
+// Apply a selected theme with a soft bloom from the interaction point.
+function setTheme(nextTheme: ThemeMode, event?: MouseEvent) {
   const h = document.documentElement
+  if (nextTheme === themeMode.value || h.classList.contains('transitioning')) return
+
+  const transitionDocument = document as ThemeTransitionDocument
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const x = event?.clientX ?? window.innerWidth - 74
+  const y = event?.clientY ?? 42
+
+  h.style.setProperty('--theme-x', x + 'px')
+  h.style.setProperty('--theme-y', y + 'px')
+  h.dataset.themeNext = nextTheme
   h.classList.add('transitioning')
-  isDark.value = !isDark.value
-  if (isDark.value) {
-    h.classList.add('dark')
-    h.classList.remove('light')
-    localStorage.setItem('theme', 'dark')
-  } else {
-    h.classList.remove('dark')
-    h.classList.add('light')
-    localStorage.setItem('theme', 'light')
+
+  if (themeTimer) window.clearTimeout(themeTimer)
+  const finishTransition = () => {
+    if (themeTimer) {
+      window.clearTimeout(themeTimer)
+      themeTimer = undefined
+    }
+    h.classList.remove('transitioning', 'theme-switching')
+    delete h.dataset.themeNext
   }
-  // 80ms 足够完成过渡，移除 class 后恢复元素各自的 hover 过渡
-  setTimeout(() => h.classList.remove('transitioning'), 80)
+
+  if (!reduceMotion && transitionDocument.startViewTransition) {
+    const transition = transitionDocument.startViewTransition(() => applyTheme(nextTheme))
+
+    transition.ready.then(() => {
+      const radius = Math.hypot(
+        Math.max(x, window.innerWidth - x),
+        Math.max(y, window.innerHeight - y),
+      )
+
+      h.animate(
+        {
+          clipPath: [
+            'circle(0px at ' + x + 'px ' + y + 'px)',
+            'circle(' + radius + 'px at ' + x + 'px ' + y + 'px)',
+          ],
+        },
+        {
+          duration: 580,
+          easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+          pseudoElement: '::view-transition-new(root)',
+        } as KeyframeAnimationOptions & { pseudoElement: string },
+      )
+    }).catch(() => {})
+
+    transition.finished.then(finishTransition, finishTransition)
+    themeTimer = window.setTimeout(finishTransition, 760)
+    return
+  }
+
+  if (!reduceMotion) {
+    h.classList.add('theme-switching')
+    window.requestAnimationFrame(() => applyTheme(nextTheme))
+    themeTimer = window.setTimeout(finishTransition, 760)
+    return
+  }
+
+  applyTheme(nextTheme)
+  finishTransition()
+}
+
+function toggleTheme(event?: MouseEvent) {
+  const currentIndex = themeModes.indexOf(themeMode.value)
+  const nextTheme = themeModes[(currentIndex + 1) % themeModes.length]
+  setTheme(nextTheme, event)
 }
 
 // Keyboard shortcut: T to toggle theme
@@ -89,6 +171,8 @@ onMounted(() => {
 // Provide theme state to children
 provide('isDark', isDark)
 provide('isThemeReady', isThemeReady)
+provide('themeMode', themeMode)
+provide('setTheme', setTheme)
 provide('toggleTheme', toggleTheme)
 
 useHead({
