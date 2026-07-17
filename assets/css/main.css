@@ -82,6 +82,10 @@ html.cyber {
   --accent-2: #55d9f2;
   --danger: #ff7d91;
   --ok: #9affc4;
+  --code-bg: #061411;
+  --code-text: #dbf7e9;
+  --code-border: rgba(125, 255, 181, 0.2);
+  --code-label: #76b99a;
   --shadow: 0 24px 80px rgba(0, 10, 7, 0.42);
   --shadow-soft: 0 12px 36px rgba(0, 10, 7, 0.3);
 }
@@ -2283,6 +2287,10 @@ html.theme-switching .theme-transition-sheen {
 
 html.light .shiki code .line span {
   color: var(--shiki-light, #172033);
+}
+
+html.cyber .shiki code .line span {
+  color: var(--shiki-cyber, var(--shiki-default, #dbf7e9));
 }
 
 .shiki .line {

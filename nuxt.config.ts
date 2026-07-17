@@ -89,7 +89,11 @@ export default defineNuxtConfig({
     build: {
       markdown: {
         highlight: {
-          theme: { default: 'github-dark-dimmed', light: 'github-light' },
+          theme: {
+            default: 'github-dark-dimmed',
+            light: 'github-light',
+            cyber: 'houston',
+          },
           langs: ['typescript', 'javascript', 'python', 'go', 'rust', 'bash', 'json', 'yaml', 'markdown', 'sql', 'cpp', 'java', 'vue', 'css', 'html'],
         },
         remarkPlugins: {
