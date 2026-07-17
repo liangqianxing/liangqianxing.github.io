@@ -46,6 +46,10 @@
             <span>{{ formatDate(page.date) }}</span>
             <span class="post-meta-sep">·</span>
             <span>{{ postReadingTime }} min read</span>
+            <template v-if="page.series">
+              <span class="post-meta-sep">·</span>
+              <span>{{ page.series }}<template v-if="page.seriesOrder"> · 第 {{ page.seriesOrder }} 篇</template></span>
+            </template>
             <template v-if="page.categories?.length">
               <span class="post-meta-sep">·</span>
               <span>{{ page.categories.join(', ') }}</span>
@@ -65,6 +69,21 @@
         <article class="prose" ref="articleRef">
           <ContentRenderer :value="page" />
         </article>
+
+        <section v-if="seriesPosts.length > 1" class="post-series" aria-labelledby="series-title">
+          <div>
+            <p>Series</p>
+            <h2 id="series-title">{{ page.series }}</h2>
+          </div>
+          <ol>
+            <li v-for="post in seriesPosts" :key="post.path" :class="{ current: post.path === path }">
+              <NuxtLink :to="post.path">
+                <span>{{ String(post.seriesOrder ?? 0).padStart(2, '0') }}</span>
+                {{ post.title }}
+              </NuxtLink>
+            </li>
+          </ol>
+        </section>
 
         <!-- Prev/Next navigation -->
         <nav class="post-nav" aria-label="文章导航">
@@ -137,6 +156,13 @@ const prevPost = computed(() => {
 const nextPost = computed(() => {
   const posts = navPosts.value ?? []
   return currentIndex.value < posts.length - 1 ? posts[currentIndex.value + 1] : null
+})
+
+const seriesPosts = computed(() => {
+  if (!page.value?.series) return []
+  return (navPosts.value ?? [])
+    .filter(post => post.series === page.value?.series)
+    .sort((a, b) => (a.seriesOrder ?? 999) - (b.seriesOrder ?? 999))
 })
 
 const toc = computed(() => page.value?.body?.toc ?? null)

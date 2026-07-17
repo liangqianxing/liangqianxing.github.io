@@ -1,6 +1,9 @@
 ---
 title: Week 4：数据库速成——从 Storage、Index、Query Optimization 到 Vector DB 与 RAG
 date: 2026-05-05 12:00:00
+description: 从存储、索引和查询优化建立数据库心智模型，并把它映射到 Vector DB、RAG 与 LLM Memory。
+series: AI 系统基础课
+seriesOrder: 4
 categories:
   - 技术
 tags:
@@ -19,6 +22,8 @@ Week 1 我们理解了 Autograd，Week 2 理解了 GPU 推理加速，Week 3 理
 
 
 ![Storage buffer cache](/images/posts/database-ai/storage-buffer-cache.svg)
+
+*图：本文原创重绘，存储层次与 Buffer Pool 参考 [CMU 15-445/645 Database Systems](https://15445.courses.cs.cmu.edu/)。*
 
 ## 1. 为什么 AI 系统要学数据库
 
@@ -265,6 +270,8 @@ Vector DB 的核心不是“存向量”，而是在延迟、召回率、内存�
 ## 10. RAG Pipeline：数据库视角
 
 ![RAG vector database pipeline](/images/posts/database-ai/rag-vector-db.svg)
+
+*图：本文原创重绘，检索增强生成链路参考 Lewis 等人的 [Retrieval-Augmented Generation](https://arxiv.org/abs/2005.11401)。*
 
 一个典型 RAG pipeline：
 
@@ -574,4 +581,3 @@ Vector DB 一般包括：
 数据库不是 AI 系统的外围组件，而是 RAG、Vector DB、LLM memory 的底层骨架。Storage 决定数据怎么放，Buffer Pool 决定热数据怎么留在内存，Index 决定如何避免全量扫描，Query Optimization 决定执行顺序，Caching 决定尾延迟。
 
 当你用这套视角看 RAG，就不会只停留在“换 embedding 模型”或“调 prompt”。你会开始系统性地问：数据布局对吗，索引选型对吗，filter 顺序对吗，缓存 key 对吗，P99 慢在哪里。这才是把 AI 应用做成可靠系统的关键。
-

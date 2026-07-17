@@ -2,6 +2,8 @@
 title: RAG 面经：从原理到工程落地的高频问题整理
 date: 2026-04-13
 hidden: true
+series: DeepScientist 工程复盘
+seriesOrder: 4
 categories:
   - 技术
 tags:

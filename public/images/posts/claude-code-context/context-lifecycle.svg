@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" role="img" aria-labelledby="title desc">
+  <title id="title">Claude Code context management lifecycle</title>
+  <desc id="desc">The lifecycle has three distinct stages: lightweight request preparation, automatic compaction near the context limit, and reactive recovery after an API rejection.</desc>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#58a6ff"/></marker></defs>
+  <rect width="1200" height="560" rx="8" fill="#0d1117"/>
+  <text x="56" y="62" fill="#f0f6fc" font-family="Arial,sans-serif" font-size="30" font-weight="700">Context management is a lifecycle, not a ladder</text>
+  <text x="56" y="94" fill="#8b949e" font-family="Arial,sans-serif" font-size="16">Different mechanisms act before the request, near the limit, and only after an API rejection.</text>
+  <g font-family="Arial,sans-serif">
+    <rect x="56" y="148" width="322" height="318" rx="8" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="82" y="184" fill="#58a6ff" font-size="14" font-weight="700">01 · BEFORE EVERY REQUEST</text>
+    <text x="82" y="214" fill="#f0f6fc" font-size="19" font-weight="700">Lightweight reduction</text>
+    <g fill="#0d1117" stroke="#30363d"><rect x="82" y="244" width="270" height="42" rx="8"/><rect x="82" y="298" width="270" height="42" rx="8"/><rect x="82" y="352" width="270" height="42" rx="8"/></g>
+    <text x="102" y="270" fill="#c9d1d9" font-size="14">Read dedup + tool-result budget</text>
+    <text x="102" y="324" fill="#c9d1d9" font-size="14">Snip / Microcompact</text>
+    <text x="102" y="378" fill="#c9d1d9" font-size="14">prompt cache controls</text>
+    <text x="82" y="430" fill="#8b949e" font-size="13">Goal: remove repeat cost while preserving</text>
+    <text x="82" y="450" fill="#8b949e" font-size="13">the current conversation baseline.</text>
+
+    <rect x="438" y="148" width="322" height="318" rx="8" fill="#161b22" stroke="#d29922" stroke-width="2"/>
+    <text x="464" y="184" fill="#d29922" font-size="14" font-weight="700">02 · NEAR HIGH-WATER MARK</text>
+    <text x="464" y="214" fill="#f0f6fc" font-size="19" font-weight="700">Auto Compact</text>
+    <rect x="464" y="244" width="270" height="62" rx="8" fill="#0d1117" stroke="#d29922"/>
+    <text x="599" y="270" text-anchor="middle" fill="#f0f6fc" font-size="14">Session Memory Compact</text>
+    <text x="599" y="291" text-anchor="middle" fill="#8b949e" font-size="12">reuse an existing memory baseline</text>
+    <path d="M599 308V338" stroke="#58a6ff" stroke-width="3" marker-end="url(#a)"/>
+    <rect x="464" y="342" width="270" height="62" rx="8" fill="#0d1117" stroke="#ff7b72"/>
+    <text x="599" y="368" text-anchor="middle" fill="#f0f6fc" font-size="14">Full Compact fallback</text>
+    <text x="599" y="389" text-anchor="middle" fill="#8b949e" font-size="12">create a new compact boundary</text>
+    <text x="464" y="444" fill="#8b949e" font-size="13">Triggered by capacity, not by a fixed</text>
+    <text x="464" y="464" fill="#8b949e" font-size="13">sequence of percentage thresholds.</text>
+
+    <rect x="820" y="148" width="324" height="318" rx="8" fill="#161b22" stroke="#ff7b72" stroke-width="2"/>
+    <text x="846" y="184" fill="#ff7b72" font-size="14" font-weight="700">03 · AFTER API REJECTION</text>
+    <text x="846" y="214" fill="#f0f6fc" font-size="19" font-weight="700">Reactive recovery</text>
+    <rect x="846" y="244" width="272" height="52" rx="8" fill="#0d1117" stroke="#30363d"/>
+    <text x="982" y="276" text-anchor="middle" fill="#c9d1d9" font-size="14">prompt too long / media limit</text>
+    <path d="M982 300V330" stroke="#58a6ff" stroke-width="3" marker-end="url(#a)"/>
+    <rect x="846" y="334" width="272" height="70" rx="8" fill="#0d1117" stroke="#ff7b72"/>
+    <text x="982" y="362" text-anchor="middle" fill="#f0f6fc" font-size="14">Context Collapse or</text>
+    <text x="982" y="384" text-anchor="middle" fill="#f0f6fc" font-size="14">Reactive Compact</text>
+    <text x="846" y="444" fill="#8b949e" font-size="13">This is recovery after failure, not the</text>
+    <text x="846" y="464" fill="#8b949e" font-size="13">normal Auto Compact path.</text>
+
+    <path d="M378 307H434" stroke="#58a6ff" stroke-width="4" marker-end="url(#a)"/>
+    <path d="M760 307H816" stroke="#58a6ff" stroke-width="4" marker-end="url(#a)"/>
+  </g>
+</svg>

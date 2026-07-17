@@ -1989,11 +1989,72 @@ html.theme-switching .theme-transition-sheen {
   border-radius: var(--radius-sm);
 }
 
+.prose img[src$=".svg"] {
+  width: 100%;
+}
+
 .prose hr {
   height: 1px;
   margin: 2.2em 0;
   border: 0;
   background: var(--line);
+}
+
+.post-series {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  gap: 28px;
+  margin-top: 52px;
+  padding: 28px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.post-series p {
+  margin: 0 0 6px;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.post-series h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: 1.05rem;
+}
+
+.post-series ol {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.post-series a {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 10px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.post-series a:hover,
+.post-series .current a {
+  color: var(--text);
+}
+
+.post-series a span {
+  color: var(--faint);
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 850;
+}
+
+.post-series .current a span {
+  color: var(--accent);
 }
 
 .toc-sidebar {
@@ -2424,6 +2485,10 @@ html.transitioning *::after {
     font-size: 0.82rem;
   }
 
+  .nav-center .nav-link:nth-child(n + 4) {
+    display: none;
+  }
+
   .nav-chip {
     width: 36px;
     height: 36px;
@@ -2494,6 +2559,11 @@ html.transitioning *::after {
 
   .post-nav-item.next {
     text-align: left;
+  }
+
+  .post-series {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 }
 

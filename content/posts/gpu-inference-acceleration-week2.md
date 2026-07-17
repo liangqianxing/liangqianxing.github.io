@@ -1,6 +1,9 @@
 ---
 title: Week 2：GPU 与推理加速——从 Kernel、算子融合到 LLM Serving
 date: 2026-05-05 10:00:00
+description: 从 GPU 执行模型、Kernel 与算子融合出发，理解 KV Cache、batching 和 LLM Serving 的性能瓶颈。
+series: AI 系统基础课
+seriesOrder: 2
 categories:
   - 技术
 tags:
@@ -19,6 +22,8 @@ Week 1 我们从 Autograd 理解了深度学习框架的训练本质：Tensor、
 
 
 ![LLM inference pipeline](/images/posts/gpu-inference/llm-inference.svg)
+
+*图：本文原创重绘；KV Cache 与调度部分参考 [PagedAttention / vLLM](https://arxiv.org/abs/2309.06180) 和 [CMU 10-414/714](https://dlsyscourse.org/lectures/)。*
 
 ## 1. Week 2 学什么
 
@@ -163,6 +168,8 @@ dropout kernel
 ## 6. Operator Fusion：算子融合
 
 ![Operator fusion](/images/posts/gpu-inference/fusion.svg)
+
+*图：本文原创重绘，算子与 Kernel 的关系参考 [CMU 10-414/714 GPU Acceleration](https://dlsyscourse.org/lectures/)。*
 
 算子融合就是把多个算子合成一个 kernel。例如：
 
@@ -497,4 +504,3 @@ LLM 推理也会用 tensor parallel 和 pipeline parallel，尤其是模型单�
 GPU 推理加速不是单一技术，而是一组围绕硬件瓶颈展开的系统工程：算子层面要减少 kernel launch 和显存访问，图层面要做 fusion 和内存规划，服务层面要做 batching 和 KV cache 管理，模型层面要做量化、蒸馏或结构改造。
 
 理解这些之后，再看 vLLM、TensorRT、FlashAttention、diffusion turbo、speculative decoding，你会更容易判断它们到底在优化哪一层、为什么有效、代价是什么。这也是读推理系统论文时最重要的底层框架。
-

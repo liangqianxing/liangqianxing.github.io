@@ -1,6 +1,9 @@
 ---
 title: OpenClaw 源码导读：个人 AI 助手的网关、通道、插件与运行时架构
 date: 2026-05-08 16:30:00
+description: 从 CLI、Gateway、Channel、Plugin SDK 和 Agent Runtime 读懂个人 AI 助手的运行时架构。
+series: AI 项目源码导读
+seriesOrder: 2
 tags:
   - OpenClaw
   - Agent

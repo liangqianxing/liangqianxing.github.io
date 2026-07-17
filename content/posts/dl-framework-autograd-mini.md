@@ -1,6 +1,9 @@
 ---
 title: Week 1：DL 框架与 Autograd——从计算图、反向传播到 Mini Autograd 实现
 date: 2026-05-05 09:00:00
+description: 从计算图和链式法则出发，实现一个支持反向传播的 mini autograd，并讨论显存优化。
+series: AI 系统基础课
+seriesOrder: 1
 categories:
   - 技术
 tags:
@@ -17,6 +20,8 @@ tags:
 
 
 ![Forward and backward graph](/images/posts/mini-autograd/graph.svg)
+
+*图：本文原创重绘，概念参考 [CMU 10-414/714 Deep Learning Systems](https://dlsyscourse.org/lectures/)。*
 
 ## 为什么先学 Autograd
 
@@ -596,6 +601,8 @@ dL/dx = dL/dh_n * dh_n/dh_{n-1} * ... * dh_1/dx
 
 ![Activation checkpoint](/images/posts/mini-autograd/checkpoint.svg)
 
+*图：本文原创重绘，机制参考 Chen 等人的 [Training Deep Nets with Sublinear Memory Cost](https://arxiv.org/abs/1604.06174)。*
+
 Activation checkpoint 的核心思想：**不要保存所有中间激活，只保存少量 checkpoint；反向传播时，把缺失的中间激活重新算一遍**。
 
 普通训练：
@@ -697,5 +704,3 @@ Autograd 的核心非常朴素：前向时记录图，反向时套链式法则�
 Mini autograd 的意义不是替代 PyTorch，而是帮我们建立底层直觉。只要理解了 `Tensor` 如何保存 `parents` 和 `_backward`，理解了拓扑逆序和梯度累加，再看 PyTorch、TensorFlow、JAX 的设计，就不会只停留在 API 层，而能真正理解它们为什么这样工作。
 
 补充：完整可运行代码已放在 [/downloads/code/mini_autograd.py](/downloads/code/mini_autograd.py)，可以直接下载运行。
-
-

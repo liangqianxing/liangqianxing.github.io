@@ -1,6 +1,9 @@
 ---
-title: Claude Code 上下文管理机制：从 Microcompact 到 Auto Compact
+title: Claude Code 上下文管理：请求前减负、Auto Compact 与应急恢复
 date: 2026-05-19 10:00:00
+description: 基于源码区分请求前优化、高水位压缩和 API 报错恢复，厘清 Microcompact、Full Compact 与 Auto Compact 的关系。
+series: Agent 上下文工程
+seriesOrder: 2
 categories:
   - 技术
 tags:
@@ -40,6 +43,10 @@ Reactive Compact
   = 主请求循环中 API 已经拒绝请求后才介入的应急恢复路径
   = 手动 /compact 的 reactive-only 模式也会复用这套机制
 ```
+
+![Claude Code context lifecycle](/images/posts/claude-code-context/context-lifecycle.svg)
+
+*图：本文根据源码中的调用关系重新整理；它表达的是触发顺序，不是固定百分比阶梯。*
 
 ---
 

@@ -1,6 +1,9 @@
 ---
 title: Transformer、ViT 与 CLIP 基础：从三篇代表论文到高频面试题
 date: 2026-07-13 10:00:00
+description: 以三篇代表论文为主线，串起 Transformer、Vision Transformer 与 CLIP 的结构、目标和面试高频题。
+series: LLM 核心原理
+seriesOrder: 1
 categories:
   - AI
 tags:
@@ -543,4 +546,3 @@ batch 内其他样本提供负例。batch 越大，负例通常越丰富，但�
 如果只记住一句话：
 
 > Transformer 定义了 token 如何全局交互，ViT 定义了图像如何变成 token，CLIP 定义了图像 token 与语言语义如何对齐。
-

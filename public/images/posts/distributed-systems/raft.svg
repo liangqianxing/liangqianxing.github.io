@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" role="img" aria-labelledby="title desc">
+  <title id="title">Raft replication and majority commit</title>
+  <desc id="desc">A client command goes to the leader, which appends it to its log, replicates it to followers, waits for a majority, and then commits the entry.</desc>
+  <defs>
+    <marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#58a6ff"/></marker>
+    <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#3fb950"/></marker>
+  </defs>
+  <rect width="1200" height="560" rx="8" fill="#0d1117"/>
+  <text x="56" y="62" fill="#f0f6fc" font-family="Arial,sans-serif" font-size="30" font-weight="700">Raft: commit after a majority stores the entry</text>
+  <text x="56" y="94" fill="#8b949e" font-family="Arial,sans-serif" font-size="16">One leader orders commands; followers replicate the log and acknowledge durable progress.</text>
+  <g font-family="Arial,sans-serif">
+    <rect x="56" y="226" width="144" height="82" rx="8" fill="#161b22" stroke="#d29922"/>
+    <text x="128" y="258" text-anchor="middle" fill="#d29922" font-size="14" font-weight="700">CLIENT</text>
+    <text x="128" y="284" text-anchor="middle" fill="#f0f6fc" font-size="15">SET x = 7</text>
+
+    <rect x="300" y="174" width="248" height="186" rx="8" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="324" y="208" fill="#58a6ff" font-size="14" font-weight="700">LEADER · TERM 8</text>
+    <g fill="#0d1117" stroke="#484f58"><rect x="324" y="240" width="50" height="50" rx="6"/><rect x="382" y="240" width="50" height="50" rx="6"/><rect x="440" y="240" width="78" height="50" rx="6"/></g>
+    <text x="349" y="271" text-anchor="middle" fill="#8b949e" font-size="13">41</text><text x="407" y="271" text-anchor="middle" fill="#8b949e" font-size="13">42</text><text x="479" y="271" text-anchor="middle" fill="#f0f6fc" font-size="13">43 · x=7</text>
+    <text x="324" y="326" fill="#8b949e" font-size="13">append locally, then replicate</text>
+
+    <rect x="702" y="142" width="254" height="134" rx="8" fill="#161b22" stroke="#3fb950"/>
+    <text x="726" y="176" fill="#3fb950" font-size="14" font-weight="700">FOLLOWER A</text>
+    <rect x="726" y="202" width="206" height="42" rx="6" fill="#0d1117" stroke="#484f58"/>
+    <text x="829" y="228" text-anchor="middle" fill="#f0f6fc" font-size="13">41 · 42 · 43</text>
+    <rect x="702" y="326" width="254" height="134" rx="8" fill="#161b22" stroke="#3fb950"/>
+    <text x="726" y="360" fill="#3fb950" font-size="14" font-weight="700">FOLLOWER B</text>
+    <rect x="726" y="386" width="206" height="42" rx="6" fill="#0d1117" stroke="#484f58"/>
+    <text x="829" y="412" text-anchor="middle" fill="#f0f6fc" font-size="13">41 · 42 · 43</text>
+
+    <path d="M200 267H296" stroke="#58a6ff" stroke-width="4" marker-end="url(#b)"/>
+    <path d="M548 235C620 235 628 209 698 209" fill="none" stroke="#58a6ff" stroke-width="4" marker-end="url(#b)"/>
+    <path d="M548 299C620 299 628 393 698 393" fill="none" stroke="#58a6ff" stroke-width="4" marker-end="url(#b)"/>
+    <path d="M698 246C632 246 620 254 552 254" fill="none" stroke="#3fb950" stroke-width="3" stroke-dasharray="7 6" marker-end="url(#g)"/>
+    <path d="M698 430C628 430 620 320 552 320" fill="none" stroke="#3fb950" stroke-width="3" stroke-dasharray="7 6" marker-end="url(#g)"/>
+    <text x="624" y="188" text-anchor="middle" fill="#58a6ff" font-size="12">AppendEntries</text>
+    <text x="616" y="452" text-anchor="middle" fill="#3fb950" font-size="12">ack</text>
+
+    <rect x="1006" y="226" width="138" height="82" rx="8" fill="#161b22" stroke="#bc8cff"/>
+    <text x="1075" y="258" text-anchor="middle" fill="#bc8cff" font-size="14" font-weight="700">COMMIT</text>
+    <text x="1075" y="284" text-anchor="middle" fill="#f0f6fc" font-size="15">index 43</text>
+    <path d="M956 267H1002" stroke="#3fb950" stroke-width="4" marker-end="url(#g)"/>
+    <rect x="300" y="452" width="248" height="54" rx="8" fill="#161b22" stroke="#3fb950"/>
+    <text x="424" y="476" text-anchor="middle" fill="#3fb950" font-size="14" font-weight="700">2 / 3 replicas = majority</text>
+    <text x="424" y="496" text-anchor="middle" fill="#8b949e" font-size="12">entry becomes committed</text>
+  </g>
+</svg>

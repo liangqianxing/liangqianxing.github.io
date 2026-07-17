@@ -1,6 +1,9 @@
 ---
 title: 从零实现多模态 RAG：BM25、Dense 检索、RRF 融合、MMR 重排全部手写
 date: 2026-06-30 18:00:00
+description: 用纯 NumPy 手写 BM25、Dense 检索、RRF 融合和 MMR 重排，构建可评测的多模态 RAG。
+series: 推理与检索项目
+seriesOrder: 2
 tags:
   - RAG
   - 多模态

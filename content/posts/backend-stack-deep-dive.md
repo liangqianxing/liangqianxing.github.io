@@ -1,6 +1,9 @@
 ---
 title: 后端五件套：FastAPI / Node.js / SQLAlchemy async / PostgreSQL / Docker 面试速通
 date: 2026-04-07
+description: 结合真实项目拆解 FastAPI、Node.js、异步 ORM、PostgreSQL 与 Docker 的职责边界和面试要点。
+series: DeepScientist 工程复盘
+seriesOrder: 2
 categories:
   - 技术
 tags:

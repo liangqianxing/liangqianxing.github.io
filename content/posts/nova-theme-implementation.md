@@ -1,6 +1,7 @@
 ---
 title: 我是怎么从零实现 Nova 主题的
 date: 2026-04-06
+description: 复盘 Nova 博客主题从内容模型、模板结构到视觉系统和响应式布局的实现过程。
 categories:
   - 技术
 tags:

@@ -1,6 +1,9 @@
 ---
 title: Nanotron 项目详解：Hugging Face 的大模型预训练框架怎么做分布式训练
 date: 2026-05-10 12:10:00
+description: 从 3D 并行、ZeRO、Pipeline Schedule 和 Checkpoint 拆解 Hugging Face 大模型预训练框架。
+series: AI 项目源码导读
+seriesOrder: 4
 tags:
   - LLM
   - 大模型训练

@@ -1,6 +1,9 @@
 ---
 title: 从零实现 LLM 推理引擎：深挖 vLLM 的六大核心优化
 date: 2026-06-30 10:00:00
+description: 通过可测试的 Python 实现，讲清 Paged KV Cache、Continuous Batching、Chunked Prefill 等六项推理优化。
+series: 推理与检索项目
+seriesOrder: 1
 tags:
   - LLM
   - AI Infra
@@ -14,17 +17,23 @@ categories:
 ---
 
 > 本文对应 GitHub 项目：[mini-llm-engine](https://github.com/liangqianxing/mini-llm-engine)  
-> 代码量：~3500 行 Python · 67 个单元测试 · 全部通过 ✅
+> 代码量：约 3500 行 Python · 67 个单元测试 · 全部通过
+
+文中的 benchmark 使用可控延迟的模拟后端，用来验证调度策略和相对变化，不等同于真实 GPU 上的 vLLM 性能数据。
 
 ---
 
 ## 一、为什么要自己实现？
 
-用 vLLM 很容易，一行 `from vllm import LLM` 就能跑起来。但面试时被问到"vLLM 为什么比 HuggingFace 快 20 倍"，能说清楚的人并不多。
+用 vLLM 很容易，一行 `from vllm import LLM` 就能跑起来。但面试时被问到“为什么动态调度和分页式 KV Cache 能显著提高吞吐”，能把内存、调度和模型执行串起来的人并不多。
 
 我花了两周时间，从零实现了 vLLM 的核心调度和内存管理逻辑，把六个关键优化全部用 Python 写了一遍，并且每个都配了 benchmark。
 
 这篇文章记录整个过程——不只是"是什么"，而是**"为什么这么设计"**。
+
+![mini-llm-engine serving loop](/images/posts/mini-llm-engine/serving-loop.svg)
+
+*图：本文原创；内存分页部分参考 [PagedAttention / vLLM（SOSP 2023）](https://arxiv.org/abs/2309.06180)。*
 
 ---
 
@@ -306,7 +315,23 @@ RequestOutput（latency, ttft, output_text）
 
 ---
 
-## 五、工程亮点
+## 五、三个关键设计决策
+
+**为什么用 deque 管理空闲块？**
+
+`popleft()` 和 `append()` 都是 O(1)，很适合实现固定大小物理块的空闲链表。这里的关键不是照搬某个框架的数据结构，而是让分配、释放和测试保持可预测。
+
+**为什么把 ModelRunner 抽象成接口？**
+
+`MockModelRunner` 和 `GPT2ModelRunner` 实现同一个 `step()` 接口，调度器不需要知道背后是真实模型还是模拟后端。这样可以在没有 GPU 的 CI 中验证调度状态机，同时把真实模型执行留在独立边界内。
+
+**为什么 Prefix Cache 只缓存满块？**
+
+未填满的最后一块还会在 decode 阶段继续写入，内容哈希并不稳定。只缓存满块会牺牲一小部分命中空间，却能显著简化引用计数和 Copy-on-Write；更细粒度的最长前缀匹配可以再交给 Radix Tree 一类结构。
+
+---
+
+## 六、工程亮点
 
 ### 测试驱动，67 个单元测试
 
@@ -335,12 +360,13 @@ class BaseModelRunner(ABC):
 
 ---
 
-## 六、面试中的高频考点
+## 七、面试中的高频考点
 
 通过实现这个项目，能清楚回答以下问题：
 
-**Q：vLLM 为什么比 HuggingFace 快？**  
-→ Continuous Batching（避免 GPU 空闲）+ PagedAttention（消除显存碎片），GPU 利用率从 ~30% 提升到 ~90%+。
+**Q：vLLM 为什么比逐请求 `generate()` 的服务方式吞吐更高？**
+
+→ Continuous Batching 让完成的序列及时退出并补入新请求；PagedAttention 降低 KV Cache 的预留浪费并提高可并发序列数。两者分别改善计算调度和显存利用率，最终提升服务吞吐。
 
 **Q：Prefix Cache 的 CoW 怎么实现的？**  
 → 每个满块计算 `content_hash = hash(tuple(token_ids))`，命中时 `ref_count+1` 直接引用；写入前检查 `ref_count > 1` 则分配新块、旧块 `ref_count-1`。
@@ -356,7 +382,7 @@ class BaseModelRunner(ABC):
 
 ---
 
-## 七、与 vLLM 的对比
+## 八、与 vLLM 的对比
 
 | 功能 | 本项目 | vLLM |
 |------|--------|------|
@@ -372,7 +398,7 @@ class BaseModelRunner(ABC):
 
 ---
 
-## 八、总结
+## 九、总结
 
 推荐路线（如果你也想做）：
 
@@ -390,3 +416,10 @@ pip install pytest
 pytest tests/ -v                              # 67 tests, all pass
 python run_all_benchmarks.py --fast --no-plot # 5 个 benchmark
 ```
+
+## 参考资料
+
+- [Efficient Memory Management for Large Language Model Serving with PagedAttention](https://arxiv.org/abs/2309.06180)
+- [Orca: A Distributed Serving System for Transformer-Based Generative Models](https://www.usenix.org/conference/osdi22/presentation/yu)
+- [Sarathi-Serve: Taming Throughput-Latency Tradeoff in LLM Inference](https://arxiv.org/abs/2308.16369)
+- [SGLang: Efficient Execution of Structured Language Model Programs](https://arxiv.org/abs/2312.07104)

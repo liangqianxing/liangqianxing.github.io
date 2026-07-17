@@ -1,6 +1,9 @@
 ---
 title: Agent 对话记忆化：从原理到实现
 date: 2026-04-24
+description: 从短期对话、摘要记忆到向量检索，讲清 Agent 如何保存、压缩和召回历史信息。
+series: Agent 上下文工程
+seriesOrder: 1
 categories:
   - 技术
 tags:

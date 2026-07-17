@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" role="img" aria-labelledby="title desc">
+  <title id="title">Database buffer pool between queries and durable storage</title>
+  <desc id="desc">Queries request pages through the buffer pool. Cache hits return in memory, misses load pages from disk, and dirty victims are flushed during eviction.</desc>
+  <defs>
+    <marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#58a6ff"/></marker>
+    <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#3fb950"/></marker>
+    <marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#ff7b72"/></marker>
+  </defs>
+  <rect width="1200" height="560" rx="8" fill="#0d1117"/>
+  <text x="56" y="62" fill="#f0f6fc" font-family="Arial,sans-serif" font-size="30" font-weight="700">The buffer pool is the database memory hierarchy</text>
+  <text x="56" y="94" fill="#8b949e" font-family="Arial,sans-serif" font-size="16">Every page access becomes a hit, a miss, or an eviction decision.</text>
+  <g font-family="Arial,sans-serif">
+    <rect x="56" y="202" width="182" height="132" rx="8" fill="#161b22" stroke="#bc8cff"/>
+    <text x="80" y="238" fill="#bc8cff" font-size="14" font-weight="700">QUERY EXECUTOR</text>
+    <text x="80" y="274" fill="#f0f6fc" font-size="16">GetPage(page_id)</text>
+    <text x="80" y="304" fill="#8b949e" font-size="13">operators request data</text>
+
+    <rect x="346" y="140" width="466" height="300" rx="8" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="374" y="178" fill="#58a6ff" font-size="14" font-weight="700">BUFFER POOL · DRAM</text>
+    <g fill="#0d1117" stroke="#484f58"><rect x="374" y="210" width="112" height="72" rx="8"/><rect x="500" y="210" width="112" height="72" rx="8"/><rect x="626" y="210" width="112" height="72" rx="8"/><rect x="374" y="306" width="112" height="72" rx="8"/><rect x="500" y="306" width="112" height="72" rx="8"/><rect x="626" y="306" width="112" height="72" rx="8"/></g>
+    <text x="430" y="242" text-anchor="middle" fill="#3fb950" font-size="15">page 17</text><text x="430" y="264" text-anchor="middle" fill="#8b949e" font-size="12">pin=1</text>
+    <text x="556" y="242" text-anchor="middle" fill="#f0f6fc" font-size="15">page 08</text><text x="556" y="264" text-anchor="middle" fill="#8b949e" font-size="12">pin=0</text>
+    <text x="682" y="242" text-anchor="middle" fill="#d29922" font-size="15">page 42</text><text x="682" y="264" text-anchor="middle" fill="#d29922" font-size="12">dirty</text>
+    <text x="430" y="338" text-anchor="middle" fill="#f0f6fc" font-size="15">page 03</text><text x="430" y="360" text-anchor="middle" fill="#8b949e" font-size="12">pin=0</text>
+    <text x="556" y="338" text-anchor="middle" fill="#f0f6fc" font-size="15">page 31</text><text x="556" y="360" text-anchor="middle" fill="#8b949e" font-size="12">pin=0</text>
+    <text x="682" y="338" text-anchor="middle" fill="#6e7681" font-size="15">free frame</text>
+    <text x="374" y="414" fill="#8b949e" font-size="13">page table + replacement policy + dirty tracking</text>
+
+    <rect x="936" y="202" width="208" height="132" rx="8" fill="#161b22" stroke="#d29922"/>
+    <text x="960" y="238" fill="#d29922" font-size="14" font-weight="700">SSD / DISK</text>
+    <g fill="#0d1117" stroke="#484f58"><rect x="960" y="264" width="44" height="36" rx="6"/><rect x="1012" y="264" width="44" height="36" rx="6"/><rect x="1064" y="264" width="44" height="36" rx="6"/></g>
+    <text x="1040" y="322" text-anchor="middle" fill="#8b949e" font-size="12">durable pages</text>
+
+    <path d="M238 268H342" stroke="#58a6ff" stroke-width="4" marker-end="url(#b)"/>
+    <text x="290" y="252" text-anchor="middle" fill="#58a6ff" font-size="12">lookup</text>
+    <path d="M346 306H242" stroke="#3fb950" stroke-width="3" stroke-dasharray="7 6" marker-end="url(#g)"/>
+    <text x="290" y="329" text-anchor="middle" fill="#3fb950" font-size="12">cache hit</text>
+    <path d="M812 248H932" stroke="#d29922" stroke-width="4" marker-end="url(#b)"/>
+    <text x="872" y="232" text-anchor="middle" fill="#d29922" font-size="12">miss: read page</text>
+    <path d="M932 300H816" stroke="#ff7b72" stroke-width="3" stroke-dasharray="7 6" marker-end="url(#r)"/>
+    <text x="872" y="324" text-anchor="middle" fill="#ff7b72" font-size="12">evict / flush dirty</text>
+
+    <rect x="346" y="468" width="466" height="48" rx="8" fill="#161b22" stroke="#30363d"/>
+    <text x="579" y="498" text-anchor="middle" fill="#c9d1d9" font-size="14">Goal: maximize useful hits without evicting pinned pages</text>
+  </g>
+</svg>

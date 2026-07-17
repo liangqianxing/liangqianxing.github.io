@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" role="img" aria-labelledby="title desc">
+  <title id="title">MapReduce data pipeline</title>
+  <desc id="desc">Input splits are processed independently by map workers, partitioned and shuffled by key, then aggregated by reduce workers into output files.</desc>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#58a6ff"/></marker></defs>
+  <rect width="1200" height="560" rx="8" fill="#0d1117"/>
+  <text x="56" y="62" fill="#f0f6fc" font-family="Arial,sans-serif" font-size="30" font-weight="700">MapReduce: parallelize, regroup, aggregate</text>
+  <text x="56" y="94" fill="#8b949e" font-family="Arial,sans-serif" font-size="16">The framework owns scheduling and failure recovery; user code supplies map() and reduce().</text>
+  <g font-family="Arial,sans-serif">
+    <text x="88" y="160" fill="#8b949e" font-size="13" font-weight="700">INPUT SPLITS</text>
+    <text x="300" y="160" fill="#58a6ff" font-size="13" font-weight="700">MAP WORKERS</text>
+    <text x="570" y="160" fill="#d29922" font-size="13" font-weight="700">SHUFFLE BY KEY</text>
+    <text x="830" y="160" fill="#bc8cff" font-size="13" font-weight="700">REDUCE WORKERS</text>
+    <text x="1040" y="160" fill="#3fb950" font-size="13" font-weight="700">OUTPUT</text>
+
+    <g fill="#161b22" stroke="#484f58"><rect x="56" y="196" width="126" height="54" rx="8"/><rect x="56" y="274" width="126" height="54" rx="8"/><rect x="56" y="352" width="126" height="54" rx="8"/></g>
+    <g fill="#c9d1d9" font-size="15" text-anchor="middle"><text x="119" y="228">split 0</text><text x="119" y="306">split 1</text><text x="119" y="384">split 2</text></g>
+    <g fill="#161b22" stroke="#58a6ff"><rect x="282" y="196" width="132" height="54" rx="8"/><rect x="282" y="274" width="132" height="54" rx="8"/><rect x="282" y="352" width="132" height="54" rx="8"/></g>
+    <g fill="#f0f6fc" font-size="15" text-anchor="middle"><text x="348" y="228">map 0</text><text x="348" y="306">map 1</text><text x="348" y="384">map 2</text></g>
+    <g fill="#161b22" stroke="#d29922"><rect x="548" y="196" width="152" height="54" rx="8"/><rect x="548" y="274" width="152" height="54" rx="8"/><rect x="548" y="352" width="152" height="54" rx="8"/></g>
+    <g fill="#d29922" font-size="14" text-anchor="middle"><text x="624" y="228">partition A</text><text x="624" y="306">partition B</text><text x="624" y="384">partition C</text></g>
+    <g fill="#161b22" stroke="#bc8cff"><rect x="812" y="216" width="142" height="64" rx="8"/><rect x="812" y="328" width="142" height="64" rx="8"/></g>
+    <g fill="#f0f6fc" font-size="15" text-anchor="middle"><text x="883" y="254">reduce 0</text><text x="883" y="366">reduce 1</text></g>
+    <g fill="#161b22" stroke="#3fb950"><rect x="1030" y="216" width="114" height="64" rx="8"/><rect x="1030" y="328" width="114" height="64" rx="8"/></g>
+    <g fill="#3fb950" font-size="14" text-anchor="middle"><text x="1087" y="254">file 0</text><text x="1087" y="366">file 1</text></g>
+
+    <g fill="none" stroke="#58a6ff" stroke-width="3" marker-end="url(#a)">
+      <path d="M182 223H278"/><path d="M182 301H278"/><path d="M182 379H278"/>
+      <path d="M414 223C470 223 482 223 544 223"/><path d="M414 223C474 223 482 301 544 301"/><path d="M414 301H544"/>
+      <path d="M414 301C474 301 482 379 544 379"/><path d="M414 379C474 379 482 223 544 223"/><path d="M414 379H544"/>
+      <path d="M700 223C750 223 760 248 808 248"/><path d="M700 301C756 301 756 360 808 360"/><path d="M700 379C756 379 756 248 808 248"/>
+      <path d="M954 248H1026"/><path d="M954 360H1026"/>
+    </g>
+    <rect x="282" y="452" width="672" height="54" rx="8" fill="#161b22" stroke="#30363d"/>
+    <text x="618" y="475" text-anchor="middle" fill="#c9d1d9" font-size="14">FAILED TASK?</text>
+    <text x="618" y="495" text-anchor="middle" fill="#8b949e" font-size="13">re-run the deterministic partition on another worker</text>
+  </g>
+</svg>

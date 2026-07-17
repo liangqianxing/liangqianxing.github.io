@@ -1,6 +1,7 @@
 ---
 title: 六级写作范文背诵包：10 个高频话题
 date: 2026-05-20 09:00:00
+description: 10 个六级写作高频话题范文，使用可复用的三段式结构并配套打印版 PDF。
 tags:
   - English
   - CET6
@@ -144,5 +145,4 @@ In conclusion, traditional culture should be protected, inherited, and creativel
 3. Only when we combine awareness with action can we make real progress.
 4. As college students, we are expected to develop a responsible attitude and turn it into daily practice.
 5. In the long run, small but continuous efforts will lead to meaningful changes.
-
 

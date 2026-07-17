@@ -1,6 +1,9 @@
 ---
 title: 无锁并发入门：从 CAS 到 Atomic Ring Buffer
 date: 2026-04-25
+description: 从 CAS 和内存序出发，解释 busy polling、Atomic Ring Buffer 与 CPU Cache 对低延迟程序的影响。
+series: C++ 并发
+seriesOrder: 2
 categories:
   - 技术
 tags:

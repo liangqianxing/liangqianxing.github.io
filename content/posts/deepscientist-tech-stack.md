@@ -1,6 +1,9 @@
 ---
 title: DeepScientist 技术栈全解析：一个 AI 科研平台的架构设计
 date: 2026-04-06
+description: 从前后端、Agent、RAG 和数据层拆解 AI 科研平台的整体架构与技术选型。
+series: DeepScientist 工程复盘
+seriesOrder: 1
 categories:
   - 技术
 tags:

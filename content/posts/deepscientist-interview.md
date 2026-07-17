@@ -2,6 +2,8 @@
 title: DeepScientist 项目面经：AI 科研平台的 Agent 设计与工程实践
 date: 2026-04-13
 hidden: true
+series: DeepScientist 工程复盘
+seriesOrder: 3
 categories:
   - 技术
 tags:

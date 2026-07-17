@@ -1,6 +1,9 @@
 ---
 title: MiniCode 源码解析：用 5000 行 TypeScript 实现一个 AI 编程助手
 date: 2026-04-06
+description: 从入口、Agent Loop、工具注册和终端 UI 拆解一个 5000 行 TypeScript AI 编程助手。
+series: AI 项目源码导读
+seriesOrder: 1
 categories:
   - 技术
 tags:

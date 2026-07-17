@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" role="img" aria-labelledby="title desc">
+  <title id="title">Forward computation and reverse-mode automatic differentiation</title>
+  <desc id="desc">A computation graph flows from tensors x and W through matrix multiplication and ReLU to loss, while gradients flow backward in reverse order.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 10 5 0 10Z" fill="#58a6ff"/>
+    </marker>
+    <marker id="back" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 10 5 0 10Z" fill="#ff7b72"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="560" rx="8" fill="#0d1117"/>
+  <text x="56" y="62" fill="#f0f6fc" font-family="Arial,sans-serif" font-size="30" font-weight="700">One graph, two traversals</text>
+  <text x="56" y="94" fill="#8b949e" font-family="Arial,sans-serif" font-size="16">Forward computes values. Backward applies local derivatives in reverse topological order.</text>
+
+  <text x="56" y="160" fill="#58a6ff" font-family="Arial,sans-serif" font-size="15" font-weight="700">FORWARD</text>
+  <path d="M170 248H306M448 248H568M710 248H830" fill="none" stroke="#58a6ff" stroke-width="4" marker-end="url(#arrow)"/>
+  <path d="M170 340C238 340 236 273 306 273" fill="none" stroke="#58a6ff" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <g font-family="Arial,sans-serif">
+    <rect x="56" y="210" width="114" height="76" rx="8" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="113" y="242" text-anchor="middle" fill="#3fb950" font-size="20" font-weight="700">x</text>
+    <text x="113" y="265" text-anchor="middle" fill="#8b949e" font-size="13">input</text>
+    <rect x="56" y="302" width="114" height="76" rx="8" fill="#161b22" stroke="#d29922" stroke-width="2"/>
+    <text x="113" y="334" text-anchor="middle" fill="#d29922" font-size="20" font-weight="700">W</text>
+    <text x="113" y="357" text-anchor="middle" fill="#8b949e" font-size="13">parameter</text>
+    <rect x="306" y="210" width="142" height="76" rx="8" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="377" y="242" text-anchor="middle" fill="#f0f6fc" font-size="18" font-weight="700">MatMul</text>
+    <text x="377" y="265" text-anchor="middle" fill="#8b949e" font-size="13">z = xW</text>
+    <rect x="568" y="210" width="142" height="76" rx="8" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="639" y="242" text-anchor="middle" fill="#f0f6fc" font-size="18" font-weight="700">ReLU</text>
+    <text x="639" y="265" text-anchor="middle" fill="#8b949e" font-size="13">a = max(0,z)</text>
+    <rect x="830" y="210" width="142" height="76" rx="8" fill="#161b22" stroke="#bc8cff" stroke-width="2"/>
+    <text x="901" y="242" text-anchor="middle" fill="#f0f6fc" font-size="18" font-weight="700">Loss</text>
+    <text x="901" y="265" text-anchor="middle" fill="#8b949e" font-size="13">L(a, y)</text>
+  </g>
+
+  <text x="56" y="454" fill="#ff7b72" font-family="Arial,sans-serif" font-size="15" font-weight="700">BACKWARD</text>
+  <path d="M970 418H716M568 418H454M306 418H176" fill="none" stroke="#ff7b72" stroke-width="4" marker-end="url(#back)"/>
+  <g fill="#c9d1d9" font-family="Arial,sans-serif" font-size="15">
+    <text x="843" y="401" text-anchor="middle">dL / da</text>
+    <text x="511" y="401" text-anchor="middle">dL / dz</text>
+    <text x="241" y="401" text-anchor="middle">dL / dx, dL / dW</text>
+  </g>
+  <rect x="1000" y="190" width="144" height="120" rx="8" fill="#161b22" stroke="#30363d"/>
+  <text x="1072" y="222" text-anchor="middle" fill="#8b949e" font-family="Arial,sans-serif" font-size="13">AUTOGRAD STORES</text>
+  <text x="1072" y="252" text-anchor="middle" fill="#f0f6fc" font-family="Arial,sans-serif" font-size="15">parents</text>
+  <text x="1072" y="276" text-anchor="middle" fill="#f0f6fc" font-family="Arial,sans-serif" font-size="15">local backward</text>
+  <text x="1072" y="300" text-anchor="middle" fill="#f0f6fc" font-family="Arial,sans-serif" font-size="15">saved tensors</text>
+  <text x="56" y="520" fill="#6e7681" font-family="Arial,sans-serif" font-size="13">Conceptual redraw based on reverse-mode automatic differentiation.</text>
+</svg>

@@ -49,7 +49,10 @@ function getPostSlugs() {
     const dir = join(process.cwd(), 'content', 'posts')
     return readdirSync(dir)
       .filter((f) => f.endsWith('.md'))
-      .filter((f) => isVisiblePost(parsePostFrontmatter(readFileSync(join(dir, f), 'utf-8'))))
+      .filter((f) => {
+        const data = parsePostFrontmatter(readFileSync(join(dir, f), 'utf-8'))
+        return isVisiblePost(data) || data.legacy === true
+      })
       .map((f) => `/posts/${basename(f, '.md')}`)
   } catch {
     return []

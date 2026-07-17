@@ -20,6 +20,8 @@ export interface PostMeta {
   hidden: boolean
   published: boolean
   readingTime: number
+  series?: string
+  seriesOrder?: number
 }
 
 /** 简单 frontmatter 解析（YAML only） */
@@ -116,6 +118,8 @@ export default defineEventHandler((_event): PostMeta[] => {
       hidden: Boolean(data.hidden),
       published: data.published !== false,
       readingTime: readingTime(body),
+      series: data.series ? String(data.series) : undefined,
+      seriesOrder: typeof data.seriesOrder === 'number' ? data.seriesOrder : undefined,
     })
   }
 

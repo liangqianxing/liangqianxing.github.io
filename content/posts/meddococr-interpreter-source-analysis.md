@@ -1,6 +1,9 @@
 ---
 title: MedDocOCR-Interpreter 源码导读：医疗文档 OCR、结构化抽取与报告解读原型
 date: 2026-05-22 10:30:00
+description: 从 OCR、版面恢复、字段归一化到安全解读，梳理医疗文档多模态原型的完整流水线。
+series: AI 项目源码导读
+seriesOrder: 3
 tags:
   - OCR
   - 多模态

@@ -1,6 +1,9 @@
 ---
 title: CloudVault 项目详解：基于 Go 的云端存储与网盘系统架构设计
 date: 2026-05-10 10:30:00
+description: 从分片上传、断点续传到异步任务、缓存和搜索，拆解 Go 云存储系统的关键链路。
+series: Go 后端项目
+seriesOrder: 2
 tags:
   - Go
   - 云存储

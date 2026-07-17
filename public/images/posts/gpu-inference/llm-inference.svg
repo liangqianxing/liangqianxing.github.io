@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" role="img" aria-labelledby="title desc">
+  <title id="title">LLM inference serving pipeline</title>
+  <desc id="desc">Requests enter a scheduler, alternate between prefill and decode on the model, use paged KV cache blocks, and stream tokens back to clients.</desc>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 10 5 0 10Z" fill="#58a6ff"/>
+    </marker>
+    <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 10 5 0 10Z" fill="#3fb950"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="560" rx="8" fill="#0d1117"/>
+  <text x="56" y="62" fill="#f0f6fc" font-family="Arial,sans-serif" font-size="30" font-weight="700">The LLM serving loop</text>
+  <text x="56" y="94" fill="#8b949e" font-family="Arial,sans-serif" font-size="16">Latency is shaped by admission, scheduling, model execution, and KV-cache pressure.</text>
+
+  <g font-family="Arial,sans-serif">
+    <rect x="56" y="180" width="170" height="170" rx="8" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+    <text x="80" y="216" fill="#58a6ff" font-size="14" font-weight="700">REQUEST QUEUE</text>
+    <g fill="#21262d" stroke="#484f58">
+      <rect x="80" y="238" width="122" height="24" rx="6"/><rect x="80" y="273" width="92" height="24" rx="6"/><rect x="80" y="308" width="140" height="24" rx="6"/>
+    </g>
+    <text x="141" y="255" fill="#c9d1d9" font-size="12" text-anchor="middle">prompt A</text>
+    <text x="126" y="290" fill="#c9d1d9" font-size="12" text-anchor="middle">prompt B</text>
+    <text x="150" y="325" fill="#c9d1d9" font-size="12" text-anchor="middle">prompt C</text>
+
+    <rect x="306" y="180" width="190" height="170" rx="8" fill="#161b22" stroke="#bc8cff" stroke-width="2"/>
+    <text x="330" y="216" fill="#bc8cff" font-size="14" font-weight="700">SCHEDULER</text>
+    <text x="330" y="254" fill="#f0f6fc" font-size="17">admit / preempt</text>
+    <text x="330" y="286" fill="#f0f6fc" font-size="17">form active batch</text>
+    <text x="330" y="318" fill="#8b949e" font-size="14">memory-aware policy</text>
+
+    <rect x="576" y="150" width="310" height="230" rx="8" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="600" y="188" fill="#58a6ff" font-size="14" font-weight="700">GPU MODEL EXECUTOR</text>
+    <rect x="600" y="214" width="116" height="64" rx="8" fill="#0d1117" stroke="#d29922"/>
+    <text x="658" y="241" text-anchor="middle" fill="#d29922" font-size="17" font-weight="700">PREFILL</text>
+    <text x="658" y="263" text-anchor="middle" fill="#8b949e" font-size="12">many tokens</text>
+    <rect x="746" y="214" width="116" height="64" rx="8" fill="#0d1117" stroke="#3fb950"/>
+    <text x="804" y="241" text-anchor="middle" fill="#3fb950" font-size="17" font-weight="700">DECODE</text>
+    <text x="804" y="263" text-anchor="middle" fill="#8b949e" font-size="12">one step</text>
+    <path d="M716 246H742" stroke="#58a6ff" stroke-width="3" marker-end="url(#a)"/>
+    <text x="600" y="324" fill="#c9d1d9" font-size="15">attention + MLP kernels</text>
+    <text x="600" y="348" fill="#8b949e" font-size="13">compute-bound prefill / bandwidth-bound decode</text>
+
+    <rect x="966" y="150" width="178" height="230" rx="8" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="990" y="188" fill="#3fb950" font-size="14" font-weight="700">PAGED KV CACHE</text>
+    <g fill="#21262d" stroke="#3fb950"><rect x="990" y="214" width="54" height="38" rx="6"/><rect x="1056" y="214" width="54" height="38" rx="6"/><rect x="990" y="264" width="54" height="38" rx="6"/><rect x="1056" y="264" width="54" height="38" rx="6"/></g>
+    <text x="1055" y="338" fill="#8b949e" font-size="13" text-anchor="middle">allocate on demand</text>
+
+    <path d="M226 265H302" stroke="#58a6ff" stroke-width="4" marker-end="url(#a)"/>
+    <path d="M496 265H572" stroke="#58a6ff" stroke-width="4" marker-end="url(#a)"/>
+    <path d="M886 265H962" stroke="#3fb950" stroke-width="4" marker-end="url(#g)"/>
+    <path d="M1054 380V438H400V354" fill="none" stroke="#3fb950" stroke-width="3" stroke-dasharray="8 7" marker-end="url(#g)"/>
+    <text x="730" y="430" fill="#3fb950" font-size="13" text-anchor="middle">free blocks and refill finished slots every step</text>
+    <rect x="576" y="468" width="310" height="48" rx="8" fill="#161b22" stroke="#30363d"/>
+    <text x="731" y="498" text-anchor="middle" fill="#c9d1d9" font-size="15">stream token -> update metrics -> next iteration</text>
+  </g>
+</svg>

@@ -1,6 +1,9 @@
 ---
 title: Week 3：分布式系统速成——MapReduce、Raft、容错与 Distributed KV Store
 date: 2026-05-05 11:00:00
+description: 用 MapReduce、Raft、容错和分布式 KV Store 理解 AI 工作流与多 Agent 系统的底层结构。
+series: AI 系统基础课
+seriesOrder: 3
 categories:
   - 技术
 tags:
@@ -19,6 +22,8 @@ Week 1 我们用 mini autograd 理解了深度学习框架的本质；Week 2 我
 
 
 ![MapReduce pipeline](/images/posts/distributed-systems/mapreduce.svg)
+
+*图：本文原创重绘，流程参考 Dean 与 Ghemawat 的 [MapReduce 技术论文](https://research.google/pubs/mapreduce-simplified-data-processing-on-large-clusters/)。*
 
 ## 1. 为什么 AI 系统也要学分布式
 
@@ -210,6 +215,8 @@ PENDING -> RUNNING -> SUCCEEDED / FAILED
 ## 8. Raft：为什么需要共识
 
 ![Raft consensus](/images/posts/distributed-systems/raft.svg)
+
+*图：本文原创重绘，状态复制与多数派提交参考 [In Search of an Understandable Consensus Algorithm](https://www.usenix.org/conference/atc14/technical-sessions/presentation/ongaro)。*
 
 如果一个服务只有单副本，机器挂了就不可用。为了高可用，我们会复制多个副本。但复制带来一个问题：多个副本如何保持一致？
 
@@ -547,4 +554,3 @@ User Query
 分布式系统的核心不是把代码部署到多台机器上，而是用系统化方式处理不可靠性：网络不可靠、节点不可靠、时间不可靠、状态不可靠。MapReduce 教我们如何拆任务和重试，Raft 教我们如何复制状态并达成一致，fault tolerance 教我们如何面对失败，distributed KV store 则把这些思想浓缩成最小可理解系统。
 
 当你把这套心智模型带回 AI 系统，就会发现 Ray、分布式推理、多 agent、workflow engine 都不再神秘。它们都是在不同场景下回答同一组问题：任务怎么调度，状态怎么保存，失败怎么恢复，多个 worker 如何协作产出一个可靠结果。
-

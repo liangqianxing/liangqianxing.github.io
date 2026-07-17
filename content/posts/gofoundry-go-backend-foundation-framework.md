@@ -1,6 +1,9 @@
 ---
 title: GoFoundry 项目详解：基于 Go 的后端基础框架套件设计
 date: 2026-05-10 11:20:00
+description: 拆解 Go Web、ORM、缓存、分布式锁、消息队列和压测工具组成的后端基础框架套件。
+series: Go 后端项目
+seriesOrder: 1
 tags:
   - Go
   - 后端框架

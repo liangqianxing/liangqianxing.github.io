@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" role="img" aria-labelledby="title desc">
+  <title id="title">mini-llm-engine architecture and serving loop</title>
+  <desc id="desc">Requests become sequences, the scheduler chooses prefill and decode work, the model runner generates tokens, and the paged KV cache allocates, shares, swaps, and frees blocks.</desc>
+  <defs>
+    <marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#58a6ff"/></marker>
+    <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#3fb950"/></marker>
+  </defs>
+  <rect width="1200" height="560" rx="8" fill="#0d1117"/>
+  <text x="56" y="62" fill="#f0f6fc" font-family="Arial,sans-serif" font-size="30" font-weight="700">mini-llm-engine: separate policy, memory, and execution</text>
+  <text x="56" y="94" fill="#8b949e" font-family="Arial,sans-serif" font-size="16">A small testable core makes each serving optimization visible at one boundary.</text>
+  <g font-family="Arial,sans-serif">
+    <rect x="56" y="190" width="176" height="172" rx="8" fill="#161b22" stroke="#d29922"/>
+    <text x="80" y="226" fill="#d29922" font-size="14" font-weight="700">LLM ENGINE</text>
+    <text x="80" y="264" fill="#f0f6fc" font-size="16">add_request()</text>
+    <text x="80" y="294" fill="#f0f6fc" font-size="16">Sequence state</text>
+    <text x="80" y="324" fill="#8b949e" font-size="13">WAITING -> RUNNING</text>
+
+    <rect x="314" y="146" width="250" height="260" rx="8" fill="#161b22" stroke="#bc8cff" stroke-width="2"/>
+    <text x="338" y="182" fill="#bc8cff" font-size="14" font-weight="700">SCHEDULER · POLICY</text>
+    <rect x="338" y="210" width="202" height="48" rx="8" fill="#0d1117" stroke="#484f58"/>
+    <text x="439" y="240" text-anchor="middle" fill="#f0f6fc" font-size="14">continuous batching</text>
+    <rect x="338" y="272" width="202" height="48" rx="8" fill="#0d1117" stroke="#484f58"/>
+    <text x="439" y="302" text-anchor="middle" fill="#f0f6fc" font-size="14">chunked prefill</text>
+    <rect x="338" y="334" width="202" height="48" rx="8" fill="#0d1117" stroke="#484f58"/>
+    <text x="439" y="364" text-anchor="middle" fill="#f0f6fc" font-size="14">preempt / swap</text>
+
+    <rect x="648" y="146" width="230" height="150" rx="8" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="672" y="182" fill="#58a6ff" font-size="14" font-weight="700">MODEL RUNNER</text>
+    <text x="672" y="220" fill="#f0f6fc" font-size="16">MockModelRunner</text>
+    <text x="672" y="250" fill="#f0f6fc" font-size="16">GPT2ModelRunner</text>
+    <text x="672" y="276" fill="#8b949e" font-size="13">same step() interface</text>
+
+    <rect x="648" y="326" width="496" height="154" rx="8" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="672" y="362" fill="#3fb950" font-size="14" font-weight="700">PAGED KV CACHE · MEMORY</text>
+    <g fill="#0d1117" stroke="#3fb950"><rect x="672" y="390" width="70" height="46" rx="6"/><rect x="752" y="390" width="70" height="46" rx="6"/><rect x="832" y="390" width="70" height="46" rx="6"/><rect x="912" y="390" width="70" height="46" rx="6"/></g>
+    <text x="707" y="419" text-anchor="middle" fill="#c9d1d9" font-size="12">block 0</text><text x="787" y="419" text-anchor="middle" fill="#c9d1d9" font-size="12">block 1</text><text x="867" y="419" text-anchor="middle" fill="#c9d1d9" font-size="12">shared</text><text x="947" y="419" text-anchor="middle" fill="#c9d1d9" font-size="12">free</text>
+    <text x="1010" y="405" fill="#8b949e" font-size="13">allocate · CoW</text>
+    <text x="1010" y="430" fill="#8b949e" font-size="13">swap · release</text>
+
+    <path d="M232 276H310" stroke="#58a6ff" stroke-width="4" marker-end="url(#b)"/>
+    <path d="M564 221H644" stroke="#58a6ff" stroke-width="4" marker-end="url(#b)"/>
+    <path d="M439 406V454H644" fill="none" stroke="#3fb950" stroke-width="4" marker-end="url(#g)"/>
+    <path d="M763 296V322" stroke="#58a6ff" stroke-width="4" marker-end="url(#b)"/>
+    <path d="M648 466H278V366" fill="none" stroke="#3fb950" stroke-width="3" stroke-dasharray="8 7" marker-end="url(#g)"/>
+    <text x="458" y="496" text-anchor="middle" fill="#3fb950" font-size="13">token -> state update -> next step</text>
+  </g>
+</svg>

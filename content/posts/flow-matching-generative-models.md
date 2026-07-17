@@ -1,6 +1,7 @@
 ---
 title: Flow Matching：从噪声到数据的连续流生成模型
 date: 2026-05-07 00:00:00
+description: 从扩散模型过渡到连续速度场，推导 Flow Matching 的训练目标、线性路径与采样过程。
 tags:
   - 生成模型
   - Diffusion
@@ -20,6 +21,8 @@ Flow Matching 是近几年生成模型里非常重要的一条路线。它和 Di
 这类方法正在被大量图像、视频和 DiT（Diffusion Transformer）相关工作采用，也和 Rectified Flow、Continuous Normalizing Flow、Consistency Model 等方向有很深的联系。
 
 ![Diffusion vs Flow Matching overview](/images/flow-matching-overview.svg)
+
+*图：本文原创重绘，概念参考 Lipman 等人的 [Flow Matching for Generative Modeling](https://arxiv.org/abs/2210.02747)。*
 
 
 
@@ -84,6 +87,8 @@ Flow Matching 的关键是：训练时我们需要知道中间点 $x_t$ 的目�
 给定真实样本 $x_0$ 和噪声样本 $x_1$，构造：
 
 ![Flow Matching linear interpolation path](/images/flow-matching-linear-path.svg)
+
+*图：本文原创重绘，展示条件概率路径上的线性插值。*
 
 $$
 x_t = (1 - t)x_0 + tx_1

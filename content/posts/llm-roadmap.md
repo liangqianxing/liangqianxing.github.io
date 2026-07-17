@@ -2,6 +2,8 @@
 title: LLM 技术路线：从 Transformer 到训练、推理与应用
 date: 2026-07-09 11:00:00
 description: 一份系统化 LLM 学习路线，覆盖 Transformer、预训练、SFT、RLHF、RAG、Agent、推理优化、评测和工程项目。
+series: LLM 核心原理
+seriesOrder: 2
 categories:
   - 技术
 tags:

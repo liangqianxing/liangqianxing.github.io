@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" role="img" aria-labelledby="title desc">
+  <title id="title">Diffusion and flow matching as two views of generative transport</title>
+  <desc id="desc">Diffusion learns local denoising transitions across many noise levels, while flow matching learns a continuous velocity field that transports noise toward data.</desc>
+  <defs>
+    <marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#ff7b72"/></marker>
+    <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#3fb950"/></marker>
+  </defs>
+  <rect width="1200" height="560" rx="8" fill="#0d1117"/>
+  <text x="56" y="62" fill="#f0f6fc" font-family="Arial,sans-serif" font-size="30" font-weight="700">Two views of transport from noise to data</text>
+  <text x="56" y="94" fill="#8b949e" font-family="Arial,sans-serif" font-size="16">Both define a path of probability distributions; the learned target is framed differently.</text>
+  <g font-family="Arial,sans-serif">
+    <rect x="56" y="140" width="520" height="356" rx="8" fill="#161b22" stroke="#30363d"/>
+    <text x="84" y="178" fill="#ff7b72" font-size="15" font-weight="700">DIFFUSION VIEW</text>
+    <text x="84" y="204" fill="#8b949e" font-size="13">learn local denoising / score information</text>
+    <g fill="#58a6ff" opacity="0.8"><circle cx="128" cy="312" r="7"/><circle cx="155" cy="275" r="7"/><circle cx="180" cy="341" r="7"/><circle cx="205" cy="300" r="7"/><circle cx="148" cy="365" r="7"/></g>
+    <path d="M208 320C260 254 308 370 358 296S452 256 506 316" fill="none" stroke="#ff7b72" stroke-width="4" stroke-dasharray="10 8" marker-end="url(#r)"/>
+    <g fill="#d29922"><circle cx="511" cy="286" r="8"/><circle cx="531" cy="314" r="8"/><circle cx="503" cy="342" r="8"/></g>
+    <text x="164" y="416" text-anchor="middle" fill="#58a6ff" font-size="14">noise p1</text>
+    <text x="510" y="416" text-anchor="middle" fill="#d29922" font-size="14">data p0</text>
+    <text x="296" y="458" text-anchor="middle" fill="#c9d1d9" font-size="14">many stochastic or discretized denoising steps</text>
+
+    <rect x="624" y="140" width="520" height="356" rx="8" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="652" y="178" fill="#3fb950" font-size="15" font-weight="700">FLOW MATCHING VIEW</text>
+    <text x="652" y="204" fill="#8b949e" font-size="13">learn the velocity field along a chosen path</text>
+    <g fill="#58a6ff" opacity="0.8"><circle cx="696" cy="312" r="7"/><circle cx="723" cy="275" r="7"/><circle cx="748" cy="341" r="7"/><circle cx="773" cy="300" r="7"/><circle cx="716" cy="365" r="7"/></g>
+    <path d="M776 320C852 220 962 220 1064 316" fill="none" stroke="#3fb950" stroke-width="5" marker-end="url(#g)"/>
+    <g fill="#d29922"><circle cx="1067" cy="286" r="8"/><circle cx="1087" cy="314" r="8"/><circle cx="1059" cy="342" r="8"/></g>
+    <g stroke="#bc8cff" stroke-width="3" marker-end="url(#g)"><path d="M836 326l30-34"/><path d="M902 288l34-10"/><path d="M968 283l34 23"/></g>
+    <text x="732" y="416" text-anchor="middle" fill="#58a6ff" font-size="14">noise p1</text>
+    <text x="1066" y="416" text-anchor="middle" fill="#d29922" font-size="14">data p0</text>
+    <text x="884" y="458" text-anchor="middle" fill="#c9d1d9" font-size="14">integrate dx/dt = v(x,t) along a continuous path</text>
+  </g>
+</svg>

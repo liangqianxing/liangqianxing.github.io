@@ -1,6 +1,7 @@
 ---
 title: XCPC 深圳游记
 date: 2026-04-13
+description: 两场程序设计竞赛、几次错误判断，以及一次短暂的深圳行程复盘。
 categories:
   - 旅游
 tags:

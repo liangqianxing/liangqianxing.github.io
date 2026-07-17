@@ -1,6 +1,9 @@
 ---
 title: C++ 并发编程入门：从数据竞争到线程池
 date: 2026-04-15
+description: 从数据竞争和互斥锁出发，逐步实现条件变量、有界阻塞队列与线程池。
+series: C++ 并发
+seriesOrder: 1
 categories:
   - 技术
 tags:

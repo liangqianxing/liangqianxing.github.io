@@ -97,8 +97,20 @@ const { data } = await useAsyncData<PostMeta[]>('home-posts', () =>
 
 const posts = computed(() => data.value ?? [])
 const featured = computed(() => posts.value[0] ?? null)
-const recentPosts = computed(() => posts.value.slice(1, 7))
-const selectedPosts = computed(() => posts.value.slice(7, 10))
+const selectedSlugs = [
+  'ai-infra-roadmap',
+  'mini-llm-engine-from-scratch',
+  'multimodal-rag-from-scratch',
+]
+const selectedPosts = computed(() =>
+  selectedSlugs
+    .map(slug => posts.value.find(post => post.slug === slug))
+    .filter((post): post is PostMeta => Boolean(post))
+)
+const recentPosts = computed(() => {
+  const excluded = new Set([featured.value?.slug, ...selectedSlugs])
+  return posts.value.filter(post => !excluded.has(post.slug)).slice(0, 6)
+})
 const latestYear = computed(() => featured.value ? new Date(featured.value.date).getFullYear() : new Date().getFullYear())
 
 const topicCounts = computed(() => {
@@ -113,28 +125,28 @@ const knowledgeMap = [
   {
     key: 'AI',
     title: 'AI Infra / Agent',
-    desc: 'RAG、上下文压缩、记忆系统、推理链路和 Agent 工程化。',
+    desc: '从模型基础到 RAG、上下文工程、推理服务和 Agent 平台。',
     label: '看 AI Infra',
     to: '/tags/ai-infra',
   },
   {
     key: 'SYS',
     title: 'Backend / Distributed',
-    desc: '后端框架、数据库、缓存、高并发、分布式系统和系统设计。',
+    desc: '数据库、缓存、高并发、分布式系统与 Go 后端项目。',
     label: '看后端系统',
-    to: '/tags/后端',
+    to: '/tags/分布式系统',
   },
   {
     key: 'SRC',
     title: 'Source Reading',
-    desc: '源码导读、框架拆解、项目复盘和可落地的工程细节。',
+    desc: '从入口、数据流和关键抽象读懂开源项目，而非罗列目录。',
     label: '看源码分析',
     to: '/tags/源码分析',
   },
   {
     key: 'INT',
     title: 'Interview Kit',
-    desc: '面试准备、项目包装、CS 基础和岗位方向速查。',
+    desc: '按岗位组织的准备清单、项目表达和高频追问。',
     label: '看面试',
     to: '/tags/面试',
   },

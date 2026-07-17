@@ -1,6 +1,7 @@
 ---
 title: GitHub Actions 入门：自动化你的工作流
 date: 2026-04-04 09:00:00
+description: 从 Workflow、Event、Job 和 Step 入手，搭建第一个可复用的 GitHub Actions CI 流程。
 tags:
   - GitHub Actions
   - CI/CD

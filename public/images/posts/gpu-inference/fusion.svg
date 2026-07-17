@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" role="img" aria-labelledby="title desc">
+  <title id="title">Operator fusion reduces kernel launches and memory traffic</title>
+  <desc id="desc">An unfused chain writes every intermediate tensor to high bandwidth memory, while a fused kernel keeps intermediates on chip and writes once.</desc>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#58a6ff"/></marker>
+  </defs>
+  <rect width="1200" height="560" rx="8" fill="#0d1117"/>
+  <text x="56" y="62" fill="#f0f6fc" font-family="Arial,sans-serif" font-size="30" font-weight="700">Operator fusion: less launch, less traffic</text>
+  <text x="56" y="94" fill="#8b949e" font-family="Arial,sans-serif" font-size="16">The arithmetic is similar; the data movement pattern is not.</text>
+
+  <g font-family="Arial,sans-serif">
+    <rect x="56" y="140" width="520" height="350" rx="8" fill="#161b22" stroke="#30363d"/>
+    <text x="84" y="178" fill="#ff7b72" font-size="15" font-weight="700">UNFUSED: 3 KERNEL LAUNCHES</text>
+    <rect x="84" y="210" width="128" height="58" rx="8" fill="#0d1117" stroke="#58a6ff"/>
+    <rect x="252" y="210" width="128" height="58" rx="8" fill="#0d1117" stroke="#58a6ff"/>
+    <rect x="420" y="210" width="128" height="58" rx="8" fill="#0d1117" stroke="#58a6ff"/>
+    <text x="148" y="245" text-anchor="middle" fill="#f0f6fc" font-size="16">MatMul</text>
+    <text x="316" y="245" text-anchor="middle" fill="#f0f6fc" font-size="16">Bias Add</text>
+    <text x="484" y="245" text-anchor="middle" fill="#f0f6fc" font-size="16">ReLU</text>
+    <path d="M212 239H248M380 239H416" stroke="#58a6ff" stroke-width="3" marker-end="url(#a)"/>
+    <rect x="84" y="348" width="464" height="74" rx="8" fill="#0d1117" stroke="#d29922"/>
+    <text x="316" y="378" text-anchor="middle" fill="#d29922" font-size="16" font-weight="700">HBM / GLOBAL MEMORY</text>
+    <text x="316" y="402" text-anchor="middle" fill="#8b949e" font-size="13">write intermediate -> read intermediate -> repeat</text>
+    <path d="M148 272V344M316 272V344M484 272V344" stroke="#d29922" stroke-width="3" stroke-dasharray="7 6"/>
+    <text x="316" y="463" text-anchor="middle" fill="#ff7b72" font-size="14">3 launches + multiple round trips</text>
+
+    <rect x="624" y="140" width="520" height="350" rx="8" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="652" y="178" fill="#3fb950" font-size="15" font-weight="700">FUSED: 1 KERNEL LAUNCH</text>
+    <rect x="706" y="210" width="356" height="94" rx="8" fill="#0d1117" stroke="#3fb950" stroke-width="2"/>
+    <text x="884" y="246" text-anchor="middle" fill="#f0f6fc" font-size="18" font-weight="700">MatMul + Bias + ReLU</text>
+    <text x="884" y="276" text-anchor="middle" fill="#8b949e" font-size="13">intermediates stay in registers / shared memory</text>
+    <rect x="706" y="348" width="356" height="74" rx="8" fill="#0d1117" stroke="#d29922"/>
+    <text x="884" y="378" text-anchor="middle" fill="#d29922" font-size="16" font-weight="700">HBM / GLOBAL MEMORY</text>
+    <text x="884" y="402" text-anchor="middle" fill="#8b949e" font-size="13">read input once, write final output once</text>
+    <path d="M884 308V344" stroke="#3fb950" stroke-width="4" marker-end="url(#a)"/>
+    <text x="884" y="463" text-anchor="middle" fill="#3fb950" font-size="14">1 launch + one output write</text>
+  </g>
+</svg>
