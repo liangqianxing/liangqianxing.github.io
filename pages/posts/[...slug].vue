@@ -13,6 +13,22 @@
         </NuxtLink>
         <p class="post-author-role">{{ appConfig.role }}</p>
         <p class="post-author-focus">LLM · Agent · Backend</p>
+        <div
+          class="post-author-progress"
+          role="progressbar"
+          aria-label="文章阅读进度"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          :aria-valuenow="readingProgress"
+        >
+          <div>
+            <span>Reading</span>
+            <strong>{{ readingProgress }}%</strong>
+          </div>
+          <span class="post-author-progress-track" aria-hidden="true">
+            <span :style="{ width: `${readingProgress}%` }" />
+          </span>
+        </div>
         <div class="post-author-links">
           <NuxtLink to="/about">
             查看介绍
@@ -209,6 +225,27 @@ const postReadingTime = computed(() => {
 // TOC active heading tracking
 const activeId = ref('')
 const articleRef = ref<HTMLElement | null>(null)
+const readingProgress = ref(0)
+let progressFrame = 0
+
+function updateReadingProgress() {
+  const article = articleRef.value
+  if (!article) return
+
+  const articleTop = window.scrollY + article.getBoundingClientRect().top
+  const start = articleTop - window.innerHeight * 0.22
+  const end = articleTop + article.offsetHeight - window.innerHeight * 0.72
+  const progress = ((window.scrollY - start) / Math.max(1, end - start)) * 100
+  readingProgress.value = Math.min(100, Math.max(0, Math.round(progress)))
+}
+
+function scheduleReadingProgress() {
+  if (progressFrame) return
+  progressFrame = window.requestAnimationFrame(() => {
+    updateReadingProgress()
+    progressFrame = 0
+  })
+}
 
 function scrollToHeading(id: string) {
   const el = document.getElementById(id)
@@ -218,6 +255,18 @@ function scrollToHeading(id: string) {
     window.scrollTo({ top, behavior: 'smooth' })
   }
 }
+
+onMounted(() => {
+  scheduleReadingProgress()
+  window.addEventListener('scroll', scheduleReadingProgress, { passive: true })
+  window.addEventListener('resize', scheduleReadingProgress)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', scheduleReadingProgress)
+  window.removeEventListener('resize', scheduleReadingProgress)
+  if (progressFrame) window.cancelAnimationFrame(progressFrame)
+})
 
 onMounted(() => {
   // Add copy buttons to code blocks
