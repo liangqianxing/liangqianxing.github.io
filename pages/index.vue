@@ -2,23 +2,36 @@
   <div>
     <section class="hero-frame">
       <div class="hero-main">
-        <h1>
-          {{ appConfig.authorCN }}
-          <span>工程笔记库</span>
-        </h1>
+        <p class="hero-kicker">
+          <span>{{ appConfig.authorEN }}</span>
+          <span>{{ posts.length }} published notes</span>
+        </p>
+        <h1>{{ appConfig.authorCN }}</h1>
+        <p class="hero-display-title">工程笔记库</p>
         <p class="hero-summary">{{ appConfig.description }}</p>
         <div class="hero-actions">
-          <NuxtLink to="/posts" class="primary-action">进入文章库</NuxtLink>
-          <NuxtLink to="/tags" class="secondary-action">按主题浏览</NuxtLink>
+          <NuxtLink to="/posts" class="primary-action">
+            进入文章库
+            <span aria-hidden="true">→</span>
+          </NuxtLink>
+          <NuxtLink to="/tags" class="secondary-action">
+            按主题浏览
+            <span aria-hidden="true">↗</span>
+          </NuxtLink>
         </div>
       </div>
 
       <aside class="hero-dossier" aria-label="站点概览">
-        <img src="/avatar.jpg" :alt="appConfig.authorCN" width="84" height="84" />
-        <div>
-          <strong>{{ appConfig.authorEN }}</strong>
-          <span>{{ appConfig.role }}</span>
-        </div>
+        <NuxtLink to="/about" class="hero-identity">
+          <span class="hero-avatar-ring" aria-hidden="true">
+            <img src="/avatar.jpg" alt="" width="48" height="48" />
+          </span>
+          <span>
+            <strong>{{ appConfig.authorEN }}</strong>
+            <small>{{ appConfig.role }}</small>
+          </span>
+          <span class="hero-identity-arrow" aria-hidden="true">↗</span>
+        </NuxtLink>
         <dl>
           <div>
             <dt>Posts</dt>
@@ -34,9 +47,16 @@
           </div>
         </dl>
       </aside>
+
+      <a class="hero-next" href="#home-content" aria-label="查看知识地图" title="查看知识地图">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 4v15" />
+          <path d="m6.5 13.5 5.5 5.5 5.5-5.5" />
+        </svg>
+      </a>
     </section>
 
-    <main class="site-main">
+    <main id="home-content" class="site-main">
       <SiteBlock
         eyebrow="Map"
         title="知识地图"
