@@ -24,7 +24,7 @@ export default defineAppConfig({
     {
       name: '石上三年',
       url: 'https://blog.sssn.tech/',
-      avatar: '',
+      avatar: '/images/friends/sssn.jpg',
       desc: '石上三年',
     },
   ],
