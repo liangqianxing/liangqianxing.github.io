@@ -2,35 +2,37 @@
   <div>
     <aside v-if="page" class="author-sidebar" aria-label="关于作者">
       <div class="post-author-card">
-        <div class="post-author-cover">
-          <img src="/avatar.jpg" alt="" width="224" height="118" />
-          <span class="post-author-label">Author · 01</span>
+        <div class="post-author-head">
+          <span>Profile</span>
+          <span>GU.LOG / 01</span>
         </div>
-        <div class="post-author-content">
-          <NuxtLink to="/about" class="post-author-identity">
-            <span>
-              <strong>{{ appConfig.authorCN }}</strong>
-              <small>{{ appConfig.authorEN }}</small>
-            </span>
-            <span aria-hidden="true">↗</span>
+        <NuxtLink to="/about" class="post-author-identity">
+          <span class="post-author-avatar">
+            <img src="/avatar.jpg" alt="" width="52" height="52" />
+            <span aria-hidden="true" />
+          </span>
+          <span class="post-author-name">
+            <strong>{{ appConfig.authorCN }}</strong>
+            <small>{{ appConfig.authorEN }}</small>
+          </span>
+          <span class="post-author-arrow" aria-hidden="true">↗</span>
+        </NuxtLink>
+        <p class="post-author-role">{{ appConfig.role }}</p>
+        <p class="post-author-bio">{{ appConfig.description }}</p>
+        <div class="post-author-links">
+          <NuxtLink to="/about">
+            关于我
+            <span aria-hidden="true">→</span>
           </NuxtLink>
-          <p class="post-author-role">{{ appConfig.role }}</p>
-          <p class="post-author-bio">{{ appConfig.description }}</p>
-          <div class="post-author-links">
-            <NuxtLink to="/about">
-              个人主页
-              <span aria-hidden="true">→</span>
-            </NuxtLink>
-            <a
-              :href="appConfig.github"
-              target="_blank"
-              rel="noopener noreferrer"
-              :aria-label="`${appConfig.authorCN} 的 GitHub`"
-            >
-              GitHub
-              <span aria-hidden="true">↗</span>
-            </a>
-          </div>
+          <a
+            :href="appConfig.github"
+            target="_blank"
+            rel="noopener noreferrer"
+            :aria-label="`${appConfig.authorCN} 的 GitHub`"
+          >
+            GitHub
+            <span aria-hidden="true">↗</span>
+          </a>
         </div>
       </div>
     </aside>
