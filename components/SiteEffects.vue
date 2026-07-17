@@ -40,6 +40,7 @@ onMounted(() => {
     '.hero-dossier',
     '.site-block',
     '.page-hero',
+    '.archive-directory',
     '.archive-panel',
     '.filter-row',
     '.year-section',
