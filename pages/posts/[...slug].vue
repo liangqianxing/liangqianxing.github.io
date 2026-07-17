@@ -2,15 +2,9 @@
   <div>
     <aside v-if="page" class="author-sidebar" aria-label="关于作者">
       <div class="post-author-card">
-        <div class="post-author-head">
-          <span>Profile</span>
-          <span>GU.LOG / 01</span>
-        </div>
+        <p class="post-author-head">About the author</p>
         <NuxtLink to="/about" class="post-author-identity">
-          <span class="post-author-avatar">
-            <img src="/avatar.jpg" alt="" width="52" height="52" />
-            <span aria-hidden="true" />
-          </span>
+          <img class="post-author-avatar" src="/avatar.jpg" alt="" width="46" height="46" />
           <span class="post-author-name">
             <strong>{{ appConfig.authorCN }}</strong>
             <small>{{ appConfig.authorEN }}</small>
@@ -18,10 +12,10 @@
           <span class="post-author-arrow" aria-hidden="true">↗</span>
         </NuxtLink>
         <p class="post-author-role">{{ appConfig.role }}</p>
-        <p class="post-author-bio">{{ appConfig.description }}</p>
+        <p class="post-author-focus">LLM · Agent · Backend</p>
         <div class="post-author-links">
           <NuxtLink to="/about">
-            关于我
+            查看介绍
             <span aria-hidden="true">→</span>
           </NuxtLink>
           <a
