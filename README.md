@@ -23,7 +23,7 @@
 每天从 NeurIPS、ICML、ICLR 选择一篇论文进行中文精读。文章会核对官方原文、实验结果与开源资源，优先使用论文原图并注明论文、图号与官方来源；仅在原图不适合引用时进行原创重绘。
 
 <!-- PAPER_READING_START -->
-论文精读系列尚未发布首篇文章。
+- [QLoRA 精读：4-bit 量化如何把 65B 微调压进单卡](https://liangqianxing.github.io/posts/qlora-efficient-finetuning) · NeurIPS 2023 · 2026-07-18
 <!-- PAPER_READING_END -->
 
 ## 技术栈
