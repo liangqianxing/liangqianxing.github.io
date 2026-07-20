@@ -201,7 +201,7 @@ import type { PostMeta } from '~/server/api/posts.get'
 
 const route = useRoute()
 const appConfig = useAppConfig()
-const { filterVisiblePosts, initialize, isHidden, ready: softPrivacyReady } = useSoftPrivacy()
+const { filterVisiblePosts, initialize, isHidden } = useSoftPrivacy()
 
 onMounted(initialize)
 
@@ -211,7 +211,7 @@ const path = computed(() => {
   const slugStr = Array.isArray(slug) ? slug.join('/') : slug
   return `/posts/${slugStr}`
 })
-const softHidden = computed(() => softPrivacyReady.value && isHidden(path.value.replace(/^\/posts\//, '')))
+const softHidden = computed(() => isHidden(path.value.replace(/^\/posts\//, '')))
 
 // Fetch current post
 const { data: page } = await useAsyncData(`post-${path.value}`, () =>

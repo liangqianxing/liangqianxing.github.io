@@ -35,6 +35,17 @@ function isVisiblePost(data: Record<string, unknown>) {
   return data.draft !== true && data.hidden !== true && data.published !== false
 }
 
+function getSoftHiddenSlugs() {
+  try {
+    const file = join(process.cwd(), 'public', 'article-visibility.json')
+    const config = JSON.parse(readFileSync(file, 'utf-8')) as { hiddenSlugs?: unknown }
+    if (!Array.isArray(config.hiddenSlugs)) return []
+    return config.hiddenSlugs.filter((slug): slug is string => typeof slug === 'string' && slug.length > 0)
+  } catch {
+    return []
+  }
+}
+
 function toTagSlug(tag: string) {
   return tag
     .trim()
@@ -82,6 +93,11 @@ function getTagRoutes() {
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-01-01',
+  runtimeConfig: {
+    public: {
+      softHiddenSlugs: getSoftHiddenSlugs(),
+    },
+  },
   modules: ['@nuxt/content'],
   css: ['katex/dist/katex.min.css', '~/assets/css/main.css'],
   vite: { plugins: [tailwindcss()] },

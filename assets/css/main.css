@@ -1740,6 +1740,89 @@ html.theme-switching .theme-transition-sheen {
   max-width: 920px;
 }
 
+.soft-admin-sync {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  margin-bottom: 36px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+}
+
+.soft-admin-sync.connected {
+  border-color: color-mix(in srgb, var(--ok) 32%, var(--line));
+}
+
+.soft-admin-sync-copy,
+.soft-admin-token-form {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.soft-admin-sync-copy > div {
+  display: grid;
+  gap: 2px;
+}
+
+.soft-admin-sync-copy strong {
+  color: var(--text);
+  font-size: 0.84rem;
+}
+
+.soft-admin-sync-copy small {
+  color: var(--faint);
+  font-size: 0.68rem;
+}
+
+.soft-admin-sync-copy small a {
+  margin-left: 5px;
+  color: var(--accent-2);
+  font-weight: 800;
+}
+
+.soft-admin-sync-copy small a:hover {
+  color: var(--accent);
+}
+
+.soft-admin-sync-status {
+  width: 9px;
+  height: 9px;
+  flex: 0 0 9px;
+  border-radius: 50%;
+  background: var(--faint);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--faint) 12%, transparent);
+}
+
+.soft-admin-sync.connected .soft-admin-sync-status {
+  background: var(--ok);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--ok) 13%, transparent);
+}
+
+.soft-admin-token-form {
+  justify-content: flex-end;
+}
+
+.soft-admin-token-form input {
+  width: min(230px, 30vw);
+  min-height: 40px;
+  padding: 0 11px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  outline: none;
+}
+
+.soft-admin-token-form input:focus {
+  border-color: color-mix(in srgb, var(--accent) 72%, var(--line));
+}
+
 .soft-admin-list-head {
   display: flex;
   align-items: end;
@@ -1813,6 +1896,11 @@ html.theme-switching .theme-transition-sheen {
 .soft-admin-row select {
   width: 100%;
   padding: 0 9px;
+}
+
+.soft-admin-row select:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
 }
 
 .soft-hidden-state {
@@ -3342,6 +3430,20 @@ pre[class*="language-"]::before,
 
   .soft-admin-hero-actions {
     justify-content: flex-start;
+  }
+
+  .soft-admin-sync,
+  .soft-admin-token-form {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .soft-admin-sync-copy {
+    align-self: stretch;
+  }
+
+  .soft-admin-token-form input {
+    width: 100%;
   }
 
   .soft-admin-row {
