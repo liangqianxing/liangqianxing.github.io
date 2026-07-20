@@ -15,6 +15,7 @@ export default defineContentConfig({
         published: z.boolean().optional(),
         legacy: z.boolean().optional().default(false),
         categories: z.array(z.string()).optional().default([]),
+        readingTime: z.number().int().positive().optional(),
         series: z.string().optional(),
         seriesOrder: z.number().int().positive().optional(),
       }),

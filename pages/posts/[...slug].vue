@@ -254,6 +254,7 @@ const primaryTopic = computed(() => page.value?.categories?.[0] ?? '技术随笔
 const postReadingTime = computed(() => {
   const meta = visibleNavPosts.value.find(p => p.path === path.value)
   if (meta?.readingTime) return meta.readingTime
+  if (page.value?.readingTime) return page.value.readingTime
   if (!page.value) return 1
   return readingTime(JSON.stringify(page.value.body ?? ''))
 })

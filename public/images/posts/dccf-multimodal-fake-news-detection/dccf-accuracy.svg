@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 720" role="img" aria-labelledby="title desc">
+  <title id="title">DCCF accuracy compared with the strongest reported baseline</title>
+  <desc id="desc">A grouped bar chart showing accuracy on Weibo, Weibo21, and GossipCop. DCCF scores 0.951, 0.957, and 0.904, compared with strongest baselines of 0.935, 0.956, and 0.900.</desc>
+  <defs>
+    <style>
+      .title { font: 700 30px Inter, system-ui, sans-serif; fill: #172033; }
+      .subtitle { font: 500 16px Inter, system-ui, sans-serif; fill: #64748b; }
+      .axis { font: 600 14px Inter, system-ui, sans-serif; fill: #64748b; }
+      .group { font: 700 18px Inter, system-ui, sans-serif; fill: #172033; }
+      .value { font: 700 16px Inter, system-ui, sans-serif; fill: #172033; }
+      .method { font: 500 13px Inter, system-ui, sans-serif; fill: #64748b; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="720" rx="8" fill="#f8fafc"/>
+  <text x="64" y="62" class="title">Accuracy: DCCF vs. strongest reported baseline</text>
+  <text x="64" y="92" class="subtitle">Table I, arXiv:2512.20670v2. Baseline is selected separately for each dataset.</text>
+
+  <rect x="1050" y="48" width="20" height="20" rx="3" fill="#94a3b8"/>
+  <text x="1080" y="64" class="axis">Baseline</text>
+  <rect x="1190" y="48" width="20" height="20" rx="3" fill="#0f766e"/>
+  <text x="1220" y="64" class="axis">DCCF</text>
+
+  <line x1="100" y1="590" x2="1330" y2="590" stroke="#334155" stroke-width="2"/>
+  <line x1="100" y1="470" x2="1330" y2="470" stroke="#cbd5e1" stroke-width="1"/>
+  <line x1="100" y1="350" x2="1330" y2="350" stroke="#cbd5e1" stroke-width="1"/>
+  <line x1="100" y1="230" x2="1330" y2="230" stroke="#cbd5e1" stroke-width="1"/>
+  <line x1="100" y1="110" x2="1330" y2="110" stroke="#cbd5e1" stroke-width="1"/>
+
+  <text x="84" y="595" text-anchor="end" class="axis">0.84</text>
+  <text x="84" y="475" text-anchor="end" class="axis">0.88</text>
+  <text x="84" y="355" text-anchor="end" class="axis">0.92</text>
+  <text x="84" y="235" text-anchor="end" class="axis">0.96</text>
+  <text x="84" y="115" text-anchor="end" class="axis">1.00</text>
+
+  <rect x="230" y="305" width="105" height="285" rx="5" fill="#94a3b8"/>
+  <rect x="350" y="257" width="105" height="333" rx="5" fill="#0f766e"/>
+  <text x="282" y="288" text-anchor="middle" class="value">0.935</text>
+  <text x="402" y="240" text-anchor="middle" class="value">0.951</text>
+  <text x="342" y="628" text-anchor="middle" class="group">Weibo</text>
+  <text x="282" y="651" text-anchor="middle" class="method">KEN</text>
+  <text x="402" y="651" text-anchor="middle" class="method">DCCF</text>
+
+  <rect x="645" y="242" width="105" height="348" rx="5" fill="#94a3b8"/>
+  <rect x="765" y="239" width="105" height="351" rx="5" fill="#0f766e"/>
+  <text x="697" y="225" text-anchor="middle" class="value">0.956</text>
+  <text x="817" y="222" text-anchor="middle" class="value">0.957</text>
+  <text x="757" y="628" text-anchor="middle" class="group">Weibo21</text>
+  <text x="697" y="651" text-anchor="middle" class="method">MIMoE-FND</text>
+  <text x="817" y="651" text-anchor="middle" class="method">DCCF</text>
+
+  <rect x="1060" y="410" width="105" height="180" rx="5" fill="#94a3b8"/>
+  <rect x="1180" y="398" width="105" height="192" rx="5" fill="#0f766e"/>
+  <text x="1112" y="393" text-anchor="middle" class="value">0.900</text>
+  <text x="1232" y="381" text-anchor="middle" class="value">0.904</text>
+  <text x="1172" y="628" text-anchor="middle" class="group">GossipCop</text>
+  <text x="1112" y="651" text-anchor="middle" class="method">INSIDE</text>
+  <text x="1232" y="651" text-anchor="middle" class="method">DCCF</text>
+
+  <text x="64" y="690" class="subtitle">Absolute accuracy gains: +0.016, +0.001, +0.004. The abstract's claimed 3.52% average gain is not reproducible from Table I.</text>
+</svg>
