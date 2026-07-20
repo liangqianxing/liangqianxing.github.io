@@ -46,7 +46,7 @@
           <p class="eyebrow">Visibility map</p>
           <h2 id="soft-list-title">文章可见性</h2>
         </div>
-        <span>{{ filteredPosts.length }} / {{ posts.length }} 篇显示中</span>
+        <span>{{ visibleCount }} / {{ posts.length }} 篇公开显示</span>
       </div>
 
       <label class="soft-admin-search">
@@ -100,6 +100,7 @@ const confirmation = ref('')
 const query = ref('')
 const message = ref('')
 const posts = computed(() => data.value ?? [])
+const visibleCount = computed(() => posts.value.filter(post => !isHidden(post.slug)).length)
 const filteredPosts = computed(() => {
   const term = query.value.toLocaleLowerCase('zh-CN')
   return posts.value.filter(post => !term || `${post.title} ${post.slug}`.toLocaleLowerCase('zh-CN').includes(term))
