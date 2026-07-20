@@ -28,7 +28,7 @@ export interface PostMeta {
 function parseFrontmatter(source: string): { data: Record<string, unknown>; body: string } {
   const match = source.match(/^---\r?\n([\s\S]*?)\r?\n---/)
   if (!match) return { data: {}, body: source }
-  const yaml = match[1] ?? ''
+  const yaml = match[1]
   const body = source.slice(match[0].length)
   const data: Record<string, unknown> = {}
 
@@ -62,7 +62,6 @@ function parseFrontmatter(source: string): { data: Record<string, unknown>; body
   const mlArray = yaml.matchAll(/^(\w+):\s*\n((?:\s+-\s+.+\n?)*)/gm)
   for (const m of mlArray) {
     const [, k, block] = m
-    if (!k || !block) continue
     data[k] = block.split('\n')
       .filter((l) => l.trim().startsWith('-'))
       .map((l) => l.trim().replace(/^-\s*/, '').replace(/^['"]|['"]$/g, ''))

@@ -33,7 +33,7 @@ const isThemeReady = ref(false)
 const themeMode = ref<ThemeMode>('dark')
 const themeModes: ThemeMode[] = ['dark', 'light', 'cyber']
 const themeTransitionDuration = 440
-let themeTimer: number | undefined
+let themeTimer: ReturnType<typeof window.setTimeout> | undefined
 
 function normalizeTheme(value: string | null): ThemeMode {
   return value === 'light' || value === 'cyber' || value === 'dark' ? value : 'dark'
@@ -153,7 +153,7 @@ function setTheme(nextTheme: ThemeMode, event?: MouseEvent) {
 
 function toggleTheme(event?: MouseEvent) {
   const currentIndex = themeModes.indexOf(themeMode.value)
-  const nextTheme = themeModes[(currentIndex + 1) % themeModes.length] ?? 'dark'
+  const nextTheme = themeModes[(currentIndex + 1) % themeModes.length]
   setTheme(nextTheme, event)
 }
 
