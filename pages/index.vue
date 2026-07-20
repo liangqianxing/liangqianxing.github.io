@@ -110,15 +110,12 @@
 import type { PostMeta } from '~/server/api/posts.get'
 
 const appConfig = useAppConfig()
-const { filterVisiblePosts, initialize } = useSoftPrivacy()
-
-onMounted(initialize)
 
 const { data } = await useAsyncData<PostMeta[]>('home-posts', () =>
   $fetch('/api/posts')
 )
 
-const posts = computed(() => filterVisiblePosts(data.value ?? []))
+const posts = computed(() => data.value ?? [])
 const featured = computed(() => posts.value[0] ?? null)
 const selectedSlugs = [
   'ai-infra-roadmap',

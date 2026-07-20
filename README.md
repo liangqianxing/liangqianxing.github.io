@@ -18,8 +18,6 @@
 
 文章页提供浅色、深色与 Cyber 三套主题联动的代码高亮，并包含固定目录、阅读进度、作者轨道和响应式长文排版。
 
-文章显示设置入口为 `/admin`。本机口令用于保护设置界面，连接具有 Contents 读写权限的 GitHub Fine-grained Token 后，可见性开关会更新 `public/article-visibility.json` 并触发 Pages 部署。隐藏状态对所有访客的首页、文章库、标签页和文章详情生效，但不是真正的访问控制；文章源文件和静态产物仍然公开。
-
 ## 三大会论文精读
 
 每天从 NeurIPS、ICML、ICLR 选择一篇论文进行中文精读。文章会核对官方原文、实验结果与开源资源，优先使用论文原图并注明论文、图号与官方来源；仅在原图不适合引用时进行原创重绘。
@@ -49,7 +47,6 @@
 ├── content.config.ts         # Nuxt Content collection schema
 ├── pages/                    # 首页、文章、标签、友链和关于页面
 ├── public/images/posts/      # 文章配图，按 slug 分目录
-├── public/article-visibility.json # 全站前端软隐藏配置
 ├── server/api/posts.get.ts   # 静态文章元数据接口
 ├── utils/blog.ts             # 日期、阅读时长和标签工具
 ├── app.config.ts             # 作者、导航和站点信息
@@ -109,8 +106,6 @@ seriesOrder: 1
 1. 使用 Node.js 22 安装锁定依赖。
 2. 运行 `npm run build` 生成静态站点。
 3. 上传 `.output/public` 并部署到 GitHub Pages。
-
-`/admin` 的仓库同步需要一个 Fine-grained Personal Access Token，仅授予本仓库 `Contents: Read and write` 权限。Token 只保存在当前浏览器的 `localStorage`，不会写入源码或构建产物。
 
 ## 安全与协议
 

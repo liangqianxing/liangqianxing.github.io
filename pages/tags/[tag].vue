@@ -28,21 +28,19 @@ import type { PostMeta } from '~/server/api/posts.get'
 const route = useRoute()
 const tagParam = computed(() => route.params.tag as string)
 const decodedTag = computed(() => decodeURIComponent(tagParam.value))
-const { filterVisiblePosts, initialize } = useSoftPrivacy()
-onMounted(initialize)
 
 const { data: allPosts } = await useAsyncData<PostMeta[]>(`tag-${tagParam.value}`, () =>
   $fetch('/api/posts')
 )
 
 const tagPosts = computed(() =>
-  filterVisiblePosts(allPosts.value ?? []).filter(post =>
+  (allPosts.value ?? []).filter(post =>
     (post.tags ?? []).some(t => tagSlug(t) === tagParam.value)
   )
 )
 
 const displayTag = computed(() => {
-  for (const post of tagPosts.value) {
+  for (const post of allPosts.value ?? []) {
     const match = (post.tags ?? []).find(t => tagSlug(t) === tagParam.value)
     if (match) return match
   }

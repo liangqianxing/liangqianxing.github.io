@@ -1,6 +1,6 @@
 <template>
   <div>
-    <aside v-if="page && !softHidden" class="author-sidebar" aria-label="关于作者">
+    <aside v-if="page" class="author-sidebar" aria-label="关于作者">
       <div
         class="post-author-card"
         :style="{ '--reading-progress': readingProgress }"
@@ -61,7 +61,7 @@
 
     <!-- TOC Sidebar -->
     <aside
-      v-if="toc && toc.links && toc.links.length > 2 && !softHidden"
+      v-if="toc && toc.links && toc.links.length > 2"
       class="toc-sidebar"
       aria-label="目录"
     >
@@ -87,14 +87,7 @@
     </aside>
 
     <!-- Post content -->
-    <div v-if="softHidden" class="soft-hidden-state page-wrapper-narrow">
-      <p class="eyebrow">Not public</p>
-      <h1>这篇文章暂不显示</h1>
-      <p>作者已将它从前端文章库隐藏。</p>
-      <NuxtLink to="/posts" class="secondary-action">返回文章库</NuxtLink>
-    </div>
-
-    <div v-else class="page-wrapper-narrow">
+    <div class="page-wrapper-narrow">
       <!-- Back link -->
       <NuxtLink to="/posts" class="post-header-back">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -201,9 +194,6 @@ import type { PostMeta } from '~/server/api/posts.get'
 
 const route = useRoute()
 const appConfig = useAppConfig()
-const { filterVisiblePosts, initialize, isHidden } = useSoftPrivacy()
-
-onMounted(initialize)
 
 // Build path from slug
 const path = computed(() => {
@@ -211,7 +201,6 @@ const path = computed(() => {
   const slugStr = Array.isArray(slug) ? slug.join('/') : slug
   return `/posts/${slugStr}`
 })
-const softHidden = computed(() => isHidden(path.value.replace(/^\/posts\//, '')))
 
 // Fetch current post
 const { data: page } = await useAsyncData(`post-${path.value}`, () =>
@@ -224,25 +213,23 @@ const { data: navPosts } = await useAsyncData<PostMeta[]>('all-posts-nav', () =>
   $fetch('/api/posts')
 )
 
-const visibleNavPosts = computed(() => filterVisiblePosts(navPosts.value ?? []))
-
 const currentIndex = computed(() =>
-  visibleNavPosts.value.findIndex(p => p.path === path.value)
+  (navPosts.value ?? []).findIndex(p => p.path === path.value)
 )
 
 const prevPost = computed(() => {
-  const posts = visibleNavPosts.value
+  const posts = navPosts.value ?? []
   return currentIndex.value > 0 ? posts[currentIndex.value - 1] : null
 })
 
 const nextPost = computed(() => {
-  const posts = visibleNavPosts.value
+  const posts = navPosts.value ?? []
   return currentIndex.value < posts.length - 1 ? posts[currentIndex.value + 1] : null
 })
 
 const seriesPosts = computed(() => {
   if (!page.value?.series) return []
-  return visibleNavPosts.value
+  return (navPosts.value ?? [])
     .filter(post => post.series === page.value?.series)
     .sort((a, b) => (a.seriesOrder ?? 999) - (b.seriesOrder ?? 999))
 })
@@ -252,7 +239,7 @@ const primaryTopic = computed(() => page.value?.categories?.[0] ?? '技术随笔
 
 // 优先从轻量 API 返回的预计算值取，fallback 再从 body AST 计算
 const postReadingTime = computed(() => {
-  const meta = visibleNavPosts.value.find(p => p.path === path.value)
+  const meta = (navPosts.value ?? []).find(p => p.path === path.value)
   if (meta?.readingTime) return meta.readingTime
   if (page.value?.readingTime) return page.value.readingTime
   if (!page.value) return 1

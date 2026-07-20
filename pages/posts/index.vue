@@ -89,9 +89,6 @@
 <script setup lang="ts">
 import type { PostMeta } from '~/server/api/posts.get'
 
-const { filterVisiblePosts, initialize } = useSoftPrivacy()
-onMounted(initialize)
-
 const { data } = await useAsyncData<PostMeta[]>('posts-archive', () =>
   $fetch('/api/posts')
 )
@@ -99,7 +96,7 @@ const { data } = await useAsyncData<PostMeta[]>('posts-archive', () =>
 const query = ref('')
 const activeTag = ref('')
 const activeTopic = ref<TopicId>('all')
-const posts = computed(() => filterVisiblePosts(data.value ?? []))
+const posts = computed(() => data.value ?? [])
 
 type TopicId = 'all' | 'interview' | 'llm-systems' | 'foundations' | 'training' | 'multimodal' | 'backend' | 'low-latency' | 'algorithms' | 'other'
 

@@ -95,16 +95,13 @@
 import type { PostMeta } from '~/server/api/posts.get'
 
 const appConfig = useAppConfig()
-const { filterVisiblePosts, initialize } = useSoftPrivacy()
-
-onMounted(initialize)
 
 const { data } = await useAsyncData<PostMeta[]>('about-posts', () =>
   $fetch('/api/posts')
 )
 
-const posts = computed(() => filterVisiblePosts(data.value ?? []))
-const recentPosts = computed(() => posts.value.slice(0, 6))
+const recentPosts = computed(() => (data.value ?? []).slice(0, 6))
+const posts = computed(() => data.value ?? [])
 const topicCount = computed(() => {
   const topics = new Set<string>()
   for (const post of posts.value) {
