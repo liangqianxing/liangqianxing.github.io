@@ -15,13 +15,16 @@
 <script setup lang="ts">
 import type { PostMeta } from '~/server/api/posts.get'
 
+const { filterVisiblePosts, initialize } = useSoftPrivacy()
+onMounted(initialize)
+
 const { data: allPosts } = await useAsyncData<PostMeta[]>('tags-all', () =>
   $fetch('/api/posts')
 )
 
 const sortedTags = computed(() => {
   const counts = new Map<string, number>()
-  for (const post of allPosts.value ?? []) {
+  for (const post of filterVisiblePosts(allPosts.value ?? [])) {
     for (const tag of post.tags ?? []) counts.set(tag, (counts.get(tag) ?? 0) + 1)
   }
   return [...counts.entries()].sort((a, b) => b[1] - a[1])
