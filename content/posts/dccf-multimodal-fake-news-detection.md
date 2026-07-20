@@ -25,12 +25,6 @@ DCCF（Dynamic Conflict-Consensus Framework）据此提出一个“寻找不一�
 | 项目 | 信息 |
 | --- | --- |
 | 论文 | **Disentangling Fact from Sentiment: A Dynamic Conflict-Consensus Framework for Multimodal Fake News Detection** |
-| 作者 | Weilin Zhou、Zonghao Ying、Rongchen Zhao、Chunlei Meng、Quanchen Zou、Deyue Zhang、Enhao Gu、Mingze Liu、Dongdong Yang、Xiangzheng Zhang |
-| 机构 | 新疆大学、360 AI Security Lab、北京航空航天大学、华南理工大学、复旦大学、深圳大学 |
-| 版本 | [arXiv:2512.20670v2](https://arxiv.org/abs/2512.20670v2)，2025-12-19 首次提交，2026-05-04 修订 |
-| 发表状态 | arXiv 元数据未标注正式接收；源文件使用 ICME 2026 模板，不能据此写成已被 ICME 接收 |
-| 代码 | 截至 2026-07-20，arXiv 页面未给出官方代码链接，也未检索到同名公开仓库 |
-| 图片许可 | arXiv 版本采用 non-exclusive distribution license；论文插图经作者明确许可用于本次非商业论文解读，数据对比图由本文原创绘制 |
 
 ## 先给结论
 
