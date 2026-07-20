@@ -25,11 +25,23 @@
       </div>
 
       <div class="nav-actions">
+        <NuxtLink
+          to="/vault"
+          class="icon-button vault-button"
+          :class="{ active: route.path === '/vault' || route.path === '/login' || route.path === '/admin' }"
+          aria-label="私密文章"
+          title="私密文章"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="5" y="10" width="14" height="10" rx="2" />
+            <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+          </svg>
+        </NuxtLink>
         <a
           href="https://www.travellings.cn/go.html"
           target="_blank"
           rel="noreferrer noopener"
-          class="nav-chip"
+          class="nav-chip optional-travel"
           aria-label="开往 - 友链接力"
         >
           <span aria-hidden="true">↗</span>

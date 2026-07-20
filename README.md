@@ -18,6 +18,8 @@
 
 文章页提供浅色、深色与 Cyber 三套主题联动的代码高亮，并包含固定目录、阅读进度、作者轨道和响应式长文排版。
 
+私密文章使用 Supabase Auth 与 Row Level Security，登录入口为 `/vault`，管理员可在 `/admin` 设置公开、登录可见或仅管理员。配置和迁移说明见 [`docs/private-posts.md`](docs/private-posts.md)。
+
 ## 三大会论文精读
 
 每天从 NeurIPS、ICML、ICLR 选择一篇论文进行中文精读。文章会核对官方原文、实验结果与开源资源，优先使用论文原图并注明论文、图号与官方来源；仅在原图不适合引用时进行原创重绘。
@@ -33,6 +35,7 @@
 
 - Nuxt 4、Vue 3、TypeScript
 - Nuxt Content 3、Markdown
+- Supabase Auth、Postgres RLS（私密文章）
 - Tailwind CSS 4
 - Nitro 静态生成、GitHub Pages
 - GitHub Actions、Dependabot

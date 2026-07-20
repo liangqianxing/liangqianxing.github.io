@@ -192,7 +192,7 @@ const topicDefinitions: ArchiveTopic[] = [
 
 const normalize = (value: string | undefined) => value?.toLocaleLowerCase('zh-CN') ?? ''
 
-function matchesTopic(post: PostMeta, topic: ArchiveTopic) {
+function matchesTopic(post: PostMeta, topic: ArchiveTopic): boolean {
   if (topic.id === 'all') return true
 
   if (topic.id === 'other') {
@@ -210,8 +210,8 @@ function matchesTopic(post: PostMeta, topic: ArchiveTopic) {
   return matchesTag || matchesTitle || matchesSeries
 }
 
-const selectedTopic = computed(() =>
-  topicDefinitions.find((topic) => topic.id === activeTopic.value) ?? topicDefinitions[0]
+const selectedTopic = computed<ArchiveTopic>(() =>
+  topicDefinitions.find((topic) => topic.id === activeTopic.value) ?? topicDefinitions[0]!
 )
 
 const topicPosts = computed(() =>

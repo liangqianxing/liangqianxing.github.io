@@ -6,7 +6,7 @@ import { join, basename } from 'node:path'
 function parsePostFrontmatter(source: string): Record<string, unknown> {
   const match = source.match(/^---\r?\n([\s\S]*?)\r?\n---/)
   if (!match) return {}
-  const yaml = match[1]
+  const yaml = match[1] ?? ''
   const data: Record<string, unknown> = {}
 
   for (const line of yaml.split('\n')) {
@@ -23,6 +23,7 @@ function parsePostFrontmatter(source: string): Record<string, unknown> {
   const mlArray = yaml.matchAll(/^(\w+):\s*\n((?:\s+-\s+.+\n?)*)/gm)
   for (const m of mlArray) {
     const [, k, block] = m
+    if (!k || !block) continue
     data[k] = block.split('\n')
       .filter((l) => l.trim().startsWith('-'))
       .map((l) => l.trim().replace(/^-\s*/, '').replace(/^['"]|['"]$/g, ''))
@@ -82,6 +83,12 @@ function getTagRoutes() {
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-01-01',
+  runtimeConfig: {
+    public: {
+      supabaseAnonKey: '',
+      supabaseUrl: '',
+    },
+  },
   modules: ['@nuxt/content'],
   css: ['katex/dist/katex.min.css', '~/assets/css/main.css'],
   vite: { plugins: [tailwindcss()] },
@@ -118,7 +125,7 @@ export default defineNuxtConfig({
       crawlLinks: true,
       // 直接从文件系统注入所有 post 和 tag 路由，
       // 绕过 Content v3 SQLite WASM 在 SSR 阶段未初始化的问题
-      routes: ['/', '/posts', '/tags', '/about', '/friends', ...getPostSlugs(), ...getTagRoutes()],
+      routes: ['/', '/posts', '/tags', '/about', '/friends', '/vault', '/login', '/auth/callback', '/admin', ...getPostSlugs(), ...getTagRoutes()],
     },
   },
   app: {
