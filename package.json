@@ -9,7 +9,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@nuxt/content": "^3.15.0",
+    "@nuxt/content": "^3.15.1",
     "better-sqlite3": "^12.11.1",
     "katex": "^0.17.0",
     "nuxt": "^4.0.0",
