@@ -23,6 +23,7 @@
 每天从 NeurIPS、ICML、ICLR 选择一篇论文进行中文精读。文章会核对官方原文、实验结果与开源资源，优先使用论文原图并注明论文、图号与官方来源；仅在原图不适合引用时进行原创重绘。
 
 <!-- PAPER_READING_START -->
+- [Yo'LLaVA 精读：用 16 个软 Token 记住你的专属视觉概念](https://liangqianxing.github.io/posts/yollava-personalized-multimodal-assistant) · NeurIPS 2024 · 2026-07-21
 - [FlashAttention-3 精读：用异步流水与 FP8 加速 Hopper Attention](https://liangqianxing.github.io/posts/flashattention3-hopper-asynchronous-attention) · NeurIPS 2024 · 2026-07-21
 - [M3 精读：可伸缩视觉 Token 如何加速多模态推理](https://liangqianxing.github.io/posts/matryoshka-multimodal-models-inference-acceleration) · ICLR 2025 · 2026-07-20
 - [BLIP-2 精读：用 Q-Former 接通冻结视觉编码器与大语言模型](https://liangqianxing.github.io/posts/blip2-q-former-multimodal) · ICML 2023 · 2026-07-20
