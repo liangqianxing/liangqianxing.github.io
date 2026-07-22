@@ -14,6 +14,8 @@ tags:
   - KV Store
   - Ray
   - Agent
+hidden: true
+haloPublished: true
 ---
 
 Week 1 我们用 mini autograd 理解了深度学习框架的本质；Week 2 我们从 GPU、Kernel、KV cache 和 batching 理解了推理系统的性能瓶颈。Week 3 要补的是另一块底层能力：**分布式系统思想**。

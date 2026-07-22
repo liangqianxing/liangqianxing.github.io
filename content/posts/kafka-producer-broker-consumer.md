@@ -10,6 +10,8 @@ tags:
   - 后端
   - 面试
   - 推荐系统
+hidden: true
+haloPublished: true
 ---
 
 Kafka 可以理解成一个**高吞吐、可持久化、可横向扩展的消息中间件**。

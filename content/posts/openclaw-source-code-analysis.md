@@ -12,6 +12,8 @@ tags:
   - 源码分析
 categories:
   - 技术
+hidden: true
+haloPublished: true
 ---
 
 OpenClaw 是一个开源的个人 AI 助手项目。它的定位不是单纯的聊天网页，也不是只有一个 CLI，而是一个“运行在自己设备上的多通道 AI 助手”：用户可以通过 WhatsApp、Telegram、Slack、Discord、Google Chat、Signal、iMessage、IRC、Teams、Matrix、飞书、LINE、Mattermost、Nextcloud Talk、Nostr、Twitch、Zalo、WeChat、QQ、WebChat 等通道接入，同时通过 Gateway、插件系统、模型 provider、技能、任务和控制台 UI 组合成一个完整的个人 AI 操作系统。

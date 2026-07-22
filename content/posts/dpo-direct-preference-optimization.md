@@ -13,6 +13,8 @@ tags:
   - 偏好对齐
   - 模型后训练
   - NeurIPS
+hidden: true
+haloPublished: true
 ---
 
 DPO 解决的问题很直接：**已有成对偏好数据时，能否跳过显式奖励模型和 PPO，直接把语言模型训练成更偏向获胜回答的策略？**

@@ -7,6 +7,8 @@ tags:
   - 工具
 categories:
   - 技术笔记
+hidden: true
+haloPublished: true
 ---
 
 记录一些 Git 日常高频操作，方便查阅。

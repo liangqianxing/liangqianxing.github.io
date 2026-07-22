@@ -12,6 +12,8 @@ tags:
   - PostgreSQL
   - Docker
   - 面试
+hidden: true
+haloPublished: true
 ---
 
 结合 DeepScientist 项目的实际经验，把这五个东西讲清楚。不是文档翻译，是真正用过之后的理解。

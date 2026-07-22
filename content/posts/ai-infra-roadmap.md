@@ -11,6 +11,8 @@ tags:
   - 后端架构
   - 稳定性工程
   - 面试
+hidden: true
+haloPublished: true
 ---
 
 这篇文章整理一条面向工程同学的 **AI Infra 路线**。它不是“会调大模型 API”的路线，而是从后端基础出发，逐步走到 RAG、Agent Runtime、模型服务、评测系统、观测平台和稳定性工程。

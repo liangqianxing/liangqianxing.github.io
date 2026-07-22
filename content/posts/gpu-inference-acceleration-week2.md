@@ -14,6 +14,8 @@ tags:
   - CMU 10-414
   - vLLM
   - TensorRT
+hidden: true
+haloPublished: true
 ---
 
 Week 1 我们从 Autograd 理解了深度学习框架的训练本质：Tensor、计算图、反向传播和内存优化。Week 2 要切到更贴近论文和系统落地的部分：**GPU 与推理加速**。

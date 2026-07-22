@@ -12,6 +12,8 @@ tags:
   - Next.js
   - PostgreSQL
   - 面试
+hidden: true
+haloPublished: true
 ---
 
 DeepScientist 是一个 AI 驱动的科研管理平台，用户 5000+。这篇文章梳理整个项目的技术选型和架构设计，作为面试准备的参考。

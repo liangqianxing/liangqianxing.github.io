@@ -1,0 +1,44 @@
+name: Sync content to Halo
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - content/posts/**
+      - public/images/**
+      - scripts/sync-halo.mjs
+      - package.json
+      - package-lock.json
+      - .github/workflows/sync-halo.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: halo-content-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Sync Markdown to Halo
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Sync posts and images
+        run: npm run sync:halo
+        env:
+          HALO_BASE_URL: https://diycv.top
+          HALO_TOKEN: ${{ secrets.HALO_PAT }}

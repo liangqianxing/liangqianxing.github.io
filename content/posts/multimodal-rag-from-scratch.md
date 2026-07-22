@@ -14,6 +14,8 @@ tags:
   - 实习求职
 categories:
   - AI
+hidden: true
+haloPublished: true
 ---
 
 > 项目地址：[github.com/liangqianxing/multimodal-rag](https://github.com/liangqianxing/multimodal-rag)  

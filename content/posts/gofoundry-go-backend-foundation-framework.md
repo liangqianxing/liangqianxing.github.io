@@ -14,6 +14,8 @@ tags:
   - 项目架构
 categories:
   - 技术
+hidden: true
+haloPublished: true
 ---
 
 GoFoundry 是一个基于 Go 的后端基础框架套件项目。它不是单独实现一个 Web 框架，也不是只写一个 ORM，而是围绕后端基础设施中最常见的几类能力做模块化重构：Web 框架、ORM、分布式缓存、分布式锁、消息队列和压测工具。

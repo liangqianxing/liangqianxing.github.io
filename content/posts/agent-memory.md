@@ -11,6 +11,8 @@ tags:
   - Agent
   - RAG
   - 面试
+hidden: true
+haloPublished: true
 ---
 
 做 Agent 项目绕不开一个问题：大模型本身没有记忆，每次调用都是无状态的。所谓"记忆"，本质上是把历史信息塞进下一次请求的 prompt 里。这篇文章从原理出发，整理三种主流实现方案。

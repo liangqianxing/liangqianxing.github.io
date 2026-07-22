@@ -12,6 +12,8 @@ tags:
   - LLM
   - 源码分析
   - 面试
+hidden: true
+haloPublished: true
 ---
 
 MiniCode 是一个轻量级终端 AI 编程助手，类 Claude Code 工作流，181 ⭐。整个核心只有 5000 行 TypeScript，依赖极简（只有 `diff` 和 `zod` 两个运行时依赖），非常适合学习 AI Agent 的架构设计。这篇文章从源码角度拆解它的实现，作为面试准备。

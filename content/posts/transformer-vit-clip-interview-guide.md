@@ -13,6 +13,8 @@ tags:
   - 多模态
   - 深度学习
   - 面试
+hidden: true
+haloPublished: true
 ---
 
 Transformer、Vision Transformer（ViT）与 CLIP 是理解现代大模型、多模态模型和视觉基础模型最重要的三个入口。它们分别回答了三个问题：

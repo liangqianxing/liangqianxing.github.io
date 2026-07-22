@@ -13,6 +13,8 @@ tags:
   - Hopper
   - FP8
   - NeurIPS
+hidden: true
+haloPublished: true
 ---
 
 FlashAttention-3 研究的不是一种新的注意力近似，也没有改变 Transformer 的输出。它问的是一个更底层的问题：**当 H100 已经把矩阵乘、显存搬运和低精度计算做成相对独立的硬件单元时，Attention kernel 该怎样重新排程，才能让这些单元尽量同时工作？**

@@ -12,6 +12,7 @@ tags:
   - Agent
   - FastAPI
   - SSE
+haloPublished: false
 ---
 
 在西湖大学 NLP 实验室（张岳教授组）实习期间，我负责 DeepScientist 平台的 AI Copilot 模块开发，包括多轮对话链路、工具调用、SSE 流式输出等核心功能。平台用户 5000+，这篇文章整理面试中关于这个项目的常见问题和回答思路。

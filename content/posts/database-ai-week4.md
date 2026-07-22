@@ -14,6 +14,8 @@ tags:
   - LLM Memory
   - Query Optimization
   - Caching
+hidden: true
+haloPublished: true
 ---
 
 Week 1 我们理解了 Autograd，Week 2 理解了 GPU 推理加速，Week 3 理解了分布式系统。Week 4 要补的是数据库，但目标不是成为数据库内核工程师，而是学会用数据库视角理解 AI 系统里的 **Vector DB、RAG pipeline、LLM memory 和 retrieval latency**。

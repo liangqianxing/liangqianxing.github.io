@@ -14,6 +14,8 @@ tags:
   - PyTorch
 categories:
   - AI
+hidden: true
+haloPublished: true
 ---
 
 这篇文章选一个真正和“大模型训练”强相关的开源项目来讲：Hugging Face 的 **Nanotron**。
