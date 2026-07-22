@@ -8,6 +8,8 @@ tags:
   - XCPC
   - C++
   - 比赛
+hidden: true
+haloPublished: true
 ---
 
 第一天是深圳邀请赛。背包 DP 的转移方程写错了，调到最后也没过，打铁收场，两千块报销也跟着没了。

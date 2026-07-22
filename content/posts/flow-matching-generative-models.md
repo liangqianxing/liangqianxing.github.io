@@ -10,6 +10,8 @@ tags:
 categories:
   - AI
 mathjax: true
+hidden: true
+haloPublished: true
 ---
 
 Flow Matching 是近几年生成模型里非常重要的一条路线。它和 Diffusion Model 关系很近，但视角更直接：不再把生成过程理解成“一步步去噪”，而是学习一个连续的速度场，让噪声样本沿着这条流逐渐移动到真实数据分布。

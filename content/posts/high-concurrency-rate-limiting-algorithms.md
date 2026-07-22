@@ -10,6 +10,8 @@ tags:
   - 后端架构
   - 系统设计
   - 面试
+hidden: true
+haloPublished: true
 ---
 
 限流是高并发系统里最常见的稳定性手段之一。

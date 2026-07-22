@@ -13,6 +13,8 @@ tags:
   - Q-Former
   - 参数高效训练
   - ICML
+hidden: true
+haloPublished: true
 ---
 
 BLIP-2 追问的是一个很有工程意味的问题：**已经有强大的视觉编码器和大语言模型，能否不重新训练这两个大模块，只学习一座足够小的跨模态桥梁？**

@@ -12,6 +12,8 @@ tags:
   - 无锁编程
   - 性能优化
   - 量化开发
+hidden: true
+haloPublished: true
 ---
 
 这篇文章整理几个无锁并发里经常一起出现的概念：CAS、busy polling、atomic ring buffer、release/acquire、store buffer 和 CPU cache warmup。它们看起来分散，其实是一条完整链路：**硬件提供原子操作，程序用原子变量做同步，线程用轮询降低延迟，最后还要理解 cache 和内存模型带来的性能与可见性问题**。

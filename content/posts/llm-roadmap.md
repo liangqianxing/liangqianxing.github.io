@@ -14,6 +14,8 @@ tags:
   - RAG
   - Agent
   - 面试
+hidden: true
+haloPublished: true
 ---
 
 这篇文章整理一条 **LLM 技术路线**。它更偏模型与算法视角：从 Transformer 开始，到预训练、微调、对齐、推理优化、RAG、Agent、评测和工程落地。

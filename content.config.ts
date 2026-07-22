@@ -13,6 +13,7 @@ export default defineContentConfig({
         draft: z.boolean().optional().default(false),
         hidden: z.boolean().optional().default(false),
         published: z.boolean().optional(),
+        haloPublished: z.boolean().optional().default(false),
         legacy: z.boolean().optional().default(false),
         categories: z.array(z.string()).optional().default([]),
         readingTime: z.number().int().positive().optional(),

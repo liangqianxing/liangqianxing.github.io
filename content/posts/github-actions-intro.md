@@ -8,6 +8,8 @@ tags:
   - 自动化
 categories:
   - 技术笔记
+hidden: true
+haloPublished: true
 ---
 
 GitHub Actions 是 GitHub 内置的 CI/CD 平台，可以在代码推送、PR 创建等事件触发时自动执行任务。本文介绍基本用法。

@@ -11,6 +11,7 @@ tags:
   - RAG
   - LLM
   - 向量数据库
+haloPublished: false
 ---
 
 RAG（Retrieval-Augmented Generation，检索增强生成）是目前 AI 应用面试中出现频率最高的技术点之一。这篇文章基于 DeepScientist 项目的实际落地经验，整理面试中关于 RAG 的高频问题和回答思路。

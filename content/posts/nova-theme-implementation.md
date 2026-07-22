@@ -8,6 +8,8 @@ tags:
   - Hexo
   - 前端
   - 开源
+hidden: true
+haloPublished: true
 ---
 
 这篇文章记录 Nova 主题的实现思路。Nova 是我为这个博客定制的 Hexo 主题，目标是把学术个人主页和博客合二为一——进来先看到个人介绍，再从里面跳转到博客内容。

@@ -13,6 +13,8 @@ tags:
   - 软提示
   - YoLLaVA
   - NeurIPS
+hidden: true
+haloPublished: true
 ---
 
 通用多模态大模型知道什么是“狗”，却不知道哪一只狗是用户的宠物。把几张参考图每次都塞进上下文可以临时补充信息，但视觉 token 很长，也无法让模型在后续纯文本对话中直接使用这个名字。

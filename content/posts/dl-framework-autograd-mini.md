@@ -12,6 +12,8 @@ tags:
   - PyTorch
   - CMU 10-414
   - Mini Framework
+hidden: true
+haloPublished: true
 ---
 
 如果只用一句话概括 PyTorch / TensorFlow 的本质：**它们是在张量计算之上，自动构建计算图，并用链式法则自动求梯度的系统**。训练神经网络看起来是调用 `loss.backward()` 和 `optimizer.step()`，但底层真正发生的是：前向阶段记录依赖关系，反向阶段沿图逆序传播梯度，同时在显存、计算量和调度开销之间做工程权衡。

@@ -13,6 +13,8 @@ tags:
   - 模型量化
   - 参数高效微调
   - NeurIPS
+hidden: true
+haloPublished: true
 ---
 
 QLoRA 解决的问题很具体：**在不更新大模型主体权重的前提下，能否让梯度穿过一个 4-bit 量化模型，只训练少量 LoRA 参数，并尽量保持 16-bit 微调的效果？**

@@ -10,6 +10,7 @@ tags:
   - vLLM
 categories:
   - AI
+haloPublished: false
 ---
 
 这篇原理稿与实现稿的内容重复较多，现已整理并合并到：
