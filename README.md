@@ -23,13 +23,14 @@
 每天从 NeurIPS、ICML、ICLR 选择一篇论文进行中文精读。文章会核对官方原文、实验结果与开源资源，优先使用论文原图并注明论文、图号与官方来源；仅在原图不适合引用时进行原创重绘。
 
 <!-- PAPER_READING_START -->
-- [TD-MPC2 精读：用隐式世界模型统一 104 个连续控制任务](https://liangqianxing.github.io/posts/tdmpc2-scalable-world-models) · ICLR 2024 · 2026-07-22
-- [Yo'LLaVA 精读：用 16 个软 Token 记住你的专属视觉概念](https://liangqianxing.github.io/posts/yollava-personalized-multimodal-assistant) · NeurIPS 2024 · 2026-07-21
-- [FlashAttention-3 精读：用异步流水与 FP8 加速 Hopper Attention](https://liangqianxing.github.io/posts/flashattention3-hopper-asynchronous-attention) · NeurIPS 2024 · 2026-07-21
-- [M3 精读：可伸缩视觉 Token 如何加速多模态推理](https://liangqianxing.github.io/posts/matryoshka-multimodal-models-inference-acceleration) · ICLR 2025 · 2026-07-20
-- [BLIP-2 精读：用 Q-Former 接通冻结视觉编码器与大语言模型](https://liangqianxing.github.io/posts/blip2-q-former-multimodal) · ICML 2023 · 2026-07-20
-- [DPO 精读：不用 PPO，如何直接从偏好数据对齐语言模型](https://liangqianxing.github.io/posts/dpo-direct-preference-optimization) · NeurIPS 2023 · 2026-07-19
-- [QLoRA 精读：4-bit 量化如何把 65B 微调压进单卡](https://liangqianxing.github.io/posts/qlora-efficient-finetuning) · NeurIPS 2023 · 2026-07-18
+- [DeeR-VLA 精读：用动态早退加速多模态机器人推理](https://diycv.top/archives/deervla-dynamic-early-exit-inference-acceleration) · NeurIPS 2024 · 2026-07-22
+- [TD-MPC2 精读：用隐式世界模型统一 104 个连续控制任务](https://diycv.top/archives/tdmpc2-scalable-world-models) · ICLR 2024 · 2026-07-22
+- [Yo'LLaVA 精读：用 16 个软 Token 记住你的专属视觉概念](https://diycv.top/archives/yollava-personalized-multimodal-assistant) · NeurIPS 2024 · 2026-07-21
+- [FlashAttention-3 精读：用异步流水与 FP8 加速 Hopper Attention](https://diycv.top/archives/flashattention3-hopper-asynchronous-attention) · NeurIPS 2024 · 2026-07-21
+- [M3 精读：可伸缩视觉 Token 如何加速多模态推理](https://diycv.top/archives/matryoshka-multimodal-models-inference-acceleration) · ICLR 2025 · 2026-07-20
+- [BLIP-2 精读：用 Q-Former 接通冻结视觉编码器与大语言模型](https://diycv.top/archives/blip2-q-former-multimodal) · ICML 2023 · 2026-07-20
+- [DPO 精读：不用 PPO，如何直接从偏好数据对齐语言模型](https://diycv.top/archives/dpo-direct-preference-optimization) · NeurIPS 2023 · 2026-07-19
+- [QLoRA 精读：4-bit 量化如何把 65B 微调压进单卡](https://diycv.top/archives/qlora-efficient-finetuning) · NeurIPS 2023 · 2026-07-18
 <!-- PAPER_READING_END -->
 
 ## 技术栈
