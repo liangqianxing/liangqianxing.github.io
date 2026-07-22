@@ -37,6 +37,132 @@ fused_add_rms_norm(x, residual, weight)
 
 *图：本文原创绘制。一个 CUDA block 负责一个 token row，先完成 residual add 与平方和归约，再进行归一化和缩放。*
 
+## 0. 阅读前的前置知识
+
+如果已经熟悉混合精度和 CUDA 编程，可以直接跳到下一节。第一次接触 GPU kernel，则建议先建立下面这些概念之间的关系。
+
+### 0.1 Token、hidden state 和 hidden size
+
+模型不会直接处理文字，而是先把文字切分成 token。每个 token 在 Transformer 内部对应一个浮点数向量，称为 hidden state：
+
+```text
+一个 token -> [0.12, -0.53, 0.87, ...]
+```
+
+向量中元素的数量就是 hidden size。例如输入 shape 为 `[256, 4096]`，表示有 256 个 token，每个 token 用 4096 个浮点数表示。RMSNorm 会分别处理这 256 行，每一行之间没有数据依赖。
+
+### 0.2 FP32、FP16 和 BF16
+
+FP 表示 floating point，即浮点数。后面的数字表示一个数占用的 bit 数：
+
+| 格式 | 每个元素 | 指数位 | 尾数位 | 主要特点 |
+|---|---:|---:|---:|---|
+| FP32 | 4B | 8 | 23 | 精度和范围高，但显存与带宽开销大 |
+| FP16 | 2B | 5 | 10 | 精度较高，表示范围比 FP32 小 |
+| BF16 | 2B | 8 | 7 | 范围接近 FP32，小数精度低于 FP16 |
+
+大模型推理通常使用 FP16 或 BF16，以减少显存占用和数据搬运。但 RMSNorm 需要累加几千个平方值，直接用低精度累加容易产生明显误差。因此本项目采用 mixed precision：
+
+```text
+FP16/BF16 输入
+    -> 转成 FP32 计算平方和
+    -> 得到归一化系数
+    -> 转回 FP16/BF16 输出
+```
+
+这就是文中 **FP32 accumulation** 的含义。它不一定表示输入输出都是 FP32，而是指关键的 reduction 使用 FP32。
+
+### 0.3 RMSNorm、LayerNorm 和 residual
+
+Normalization 的目标是控制 hidden state 的数值尺度，避免深层网络中的激活越来越大或越来越小。
+
+LayerNorm 会先减去均值，再除以标准差：
+
+```text
+(x - mean(x)) / sqrt(variance(x) + eps)
+```
+
+RMSNorm 不计算和减去均值，只根据平方均值缩放：
+
+```text
+x / sqrt(mean(x²) + eps)
+```
+
+因此 RMSNorm 的计算更简单，被 Llama、Qwen、Mistral 等模型广泛使用。
+
+Residual 是残差连接。Transformer 不直接丢弃上一层的输入，而是把新结果加回原信息：
+
+```python
+residual_out = x + residual
+output = rms_norm(residual_out, weight)
+```
+
+这样既能保留旧信息，也有利于深层网络训练。本文优化的正是这条 residual-add + RMSNorm 路径。
+
+### 0.4 Kernel、thread、warp、block 和 SM
+
+CUDA kernel 是运行在 GPU 上的函数。CPU 负责发起 kernel launch，GPU 再让大量线程执行它。
+
+NVIDIA GPU 的执行层级可以简化为：
+
+```text
+GPU
+  -> 多个 SM
+      -> 多个 block
+          -> 多个 warp
+              -> 32 个 thread
+```
+
+- **Thread**：最小执行单元，每个线程处理一部分元素；
+- **Warp**：GPU 的基本调度单位，NVIDIA GPU 上通常包含 32 个线程；
+- **Block**：一组可以同步、共享 shared memory 的线程；
+- **SM**：真正执行 warp 和 block 的硬件单元。
+
+本项目采用一个 block 处理一个 token row，每个 block 启动 256 个线程，也就是 8 个 warp。
+
+### 0.5 Register、shared memory、L2 和显存
+
+GPU 存储层级的速度与容量差异很大：
+
+| 层级 | 速度 | 可见范围 | 本项目中的用途 |
+|---|---|---|---|
+| Register | 最快 | 单个线程 | 保存局部平方和 |
+| Shared memory | 很快 | 一个 block | 保存 8 个 warp 的归约结果 |
+| L2 cache | 较快 | 整个 GPU | 缓存重复读取的输入和 weight |
+| VRAM / GDDR / HBM | 较慢、容量大 | 整个 GPU | 存放 tensor 数据 |
+
+GPU kernel 优化经常不是减少数学运算，而是减少数据在这些存储层级之间的搬运。
+
+### 0.6 Reduction、warp shuffle 和同步
+
+Reduction 是把一组数据合并成一个值，例如：
+
+```text
+[1, 2, 3, 4] -> sum -> 10
+```
+
+RMSNorm 需要将一行中所有 `x[i]²` 合并成平方和。每个线程先计算自己的局部结果，再通过 warp shuffle 在 warp 内交换 register 数据。8 个 warp 的结果写入 shared memory，最后合并成整个 block 的平方和。
+
+`__syncthreads()` 是 block 内同步屏障：所有线程到达这里后才能继续，避免某些线程还没写完 shared memory，其他线程就提前读取。
+
+### 0.7 Memory-bound、fusion 和向量化
+
+如果算子主要受计算单元吞吐限制，称为 compute-bound；如果大量时间花在等待数据，称为 memory-bound。
+
+RMSNorm 每读取一个元素只进行少量平方、加法和乘法，因此通常是 memory-bound。优化重点是减少显存访问和 kernel launch，而不是使用更多计算单元。
+
+Kernel fusion 是把多个操作合进一次 kernel launch。Pack-4 向量化则让每个线程一次读取四个连续元素，减少访存指令。二者分别优化“启动与中间结果”和“单次访存效率”。
+
+### 0.8 Latency、speedup、hot cache 和 cold cache
+
+- **Latency**：一次算子执行需要多少时间，本文使用微秒（us）；
+- **Speedup**：baseline latency 除以 CUDA latency，例如 `40 / 10 = 4x`；
+- **Hot cache**：重复使用同一组输入，数据很可能已经位于 L2；
+- **Cold cache**：计时前主动驱逐 L2，让输入更多地从显存读取；
+- **`torch.compile`**：PyTorch 的图编译功能，会尝试融合操作并生成优化 kernel，是比 eager PyTorch 更强的 baseline。
+
+真实推理一般位于 hot 和 cold 两种极端之间，因此后文会同时报告两组数据，而不是只选择最好看的结果。
+
 ## 1. 为什么选择 RMSNorm
 
 RMSNorm 广泛用于 Llama、Mistral、Qwen 等 decoder-only 模型。对一行 hidden state，它计算：
@@ -238,4 +364,3 @@ Cold cache 也不等于“完全没有缓存”。同一 kernel 内第一次和�
 - 最后如实报告硬件、原始数据和测量限制。
 
 对 AI Infra 项目而言，真正有价值的不是一个最大的加速数字，而是能解释每一项优化为什么成立、在哪些条件下成立，以及下一步该验证什么。
-
