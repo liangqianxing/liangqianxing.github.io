@@ -23,6 +23,7 @@
 每天从 NeurIPS、ICML、ICLR 选择一篇论文进行中文精读。文章会核对官方原文、实验结果与开源资源，优先使用论文原图并注明论文、图号与官方来源；仅在原图不适合引用时进行原创重绘。
 
 <!-- PAPER_READING_START -->
+- [InstructBLIP 精读：让视觉特征听懂任务指令](https://diycv.top/archives/instructblip-vision-language-instruction-tuning) · NeurIPS 2023 · 2026-07-23
 - [DeeR-VLA 精读：用动态早退加速多模态机器人推理](https://diycv.top/archives/deervla-dynamic-early-exit-inference-acceleration) · NeurIPS 2024 · 2026-07-22
 - [TD-MPC2 精读：用隐式世界模型统一 104 个连续控制任务](https://diycv.top/archives/tdmpc2-scalable-world-models) · ICLR 2024 · 2026-07-22
 - [Yo'LLaVA 精读：用 16 个软 Token 记住你的专属视觉概念](https://diycv.top/archives/yollava-personalized-multimodal-assistant) · NeurIPS 2024 · 2026-07-21
