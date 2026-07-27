@@ -23,6 +23,7 @@
 每天从 NeurIPS、ICML、ICLR 选择一篇论文进行中文精读。文章会核对官方原文、实验结果与开源资源，优先使用论文原图并注明论文、图号与官方来源；仅在原图不适合引用时进行原创重绘。
 
 <!-- PAPER_READING_START -->
+- [VideoLISA 精读：用一个 TRK Token 统一视频推理分割](https://diycv.top/archives/videolisa-video-reasoning-segmentation) · NeurIPS 2024 · 2026-07-27
 - [SparseVLM 精读：让问题决定保留哪些视觉 Token](https://diycv.top/archives/sparsevlm-text-guided-visual-token-sparsification) · ICML 2025 · 2026-07-23
 - [InstructBLIP 精读：让视觉特征听懂任务指令](https://diycv.top/archives/instructblip-vision-language-instruction-tuning) · NeurIPS 2023 · 2026-07-23
 - [DeeR-VLA 精读：用动态早退加速多模态机器人推理](https://diycv.top/archives/deervla-dynamic-early-exit-inference-acceleration) · NeurIPS 2024 · 2026-07-22
