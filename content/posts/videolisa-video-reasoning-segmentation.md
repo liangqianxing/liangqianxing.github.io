@@ -1,5 +1,5 @@
 ---
-title: "VideoLISA 精读：用一个 TRK Token 统一视频推理分割"
+title: "VideoLISA 精读：多模态模型的训练侧视频分割适配"
 date: 2026-07-27 16:28:22
 description: 从 LoRA 适配、稀疏-稠密视频采样与 One-Token-Seg-All 训练出发，拆解 NeurIPS 2024 的 VideoLISA 如何把多模态大模型迁移到视频推理分割，属于个性化（训练侧）方向。
 series: 三大会论文精读
@@ -33,8 +33,9 @@ VideoLISA 把图像推理分割模型 LISA 扩展到视频。它用稀疏-稠密
 | 会议 | NeurIPS 2024 |
 | 方法名 | VideoLISA |
 | 专题子方向 | 个性化（训练侧）：多模态大模型任务适配、LoRA、视频推理分割与知识迁移 |
+| 正式论文 | [NeurIPS Proceedings](https://proceedings.neurips.cc/paper_files/paper/2024/hash/0cf3e7eefb9d643e93e16ff1d94090a7-Abstract-Conference.html)，DOI 10.52202/079017-0219 |
 | 作者全文与许可 | [arXiv:2409.19603](https://arxiv.org/abs/2409.19603)，CC BY-NC-SA 4.0 |
-| 代码与训练说明 | [showlab/VideoLISA](https://github.com/showlab/VideoLISA) |
+| 代码与训练说明 | [showlab/VideoLISA](https://github.com/showlab/VideoLISA)，Apache 2.0 |
 | 模型权重 | [VideoLISA-3.8B](https://huggingface.co/ZechenBai/VideoLISA-3.8B) |
 | 新基准 | [ReasonVOS](https://github.com/showlab/VideoLISA/blob/main/BENCHMARK.md) |
 
@@ -229,6 +230,7 @@ Figure 4 展示了两类典型错误。第一段视频中，一辆车撞进商�
 
 ## 可复现资源
 
+- [NeurIPS 2024 正式页面与正式 PDF](https://proceedings.neurips.cc/paper_files/paper/2024/hash/0cf3e7eefb9d643e93e16ff1d94090a7-Abstract-Conference.html)
 - [作者 arXiv 全文、源码与 CC BY-NC-SA 4.0 许可](https://arxiv.org/abs/2409.19603)
 - [官方代码仓库](https://github.com/showlab/VideoLISA)
 - [VideoLISA-3.8B 权重](https://huggingface.co/ZechenBai/VideoLISA-3.8B)
@@ -252,7 +254,7 @@ VideoLISA 最值得复用的不是“把 `[SEG]` 改成 `<TRK>`”，而是输�
 
 ## 参考资料
 
-1. Bai et al., [One Token to Seg Them All: Language Instructed Reasoning Segmentation in Videos](https://arxiv.org/abs/2409.19603), NeurIPS 2024.
+1. Bai et al., [One Token to Seg Them All: Language Instructed Reasoning Segmentation in Videos](https://proceedings.neurips.cc/paper_files/paper/2024/hash/0cf3e7eefb9d643e93e16ff1d94090a7-Abstract-Conference.html), NeurIPS 2024.
 2. Show Lab, [VideoLISA Code, Model and ReasonVOS](https://github.com/showlab/VideoLISA).
 3. Lai et al., [LISA: Reasoning Segmentation via Large Language Model](https://arxiv.org/abs/2308.00692), CVPR 2024.
 4. Kirillov et al., [Segment Anything](https://arxiv.org/abs/2304.02643), ICCV 2023.
