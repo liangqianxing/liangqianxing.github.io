@@ -23,6 +23,7 @@
 每天从 NeurIPS、ICML、ICLR 选择一篇论文进行中文精读。文章会核对官方原文、实验结果与开源资源，优先使用论文原图并注明论文、图号与官方来源；仅在原图不适合引用时进行原创重绘。
 
 <!-- PAPER_READING_START -->
+- [Dynamic-LLaVA 精读：同时压缩视觉 Token 与生成上下文](https://diycv.top/archives/dynamic-llava-context-sparsification) · ICLR 2025 · 2026-07-28
 - [VideoLISA 精读：多模态模型的训练侧视频分割适配](https://diycv.top/archives/videolisa-video-reasoning-segmentation) · NeurIPS 2024 · 2026-07-27
 - [SparseVLM 精读：让问题决定保留哪些视觉 Token](https://diycv.top/archives/sparsevlm-text-guided-visual-token-sparsification) · ICML 2025 · 2026-07-23
 - [InstructBLIP 精读：让视觉特征听懂任务指令](https://diycv.top/archives/instructblip-vision-language-instruction-tuning) · NeurIPS 2023 · 2026-07-23
