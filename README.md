@@ -23,6 +23,7 @@
 每天从 NeurIPS、ICML、ICLR 选择一篇论文进行中文精读。文章会核对官方原文、实验结果与开源资源，优先使用论文原图并注明论文、图号与官方来源；仅在原图不适合引用时进行原创重绘。
 
 <!-- PAPER_READING_START -->
+- [LaVIN 精读：用 3.8M 参数适配视觉语言指令](https://diycv.top/archives/lavin-mixture-of-modality-adaptation) · NeurIPS 2023 · 2026-07-31
 - [LLaVA-Mini 精读：一个视觉 Token 如何加速图像与视频推理](https://diycv.top/archives/llava-mini-one-vision-token) · ICLR 2025 · 2026-07-29
 - [MM-FSS 精读：免费多模态如何提升少样本 3D 分割](https://diycv.top/archives/mm-fss-multimodal-few-shot-3d-segmentation) · ICLR 2025 · 2026-07-29
 - [Dynamic-LLaVA 精读：同时压缩视觉 Token 与生成上下文](https://diycv.top/archives/dynamic-llava-context-sparsification) · ICLR 2025 · 2026-07-28
