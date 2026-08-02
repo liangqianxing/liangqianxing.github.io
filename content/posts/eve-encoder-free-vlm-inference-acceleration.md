@@ -1,6 +1,6 @@
 ---
 title: "EVE 精读：移除视觉编码器能加速多模态推理吗"
-date: 2026-08-03 09:30:00
+date: 2026-08-03 07:00:00
 description: "拆解 NeurIPS 2024 Spotlight 论文 EVE：用无视觉编码器的 decoder-only 架构降低多模态视觉前处理开销，并核对其速度、精度、训练稳定性与端到端延迟边界，属于推理加速（推理侧）方向。"
 series: 三大会论文精读
 seriesOrder: 16
