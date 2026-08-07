@@ -23,6 +23,7 @@
 每天从 NeurIPS、ICML、ICLR 选择一篇论文进行中文精读。文章会核对官方原文、实验结果与开源资源，优先使用论文原图并注明论文、图号与官方来源；仅在原图不适合引用时进行原创重绘。
 
 <!-- PAPER_READING_START -->
+- [VisionLLM 精读：训练侧如何用语言指令定制检测与分割](https://diycv.top/archives/visionllm-open-ended-task-customization) · NeurIPS 2023 · 2026-08-06
 - [MMInference 精读：为百万 Token 多模态预填充重排稀疏注意力](https://diycv.top/archives/mminference-modality-aware-sparse-attention) · ICML 2025 · 2026-08-05
 - [RePIC 精读：用可验证奖励训练个性化多模态模型](https://diycv.top/archives/repic-reinforced-multimodal-personalization) · NeurIPS 2025 · 2026-08-04
 - [EVE 精读：移除视觉编码器能加速多模态推理吗](https://diycv.top/archives/eve-encoder-free-vlm-inference-acceleration) · NeurIPS 2024 · 2026-08-03
