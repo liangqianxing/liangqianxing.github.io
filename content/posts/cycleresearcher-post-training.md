@@ -51,9 +51,9 @@ Base Model
 
 ## CycleResearcher 的训练闭环
 
-![CycleResearcher Post-training 闭环](/images/posts/cycleresearcher-post-training/cycleresearcher-post-training-loop.svg)
+![CycleResearcher 迭代训练框架](/images/posts/cycleresearcher-post-training/cycleresearcher-figure-2-original.png)
 
-*CycleResearcher 的训练信号流。本文原创重绘，依据 [CycleResearcher 论文](https://proceedings.iclr.cc/paper_files/paper/2025/file/0a48036026dc7946ef6033ae14719cc5-Paper-Conference.pdf) Section 2-3。*
+*CycleResearcher 论文 Figure 2：Iterative Training Framework。图片来自 [CycleResearcher 论文](https://proceedings.iclr.cc/paper_files/paper/2025/file/0a48036026dc7946ef6033ae14719cc5-Paper-Conference.pdf)。*
 
 整个 Post-training 可以拆成三个阶段：领域 SFT、生成式 Reward Model 训练、Iterative SimPO。
 
