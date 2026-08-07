@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="470" viewBox="0 0 1200 470" role="img" aria-labelledby="title desc">
+  <title id="title">CycleResearcher post-training loop</title>
+  <desc id="desc">Research data supervised fine-tunes a policy model. The policy samples candidates, a generative reviewer scores them, preference pairs are built, and SimPO with NLL updates the policy for the next iteration.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#334155"/>
+    </marker>
+    <style>
+      .title { font: 700 27px ui-sans-serif, system-ui, sans-serif; fill: #111827; }
+      .label { font: 700 19px ui-sans-serif, system-ui, sans-serif; fill: #111827; }
+      .body { font: 15px ui-sans-serif, system-ui, sans-serif; fill: #334155; }
+      .small { font: 14px ui-sans-serif, system-ui, sans-serif; fill: #475569; }
+      .line { stroke: #334155; stroke-width: 2.5; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect width="1200" height="470" fill="#f8fafc"/>
+  <text x="52" y="52" class="title">CycleResearcher: SFT + Generative Reward + Iterative SimPO</text>
+
+  <rect x="52" y="102" width="200" height="124" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="72" y="137" class="label">Research-14K</text>
+  <text x="72" y="168" class="body">references + outlines</text>
+  <text x="72" y="193" class="body">long-form papers</text>
+
+  <rect x="334" y="102" width="214" height="124" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="354" y="137" class="label">Policy Model</text>
+  <text x="354" y="168" class="body">domain SFT</text>
+  <text x="354" y="193" class="body">sample M1 / M2 / M3</text>
+
+  <rect x="642" y="102" width="224" height="124" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+  <text x="662" y="137" class="label">CycleReviewer</text>
+  <text x="662" y="168" class="body">reviews + scores</text>
+  <text x="662" y="193" class="body">generative reward model</text>
+
+  <rect x="954" y="102" width="194" height="124" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+  <text x="974" y="137" class="label">Preference Pair</text>
+  <text x="974" y="168" class="body">highest = chosen</text>
+  <text x="974" y="193" class="body">lowest = rejected</text>
+
+  <path class="line" d="M252 164 L326 164"/>
+  <text x="272" y="148" class="small">SFT</text>
+  <path class="line" d="M548 164 L634 164"/>
+  <text x="572" y="148" class="small">samples</text>
+  <path class="line" d="M866 164 L946 164"/>
+  <text x="886" y="148" class="small">rank</text>
+
+  <rect x="416" y="302" width="368" height="92" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+  <text x="446" y="339" class="label">SimPO preference loss + chosen NLL</text>
+  <text x="446" y="368" class="body">update policy parameters, then resample</text>
+
+  <path class="line" d="M1051 226 L1051 270 L792 347"/>
+  <path class="line" d="M416 347 L300 347 L300 254 L441 234"/>
+  <text x="52" y="438" class="small">Each iteration refreshes preference data with the latest policy.</text>
+</svg>
