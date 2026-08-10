@@ -18,6 +18,8 @@ haloPublished: true
 
 随着人工智能从单模态迈向多模态时代，多模态大模型（Multimodal Large Models, MLMs）成为智能感知与理解的核心引擎：它们同时处理图像、文本、语音、视频等多源信息，在跨模态检索、智能问答、视觉理解、机器人感知等任务上展现出类人般的推理与生成能力。但要把这样的模型真正用起来，绕不开两个问题——**如何让它适应特定任务或个性化需求**，以及**如何在有限算力下高效推理**。
 
+![多模态 AI 核心体概念插画：图像、文本、语音、视频四路数据流汇入统一智能核心（本文原创，AI 辅助生成）](/images/posts/xinya-mllm-personalization-inference-acceleration/aigc-cover-multimodal-core.jpg)
+
 本专题就围绕这两个问题展开。本文是专题的导览篇：先讲清研究背景与两条主线的核心思想，再梳理当前的主要挑战，最后给出一份带链接的文献地图和分阶段学习路径，供新芽学子入门与汇报参考。
 
 ![专题全景：多模态大模型的个性化与推理加速（本文原创）](/images/posts/xinya-mllm-personalization-inference-acceleration/topic-overview.svg)
@@ -51,6 +53,8 @@ LLaVA（[NeurIPS 2023](https://arxiv.org/abs/2304.08485)）则把这条路推进
 
 个性化要回答的问题是：**在不动或少动预训练主干的前提下，如何让模型适配具体任务、具体领域、具体用户？**文献里有三条相互交织的技术线。
 
+![个性化微调概念插画：为休眠的巨型机械体嵌入一枚小巧的可替换模块（本文原创，AI 辅助生成）](/images/posts/xinya-mllm-personalization-inference-acceleration/aigc-personalization-tuning.jpg)
+
 ### 参数高效微调：只训练 1% 的参数
 
 全量微调一个几十亿参数的多模态模型，显存和数据成本都很高。参数高效微调（PEFT）的思路是冻结预训练权重，把任务差异压缩进极少量可训练参数。方法大致分三派：
@@ -60,6 +64,10 @@ LLaVA（[NeurIPS 2023](https://arxiv.org/abs/2304.08485)）则把这条路推进
 - **加性方法**：往网络里插入小模块。Adapter 在层间插入瓶颈 MLP；Prompt Tuning / Visual Prompt Tuning（[ECCV 2022](https://arxiv.org/abs/2203.12119)）只学习输入侧的软提示向量；Yo'LLaVA 一类的个性化工作则用少量可学习 Token 记住用户指定的视觉主体。
 - **重参数化方法**：以 LoRA（[ICLR 2022](https://arxiv.org/abs/2106.09685)）为代表，用低秩乘积改写权重增量。后续工作沿两个方向改进：DoRA（[ICML 2024](https://arxiv.org/abs/2402.09353)）把权重分解为方向与幅度分别微调；PiSSA、SVFT（均为 NeurIPS 2024）用奇异值分解来初始化适配参数，加速收敛。
 - **量化协同方法**：QLoRA（[NeurIPS 2023](https://arxiv.org/abs/2305.14314)）先把主干量化到 4-bit NF4，再在上面挂 LoRA 微调，把 65B 模型的微调压进单张 48G 显卡；LoftQ、LQ-LoRA（均为 ICLR 2024）进一步在量化时同步初始化低秩分支。这一派正是个性化与推理加速的交汇点。
+
+![QLoRA 的方法总览：4-bit NF4 量化主干 + 双重量化 + 分页优化器，支撑单卡微调 65B 模型](/images/posts/xinya-mllm-personalization-inference-acceleration/qlora-nf4-finetuning-overview.png)
+
+*图源：Dettmers et al., [QLoRA: Efficient Finetuning of Quantized LLMs](https://arxiv.org/abs/2305.14314)，NeurIPS 2023，方法总览图；取自作者 CC BY 4.0 arXiv 源码，原图用于论文解读。*
 
 LoRA 值得单独看一张图，因为它是整条线的基石：
 
@@ -77,6 +85,10 @@ LoRA 值得单独看一张图，因为它是整条线的基石：
 
 在此之上，LISA（[CVPR 2024](https://arxiv.org/abs/2308.00692)）让大语言模型输出特殊的 `[SEG]` Token 来驱动 SAM 解码器，实现需要常识推理的分割（“分割出最可能遮雨的物体”）；VideoLISA（[NeurIPS 2024](https://arxiv.org/abs/2409.19603)）和 GLUS（[CVPR 2025](https://arxiv.org/abs/2504.07962)）把它扩展到视频；DenseCLIP、RegionCLIP、GLIP、Grounding DINO 等工作则把 CLIP 式对齐迁移到稠密预测与开放词汇检测。
 
+![LISA 的流程框架：多模态大模型生成 [SEG] Token，其末层嵌入经解码器变成分割掩码，训练时使用 LoRA 高效微调](/images/posts/xinya-mllm-personalization-inference-acceleration/lisa-reasoning-segmentation-framework.png)
+
+*图源：Lai et al., [LISA: Reasoning Segmentation via Large Language Model](https://arxiv.org/abs/2308.00692)，CVPR 2024，流程框架图；取自作者 CC BY-NC-SA 4.0 arXiv 源码，原图用于论文解读。*
+
 ### 零样本与少样本学习
 
 第三条线关注标注稀缺的场景：CLIP 的零样本分类、Flamingo（[NeurIPS 2022](https://arxiv.org/abs/2204.14198)）的图文交错少样本上下文学习，以及 ICLR/CVPR 2025 的两篇多模态少样本 3D 点云分割工作，都在探索“缺乏大规模标注时依旧保持竞争力”的边界。
@@ -84,6 +96,8 @@ LoRA 值得单独看一张图，因为它是整条线的基石：
 ## 主线二：推理加速（推理侧）
 
 推理加速要回答的问题是：**模型已经训好了，如何让它在有限算力下跑得更快、更省？**三条经典路线之外，多模态场景还长出了第四条特有路线。
+
+![推理加速概念插画：光之猎鹰挣脱沉重方块，化作光箭穿越数据隧道（本文原创，AI 辅助生成）](/images/posts/xinya-mllm-personalization-inference-acceleration/aigc-inference-acceleration-falcon.jpg)
 
 ### 量化：用更少比特存同一个模型
 
@@ -98,6 +112,10 @@ LoRA 值得单独看一张图，因为它是整条线的基石：
 ![视觉 Token 剪枝的基本流程与代表工作（本文原创示意）](/images/posts/xinya-mllm-personalization-inference-acceleration/token-pruning-concept.svg)
 
 这条线从纯视觉模型起步——DynamicViT（[NeurIPS 2021](https://arxiv.org/abs/2106.02034)）用预测模块逐层丢弃 Token，SPViT（[ECCV 2022](https://arxiv.org/abs/2112.13890)）做延迟感知的软剪枝，TokenLearner（[ICLR 2022](https://arxiv.org/abs/2202.07800)）学习 Token 重组——随后进入多模态大模型：FastV（[ECCV 2024](https://arxiv.org/abs/2403.06764)）发现第二层之后可以即插即用地丢掉一半视觉 Token，DivPrune（[CVPR 2025](https://arxiv.org/abs/2503.02175)）按多样性选 Token，LLaVA-PruMerge（[ICCV 2025](https://arxiv.org/abs/2403.15388)）把被剪 Token 合并进保留 Token，DyCoke（[CVPR 2025](https://arxiv.org/abs/2411.15024)）进一步处理视频 Token 的时序冗余。
+
+![DyCoke 方法总览：预填充阶段做视频 Token 时序合并（左），解码阶段对 KV Cache 做动态剪枝（右），全程免训练](/images/posts/xinya-mllm-personalization-inference-acceleration/dycoke-video-token-compression-method.png)
+
+*图源：Tao et al., [DyCoke: Dynamic Compression of Tokens for Fast Video Large Language Models](https://arxiv.org/abs/2411.15024)，CVPR 2025，方法总览图；取自作者 CC BY 4.0 arXiv 源码，原图用于论文解读。*
 
 ### 蒸馏：大模型指导小模型
 
@@ -216,5 +234,6 @@ LoRA 值得单独看一张图，因为它是整条线的基石：
 
 ## 说明
 
-- 本文中标注“本文原创”的示意图均为笔者根据公开论文机制重绘，仅用于学习交流；CLIP、LLaVA、SAM 三张配图取自官方开源仓库，许可分别为 MIT 与 Apache-2.0，出处已在图注标明。
+- 本文中标注“本文原创”的示意图均为笔者根据公开论文机制重绘，仅用于学习交流；三张概念插画（封面、个性化、推理加速）为本文原创的 AI 辅助生成图，仅用于栏目视觉呈现。
+- CLIP、LLaVA、SAM 三张配图取自官方开源仓库，许可分别为 MIT 与 Apache-2.0；QLoRA、LISA、DyCoke 三张论文原图取自作者 arXiv 源码，许可分别为 CC BY 4.0 与 CC BY-NC-SA 4.0，出处均已在图注标明。
 - 文献的一句话定位为笔者概述，具体方法与结论请以原文为准。
