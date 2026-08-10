@@ -22,6 +22,8 @@ haloPublished: true
 
 本专题就围绕这两个问题展开。本文是专题的导览篇：先讲清研究背景与两条主线的核心思想，再梳理当前的主要挑战，最后给出一份带链接的文献地图和分阶段学习路径，供新芽学子入门与汇报参考。
 
+> **配套讲解 PPT**：[下载 21 页幻灯片（PPTX，约 5 MB）](https://liangqianxing.github.io/files/xinya-mllm-personalization-inference-acceleration-slides.pptx)，覆盖本文全部示意图、论文原图与文献地图概览，可直接用于专题汇报。
+
 ![专题全景：多模态大模型的个性化与推理加速（本文原创）](/images/posts/xinya-mllm-personalization-inference-acceleration/topic-overview.svg)
 
 两条主线分别切在模型生命周期的两端：**个性化**是训练侧问题，关注“如何让通用模型适配具体场景”；**推理加速**是推理侧问题，关注“如何降低部署时的计算与存储开销”。
