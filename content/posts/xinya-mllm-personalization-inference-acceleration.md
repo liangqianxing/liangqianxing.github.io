@@ -85,7 +85,7 @@ LoRA 值得单独看一张图，因为它是整条线的基石：
 
 在此之上，LISA（[CVPR 2024](https://arxiv.org/abs/2308.00692)）让大语言模型输出特殊的 `[SEG]` Token 来驱动 SAM 解码器，实现需要常识推理的分割（“分割出最可能遮雨的物体”）；VideoLISA（[NeurIPS 2024](https://arxiv.org/abs/2409.19603)）和 GLUS（[CVPR 2025](https://arxiv.org/abs/2504.07962)）把它扩展到视频；DenseCLIP、RegionCLIP、GLIP、Grounding DINO 等工作则把 CLIP 式对齐迁移到稠密预测与开放词汇检测。
 
-![LISA 的流程框架：多模态大模型生成 [SEG] Token，其末层嵌入经解码器变成分割掩码，训练时使用 LoRA 高效微调](/images/posts/xinya-mllm-personalization-inference-acceleration/lisa-reasoning-segmentation-pipeline.png)
+![LISA 的流程框架：多模态大模型生成「SEG」Token，其末层嵌入经解码器变成分割掩码，训练时使用 LoRA 高效微调](/images/posts/xinya-mllm-personalization-inference-acceleration/lisa-reasoning-segmentation-pipeline.png)
 
 *图源：Lai et al., [LISA: Reasoning Segmentation via Large Language Model](https://arxiv.org/abs/2308.00692)，CVPR 2024，流程框架图；取自作者 CC BY-NC-SA 4.0 arXiv 源码，原图用于论文解读。*
 
