@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" role="img" aria-labelledby="title desc">
+  <title id="title">多模态大模型推理流水线与两大优化切入点</title>
+  <desc id="desc">图像或视频经视觉编码器、跨模态投影变成视觉 Token，与文本指令一起进入大语言模型生成回答；蓝色标注个性化（训练侧）切入点，橙色标注推理加速（推理侧）切入点。</desc>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#c9d1d9"/></marker>
+    <marker id="ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#58a6ff"/></marker>
+    <marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#d29922"/></marker>
+  </defs>
+  <rect width="1200" height="560" rx="8" fill="#0d1117"/>
+  <text x="600" y="50" text-anchor="middle" fill="#f0f6fc" font-family="Arial,sans-serif" font-size="26" font-weight="700">多模态大模型推理流水线：个性化与加速从哪里切入</text>
+  <text x="600" y="78" text-anchor="middle" fill="#8b949e" font-family="Arial,sans-serif" font-size="14">视觉 Token 的数量决定注意力开销，权重精度决定显存占用，适配模块决定任务表现</text>
+
+  <g font-family="Arial,sans-serif">
+    <g fill="#161b22" stroke="#484f58">
+      <rect x="48" y="180" width="150" height="72" rx="10"/>
+      <rect x="250" y="180" width="170" height="72" rx="10"/>
+      <rect x="472" y="180" width="160" height="72" rx="10"/>
+      <rect x="684" y="180" width="200" height="72" rx="10" stroke="#f0f6fc" stroke-width="1.5"/>
+      <rect x="936" y="180" width="150" height="72" rx="10"/>
+    </g>
+    <g fill="#f0f6fc" font-size="16" font-weight="700" text-anchor="middle">
+      <text x="123" y="212">图像 / 视频</text>
+      <text x="335" y="212">视觉编码器</text>
+      <text x="552" y="212">跨模态投影层</text>
+      <text x="784" y="212">大语言模型</text>
+      <text x="1011" y="212">生成回答</text>
+    </g>
+    <g fill="#8b949e" font-size="12" text-anchor="middle">
+      <text x="123" y="234">image / video</text>
+      <text x="335" y="234">ViT / SigLIP</text>
+      <text x="552" y="234">MLP / Q-Former</text>
+      <text x="784" y="234">冻结或 LoRA 微调</text>
+      <text x="1011" y="234">answer</text>
+    </g>
+    <g fill="none" stroke="#c9d1d9" stroke-width="2.5" marker-end="url(#a)">
+      <path d="M198 216H244"/><path d="M420 216H466"/><path d="M632 216H678"/><path d="M884 216H930"/>
+    </g>
+
+    <g fill="#0d1117" stroke="#58a6ff" stroke-width="1.5">
+      <rect x="228" y="116" width="214" height="34" rx="17"/>
+      <rect x="460" y="116" width="184" height="34" rx="17"/>
+      <rect x="690" y="116" width="188" height="34" rx="17"/>
+    </g>
+    <g fill="#79c0ff" font-size="13" text-anchor="middle" font-weight="700">
+      <text x="335" y="138">训练侧 · Adapter / Prompt</text>
+      <text x="552" y="138">训练侧 · 投影层可训练</text>
+      <text x="784" y="138">训练侧 · LoRA 微调</text>
+    </g>
+    <g fill="none" stroke="#58a6ff" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#ab)">
+      <path d="M335 150V174"/><path d="M552 150V174"/><path d="M784 150V174"/>
+    </g>
+
+    <rect x="684" y="330" width="200" height="52" rx="10" fill="#161b22" stroke="#484f58"/>
+    <text x="784" y="361" text-anchor="middle" fill="#f0f6fc" font-size="15" font-weight="700">文本指令 / 问题</text>
+    <path d="M784 330V258" fill="none" stroke="#c9d1d9" stroke-width="2.5" marker-end="url(#a)"/>
+
+    <g fill="#0d1117" stroke="#d29922" stroke-width="1.5">
+      <rect x="300" y="440" width="300" height="36" rx="18"/>
+      <rect x="660" y="440" width="380" height="36" rx="18"/>
+    </g>
+    <g fill="#e3b341" font-size="13.5" text-anchor="middle" font-weight="700">
+      <text x="450" y="464">推理侧 · 视觉 Token 剪枝 / 合并 / 压缩</text>
+      <text x="850" y="464">推理侧 · 权重量化 / 层跳过 / 蒸馏小模型</text>
+    </g>
+    <g fill="none" stroke="#d29922" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#ao)">
+      <path d="M450 440C450 380 560 330 640 252"/>
+      <path d="M850 440C850 420 830 400 816 386"/>
+    </g>
+
+    <rect x="48" y="506" width="1104" height="36" rx="8" fill="#161b22" stroke="#30363d"/>
+    <circle cx="80" cy="524" r="6" fill="#58a6ff"/>
+    <text x="96" y="529" fill="#c9d1d9" font-size="13.5">个性化（训练侧）切入点</text>
+    <circle cx="320" cy="524" r="6" fill="#d29922"/>
+    <text x="336" y="529" fill="#c9d1d9" font-size="13.5">推理加速（推理侧）切入点</text>
+    <text x="640" y="529" fill="#8b949e" font-size="13.5">本文原创示意图，对应 LLaVA 类架构的典型数据流</text>
+  </g>
+</svg>

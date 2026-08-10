@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 500" role="img" aria-labelledby="title desc">
+  <title id="title">知识蒸馏：大模型指导小模型</title>
+  <desc id="desc">冻结的教师大模型与学生小模型处理同样的数据，学生同时拟合真实标签和教师的软标签分布，以远小于教师的体量逼近教师的能力。</desc>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#c9d1d9"/></marker>
+  <marker id="ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#58a6ff"/></marker></defs>
+  <rect width="1120" height="500" rx="8" fill="#0d1117"/>
+  <text x="560" y="50" text-anchor="middle" fill="#f0f6fc" font-family="Arial,sans-serif" font-size="25" font-weight="700">知识蒸馏 Distillation：把大模型的“暗知识”搬给小模型（本文原创示意）</text>
+  <text x="560" y="78" text-anchor="middle" fill="#8b949e" font-family="Arial,sans-serif" font-size="14">软标签里藏着类别之间的相似度信息 —— 这是单纯拟合真实标签学不到的东西</text>
+
+  <g font-family="Arial,sans-serif">
+    <rect x="80" y="130" width="250" height="190" rx="12" fill="#161b22" stroke="#58a6ff" stroke-width="1.5"/>
+    <text x="205" y="168" text-anchor="middle" fill="#79c0ff" font-size="18" font-weight="700">教师模型 Teacher</text>
+    <text x="205" y="196" text-anchor="middle" fill="#c9d1d9" font-size="13">多模态大模型 · 参数多</text>
+    <text x="205" y="220" text-anchor="middle" fill="#c9d1d9" font-size="13">性能强 · 推理昂贵</text>
+    <rect x="120" y="244" width="170" height="30" rx="15" fill="#0d1117" stroke="#58a6ff"/>
+    <text x="205" y="264" text-anchor="middle" fill="#79c0ff" font-size="12.5">已训练好 · 冻结</text>
+
+    <rect x="790" y="160" width="180" height="130" rx="12" fill="#161b22" stroke="#3fb950" stroke-width="1.5"/>
+    <text x="880" y="196" text-anchor="middle" fill="#56d364" font-size="17" font-weight="700">学生模型</text>
+    <text x="880" y="222" text-anchor="middle" fill="#c9d1d9" font-size="12.5">轻量 · 快速 · 可部署</text>
+    <rect x="816" y="242" width="128" height="28" rx="14" fill="#0d1117" stroke="#3fb950"/>
+    <text x="880" y="261" text-anchor="middle" fill="#56d364" font-size="12">从头训练</text>
+
+    <path d="M330 200C480 170 620 170 784 205" fill="none" stroke="#58a6ff" stroke-width="2.5" marker-end="url(#ab)"/>
+    <text x="557" y="158" text-anchor="middle" fill="#79c0ff" font-size="13.5" font-weight="700">软标签 / 中间特征 / 输出分布</text>
+
+    <rect x="420" y="330" width="280" height="56" rx="10" fill="#161b22" stroke="#484f58"/>
+    <text x="560" y="354" text-anchor="middle" fill="#f0f6fc" font-size="14.5" font-weight="700">训练数据（图文对）</text>
+    <text x="560" y="374" text-anchor="middle" fill="#8b949e" font-size="12">真实标签 ground truth</text>
+    <path d="M470 330C400 330 260 330 208 324" fill="none" stroke="#c9d1d9" stroke-width="2" marker-end="url(#a)"/>
+    <path d="M650 330C720 330 830 330 876 296" fill="none" stroke="#c9d1d9" stroke-width="2" marker-end="url(#a)"/>
+
+    <rect x="420" y="414" width="280" height="56" rx="10" fill="#161b22" stroke="#d29922"/>
+    <text x="560" y="438" text-anchor="middle" fill="#e3b341" font-size="14" font-weight="700">学生损失 = 蒸馏损失 + 任务损失</text>
+    <text x="560" y="458" text-anchor="middle" fill="#8b949e" font-size="12">拟合教师分布的 soft target 与真实标签的 hard target</text>
+    <path d="M700 442C790 442 850 380 872 296" fill="none" stroke="#d29922" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#a)"/>
+
+    <rect x="80" y="380" width="250" height="90" rx="10" fill="#161b22" stroke="#30363d"/>
+    <text x="100" y="410" fill="#f0f6fc" font-size="14" font-weight="700">在本专题中的位置</text>
+    <text x="100" y="436" fill="#c9d1d9" font-size="12.5">· 与剪枝、量化互补，可叠加使用</text>
+    <text x="100" y="456" fill="#c9d1d9" font-size="12.5">· 经典组合：Deep Compression（ICLR 2016）</text>
+  </g>
+</svg>

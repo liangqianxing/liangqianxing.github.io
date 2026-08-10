@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" role="img" aria-labelledby="title desc">
+  <title id="title">参数高效微调（PEFT）方法谱系</title>
+  <desc id="desc">参数高效微调分为加性方法（Adapter、Prompt Tuning）、重参数化方法（LoRA 及其变体 DoRA、PiSSA、AdaLoRA、RaSA）和量化协同方法（QLoRA、LQ-LoRA、LoftQ）三大路线。</desc>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#8b949e"/></marker></defs>
+  <rect width="1200" height="640" rx="8" fill="#0d1117"/>
+  <text x="600" y="52" text-anchor="middle" fill="#f0f6fc" font-family="Arial,sans-serif" font-size="26" font-weight="700">参数高效微调（PEFT）方法谱系</text>
+  <text x="600" y="80" text-anchor="middle" fill="#8b949e" font-family="Arial,sans-serif" font-size="14">冻结预训练主干，只优化极少量参数 —— 显存与时间成本可下降一个数量级</text>
+
+  <rect x="430" y="104" width="340" height="56" rx="10" fill="#161b22" stroke="#f0f6fc" stroke-width="1.5"/>
+  <text x="600" y="139" text-anchor="middle" fill="#f0f6fc" font-family="Arial,sans-serif" font-size="18" font-weight="700">参数高效微调 PEFT</text>
+  <g fill="none" stroke="#8b949e" stroke-width="2" marker-end="url(#a)">
+    <path d="M520 160C460 180 320 186 232 196"/>
+    <path d="M600 160V196"/>
+    <path d="M680 160C740 180 880 186 968 196"/>
+  </g>
+
+  <g font-family="Arial,sans-serif">
+    <rect x="72" y="200" width="320" height="360" rx="10" fill="#161b22" stroke="#58a6ff" stroke-width="1.5"/>
+    <text x="232" y="234" text-anchor="middle" fill="#58a6ff" font-size="17" font-weight="700">加性方法 Additive</text>
+    <text x="232" y="256" text-anchor="middle" fill="#8b949e" font-size="12">往网络里插入可训练的小模块</text>
+    <g>
+      <rect x="92" y="272" width="280" height="76" rx="8" fill="#0d1117" stroke="#30363d"/>
+      <text x="108" y="298" fill="#79c0ff" font-size="14.5" font-weight="700">Adapter</text>
+      <text x="108" y="320" fill="#c9d1d9" font-size="12">层间插入瓶颈 MLP，只训它</text>
+      <text x="108" y="338" fill="#8b949e" font-size="11.5">代表：LaVIN（NeurIPS 2023）</text>
+      <rect x="92" y="360" width="280" height="76" rx="8" fill="#0d1117" stroke="#30363d"/>
+      <text x="108" y="386" fill="#79c0ff" font-size="14.5" font-weight="700">Prompt / Prefix Tuning</text>
+      <text x="108" y="408" fill="#c9d1d9" font-size="12">只学习输入侧软提示向量</text>
+      <text x="108" y="426" fill="#8b949e" font-size="11.5">代表：VPT（ECCV 2022）</text>
+      <rect x="92" y="448" width="280" height="92" rx="8" fill="#0d1117" stroke="#30363d"/>
+      <text x="108" y="474" fill="#79c0ff" font-size="14.5" font-weight="700">个性化概念学习</text>
+      <text x="108" y="496" fill="#c9d1d9" font-size="12">少量 Token 记住用户指定主体</text>
+      <text x="108" y="514" fill="#8b949e" font-size="11.5">代表：Yo&#8217;LLaVA（NeurIPS 2024）</text>
+    </g>
+
+    <rect x="440" y="200" width="320" height="360" rx="10" fill="#161b22" stroke="#bc8cff" stroke-width="1.5"/>
+    <text x="600" y="234" text-anchor="middle" fill="#bc8cff" font-size="17" font-weight="700">重参数化 Reparameterized</text>
+    <text x="600" y="256" text-anchor="middle" fill="#8b949e" font-size="12">用低秩结构改写权重增量 ΔW</text>
+    <g>
+      <rect x="460" y="272" width="280" height="56" rx="8" fill="#0d1117" stroke="#30363d"/>
+      <text x="476" y="295" fill="#d2a8ff" font-size="14" font-weight="700">LoRA（ICLR 2022）</text>
+      <text x="476" y="316" fill="#c9d1d9" font-size="12">ΔW = BA，低秩分解的奠基工作</text>
+      <rect x="460" y="340" width="280" height="56" rx="8" fill="#0d1117" stroke="#30363d"/>
+      <text x="476" y="363" fill="#d2a8ff" font-size="14" font-weight="700">DoRA（ICML 2024）</text>
+      <text x="476" y="384" fill="#c9d1d9" font-size="12">把权重拆成方向 + 幅度分别微调</text>
+      <rect x="460" y="408" width="280" height="56" rx="8" fill="#0d1117" stroke="#30363d"/>
+      <text x="476" y="431" fill="#d2a8ff" font-size="14" font-weight="700">PiSSA / SVFT（NeurIPS 2024）</text>
+      <text x="476" y="452" fill="#c9d1d9" font-size="12">用奇异值分解初始化适配参数</text>
+      <rect x="460" y="476" width="280" height="64" rx="8" fill="#0d1117" stroke="#30363d"/>
+      <text x="476" y="499" fill="#d2a8ff" font-size="14" font-weight="700">AdaLoRA / RaSA</text>
+      <text x="476" y="520" fill="#c9d1d9" font-size="12">自适应分配秩预算 / 秩共享</text>
+      <text x="476" y="536" fill="#8b949e" font-size="11.5">ICLR 2023 / ICLR 2025</text>
+    </g>
+
+    <rect x="808" y="200" width="320" height="360" rx="10" fill="#161b22" stroke="#3fb950" stroke-width="1.5"/>
+    <text x="968" y="234" text-anchor="middle" fill="#3fb950" font-size="17" font-weight="700">量化协同 Quantized PEFT</text>
+    <text x="968" y="256" text-anchor="middle" fill="#8b949e" font-size="12">先把主干量化，再在上面微调</text>
+    <g>
+      <rect x="828" y="272" width="280" height="76" rx="8" fill="#0d1117" stroke="#30363d"/>
+      <text x="844" y="298" fill="#56d364" font-size="14.5" font-weight="700">QLoRA（NeurIPS 2023）</text>
+      <text x="844" y="320" fill="#c9d1d9" font-size="12">4-bit NF4 主干 + LoRA 微调</text>
+      <text x="844" y="338" fill="#8b949e" font-size="11.5">65B 模型压进单张 48G 显卡</text>
+      <rect x="828" y="360" width="280" height="76" rx="8" fill="#0d1117" stroke="#30363d"/>
+      <text x="844" y="386" fill="#56d364" font-size="14.5" font-weight="700">LoftQ / LQ-LoRA</text>
+      <text x="844" y="408" fill="#c9d1d9" font-size="12">量化时同步初始化低秩分支</text>
+      <text x="844" y="426" fill="#8b949e" font-size="11.5">ICLR 2024</text>
+      <rect x="828" y="448" width="280" height="92" rx="8" fill="#0d1117" stroke="#30363d"/>
+      <text x="844" y="474" fill="#56d364" font-size="14.5" font-weight="700">训练侧与推理侧的交汇点</text>
+      <text x="844" y="496" fill="#c9d1d9" font-size="12">量化既服务部署，也让个性化</text>
+      <text x="844" y="514" fill="#c9d1d9" font-size="12">微调能在消费级显卡上发生</text>
+    </g>
+  </g>
+
+  <rect x="72" y="584" width="1056" height="38" rx="8" fill="#161b22" stroke="#30363d"/>
+  <text x="600" y="608" text-anchor="middle" fill="#c9d1d9" font-family="Arial,sans-serif" font-size="14">共同思想：预训练权重保持冻结，下游任务的差异被压缩进极少量的可训练参数中</text>
+</svg>

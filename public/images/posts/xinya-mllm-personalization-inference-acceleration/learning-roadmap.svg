@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 580" role="img" aria-labelledby="title desc">
+  <title id="title">专题学习路径：从深度学习基础到前沿复现</title>
+  <desc id="desc">四个阶段：先用教材和 PyTorch 打基础，再读视觉骨干网络，然后进入 CLIP、BLIP、LLaVA 等多模态底座，最后沿个性化与推理加速两条线读进阶文献并完成复现。</desc>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#8b949e"/></marker></defs>
+  <rect width="1200" height="580" rx="8" fill="#0d1117"/>
+  <text x="600" y="52" text-anchor="middle" fill="#f0f6fc" font-family="Arial,sans-serif" font-size="26" font-weight="700">建议学习路径：四阶段，从教材到前沿论文复现</text>
+  <text x="600" y="80" text-anchor="middle" fill="#8b949e" font-family="Arial,sans-serif" font-size="14">每个阶段都建议“读论文 + 跑代码”并行，避免只看不练</text>
+
+  <g font-family="Arial,sans-serif">
+    <g>
+      <rect x="48" y="120" width="258" height="330" rx="10" fill="#161b22" stroke="#58a6ff" stroke-width="1.5"/>
+      <circle cx="84" cy="154" r="16" fill="#58a6ff"/>
+      <text x="84" y="160" text-anchor="middle" fill="#0d1117" font-size="16" font-weight="700">1</text>
+      <text x="110" y="160" fill="#79c0ff" font-size="16.5" font-weight="700">打牢基础</text>
+      <g fill="#c9d1d9" font-size="12.5">
+        <text x="72" y="196">· 《动手学深度学习》</text>
+        <text x="72" y="220">· 《Deep Learning》教材</text>
+        <text x="72" y="244">· PyTorch 官方教程</text>
+      </g>
+      <rect x="66" y="266" width="222" height="76" rx="8" fill="#0d1117" stroke="#30363d"/>
+      <text x="80" y="292" fill="#8b949e" font-size="12">免费算力平台</text>
+      <text x="80" y="314" fill="#c9d1d9" font-size="12.5">Google Colab · Kaggle</text>
+      <text x="80" y="334" fill="#8b949e" font-size="11.5">无需本地显卡即可跑实验</text>
+      <text x="72" y="378" fill="#8b949e" font-size="12">目标：能独立训练并调试</text>
+      <text x="72" y="398" fill="#8b949e" font-size="12">一个卷积网络或 Transformer</text>
+      <text x="72" y="430" fill="#58a6ff" font-size="12" font-weight="700">建议时长：1&#8211;2 周</text>
+    </g>
+
+    <g>
+      <rect x="334" y="120" width="258" height="330" rx="10" fill="#161b22" stroke="#bc8cff" stroke-width="1.5"/>
+      <circle cx="370" cy="154" r="16" fill="#bc8cff"/>
+      <text x="370" y="160" text-anchor="middle" fill="#0d1117" font-size="16" font-weight="700">2</text>
+      <text x="396" y="160" fill="#d2a8ff" font-size="16.5" font-weight="700">视觉骨干</text>
+      <g fill="#c9d1d9" font-size="12.5">
+        <text x="358" y="196">· ResNet（CVPR 2016）</text>
+        <text x="358" y="220">· DenseNet（CVPR 2017）</text>
+        <text x="358" y="244">· CBAM（ECCV 2018）</text>
+        <text x="358" y="268">· ViT（ICLR 2021）</text>
+      </g>
+      <rect x="352" y="290" width="222" height="60" rx="8" fill="#0d1117" stroke="#30363d"/>
+      <text x="366" y="314" fill="#c9d1d9" font-size="12">补充：P2T（TPAMI 2022）等</text>
+      <text x="366" y="334" fill="#c9d1d9" font-size="12">层次化与池化结构工作</text>
+      <text x="358" y="378" fill="#8b949e" font-size="12">目标：理解 Patch 嵌入、注意</text>
+      <text x="358" y="398" fill="#8b949e" font-size="12">力与特征金字塔的设计动机</text>
+      <text x="358" y="430" fill="#bc8cff" font-size="12" font-weight="700">建议时长：2 周</text>
+    </g>
+
+    <g>
+      <rect x="620" y="120" width="258" height="330" rx="10" fill="#161b22" stroke="#3fb950" stroke-width="1.5"/>
+      <circle cx="656" cy="154" r="16" fill="#3fb950"/>
+      <text x="656" y="160" text-anchor="middle" fill="#0d1117" font-size="16" font-weight="700">3</text>
+      <text x="682" y="160" fill="#56d364" font-size="16.5" font-weight="700">多模态底座</text>
+      <g fill="#c9d1d9" font-size="12.5">
+        <text x="644" y="196">· CLIP（ICML 2021）</text>
+        <text x="644" y="220">· BLIP（ICML 2022）</text>
+        <text x="644" y="244">· LLaVA（NeurIPS 2023）</text>
+        <text x="644" y="268">· DDPM（NeurIPS 2020）</text>
+        <text x="644" y="292">· SAM（ICCV 2023）</text>
+      </g>
+      <rect x="638" y="314" width="222" height="60" rx="8" fill="#0d1117" stroke="#30363d"/>
+      <text x="652" y="338" fill="#c9d1d9" font-size="12">重点：图文对比学习目标、</text>
+      <text x="652" y="358" fill="#c9d1d9" font-size="12">视觉指令微调的数据构造</text>
+      <text x="644" y="402" fill="#8b949e" font-size="12">目标：讲得清“视觉特征如何</text>
+      <text x="644" y="422" fill="#8b949e" font-size="12">进入语言模型”的完整链路</text>
+      <text x="644" y="446" fill="#3fb950" font-size="12" font-weight="700">建议时长：2&#8211;3 周</text>
+    </g>
+
+    <g>
+      <rect x="906" y="120" width="258" height="330" rx="10" fill="#161b22" stroke="#d29922" stroke-width="1.5"/>
+      <circle cx="942" cy="154" r="16" fill="#d29922"/>
+      <text x="942" y="160" text-anchor="middle" fill="#0d1117" font-size="16" font-weight="700">4</text>
+      <text x="968" y="160" fill="#e3b341" font-size="16.5" font-weight="700">专题深入</text>
+      <text x="930" y="192" fill="#79c0ff" font-size="12.5" font-weight="700">个性化线</text>
+      <text x="930" y="212" fill="#c9d1d9" font-size="12">LoRA &#8594; DoRA / PiSSA &#8594;</text>
+      <text x="930" y="230" fill="#c9d1d9" font-size="12">LISA / VideoLISA / GLUS</text>
+      <text x="930" y="260" fill="#e3b341" font-size="12.5" font-weight="700">加速线</text>
+      <text x="930" y="280" fill="#c9d1d9" font-size="12">DynamicViT &#8594; GPTQ &#8594;</text>
+      <text x="930" y="298" fill="#c9d1d9" font-size="12">DivPrune / DyCoke</text>
+      <rect x="924" y="320" width="222" height="60" rx="8" fill="#0d1117" stroke="#30363d"/>
+      <text x="938" y="344" fill="#c9d1d9" font-size="12">实践：复现一篇前沿论文的</text>
+      <text x="938" y="364" fill="#c9d1d9" font-size="12">核心结果，或做一次微调 Demo</text>
+      <text x="930" y="408" fill="#8b949e" font-size="12">目标：形成自己的技术判断，</text>
+      <text x="930" y="428" fill="#8b949e" font-size="12">完成专题汇报</text>
+      <text x="930" y="446" fill="#d29922" font-size="12" font-weight="700">建议时长：持续进行</text>
+    </g>
+
+    <g fill="none" stroke="#8b949e" stroke-width="2.5" marker-end="url(#a)">
+      <path d="M306 285H328"/><path d="M592 285H614"/><path d="M878 285H900"/>
+    </g>
+  </g>
+
+  <rect x="48" y="478" width="1116" height="66" rx="10" fill="#161b22" stroke="#30363d"/>
+  <text x="600" y="506" text-anchor="middle" fill="#f0f6fc" font-family="Arial,sans-serif" font-size="14.5" font-weight="700">输出目标：讲清机制、跑通一次个性化微调与一次推理压缩实验、在汇报中提出自己的见解</text>
+  <text x="600" y="530" text-anchor="middle" fill="#8b949e" font-family="Arial,sans-serif" font-size="12.5">个性化与推理加速分别从训练和推理两个维度切入，是推动多模态大模型走向实际落地的关键</text>
+</svg>
