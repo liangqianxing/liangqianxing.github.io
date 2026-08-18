@@ -9,6 +9,10 @@
         <h1>{{ appConfig.authorCN }}</h1>
         <p class="hero-display-title">工程笔记库</p>
         <p class="hero-summary">{{ appConfig.description }}</p>
+        <p v-if="appConfig.status" class="hero-status">
+          <span class="hero-status-dot" aria-hidden="true" />
+          {{ appConfig.status }}
+        </p>
         <div class="hero-actions">
           <NuxtLink to="/posts" class="primary-action">
             进入文章库

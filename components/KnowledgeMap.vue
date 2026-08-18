@@ -5,6 +5,7 @@
       :key="item.key"
       :to="item.to"
       class="knowledge-card"
+      :data-key="item.key"
     >
       <span class="knowledge-index">{{ item.key }}</span>
       <h3>{{ item.title }}</h3>

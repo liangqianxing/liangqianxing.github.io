@@ -83,7 +83,12 @@ function getTagRoutes() {
 export default defineNuxtConfig({
   compatibilityDate: '2025-01-01',
   modules: ['@nuxt/content'],
-  css: ['katex/dist/katex.min.css', '~/assets/css/main.css'],
+  css: [
+    'katex/dist/katex.min.css',
+    '@fontsource-variable/inter/index.css',
+    '@fontsource-variable/jetbrains-mono/index.css',
+    '~/assets/css/main.css',
+  ],
   vite: { plugins: [tailwindcss()] },
   content: {
     build: {
