@@ -69,6 +69,7 @@ export default defineAppConfig({
     {
       school: '华东师范大学',
       schoolEN: 'East China Normal University',
+      logo: '/logos/ecnu.png',
       major: '软件工程',
       period: '2027 – 2030（拟）',
       status: '拟保研',

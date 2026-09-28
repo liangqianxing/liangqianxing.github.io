@@ -58,7 +58,10 @@
         <SiteBlock eyebrow="Education" title="教育与升学">
           <div class="timeline">
             <article v-for="edu in appConfig.education" :key="edu.school" class="timeline-card">
-              <div class="timeline-logo"><span>{{ edu.school[0] }}</span></div>
+              <div class="timeline-logo timeline-logo-school">
+                <img v-if="edu.logo" :src="edu.logo" :alt="`${edu.school}校徽`" width="48" height="48" />
+                <span v-else>{{ edu.school[0] }}</span>
+              </div>
               <div>
                 <time>{{ edu.period }}</time>
                 <h3>

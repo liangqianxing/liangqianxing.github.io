@@ -2023,6 +2023,15 @@ html.theme-switching .theme-transition-sheen {
   object-fit: contain;
 }
 
+.timeline-logo-school {
+  background: #fff;
+}
+
+.timeline-logo-school img {
+  width: 48px;
+  height: 48px;
+}
+
 .timeline-card time {
   color: var(--faint);
   font-family: var(--font-mono);
