@@ -2,10 +2,10 @@ export default defineAppConfig({
   authorCN: '古恩豪',
   authorEN: 'Gu EnHao',
   title: 'gu.log',
-  role: 'Full-Stack Developer @ Meituan',
-  status: '正在美团实习',
-  bio: '喜欢折腾。在 AI Infra 和后端之间反复横跳，最近在美团写全栈。有时候打 XCPC，有时候去旅行。',
-  description: '写 LLM、Agent、后端工程，偶尔写比赛、实习和旅行。美团实习中。',
+  role: '拟保研 · 华东师范大学软件工程',
+  status: '拟保研至华东师范大学 · 软件工程（2027–2030）',
+  bio: '喜欢折腾。在 AI Infra 和后端之间反复横跳，也做全栈工程。拟保研至华东师范大学软件工程（2027–2030）。有时候打 XCPC，有时候去旅行。',
+  description: '写 LLM、Agent、后端工程，偶尔写比赛、实习和旅行。拟保研至华东师范大学软件工程（2027–2030）。',
   github: 'https://github.com/LiangQianXing',
   url: 'https://liangqianxing.github.io',
   friends: [
@@ -65,5 +65,13 @@ export default defineAppConfig({
       desc: '自然语言处理实验室。',
     },
   ],
-  education: [],
+  education: [
+    {
+      school: '华东师范大学',
+      schoolEN: 'East China Normal University',
+      major: '软件工程',
+      period: '2027 – 2030（拟）',
+      status: '拟保研',
+    },
+  ],
 })

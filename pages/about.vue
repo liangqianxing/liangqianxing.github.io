@@ -55,6 +55,22 @@
           </div>
         </SiteBlock>
 
+        <SiteBlock eyebrow="Education" title="教育与升学">
+          <div class="timeline">
+            <article v-for="edu in appConfig.education" :key="edu.school" class="timeline-card">
+              <div class="timeline-logo"><span>{{ edu.school[0] }}</span></div>
+              <div>
+                <time>{{ edu.period }}</time>
+                <h3>
+                  {{ edu.school }}
+                  <span>{{ edu.schoolEN }}</span>
+                </h3>
+                <p class="timeline-role">{{ edu.major }} · {{ edu.status }}</p>
+              </div>
+            </article>
+          </div>
+        </SiteBlock>
+
         <SiteBlock eyebrow="Experience" title="经历">
           <div class="timeline">
             <article v-for="exp in appConfig.experience" :key="exp.company" class="timeline-card">
@@ -79,7 +95,7 @@
       <aside>
         <SiteBlock eyebrow="Now" title="当前状态" tone="panel">
           <div class="now-card">
-            <p>持续整理后端、AI Infra 和工程实践相关的学习笔记，也会把项目拆解、源码阅读和面试准备沉淀成可检索的资料库。</p>
+            <p>{{ appConfig.status }}。持续整理后端、AI Infra 和工程实践相关的学习笔记，也会把项目拆解、源码阅读和面试准备沉淀成可检索的资料库。</p>
           </div>
         </SiteBlock>
 
