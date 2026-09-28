@@ -14,7 +14,7 @@
     "@fontsource-variable/jetbrains-mono": "^5.3.0",
     "@nuxt/content": "^3.15.2",
     "better-sqlite3": "^12.11.1",
-    "katex": "^0.17.0",
+    "katex": "^0.18.9",
     "nuxt": "^4.0.0",
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0"
