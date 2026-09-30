@@ -49,7 +49,7 @@ function applyTheme(mode: ThemeMode, persist = true) {
   h.classList.toggle('cyber', mode === 'cyber')
   h.dataset.theme = mode
   document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')
-    ?.setAttribute('content', mode === 'light' ? '#f5f1e8' : mode === 'cyber' ? '#07110f' : '#101214')
+    ?.setAttribute('content', mode === 'light' ? '#f8f9fc' : mode === 'cyber' ? '#07110f' : '#10151f')
 
   if (persist) {
     localStorage.setItem('theme', mode)

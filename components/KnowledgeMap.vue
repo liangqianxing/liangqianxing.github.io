@@ -7,10 +7,18 @@
       class="knowledge-card"
       :data-key="item.key"
     >
-      <span class="knowledge-index">{{ item.key }}</span>
+      <div class="knowledge-topline">
+        <span class="knowledge-index">{{ item.key }}</span>
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <template v-if="item.key === 'AI'"><rect x="7" y="7" width="10" height="10" rx="3" /><path d="M9 3v4m6-4v4M9 17v4m6-4v4M3 9h4m-4 6h4m10-6h4m-4 6h4" /></template>
+          <template v-else-if="item.key === 'SYS'"><rect x="4" y="3" width="16" height="7" rx="2" /><rect x="4" y="14" width="16" height="7" rx="2" /><path d="M8 6.5h.01M8 17.5h.01M12 10v4" /></template>
+          <template v-else-if="item.key === 'SRC'"><path d="m8 6-5 6 5 6m8-12 5 6-5 6M14 4l-4 16" /></template>
+          <template v-else><rect x="4" y="5" width="16" height="16" rx="2" /><path d="M9 5V3h6v2M8 11h8m-8 5h5" /></template>
+        </svg>
+      </div>
       <h3>{{ item.title }}</h3>
       <p>{{ item.desc }}</p>
-      <span class="knowledge-link">{{ item.label }}</span>
+      <span class="knowledge-link">{{ item.label }} <span aria-hidden="true">↗</span></span>
     </NuxtLink>
   </div>
 </template>

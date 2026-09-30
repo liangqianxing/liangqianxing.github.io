@@ -71,8 +71,8 @@
               class="theme-toggle-option"
               :class="{ active: themeMode === 'dark' }"
               type="button"
-              aria-label="暖黑深色"
-              title="暖黑深色"
+              aria-label="夜色深蓝"
+              title="夜色深蓝"
               :aria-pressed="themeMode === 'dark'"
               @click="setTheme('dark', $event)"
             >
@@ -108,7 +108,7 @@ const setTheme = inject<(mode: 'dark' | 'light' | 'cyber', event?: MouseEvent) =
 const themeLabel = computed(() => {
   if (themeMode.value === 'light') return '纸感浅色'
   if (themeMode.value === 'cyber') return '荧光终端'
-  return '暖黑深色'
+  return '夜色深蓝'
 })
 
 function isActive(path: string): boolean {

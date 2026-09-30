@@ -88,6 +88,7 @@ export default defineNuxtConfig({
     '@fontsource-variable/inter/index.css',
     '@fontsource-variable/jetbrains-mono/index.css',
     '~/assets/css/main.css',
+    '~/assets/css/journal.css',
   ],
   vite: { plugins: [tailwindcss()] },
   content: {
@@ -131,7 +132,7 @@ export default defineNuxtConfig({
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         { charset: 'utf-8' },
-        { name: 'theme-color', content: '#101214' },
+        { name: 'theme-color', content: '#10151f' },
       ],
       link: [
         { rel: 'icon', type: 'image/svg+xml', sizes: 'any', href: '/favicon.svg?v=2' },
@@ -143,7 +144,7 @@ export default defineNuxtConfig({
       // 防主题闪烁：在 DOM 渲染前读取 localStorage 并立即应用主题 class
       script: [
         {
-          innerHTML: `(function(){var t=localStorage.getItem('theme');var h=document.documentElement;t=t==='light'||t==='cyber'||t==='dark'?t:'dark';h.dataset.theme=t;h.classList.toggle('light',t==='light');h.classList.toggle('dark',t!=='light');h.classList.toggle('cyber',t==='cyber');var m=document.querySelector('meta[name=theme-color]');if(m)m.setAttribute('content',t==='light'?'#f5f1e8':t==='cyber'?'#07110f':'#101214');})();`,
+          innerHTML: `(function(){var t=localStorage.getItem('theme');var h=document.documentElement;t=t==='light'||t==='cyber'||t==='dark'?t:'dark';h.dataset.theme=t;h.classList.toggle('light',t==='light');h.classList.toggle('dark',t!=='light');h.classList.toggle('cyber',t==='cyber');var m=document.querySelector('meta[name=theme-color]');if(m)m.setAttribute('content',t==='light'?'#f8f9fc':t==='cyber'?'#07110f':'#10151f');})();`,
           type: 'text/javascript',
         },
       ],

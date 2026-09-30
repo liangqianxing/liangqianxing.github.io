@@ -1,11 +1,11 @@
 export default defineAppConfig({
   authorCN: '古恩豪',
-  authorEN: 'Gu EnHao',
+  authorEN: 'Enhao Gu',
   title: 'gu.log',
-  role: '拟保研 · 华东师范大学软件工程',
-  status: '拟保研至华东师范大学 · 软件工程（2027–2030）',
-  bio: '喜欢折腾。在 AI Infra 和后端之间反复横跳，也做全栈工程。拟保研至华东师范大学软件工程（2027–2030）。有时候打 XCPC，有时候去旅行。',
-  description: '写 LLM、Agent、后端工程，偶尔写比赛、实习和旅行。拟保研至华东师范大学软件工程（2027–2030）。',
+  role: '华东师范大学软件工程 · 已保研录取',
+  status: '华东师范大学 · 软件工程已保研录取，2027 年入学',
+  bio: '喜欢折腾。在 AI Infra 和后端之间反复横跳，也做全栈工程。已保研录取华东师范大学软件工程，2027 年入学。有时候打 XCPC，有时候去旅行。',
+  description: '写 LLM、Agent、后端工程，偶尔写比赛、实习和旅行。这里是古恩豪的个人笔记与工程记录。',
   github: 'https://github.com/LiangQianXing',
   url: 'https://liangqianxing.github.io',
   friends: [
@@ -53,7 +53,7 @@ export default defineAppConfig({
       companyEN: 'Meituan',
       logo: '/logos/meituan.svg',
       role: '全栈工程师（实习）',
-      period: '2026.05 – 至今',
+      period: '2026.06 – 至今',
       desc: '参与美团内部平台全栈开发，涉及 LLM 相关工程和后端服务。',
     },
     {
@@ -71,8 +71,8 @@ export default defineAppConfig({
       schoolEN: 'East China Normal University',
       logo: '/logos/ecnu.png',
       major: '软件工程',
-      period: '2027 – 2030（拟）',
-      status: '拟保研',
+      period: '2027 – 2030',
+      status: '已保研录取，2027 年入学',
     },
   ],
 })

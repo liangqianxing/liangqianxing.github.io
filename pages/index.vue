@@ -1,79 +1,64 @@
 <template>
-  <div>
-    <section class="hero-frame">
-      <div class="hero-main">
-        <p class="hero-kicker">
-          <span>{{ appConfig.authorEN }}</span>
-          <span>{{ posts.length }} published notes</span>
+  <div class="journal-home">
+    <section class="journal-hero" aria-labelledby="journal-title">
+      <div class="journal-intro">
+        <p class="journal-eyebrow">
+          <span class="journal-mark" aria-hidden="true" />
+          THE PERSONAL NOTEBOOK
         </p>
-        <h1>{{ appConfig.authorCN }}</h1>
-        <p class="hero-display-title">工程笔记库</p>
-        <p class="hero-summary">{{ appConfig.description }}</p>
-        <p v-if="appConfig.status" class="hero-status">
-          <span class="hero-status-dot" aria-hidden="true" />
-          {{ appConfig.status }}
-        </p>
-        <div class="hero-actions">
-          <NuxtLink to="/posts" class="primary-action">
-            进入文章库
-            <span aria-hidden="true">→</span>
+        <h1 id="journal-title">认真折腾，<br /><span>随手记录。</span></h1>
+        <p class="journal-summary">这里是{{ appConfig.authorCN }}的个人笔记。记录 LLM、Agent 与工程实践，也留下一些比赛、实习和旅行的片段。</p>
+        <div class="journal-actions">
+          <NuxtLink to="/posts" class="journal-primary">
+            开始阅读 <span aria-hidden="true">→</span>
           </NuxtLink>
-          <NuxtLink to="/tags" class="secondary-action">
-            按主题浏览
-            <span aria-hidden="true">↗</span>
+          <NuxtLink to="/about" class="journal-secondary">
+            认识一下我 <span aria-hidden="true">↗</span>
           </NuxtLink>
         </div>
+        <div class="journal-caption">
+          <span v-if="posts.length">{{ posts.length }} 篇笔记 · {{ topicCounts.length }} 个主题</span>
+          <span v-else>CODE · RESEARCH · LIFE</span>
+          <span class="journal-caption-line" aria-hidden="true" />
+          <a href="#home-content">往下看看 <span aria-hidden="true">↓</span></a>
+        </div>
       </div>
-
-      <aside class="hero-dossier" aria-label="站点概览">
-        <NuxtLink to="/about" class="hero-identity">
-          <span class="hero-avatar-ring" aria-hidden="true">
-            <img src="/avatar.jpg" alt="" width="48" height="48" />
-          </span>
-          <span>
+      <aside class="workbench" aria-label="关于作者与近期关注">
+        <div class="workbench-topline">
+          <span>FROM MY WORKBENCH</span>
+          <span class="workbench-symbol" aria-hidden="true">✳</span>
+        </div>
+        <NuxtLink to="/about" class="workbench-identity">
+          <img src="/avatar.jpg" :alt="appConfig.authorCN" width="68" height="68" />
+          <div>
             <strong>{{ appConfig.authorEN }}</strong>
-            <small>{{ appConfig.role }}</small>
-          </span>
-          <span class="hero-identity-arrow" aria-hidden="true">↗</span>
+            <span>{{ appConfig.authorCN }} · Research & Engineering</span>
+          </div>
         </NuxtLink>
-        <dl>
-          <div>
-            <dt>Posts</dt>
-            <dd>{{ posts.length }}</dd>
-          </div>
-          <div>
-            <dt>Topics</dt>
-            <dd>{{ topicCounts.length }}</dd>
-          </div>
-          <div>
-            <dt>Latest</dt>
-            <dd>{{ latestYear }}</dd>
-          </div>
-        </dl>
+        <p class="workbench-label">近期关注 / CURRENT FOCUS</p>
+        <NuxtLink
+          v-for="(focus, index) in focusLinks"
+          :key="focus.to"
+          :to="focus.to"
+          class="workbench-link"
+        >
+          <span class="workbench-index">0{{ index + 1 }}</span>
+          <span>{{ focus.title }}</span>
+          <span class="workbench-arrow" aria-hidden="true">↗</span>
+        </NuxtLink>
+        <div class="workbench-note">
+          <span class="workbench-note-dot" aria-hidden="true" />
+          <p>{{ appConfig.status }}</p>
+        </div>
       </aside>
-
-      <a class="hero-next" href="#home-content" aria-label="查看知识地图" title="查看知识地图">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M12 4v15" />
-          <path d="m6.5 13.5 5.5 5.5 5.5-5.5" />
-        </svg>
-      </a>
     </section>
 
-    <main id="home-content" class="site-main">
-      <SiteBlock
-        eyebrow="Map"
-        title="知识地图"
-        description="把文章按学习路径组织起来，而不是只按发布时间堆叠。"
-      >
-        <KnowledgeMap :items="knowledgeMap" />
-      </SiteBlock>
-
+    <main id="home-content" class="site-main journal-content">
       <SiteBlock
         v-if="featured"
-        eyebrow="Latest"
-        title="最近更新"
-        description="最新文章放在首页核心位置，其他文章进入连续阅读流。"
+        eyebrow="01 / Fresh notes"
+        title="最近写下的"
+        description="新的实验、刚读懂的源码，以及值得记下的细节。"
         action-to="/posts"
         action-label="查看全部"
       >
@@ -82,23 +67,30 @@
           <ArticleStream :posts="recentPosts" />
         </div>
       </SiteBlock>
-
+      <SiteBlock
+        :eyebrow="featured ? '02 / Explore' : '01 / Explore'"
+        title="从一个方向开始"
+        description="不必从头翻起，挑一个感兴趣的主题。"
+        action-to="/tags"
+        action-label="所有主题"
+      >
+        <KnowledgeMap :items="knowledgeMap" />
+      </SiteBlock>
       <SiteBlock
         v-if="selectedPosts.length"
-        eyebrow="Selected"
-        title="精选入口"
-        description="适合作为新读者进入站点的三篇文章。"
+        eyebrow="Selected / Start here"
+        title="值得从这里读起"
+        description="几篇整理得比较完整的笔记。"
       >
         <div class="card-grid">
           <ArticleCard v-for="post in selectedPosts" :key="post.path" :post="post" />
         </div>
       </SiteBlock>
-
       <SiteBlock
         v-if="topicCounts.length"
-        eyebrow="Topics"
-        title="热门主题"
-        description="从主题进入，比从时间线翻找更快。"
+        eyebrow="Index / Topics"
+        title="笔记的关键词"
+        description="顺着一个关键词，继续往下读。"
         action-to="/tags"
         action-label="完整标签云"
       >
@@ -135,7 +127,11 @@ const recentPosts = computed(() => {
   const excluded = new Set([featured.value?.slug, ...selectedSlugs])
   return posts.value.filter(post => !excluded.has(post.slug)).slice(0, 6)
 })
-const latestYear = computed(() => featured.value ? new Date(featured.value.date).getFullYear() : new Date().getFullYear())
+const focusLinks = [
+  { title: 'AI Infrastructure', to: '/tags/ai-infra' },
+  { title: 'LLM Agents', to: '/tags/agent' },
+  { title: 'Systems & Source Reading', to: '/tags/源码分析' },
+]
 
 const topicCounts = computed(() => {
   const counts = new Map<string, number>()
@@ -155,21 +151,21 @@ const knowledgeMap = [
   },
   {
     key: 'SYS',
-    title: 'Backend / Distributed',
+    title: '后端与分布式',
     desc: '数据库、缓存、高并发、分布式系统与 Go 后端项目。',
     label: '看后端系统',
     to: '/tags/分布式系统',
   },
   {
     key: 'SRC',
-    title: 'Source Reading',
-    desc: '从入口、数据流和关键抽象读懂开源项目，而非罗列目录。',
+    title: '源码阅读',
+    desc: '从入口、数据流和关键抽象读懂开源项目。',
     label: '看源码分析',
     to: '/tags/源码分析',
   },
   {
     key: 'INT',
-    title: 'Interview Kit',
+    title: '面试与实践',
     desc: '按岗位组织的准备清单、项目表达和高频追问。',
     label: '看面试',
     to: '/tags/面试',
