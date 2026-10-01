@@ -26,7 +26,7 @@
 
 ## 添加论文
 
-将 `publications: [] as Publication[]` 改为列表。下面是字段示例，务必替换成真实论文信息后再使用：
+在 `publications` 列表中添加或修改条目。下面是字段示例，务必替换成真实论文信息后再使用：
 
 ```ts
 publications: [
