@@ -1,10 +1,20 @@
-# gu.log
+# Enhao Gu · 个人站点
+
+站点有三个入口：
+
+- [首页](https://liangqianxing.github.io/)：选择进入学术主页或个人博客。
+- [学术主页](https://liangqianxing.github.io/academic)：个人简介、研究兴趣、论文、教育与经历。
+- [个人博客](https://liangqianxing.github.io/blog)：原来的 gu.log 网站。
+
+学术主页内容集中在 `data/academic.ts`，编辑方法见 [学术主页编辑指南](ACADEMIC.md)。未填写的邮箱、Scholar 和简历链接不会显示；动态和项目列表填入内容后自动显示。现有 `/posts`、`/tags`、`/about` 等博客路径继续保留。
+
+## gu.log
 
 个人技术博客，记录 LLM、Agent、AI Infra、后端系统、源码阅读和学习复盘。
 
 基于 [Nuxt 4](https://nuxt.com/) 与 [Nuxt Content 3](https://content.nuxt.com/) 构建，静态生成后部署到 GitHub Pages。
 
-[访问博客](https://liangqianxing.github.io) · [文章库](https://liangqianxing.github.io/posts) · [主题索引](https://liangqianxing.github.io/tags)
+[访问博客](https://liangqianxing.github.io/blog) · [文章库](https://liangqianxing.github.io/posts) · [主题索引](https://liangqianxing.github.io/tags)
 
 ## 内容地图
 

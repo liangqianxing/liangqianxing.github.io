@@ -1,0 +1,239 @@
+<script setup lang="ts">
+import { academicProfile as profile } from '~/data/academic'
+
+definePageMeta({ layout: 'profile' })
+
+const appConfig = useAppConfig()
+const quickLinks = computed(() => [
+  ...(profile.email ? [{ label: 'Email', url: `mailto:${profile.email}` }] : []),
+  { label: 'GitHub', url: profile.github },
+  ...(profile.scholar ? [{ label: 'Google Scholar', url: profile.scholar }] : []),
+  ...(profile.cv ? [{ label: 'CV / 简历', url: profile.cv }] : []),
+  { label: 'Blog', url: '/blog' },
+])
+const sections = computed(() => [
+  { id: 'about', label: 'About' },
+  { id: 'research', label: 'Research' },
+  ...(profile.news.length ? [{ id: 'news', label: 'News' }] : []),
+  { id: 'publications', label: 'Publications' },
+  ...(profile.projects.length ? [{ id: 'projects', label: 'Projects' }] : []),
+  { id: 'education', label: 'Education' },
+  { id: 'experience', label: 'Experience' },
+])
+
+function isExternal(url: string) {
+  return /^https?:\/\//.test(url)
+}
+
+useHead({
+  title: `${profile.name} | Academic Homepage`,
+  titleTemplate: null,
+  meta: [
+    { name: 'description', content: `${profile.nameCN}的学术主页：研究兴趣、论文、教育背景与经历。` },
+    { property: 'og:title', content: `${profile.name} · Academic Homepage` },
+    { property: 'og:description', content: profile.bio[0] },
+    { property: 'og:url', content: `${appConfig.url}/academic` },
+    { property: 'og:image', content: `${appConfig.url}${profile.avatar}` },
+  ],
+  link: [{ rel: 'canonical', href: `${appConfig.url}/academic` }],
+})
+</script>
+
+<template>
+  <div class="academic-page">
+    <header class="academic-identity">
+      <div class="academic-heading">
+        <p class="academic-kicker">ACADEMIC HOMEPAGE</p>
+        <h1>{{ profile.name }} <span lang="zh-CN">{{ profile.nameCN }}</span></h1>
+        <p class="academic-tagline">{{ profile.tagline }}</p>
+        <p class="academic-affiliation">{{ profile.affiliation }}</p>
+        <p class="academic-affiliation-note">{{ profile.affiliationNote }}</p>
+        <p v-if="profile.location" class="academic-location">{{ profile.location }}</p>
+        <div class="academic-links" aria-label="个人链接">
+          <a
+            v-for="link in quickLinks"
+            :key="link.label"
+            :href="link.url"
+            :target="isExternal(link.url) ? '_blank' : undefined"
+            :rel="isExternal(link.url) ? 'noopener noreferrer' : undefined"
+          >{{ link.label }}<span v-if="isExternal(link.url)" aria-hidden="true"> ↗</span></a>
+        </div>
+      </div>
+      <img class="academic-portrait" :src="profile.avatar" :alt="`${profile.nameCN}的头像`" width="156" height="156" />
+    </header>
+
+    <nav class="academic-sections" aria-label="学术主页栏目">
+      <a v-for="section in sections" :key="section.id" :href="`#${section.id}`">{{ section.label }}</a>
+    </nav>
+
+    <section id="about" class="academic-section" aria-labelledby="about-heading">
+      <h2 id="about-heading">About Me <span>个人简介</span></h2>
+      <p v-for="paragraph in profile.bio" :key="paragraph">{{ paragraph }}</p>
+    </section>
+
+    <section id="research" class="academic-section" aria-labelledby="research-heading">
+      <h2 id="research-heading">Research Interests <span>研究兴趣</span></h2>
+      <div class="academic-interests">
+        <article v-for="interest in profile.interests" :key="interest.title">
+          <h3>{{ interest.english }}</h3>
+          <span>{{ interest.title }}</span>
+          <p>{{ interest.description }}</p>
+        </article>
+      </div>
+    </section>
+
+    <section v-if="profile.news.length" id="news" class="academic-section" aria-labelledby="news-heading">
+      <h2 id="news-heading">News <span>近期动态</span></h2>
+      <ul class="academic-news">
+        <li v-for="item in profile.news" :key="`${item.date}-${item.text}`">
+          <span class="academic-date">{{ item.date }}</span>
+          <a v-if="item.url" :href="item.url" :target="isExternal(item.url) ? '_blank' : undefined" :rel="isExternal(item.url) ? 'noopener noreferrer' : undefined">{{ item.text }}</a>
+          <p v-else>{{ item.text }}</p>
+        </li>
+      </ul>
+    </section>
+
+    <section id="publications" class="academic-section" aria-labelledby="publications-heading">
+      <h2 id="publications-heading">Publications <span>论文</span></h2>
+      <div v-if="profile.publications.length" class="academic-publications">
+        <article v-for="paper in profile.publications" :key="paper.title" class="academic-paper" :class="{ 'with-image': paper.image }">
+          <img v-if="paper.image" :src="paper.image" :alt="`${paper.title}概览`" width="180" height="112" loading="lazy" />
+          <div>
+            <h3>{{ paper.title }}</h3>
+            <p class="academic-authors">
+              <template v-for="(author, index) in paper.authors" :key="author.name"><span v-if="index">, </span><strong v-if="author.self">{{ author.name }}</strong><span v-else>{{ author.name }}</span></template>
+            </p>
+            <p class="academic-venue">{{ paper.venue }}<span v-if="paper.venue && paper.year"> · </span>{{ paper.year }}</p>
+            <p v-if="paper.summary">{{ paper.summary }}</p>
+            <div v-if="paper.links.length" class="academic-resource-links">
+              <a v-for="link in paper.links" :key="link.label" :href="link.url" :target="isExternal(link.url) ? '_blank' : undefined" :rel="isExternal(link.url) ? 'noopener noreferrer' : undefined">{{ link.label }} <span aria-hidden="true">↗</span></a>
+            </div>
+          </div>
+        </article>
+      </div>
+      <p v-else class="academic-empty">论文列表正在整理中，将在这里更新论文、预印本与相关资料。</p>
+    </section>
+
+    <section v-if="profile.projects.length" id="projects" class="academic-section" aria-labelledby="projects-heading">
+      <h2 id="projects-heading">Selected Projects <span>项目</span></h2>
+      <article v-for="project in profile.projects" :key="project.name" class="academic-project">
+        <h3>{{ project.name }}</h3>
+        <p>{{ project.description }}</p>
+        <div class="academic-project-meta">
+          <span v-for="tag in project.tags" :key="tag" class="academic-project-tag">{{ tag }}</span>
+          <a v-for="link in project.links" :key="link.label" :href="link.url" :target="isExternal(link.url) ? '_blank' : undefined" :rel="isExternal(link.url) ? 'noopener noreferrer' : undefined">{{ link.label }} <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+    </section>
+
+    <section id="education" class="academic-section" aria-labelledby="education-heading">
+      <h2 id="education-heading">Education <span>教育背景</span></h2>
+      <article v-for="item in profile.education" :key="item.institution" class="academic-entry" :class="{ 'with-logo': item.logo }">
+        <img v-if="item.logo" :src="item.logo" :alt="item.institution" width="44" height="44" loading="lazy" />
+        <div class="academic-entry-copy">
+          <h3>{{ item.institution }} <span>{{ item.english }}</span></h3>
+          <p>{{ item.role }}</p>
+          <p v-if="item.description" class="academic-entry-description">{{ item.description }}</p>
+        </div>
+        <span class="academic-date">{{ item.period }}</span>
+      </article>
+    </section>
+
+    <section id="experience" class="academic-section" aria-labelledby="experience-heading">
+      <h2 id="experience-heading">Experience <span>经历</span></h2>
+      <article v-for="item in profile.experience" :key="item.institution" class="academic-entry" :class="{ 'with-logo': item.logo }">
+        <img v-if="item.logo" :src="item.logo" :alt="item.institution" width="44" height="44" loading="lazy" />
+        <div class="academic-entry-copy">
+          <h3>{{ item.institution }} <span>{{ item.english }}</span></h3>
+          <p>{{ item.role }}</p>
+          <p v-if="item.description" class="academic-entry-description">{{ item.description }}</p>
+        </div>
+        <span class="academic-date">{{ item.period }}</span>
+      </article>
+    </section>
+
+    <p class="academic-updated">Last updated · {{ profile.lastUpdated }}</p>
+  </div>
+</template>
+
+<style scoped>
+.academic-page { width: min(960px, calc(100% - 48px)); margin: 0 auto; padding: 64px 0 40px; color: #303b35; font-size: 15px; line-height: 1.9; }
+.academic-identity { display: flex; justify-content: space-between; align-items: center; gap: 48px; padding-bottom: 38px; }
+.academic-kicker { margin: 0 0 12px; font-size: 10px; font-weight: 650; letter-spacing: .17em; color: #707d74; }
+.academic-heading h1 { margin: 0; color: #202824; font-size: 38px; font-weight: 650; letter-spacing: -.045em; line-height: 1.3; }
+.academic-heading h1 span { margin-left: 12px; font-size: 22px; font-weight: 450; letter-spacing: .025em; }
+.academic-tagline { margin: 12px 0 18px; color: #65716b; font-size: 15px; }
+.academic-affiliation { margin: 0; font-weight: 550; }
+.academic-affiliation-note, .academic-location { margin: 2px 0 0; font-size: 13px; color: #69756e; }
+.academic-links { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 17px; }
+.academic-page a { color: #285b45; text-decoration: none; text-underline-offset: 4px; }
+.academic-page a:hover { text-decoration: underline; }
+.academic-page a:focus-visible { outline: 2px solid #285b45; outline-offset: 4px; border-radius: 3px; }
+.academic-links a { font-size: 13px; font-weight: 550; }
+.academic-portrait { width: 156px; height: 156px; flex-shrink: 0; border-radius: 50%; object-fit: cover; background: #e8ede6; }
+.academic-sections { display: flex; flex-wrap: wrap; gap: 26px; border-top: 1px solid #e0e5df; border-bottom: 1px solid #e0e5df; padding: 15px 0; }
+.academic-sections a { color: #69756e; font-size: 12px; font-weight: 550; }
+.academic-sections a:hover { color: #285b45; }
+.academic-section { margin-top: 46px; scroll-margin-top: 88px; }
+.academic-section h2 { display: flex; align-items: baseline; gap: 12px; margin: 0 0 19px; color: #202824; font-size: 22px; font-weight: 600; letter-spacing: -.025em; line-height: 1.4; }
+.academic-section h2 > span { color: #778179; font-size: 12px; font-weight: 400; letter-spacing: .025em; }
+.academic-section > p { margin: 0 0 12px; }
+.academic-section h3 { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.6; color: #27362e; }
+.academic-interests { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 34px; }
+.academic-interests article { border-left: 2px solid #c8d7c9; padding-left: 16px; }
+.academic-interests h3 { font-size: 14px; }
+.academic-interests article > span { color: #778179; font-size: 12px; }
+.academic-interests p { margin: 7px 0 0; color: #65716b; font-size: 13px; line-height: 1.8; }
+.academic-empty { color: #69756e; font-size: 14px; padding: 16px 0; border-top: 1px solid #e0e5df; border-bottom: 1px solid #e0e5df; }
+.academic-news { list-style: none; margin: 0; padding: 0; }
+.academic-news li { display: grid; grid-template-columns: 100px minmax(0, 1fr); gap: 16px; padding: 6px 0; }
+.academic-news p { margin: 0; }
+.academic-date { color: #778179; font-size: 12px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.academic-paper { padding: 22px 0; border-bottom: 1px solid #e0e5df; }
+.academic-paper:first-child { padding-top: 0; }
+.academic-paper.with-image { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 25px; }
+.academic-paper > img { width: 180px; height: 112px; object-fit: contain; border-radius: 6px; background: white; border: 1px solid #e0e5df; }
+.academic-paper p { margin: 5px 0; font-size: 13px; }
+.academic-authors { color: #65716b; }
+.academic-authors strong { color: #303b35; font-weight: 600; }
+.academic-venue { font-style: italic; }
+.academic-resource-links { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 7px; font-size: 12px; }
+.academic-entry { display: flex; align-items: flex-start; gap: 18px; padding: 17px 0; border-bottom: 1px solid #e0e5df; }
+.academic-entry > img { width: 44px; height: 44px; padding: 3px; object-fit: contain; background: white; border: 1px solid #e8ece6; border-radius: 7px; flex-shrink: 0; }
+.academic-entry-copy { flex: 1; min-width: 0; }
+.academic-entry h3 { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 10px; }
+.academic-entry h3 span { color: #778179; font-size: 12px; font-weight: 400; }
+.academic-entry p { margin: 3px 0 0; font-size: 13px; }
+.academic-entry .academic-entry-description { font-size: 12px; color: #69756e; }
+.academic-entry > .academic-date { padding-top: 3px; }
+.academic-project { padding: 16px 0; border-bottom: 1px solid #e0e5df; }
+.academic-project:first-of-type { padding-top: 0; }
+.academic-project p { margin: 5px 0; font-size: 13px; color: #65716b; }
+.academic-project-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 10px; font-size: 12px; }
+.academic-project-tag { padding: 1px 7px; border: 1px solid #e0e5df; border-radius: 4px; font-size: 11px; color: #65716b; }
+.academic-updated { margin: 36px 0 0; color: #7b857d; font-size: 11px; }
+@media (max-width: 640px) {
+  .academic-page { padding-top: 36px; font-size: 14px; }
+  .academic-identity { align-items: flex-start; gap: 18px; padding-bottom: 28px; }
+  .academic-heading h1 { font-size: 29px; }
+  .academic-heading h1 span { display: block; margin: 5px 0 0; font-size: 18px; }
+  .academic-kicker { font-size: 8px; letter-spacing: .13em; }
+  .academic-portrait { width: 88px; height: 88px; margin-top: 26px; }
+  .academic-tagline { font-size: 12px; margin-top: 10px; }
+  .academic-affiliation { font-size: 13px; }
+  .academic-affiliation-note { font-size: 11px; }
+  .academic-links { gap: 16px; }
+  .academic-sections { gap: 10px 20px; padding: 13px 0; }
+  .academic-section { margin-top: 34px; }
+  .academic-section h2 { font-size: 20px; }
+  .academic-interests { grid-template-columns: 1fr; gap: 20px; }
+  .academic-entry { position: relative; gap: 13px; padding: 19px 0; flex-wrap: wrap; }
+  .academic-entry > .academic-date { width: 100%; padding: 0; margin-top: -10px; }
+  .academic-entry-copy { flex-basis: 100%; }
+  .academic-entry.with-logo > .academic-date { padding-left: 57px; }
+  .academic-entry.with-logo .academic-entry-copy { flex-basis: calc(100% - 57px); }
+  .academic-paper.with-image { grid-template-columns: 1fr; gap: 15px; }
+  .academic-paper > img { width: 100%; height: auto; max-height: 180px; }
+  .academic-news li { grid-template-columns: 70px minmax(0, 1fr); gap: 12px; }
+}
+</style>

@@ -89,6 +89,7 @@ export default defineNuxtConfig({
     '@fontsource-variable/jetbrains-mono/index.css',
     '~/assets/css/main.css',
     '~/assets/css/journal.css',
+    '~/assets/css/profile.css',
   ],
   vite: { plugins: [tailwindcss()] },
   content: {
@@ -124,7 +125,7 @@ export default defineNuxtConfig({
       crawlLinks: true,
       // 直接从文件系统注入所有 post 和 tag 路由，
       // 绕过 Content v3 SQLite WASM 在 SSR 阶段未初始化的问题
-      routes: ['/', '/posts', '/tags', '/about', '/friends', ...getPostSlugs(), ...getTagRoutes()],
+      routes: ['/', '/academic', '/blog', '/posts', '/tags', '/about', '/friends', ...getPostSlugs(), ...getTagRoutes()],
     },
   },
   app: {
@@ -144,7 +145,7 @@ export default defineNuxtConfig({
       // 防主题闪烁：在 DOM 渲染前读取 localStorage 并立即应用主题 class
       script: [
         {
-          innerHTML: `(function(){var t=localStorage.getItem('theme');var h=document.documentElement;t=t==='light'||t==='cyber'||t==='dark'?t:'dark';h.dataset.theme=t;h.classList.toggle('light',t==='light');h.classList.toggle('dark',t!=='light');h.classList.toggle('cyber',t==='cyber');var m=document.querySelector('meta[name=theme-color]');if(m)m.setAttribute('content',t==='light'?'#f8f9fc':t==='cyber'?'#07110f':'#10151f');})();`,
+          innerHTML: `(function(){var p=location.pathname.replace(/[/]$/,'')||'/';var profile=p==='/'||p==='/academic';var t=localStorage.getItem('theme');var h=document.documentElement;t=profile?'light':t==='light'||t==='cyber'||t==='dark'?t:'dark';h.dataset.theme=t;h.classList.toggle('light',t==='light');h.classList.toggle('dark',t!=='light');h.classList.toggle('cyber',t==='cyber');var m=document.querySelector('meta[name=theme-color]');if(m)m.setAttribute('content',profile?'#fafaf8':t==='light'?'#f8f9fc':t==='cyber'?'#07110f':'#10151f');})();`,
           type: 'text/javascript',
         },
       ],

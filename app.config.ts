@@ -29,11 +29,12 @@ export default defineAppConfig({
     },
   ],
   nav: [
-    { label: '首页', path: '/' },
+    { label: '首页', path: '/blog' },
     { label: '文章', path: '/posts' },
     { label: '标签', path: '/tags' },
     { label: '友链', path: '/friends' },
     { label: '关于', path: '/about' },
+    { label: '主页', path: '/' },
   ],
   techStack: [
     { name: 'TypeScript', icon: '⬡' },

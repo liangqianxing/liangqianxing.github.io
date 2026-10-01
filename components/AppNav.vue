@@ -1,7 +1,7 @@
 <template>
   <nav class="site-nav" aria-label="主导航">
     <div class="nav-shell">
-      <NuxtLink to="/" class="brand" aria-label="回到首页">
+      <NuxtLink to="/blog" class="brand" aria-label="回到博客首页">
         <span class="brand-mark" aria-hidden="true">
           <img src="/logo.svg" alt="" width="42" height="42" />
         </span>
@@ -13,7 +13,7 @@
 
       <div class="nav-center" role="list">
         <NuxtLink
-          v-for="item in appConfig.nav"
+          v-for="item in appConfig.nav.filter(item => item.path !== '/')"
           :key="item.path"
           :to="item.path"
           class="nav-link"
@@ -25,6 +25,7 @@
       </div>
 
       <div class="nav-actions">
+        <NuxtLink to="/" class="gateway-return" aria-label="返回个人主页">主页</NuxtLink>
         <a
           href="https://www.travellings.cn/go.html"
           target="_blank"
@@ -112,7 +113,25 @@ const themeLabel = computed(() => {
 })
 
 function isActive(path: string): boolean {
-  if (path === '/') return route.path === '/'
-  return route.path.startsWith(path)
+  const currentPath = route.path.replace(/\/$/, '') || '/'
+  if (path === '/' || path === '/blog') return currentPath === path
+  return currentPath === path || currentPath.startsWith(`${path}/`)
 }
 </script>
+
+<style scoped>
+.gateway-return {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  min-height: 36px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+.gateway-return:hover {
+  color: var(--accent);
+}
+</style>
