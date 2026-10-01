@@ -388,8 +388,8 @@ html.theme-switching .theme-transition-sheen {
   display: grid;
   place-items: center;
   flex: 0 0 auto;
-  border-radius: 14px;
-  box-shadow: 0 8px 22px rgba(5, 8, 16, 0.18), 0 1px 2px rgba(5, 8, 16, 0.24);
+  border-radius: 12px;
+  box-shadow: 0 0 0 1px var(--line);
   transition: transform 240ms var(--ease-out), box-shadow 240ms var(--ease-out);
 }
 
@@ -399,22 +399,9 @@ html.theme-switching .theme-transition-sheen {
   height: 100%;
 }
 
-.brand-mark::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(120deg, transparent 28%, color-mix(in srgb, white 20%, transparent), transparent 70%);
-  transform: translateX(-140%);
-  transition: transform 520ms var(--ease-out);
-}
-
-.brand:hover .brand-mark::after {
-  transform: translateX(140%);
-}
-
 .brand:hover .brand-mark {
   transform: translateY(-1px);
-  box-shadow: 0 11px 28px rgba(5, 8, 16, 0.23), 0 2px 5px rgba(5, 8, 16, 0.2);
+  box-shadow: 0 0 0 1px var(--line-strong), 0 3px 8px rgba(5, 8, 16, 0.1);
 }
 
 .brand-copy {

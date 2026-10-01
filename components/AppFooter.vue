@@ -4,7 +4,7 @@
       <div class="footer-brand">
         <NuxtLink to="/blog" class="brand" aria-label="回到博客首页">
           <span class="brand-mark" aria-hidden="true">
-            <img src="/logo.svg" alt="" width="42" height="42" />
+            <img src="/logo.svg?v=3" alt="" width="42" height="42" />
           </span>
           <span class="brand-copy">
             <strong>{{ appConfig.title }}</strong>

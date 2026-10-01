@@ -136,10 +136,11 @@ export default defineNuxtConfig({
         { name: 'theme-color', content: '#10151f' },
       ],
       link: [
-        { rel: 'icon', type: 'image/svg+xml', sizes: 'any', href: '/favicon.svg?v=2' },
-        { rel: 'shortcut icon', type: 'image/svg+xml', href: '/favicon.svg?v=2' },
-        { rel: 'apple-touch-icon', href: '/favicon.svg?v=2' },
-        { rel: 'manifest', href: '/site.webmanifest' },
+        { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon.png?v=3' },
+        { rel: 'icon', type: 'image/svg+xml', sizes: 'any', href: '/favicon.svg?v=3' },
+        { rel: 'shortcut icon', type: 'image/x-icon', href: '/favicon.ico?v=3' },
+        { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png?v=3' },
+        { rel: 'manifest', href: '/site.webmanifest?v=3' },
         { rel: 'alternate', type: 'application/rss+xml', title: 'gu.log', href: '/rss.xml' },
       ],
       // 防主题闪烁：在 DOM 渲染前读取 localStorage 并立即应用主题 class
