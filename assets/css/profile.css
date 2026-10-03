@@ -40,6 +40,11 @@ html body.profile-body {
   margin-inline: auto;
 }
 
+.profile-site-academic .profile-header,
+.profile-site-academic .profile-footer {
+  width: min(960px, calc(100% - 48px));
+}
+
 .profile-header {
   display: flex;
   align-items: center;

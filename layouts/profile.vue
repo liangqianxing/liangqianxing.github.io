@@ -1,5 +1,5 @@
 <template>
-  <div class="profile-site">
+  <div class="profile-site" :class="{ 'profile-site-academic': currentPath === '/academic' }">
     <a class="profile-skip" href="#profile-main">跳到主要内容</a>
     <header class="profile-header">
       <NuxtLink class="profile-wordmark" to="/" :aria-label="`${academicProfile.nameCN}的个人主页`">
