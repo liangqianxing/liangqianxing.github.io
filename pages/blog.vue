@@ -1,5 +1,6 @@
 <template>
   <div class="journal-home">
+    <NotebookMotion />
     <div class="notebook-hero-wrap">
       <section class="notebook-hero" aria-labelledby="journal-title">
         <div class="notebook-intro">
@@ -12,6 +13,7 @@
           </p>
           <h1 id="journal-title" class="notebook-title">认真折腾，<span class="notebook-highlight">随手记录<svg viewBox="0 0 100 20" preserveAspectRatio="none" fill="none" aria-hidden="true"><path d="M5 15C20 12 50 12 95 18" stroke="currentColor" stroke-width="4" stroke-linecap="round" /></svg></span>。</h1>
           <p class="notebook-summary">这里是{{ appConfig.authorCN }}的个人笔记。记录 LLM、Agent 与工程实践，也留下一些比赛、实习和旅行的片段。</p>
+          <NotebookTypewriter />
           <div class="notebook-actions">
             <NuxtLink to="#home-content" class="notebook-primary">探索主题</NuxtLink>
             <NuxtLink to="/about" class="notebook-secondary">关于我 <span aria-hidden="true">→</span></NuxtLink>
@@ -79,6 +81,8 @@
 
 <script setup lang="ts">
 import type { PostMeta } from '~/server/api/posts.get'
+import NotebookMotion from '~/components/NotebookMotion.vue'
+import NotebookTypewriter from '~/components/NotebookTypewriter.vue'
 
 const appConfig = useAppConfig()
 
