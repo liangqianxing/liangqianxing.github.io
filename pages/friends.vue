@@ -1,9 +1,9 @@
 <template>
-  <main class="page-frame">
+  <div class="page-frame">
     <header class="page-hero">
       <p class="eyebrow">Friends</p>
       <h1>友情链接</h1>
-      <p>认识的一些有趣的人。这个页面保持轻量，只展示头像、名称、描述和跳转入口。</p>
+      <p>认识的一些有趣的人，也有值得常去阅读的博客。</p>
     </header>
 
     <section class="friends-grid">
@@ -46,7 +46,7 @@
         提交申请
       </a>
     </section>
-  </main>
+  </div>
 </template>
 
 <script setup lang="ts">

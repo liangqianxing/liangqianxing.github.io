@@ -1,15 +1,20 @@
 <template>
-  <main class="page-frame">
+  <div class="page-frame">
     <header class="page-hero">
       <p class="eyebrow">Topics</p>
       <h1>主题索引</h1>
-      <p>共 {{ sortedTags.length }} 个主题。每个标签都是一条进入文章库的路径。</p>
+      <p v-if="sortedTags.length">共 {{ sortedTags.length }} 个主题，按兴趣浏览文章。</p>
+      <p v-else>按主题整理技术笔记与学习记录。</p>
     </header>
 
-    <div class="topic-cloud topic-cloud-large">
+    <div v-if="sortedTags.length" class="topic-cloud topic-cloud-large">
       <TopicChip v-for="[tag, count] in sortedTags" :key="tag" :tag="tag" :count="count" />
     </div>
-  </main>
+    <div v-else class="empty-state">
+      <p>这里暂时没有公开文章的主题标签。</p>
+      <NuxtLink to="/blog">返回博客首页 →</NuxtLink>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">

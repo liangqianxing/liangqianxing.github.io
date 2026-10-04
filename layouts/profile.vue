@@ -39,6 +39,13 @@ const navigation = [
   { label: '博客', path: '/blog' },
 ]
 
+onMounted(() => {
+  const root = document.documentElement
+  root.classList.remove('dark', 'cyber')
+  root.classList.add('light')
+  root.dataset.theme = 'light'
+})
+
 useHead({
   htmlAttrs: { lang: 'zh-CN' },
   bodyAttrs: { class: 'profile-body' },

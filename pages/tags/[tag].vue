@@ -1,5 +1,5 @@
 <template>
-  <main class="page-frame">
+  <div class="page-frame">
     <NuxtLink to="/tags" class="back-link">← 所有主题</NuxtLink>
     <header class="page-hero">
       <p class="eyebrow">Topic</p>
@@ -18,7 +18,7 @@
     </template>
 
     <p v-else class="empty-state">该主题下暂无文章。</p>
-  </main>
+  </div>
 </template>
 
 <script setup lang="ts">

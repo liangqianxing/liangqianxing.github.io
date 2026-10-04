@@ -1,6 +1,6 @@
 <template>
-  <main class="page-frame">
-    <section class="about-hero">
+  <div class="page-frame">
+    <section class="about-hero" :class="{ 'about-hero-single': !posts.length }">
       <div class="about-profile">
         <img src="/avatar.jpg" :alt="appConfig.authorCN" width="148" height="148" />
         <div class="about-identity">
@@ -10,13 +10,14 @@
           <p class="about-summary">{{ appConfig.bio }}</p>
           <div class="about-actions">
             <a :href="appConfig.github" target="_blank" rel="noopener noreferrer" class="primary-action">GitHub</a>
+            <NuxtLink to="/academic" class="secondary-action">学术主页</NuxtLink>
             <NuxtLink to="/posts" class="secondary-action">文章库</NuxtLink>
             <NuxtLink to="/tags" class="secondary-action">主题索引</NuxtLink>
           </div>
         </div>
       </div>
 
-      <aside class="about-snapshot" aria-label="个人站点概览">
+      <aside v-if="posts.length" class="about-snapshot" aria-label="个人站点概览">
         <p class="snapshot-label">PROFILE SNAPSHOT</p>
         <div class="snapshot-grid">
           <div>
@@ -38,7 +39,7 @@
 
     <div class="about-layout">
       <div>
-        <SiteBlock eyebrow="Focus" title="关注方向" description="把个人介绍拆成更具体的工程兴趣，方便快速判断内容边界。">
+        <SiteBlock eyebrow="Focus" title="关注方向" description="我关注 AI 基础设施与后端系统，也喜欢从源码和实践中理解技术。">
           <div class="focus-grid">
             <article v-for="(item, index) in focusAreas" :key="item.key" class="focus-card">
               <small>0{{ index + 1 }}</small>
@@ -102,12 +103,12 @@
           </div>
         </SiteBlock>
 
-        <SiteBlock eyebrow="Recent" title="近期文章" tone="panel">
+        <SiteBlock v-if="recentPosts.length" eyebrow="Recent" title="近期文章" tone="panel">
           <ArticleStream :posts="recentPosts" />
         </SiteBlock>
       </aside>
     </div>
-  </main>
+  </div>
 </template>
 
 <script setup lang="ts">

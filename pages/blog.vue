@@ -53,7 +53,7 @@
       </aside>
     </section>
 
-    <main id="home-content" class="site-main journal-content">
+    <div id="home-content" class="site-main journal-content">
       <SiteBlock
         v-if="featured"
         eyebrow="01 / Fresh notes"
@@ -98,7 +98,7 @@
           <TopicChip v-for="[tag, count] in topicCounts.slice(0, 16)" :key="tag" :tag="tag" :count="count" />
         </div>
       </SiteBlock>
-    </main>
+    </div>
   </div>
 </template>
 

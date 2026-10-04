@@ -61,7 +61,7 @@
 
     <!-- TOC Sidebar -->
     <aside
-      v-if="toc && toc.links && toc.links.length > 2"
+      v-if="hasToc"
       class="toc-sidebar"
       aria-label="目录"
     >
@@ -133,6 +133,29 @@
             >{{ tag }}</NuxtLink>
           </div>
         </header>
+
+        <details v-if="hasToc" class="post-inline-toc">
+          <summary>文章目录</summary>
+          <nav class="post-inline-toc-links" aria-label="文章目录">
+            <template v-for="link in toc?.links" :key="link.id">
+              <a
+                :href="`#${link.id}`"
+                :aria-current="activeId === link.id ? 'location' : undefined"
+                @click.prevent="scrollToHeading(link.id)"
+              >{{ link.text }}</a>
+              <template v-if="link.children">
+                <a
+                  v-for="child in link.children"
+                  :key="child.id"
+                  :href="`#${child.id}`"
+                  class="post-inline-toc-child"
+                  :aria-current="activeId === child.id ? 'location' : undefined"
+                  @click.prevent="scrollToHeading(child.id)"
+                >{{ child.text }}</a>
+              </template>
+            </template>
+          </nav>
+        </details>
 
         <!-- Article body -->
         <article id="article-start" class="prose" ref="articleRef">
@@ -235,6 +258,7 @@ const seriesPosts = computed(() => {
 })
 
 const toc = computed(() => page.value?.body?.toc ?? null)
+const hasToc = computed(() => (toc.value?.links?.length ?? 0) > 2)
 const primaryTopic = computed(() => page.value?.categories?.[0] ?? '技术随笔')
 
 // 优先从轻量 API 返回的预计算值取，fallback 再从 body AST 计算
@@ -251,6 +275,28 @@ const activeId = ref('')
 const articleRef = ref<HTMLElement | null>(null)
 const readingProgress = ref(0)
 let progressFrame = 0
+let headingObserver: IntersectionObserver | null = null
+let navResizeObserver: ResizeObserver | null = null
+
+function headingOffset() {
+  return (document.querySelector('.site-nav')?.getBoundingClientRect().height ?? 0) + 16
+}
+
+function observeHeadings() {
+  headingObserver?.disconnect()
+  const headings = articleRef.value?.querySelectorAll('h2, h3')
+  if (!headings?.length) return
+
+  headingObserver = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) activeId.value = entry.target.id
+      }
+    },
+    { rootMargin: `-${headingOffset()}px 0px -60% 0px`, threshold: 0 }
+  )
+  headings.forEach(heading => headingObserver?.observe(heading))
+}
 
 function updateReadingProgress() {
   const article = articleRef.value
@@ -274,9 +320,9 @@ function scheduleReadingProgress() {
 function scrollToHeading(id: string) {
   const el = document.getElementById(id)
   if (el) {
-    const offset = 72 // nav height + some padding
-    const top = el.getBoundingClientRect().top + window.scrollY - offset
-    window.scrollTo({ top, behavior: 'smooth' })
+    const top = el.getBoundingClientRect().top + window.scrollY - headingOffset()
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    window.scrollTo({ top, behavior: reducedMotion ? 'auto' : 'smooth' })
   }
 }
 
@@ -290,6 +336,8 @@ onBeforeUnmount(() => {
   window.removeEventListener('scroll', scheduleReadingProgress)
   window.removeEventListener('resize', scheduleReadingProgress)
   if (progressFrame) window.cancelAnimationFrame(progressFrame)
+  headingObserver?.disconnect()
+  navResizeObserver?.disconnect()
 })
 
 onMounted(() => {
@@ -328,23 +376,12 @@ onMounted(() => {
 
   addCopyButtons()
 
-  // TOC intersection observer
-  const headings = document.querySelectorAll('.prose h2, .prose h3')
-  if (headings.length === 0) return
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) {
-          activeId.value = entry.target.id
-        }
-      }
-    },
-    { rootMargin: '-72px 0px -60% 0px', threshold: 0 }
-  )
-
-  headings.forEach(h => observer.observe(h))
-  onUnmounted(() => observer.disconnect())
+  observeHeadings()
+  const nav = document.querySelector('.site-nav')
+  if (nav) {
+    navResizeObserver = new ResizeObserver(observeHeadings)
+    navResizeObserver.observe(nav)
+  }
 })
 
 // SEO
@@ -380,3 +417,45 @@ useHead(() => ({
     : [],
 }))
 </script>
+
+<style scoped>
+.post-inline-toc {
+  margin-bottom: 2rem;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 0.85rem 0;
+  color: var(--muted);
+}
+
+.post-inline-toc summary {
+  cursor: pointer;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.post-inline-toc-links {
+  display: grid;
+  gap: 0.5rem;
+  padding-top: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.post-inline-toc-links a {
+  width: fit-content;
+}
+
+.post-inline-toc-links a[aria-current="location"] {
+  color: var(--accent);
+}
+
+.post-inline-toc-child {
+  margin-left: 1rem;
+}
+
+@media (min-width: 1180px) {
+  .post-inline-toc {
+    display: none;
+  }
+}
+</style>

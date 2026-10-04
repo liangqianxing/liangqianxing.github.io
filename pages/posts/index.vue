@@ -1,5 +1,5 @@
 <template>
-  <main class="page-frame">
+  <div class="page-frame">
     <header class="page-hero">
       <p class="eyebrow">Archive</p>
       <h1>文章库</h1>
@@ -82,8 +82,8 @@
       </section>
     </template>
 
-    <p v-else class="empty-state">没有匹配的文章，换个关键词试试。</p>
-  </main>
+    <p v-else class="empty-state">{{ posts.length ? '没有匹配的文章，换个关键词试试。' : '这里暂时没有公开文章。' }}</p>
+  </div>
 </template>
 
 <script setup lang="ts">

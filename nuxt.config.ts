@@ -133,7 +133,7 @@ export default defineNuxtConfig({
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         { charset: 'utf-8' },
-        { name: 'theme-color', content: '#10151f' },
+        { name: 'theme-color', content: '#fafaf8' },
       ],
       link: [
         { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon.png?v=3' },
@@ -146,7 +146,7 @@ export default defineNuxtConfig({
       // 防主题闪烁：在 DOM 渲染前读取 localStorage 并立即应用主题 class
       script: [
         {
-          innerHTML: `(function(){var p=location.pathname.replace(/[/]$/,'')||'/';var profile=p==='/'||p==='/academic';var t=localStorage.getItem('theme');var h=document.documentElement;t=profile?'light':t==='light'||t==='cyber'||t==='dark'?t:'dark';h.dataset.theme=t;h.classList.toggle('light',t==='light');h.classList.toggle('dark',t!=='light');h.classList.toggle('cyber',t==='cyber');var m=document.querySelector('meta[name=theme-color]');if(m)m.setAttribute('content',profile?'#fafaf8':t==='light'?'#f8f9fc':t==='cyber'?'#07110f':'#10151f');})();`,
+          innerHTML: `(function(){var p=location.pathname.replace(/[/]$/,'')||'/';var profile=p==='/'||p==='/academic';var t;try{t=localStorage.getItem('theme')}catch(e){}var h=document.documentElement;t=profile?'light':t==='dark'||t==='cyber'?t:'light';h.dataset.theme=t;h.classList.toggle('light',t==='light');h.classList.toggle('dark',t!=='light');h.classList.toggle('cyber',t==='cyber');var m=document.querySelector('meta[name=theme-color]');if(m)m.setAttribute('content',t==='light'?'#fafaf8':t==='cyber'?'#07110f':'#10151f');})();`,
           type: 'text/javascript',
         },
       ],
