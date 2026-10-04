@@ -33,7 +33,7 @@ function setTheme(mode: ThemeMode, persist = true) {
   root.classList.toggle('cyber', mode === 'cyber')
   root.dataset.theme = mode
   document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')
-    ?.setAttribute('content', mode === 'light' ? '#fafaf8' : mode === 'cyber' ? '#07110f' : '#10151f')
+    ?.setAttribute('content', mode === 'light' ? '#ffffff' : mode === 'cyber' ? '#07110f' : '#10151f')
   if (persist) {
     try { localStorage.setItem('theme', mode) } catch { /* Storage may be unavailable. */ }
   }

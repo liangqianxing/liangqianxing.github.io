@@ -5,7 +5,7 @@
   --font-mono: "JetBrains Mono Variable", "JetBrains Mono", "SFMono-Regular", "Cascadia Code", ui-monospace, monospace;
   --wide: 960px;
   --read: 760px;
-  --nav-h: 124px;
+  --nav-h: 92px;
   --radius: 8px;
   --radius-sm: 6px;
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -3313,7 +3313,7 @@ pre[class*="language-"]::before,
   border: 0;
 }
 
-@media (min-width: 1180px) {
+@media (min-width: 1280px) {
   .toc-sidebar {
     display: block;
   }

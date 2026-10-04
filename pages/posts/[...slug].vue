@@ -453,7 +453,7 @@ useHead(() => ({
   margin-left: 1rem;
 }
 
-@media (min-width: 1180px) {
+@media (min-width: 1280px) {
   .post-inline-toc {
     display: none;
   }

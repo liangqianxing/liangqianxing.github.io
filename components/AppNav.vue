@@ -3,8 +3,10 @@
     <div class="blog-header-row">
       <NuxtLink to="/blog" class="blog-identity" aria-label="gu.log 博客首页">
         <img src="/logo.svg?v=3" alt="" width="32" height="32" />
-        <span class="blog-identity-name">{{ appConfig.authorEN }}</span>
-        <span class="blog-identity-label">{{ appConfig.title }}</span>
+        <span class="blog-identity-copy">
+          <span class="blog-identity-name">{{ appConfig.authorEN }}</span>
+          <span class="blog-identity-label">{{ appConfig.title }}</span>
+        </span>
       </NuxtLink>
       <nav class="blog-site-links" aria-label="个人主页导航">
         <NuxtLink to="/">主页</NuxtLink>

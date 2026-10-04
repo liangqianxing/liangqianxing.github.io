@@ -1,57 +1,32 @@
 <template>
   <div class="journal-home">
-    <section class="journal-hero" aria-labelledby="journal-title">
-      <div class="journal-intro">
-        <p class="journal-eyebrow">
-          <span class="journal-mark" aria-hidden="true" />
-          THE PERSONAL NOTEBOOK
-        </p>
-        <h1 id="journal-title">认真折腾，<br /><span>随手记录。</span></h1>
-        <p class="journal-summary">这里是{{ appConfig.authorCN }}的个人笔记。记录 LLM、Agent 与工程实践，也留下一些比赛、实习和旅行的片段。</p>
-        <div class="journal-actions">
-          <NuxtLink to="/posts" class="journal-primary">
-            开始阅读 <span aria-hidden="true">→</span>
-          </NuxtLink>
-          <NuxtLink to="/about" class="journal-secondary">
-            认识一下我 <span aria-hidden="true">↗</span>
-          </NuxtLink>
-        </div>
-        <div class="journal-caption">
-          <span v-if="posts.length">{{ posts.length }} 篇笔记 · {{ topicCounts.length }} 个主题</span>
-          <span v-else>CODE · RESEARCH · LIFE</span>
-          <span class="journal-caption-line" aria-hidden="true" />
-          <a href="#home-content">往下看看 <span aria-hidden="true">↓</span></a>
-        </div>
-      </div>
-      <aside class="workbench" aria-label="关于作者与近期关注">
-        <div class="workbench-topline">
-          <span>FROM MY WORKBENCH</span>
-          <span class="workbench-symbol" aria-hidden="true">✳</span>
-        </div>
-        <NuxtLink to="/about" class="workbench-identity">
-          <img src="/avatar.jpg" :alt="appConfig.authorCN" width="68" height="68" />
-          <div>
-            <strong>{{ appConfig.authorEN }}</strong>
-            <span>{{ appConfig.authorCN }} · Research & Engineering</span>
+    <div class="notebook-hero-wrap">
+      <section class="notebook-hero" aria-labelledby="journal-title">
+        <div class="notebook-intro">
+          <p class="notebook-greeting">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="4" />
+              <path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5" />
+            </svg>
+            你好，我是{{ appConfig.authorCN }}
+          </p>
+          <h1 id="journal-title" class="notebook-title">认真折腾，<span class="notebook-highlight">随手记录<svg viewBox="0 0 100 20" preserveAspectRatio="none" fill="none" aria-hidden="true"><path d="M5 15C20 12 50 12 95 18" stroke="currentColor" stroke-width="4" stroke-linecap="round" /></svg></span>。</h1>
+          <p class="notebook-summary">这里是{{ appConfig.authorCN }}的个人笔记。记录 LLM、Agent 与工程实践，也留下一些比赛、实习和旅行的片段。</p>
+          <div class="notebook-actions">
+            <NuxtLink to="#home-content" class="notebook-primary">探索主题</NuxtLink>
+            <NuxtLink to="/about" class="notebook-secondary">关于我 <span aria-hidden="true">→</span></NuxtLink>
           </div>
-        </NuxtLink>
-        <p class="workbench-label">近期关注 / CURRENT FOCUS</p>
-        <NuxtLink
-          v-for="(focus, index) in focusLinks"
-          :key="focus.to"
-          :to="focus.to"
-          class="workbench-link"
-        >
-          <span class="workbench-index">0{{ index + 1 }}</span>
-          <span>{{ focus.title }}</span>
-          <span class="workbench-arrow" aria-hidden="true">↗</span>
-        </NuxtLink>
-        <div class="workbench-note">
-          <span class="workbench-note-dot" aria-hidden="true" />
-          <p>{{ appConfig.status }}</p>
+          <div class="notebook-author">
+            <img src="/avatar.jpg" :alt="appConfig.authorCN" width="48" height="48" />
+            <div>
+              <strong>{{ appConfig.authorEN }} / {{ appConfig.authorCN }}</strong>
+              <span>{{ appConfig.status }}</span>
+            </div>
+          </div>
         </div>
-      </aside>
-    </section>
+        <NotebookCode :name="appConfig.authorCN" :notebook="appConfig.title" />
+      </section>
+    </div>
 
     <div id="home-content" class="site-main journal-content">
       <SiteBlock
@@ -67,15 +42,15 @@
           <ArticleStream :posts="recentPosts" />
         </div>
       </SiteBlock>
-      <SiteBlock
-        :eyebrow="featured ? '02 / Explore' : '01 / Explore'"
-        title="从一个方向开始"
-        description="不必从头翻起，挑一个感兴趣的主题。"
-        action-to="/tags"
-        action-label="所有主题"
-      >
+      <section class="site-block notebook-topics" aria-labelledby="notebook-topics-title">
+        <div class="notebook-topic-head">
+          <span class="notebook-topic-symbol" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9L12 3Z" /></svg>
+          </span>
+          <h2 id="notebook-topics-title">从一个方向开始</h2>
+        </div>
         <KnowledgeMap :items="knowledgeMap" />
-      </SiteBlock>
+      </section>
       <SiteBlock
         v-if="selectedPosts.length"
         eyebrow="Selected / Start here"
@@ -127,12 +102,6 @@ const recentPosts = computed(() => {
   const excluded = new Set([featured.value?.slug, ...selectedSlugs])
   return posts.value.filter(post => !excluded.has(post.slug)).slice(0, 6)
 })
-const focusLinks = [
-  { title: 'AI Infrastructure', to: '/tags/ai-infra' },
-  { title: 'LLM Agents', to: '/tags/agent' },
-  { title: 'Systems & Source Reading', to: '/tags/源码分析' },
-]
-
 const topicCounts = computed(() => {
   const counts = new Map<string, number>()
   for (const post of posts.value) {
@@ -144,6 +113,7 @@ const topicCounts = computed(() => {
 const knowledgeMap = [
   {
     key: 'AI',
+    eyebrow: 'AI / INFRA',
     title: 'AI Infra / Agent',
     desc: '从模型基础到 RAG、上下文工程、推理服务和 Agent 平台。',
     label: '看 AI Infra',
@@ -151,6 +121,7 @@ const knowledgeMap = [
   },
   {
     key: 'SYS',
+    eyebrow: 'SYSTEMS',
     title: '后端与分布式',
     desc: '数据库、缓存、高并发、分布式系统与 Go 后端项目。',
     label: '看后端系统',
@@ -158,6 +129,7 @@ const knowledgeMap = [
   },
   {
     key: 'SRC',
+    eyebrow: 'SOURCE',
     title: '源码阅读',
     desc: '从入口、数据流和关键抽象读懂开源项目。',
     label: '看源码分析',
@@ -165,6 +137,7 @@ const knowledgeMap = [
   },
   {
     key: 'INT',
+    eyebrow: 'PRACTICE',
     title: '面试与实践',
     desc: '按岗位组织的准备清单、项目表达和高频追问。',
     label: '看面试',
