@@ -137,6 +137,7 @@ html.cyber body.blog-body {
 .blog-site .focus-card p { font-size: 0.83rem; }
 .blog-site .site-block-panel { padding: 0; background: transparent; border: 0; }
 .blog-site .now-card { padding: 18px; font-size: 0.85rem; }
+.blog-site .timeline::before { display: none; }
 .blog-site .timeline-card h3 { font-size: 1.05rem; font-weight: 500; }
 .blog-site .timeline-role { font-weight: 500; }
 .blog-site .friends-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
