@@ -1,265 +1,174 @@
 <template>
-  <div class="page-frame">
-    <header class="page-hero">
-      <p class="eyebrow">Archive</p>
-      <h1>文章库</h1>
-      <p>从主题进入，再按关键词或标签缩小范围。共 {{ posts.length }} 篇公开文章。</p>
+  <div class="page-frame writing-archive">
+    <header class="writing-welcome">
+      <div>
+        <p class="writing-kicker"><span aria-hidden="true">✳</span> Notes & explorations</p>
+        <h1>文章<span>手记<svg viewBox="0 0 160 12" fill="none" aria-hidden="true"><path d="M3 8q71-9 154-3M15 11q61-6 128-3" /></svg></span></h1>
+        <p class="writing-intro">把问题拆开，把理解留下。<br />这里收着一路折腾的笔记，也欢迎你随意翻翻。</p>
+        <p v-if="!error && status === 'success'" class="writing-stats"><span>{{ posts.length }} 篇文章</span><span>{{ tags.length }} 个标签</span><NuxtLink to="/tags">按标签逛逛 <span aria-hidden="true">↗</span></NuxtLink></p>
+      </div>
+      <div class="writing-doodle" aria-hidden="true">
+        <svg viewBox="0 0 210 170" fill="none">
+          <path class="doodle-shadow" d="m37 60 106-10 20 102-110 9Z" />
+          <path class="doodle-paper" d="m51 27 108 10-12 114-109-9Z" />
+          <path class="doodle-spine" d="m65 28-12 115" />
+          <path class="doodle-lines" d="m82 61 52 5m-55 17 48 5m-51 17 29 3" />
+          <path class="doodle-tape" d="m86 18 45 4-3 21-44-4Z" />
+          <path class="doodle-pencil" d="m169 62 10 4-28 63-11 8 1-14Z" />
+          <path class="doodle-spark" d="M25 42q2-9 10-11-8-2-10-11-2 9-10 11 8 2 10 11ZM180 145q1-6 7-8-6-1-7-7-2 6-8 7 6 2 8 8Z" />
+          <path class="doodle-loop" d="M164 24q17-21 28-8c9 14-7 28-15 20-7-7 13-11 20-1" />
+        </svg>
+        <span>a little notebook</span>
+      </div>
     </header>
 
-    <section class="archive-directory" aria-labelledby="archive-directory-title">
-      <div class="archive-directory-head">
-        <div>
-          <p class="eyebrow">Topics</p>
-          <h2 id="archive-directory-title">从一个方向开始</h2>
-        </div>
-        <p>文章可以同时属于多个主题。</p>
+    <section class="writing-find" aria-label="查找文章">
+      <div class="writing-find-top">
+        <label class="writing-search">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" /><path d="m15.5 15.5 4 4" /></svg>
+          <input v-model="query" type="search" placeholder="搜索文章或关键词…" aria-label="搜索文章" />
+          <button v-if="query" type="button" aria-label="清空搜索" @click="query = ''">×</button>
+        </label>
+        <NuxtLink to="/tags" class="writing-tag-link">标签索引 <span aria-hidden="true">↗</span></NuxtLink>
       </div>
-
-      <div class="topic-directory">
-        <button
-          v-for="topic in topicSummaries"
-          :key="topic.id"
-          class="archive-topic"
-          :class="{ active: activeTopic === topic.id }"
-          type="button"
-          :aria-pressed="activeTopic === topic.id"
-          @click="setActiveTopic(topic.id)"
-        >
-          <span class="archive-topic-index">{{ topic.index }}</span>
-          <span class="archive-topic-copy">
-            <strong>{{ topic.name }}</strong>
-            <small>{{ topic.description }}</small>
-          </span>
-          <span class="archive-topic-count">{{ topic.count }}</span>
-        </button>
+      <div v-if="tags.length" class="writing-filters" role="group" aria-label="按标签筛选文章">
+        <button type="button" :aria-pressed="!activeTag" @click="activeTag = ''">全部 <span>{{ posts.length }}</span></button>
+        <button v-for="entry in tags" :key="entry.slug" type="button" :aria-pressed="activeTag === entry.slug" :data-tone="archiveTone(entry.slug)" @click="activeTag = activeTag === entry.slug ? '' : entry.slug">{{ entry.tag }} <span>{{ entry.count }}</span></button>
       </div>
     </section>
 
-    <div class="archive-results-head">
-      <div>
-        <p class="eyebrow">Selection</p>
-        <h2>{{ selectedTopic.name }}</h2>
-      </div>
-      <span class="archive-count">{{ filteredPosts.length }} / {{ topicPosts.length }} 篇</span>
+    <div class="writing-results">
+      <p role="status" aria-live="polite" aria-atomic="true">{{ hasFilters ? `找到 ${filteredPosts.length} 篇文章` : '按时间，慢慢翻。' }}<span v-if="activeTagName"> · #{{ activeTagName }}</span></p>
+      <button v-if="hasFilters" type="button" @click="resetFilters">重置筛选 <span aria-hidden="true">↺</span></button>
+    </div>
+    <div v-if="error" class="writing-empty" role="alert"><p>文章暂时没能加载，刷新页面再试试吧。</p><a href="/posts/">刷新页面 <span aria-hidden="true">↻</span></a></div>
+    <div v-else-if="status === 'pending'" class="writing-empty" role="status"><p>正在整理笔记…</p></div>
+    <ArchiveEntries v-else-if="filteredPosts.length" :posts="filteredPosts" />
+    <div v-else class="writing-empty">
+      <span class="writing-empty-mark" aria-hidden="true">⌕</span>
+      <h2>{{ posts.length ? '这次没找到。' : '手记正在慢慢积累。' }}</h2>
+      <p>{{ posts.length ? '换个关键词，或放开标签筛选，再翻翻看。' : '有新的公开文章时，就会出现在这里。' }}</p>
+      <button v-if="hasFilters" type="button" @click="resetFilters">查看全部文章 <span aria-hidden="true">→</span></button>
+      <NuxtLink v-else to="/blog">回到博客 <span aria-hidden="true">→</span></NuxtLink>
     </div>
 
-    <section class="archive-panel">
-      <label class="search-box">
-        <span aria-hidden="true">⌕</span>
-        <input
-          v-model.trim="query"
-          type="search"
-          :placeholder="`在「${selectedTopic.name}」中搜索`"
-          :aria-label="`在${selectedTopic.name}中搜索文章`"
-        />
-      </label>
-    </section>
-
-    <div v-if="topTags.length" class="filter-row" aria-label="标签筛选">
-      <button class="topic-button" :class="{ active: activeTag === '' }" type="button" @click="activeTag = ''">
-        全部标签
-      </button>
-      <button
-        v-for="[tag, count] in topTags"
-        :key="tag"
-        class="topic-button"
-        :class="{ active: activeTag === tag }"
-        type="button"
-        @click="activeTag = activeTag === tag ? '' : tag"
-      >
-        #{{ tag }}
-        <span>{{ count }}</span>
-      </button>
-    </div>
-
-    <template v-if="postsByYear.length">
-      <section v-for="[year, yearPosts] in postsByYear" :key="year" class="year-section">
-        <h2>
-          {{ year }}
-          <span>{{ yearPosts.length }} 篇</span>
-        </h2>
-        <ArticleStream :posts="yearPosts" />
-      </section>
-    </template>
-
-    <p v-else class="empty-state">{{ posts.length ? '没有匹配的文章，换个关键词试试。' : '这里暂时没有公开文章。' }}</p>
+    <p class="writing-signoff"><span aria-hidden="true">✧</span> 写下来，就是思考留下的脚印。<NuxtLink to="/blog">回到博客 <span aria-hidden="true">→</span></NuxtLink></p>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { PostMeta } from '~/server/api/posts.get'
+import { archiveTone, collectArchiveTags } from '~/utils/archive'
+import { tagSlug } from '~/utils/blog'
 
-const { data } = await useAsyncData<PostMeta[]>('posts-archive', () =>
-  $fetch('/api/posts')
-)
-
+const { data, error, status } = await usePublicArchive()
+const posts = computed(() => data.value ?? [])
+const tags = computed(() => collectArchiveTags(posts.value))
 const query = ref('')
 const activeTag = ref('')
-const activeTopic = ref<TopicId>('all')
-const posts = computed(() => data.value ?? [])
-
-type TopicId = 'all' | 'interview' | 'llm-systems' | 'foundations' | 'training' | 'multimodal' | 'backend' | 'low-latency' | 'algorithms' | 'other'
-
-interface ArchiveTopic {
-  id: TopicId
-  index: string
-  name: string
-  description: string
-  tags?: string[]
-  titleTerms?: string[]
-  seriesTerms?: string[]
-}
-
-const topicDefinitions: ArchiveTopic[] = [
-  {
-    id: 'all',
-    index: '00',
-    name: '全部文章',
-    description: '按时间浏览完整归档',
-  },
-  {
-    id: 'interview',
-    index: '01',
-    name: '求职与面试',
-    description: '八股、项目包装与岗位准备',
-    tags: ['面试', '实习求职'],
-    titleTerms: ['面经', '面试'],
-  },
-  {
-    id: 'llm-systems',
-    index: '02',
-    name: 'LLM 与 Agent',
-    description: 'RAG、智能体与 AI 系统工程',
-    tags: ['AI Infra', 'Agent', 'RAG', 'vLLM', 'OpenClaw', 'LLM Memory', 'Vector DB', '向量检索', '混合检索'],
-    titleTerms: ['AI Infra', 'Agent', 'RAG', '推理引擎', 'AI 编程助手', 'AI 科研'],
-  },
-  {
-    id: 'foundations',
-    index: '03',
-    name: '模型原理',
-    description: '基模、架构与生成模型',
-    tags: ['Transformer', 'ViT', 'CLIP', '深度学习', 'Autograd', '生成模型', 'Diffusion', 'Flow Matching', '基础模型'],
-    titleTerms: ['LLM 技术路线', 'Transformer', '基模'],
-    seriesTerms: ['LLM 核心原理'],
-  },
-  {
-    id: 'training',
-    index: '04',
-    name: '训练与推理',
-    description: '预训练、后训练与推理优化',
-    tags: ['大模型训练', '预训练', '分布式训练', '推理优化', 'GPU', 'TensorRT', 'Nanotron', 'PagedAttention', '投机解码'],
-    titleTerms: ['训练', '推理', 'LLM Serving'],
-  },
-  {
-    id: 'multimodal',
-    index: '05',
-    name: '多模态',
-    description: '视觉语言、OCR 与多模态检索',
-    tags: ['多模态', '多模态大模型', 'CLIP', 'ViT', 'OCR', '医疗 AI', 'VLA'],
-    titleTerms: ['多模态', 'Vision Transformer', 'CLIP', 'OCR'],
-  },
-  {
-    id: 'backend',
-    index: '06',
-    name: '后端与系统',
-    description: 'Go、数据库与分布式工程',
-    tags: ['Go', '后端', '后端架构', '后端框架', '数据库', '分布式系统', 'Kafka', '消息队列', 'Git', 'GitHub Actions', '全栈', '前端'],
-    titleTerms: ['后端', '数据库', '分布式系统', 'Kafka', 'CloudVault', 'GoFoundry'],
-  },
-  {
-    id: 'low-latency',
-    index: '07',
-    name: '量化与低延迟',
-    description: 'C++、并发与性能优化',
-    tags: ['量化开发', '低延迟', '并发', '无锁编程', '性能优化'],
-    titleTerms: ['C++ 并发', '无锁并发'],
-  },
-  {
-    id: 'algorithms',
-    index: '08',
-    name: '算法与竞赛',
-    description: 'LeetCode、数据结构与 XCPC',
-    tags: ['算法', 'LeetCode', 'XCPC', '比赛', '链表', 'LRU'],
-    titleTerms: ['算法', '竞赛', 'XCPC'],
-  },
-  {
-    id: 'other',
-    index: '09',
-    name: '随笔与其他',
-    description: '语言学习、旅行与零散记录',
-  },
-]
-
-const normalize = (value: string | undefined) => value?.toLocaleLowerCase('zh-CN') ?? ''
-
-function matchesTopic(post: PostMeta, topic: ArchiveTopic) {
-  if (topic.id === 'all') return true
-
-  if (topic.id === 'other') {
-    return !topicDefinitions.some((candidate) =>
-      candidate.id !== 'all' && candidate.id !== 'other' && matchesTopic(post, candidate)
-    )
-  }
-
-  const tags = new Set((post.tags ?? []).map(normalize))
-  const title = normalize(post.title)
-  const series = normalize(post.series)
-  const matchesTag = topic.tags?.some((tag) => tags.has(normalize(tag))) ?? false
-  const matchesTitle = topic.titleTerms?.some((term) => title.includes(normalize(term))) ?? false
-  const matchesSeries = topic.seriesTerms?.some((term) => series.includes(normalize(term))) ?? false
-  return matchesTag || matchesTitle || matchesSeries
-}
-
-const selectedTopic = computed(() =>
-  topicDefinitions.find((topic) => topic.id === activeTopic.value) ?? topicDefinitions[0]
-)
-
-const topicPosts = computed(() =>
-  posts.value.filter((post) => matchesTopic(post, selectedTopic.value))
-)
-
-const topicSummaries = computed(() =>
-  topicDefinitions.map((topic) => ({
-    ...topic,
-    count: posts.value.filter((post) => matchesTopic(post, topic)).length,
-  }))
-)
-
-const topTags = computed(() => {
-  const counts = new Map<string, number>()
-  for (const post of topicPosts.value) {
-    for (const tag of post.tags ?? []) counts.set(tag, (counts.get(tag) ?? 0) + 1)
-  }
-  return [...counts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 10)
-})
-
+const activeTagName = computed(() => tags.value.find(tag => tag.slug === activeTag.value)?.tag ?? '')
+const hasFilters = computed(() => Boolean(query.value.trim() || activeTag.value))
 const filteredPosts = computed(() => {
-  const q = query.value.toLowerCase()
-  return topicPosts.value.filter((post) => {
-    const matchesTag = activeTag.value ? post.tags?.includes(activeTag.value) : true
-    if (!q) return matchesTag
-    const haystack = [post.title, post.description, post.excerpt, post.series, ...(post.tags ?? [])].join(' ').toLowerCase()
-    return matchesTag && haystack.includes(q)
+  const keyword = query.value.trim().toLocaleLowerCase('zh-CN')
+  return posts.value.filter(post => {
+    if (activeTag.value && !post.tags.some(tag => tagSlug(tag) === activeTag.value)) return false
+    if (!keyword) return true
+    return [post.title, post.description, post.excerpt, post.series, ...post.tags].join(' ').toLocaleLowerCase('zh-CN').includes(keyword)
   })
 })
-
-function setActiveTopic(topic: TopicId) {
-  activeTopic.value = topic
+function resetFilters() {
+  query.value = ''
   activeTag.value = ''
 }
 
-const postsByYear = computed(() => {
-  const map = new Map<string, PostMeta[]>()
-  for (const post of filteredPosts.value) {
-    const year = new Date(post.date).getFullYear().toString()
-    if (!map.has(year)) map.set(year, [])
-    map.get(year)!.push(post)
-  }
-  return [...map.entries()].sort((a, b) => Number(b[0]) - Number(a[0]))
-})
-
 useHead({
   title: '文章库',
-  meta: [{ name: 'description', content: '按求职、大模型、多模态、后端、量化和算法等主题浏览文章归档' }],
+  meta: [{ name: 'description', content: '古恩豪的技术笔记与工程手记，按时间阅读，也可以搜索关键词或按标签浏览。' }],
 })
 </script>
+
+<style scoped>
+.writing-archive :where(h1, h2, p) { margin: 0; }
+.writing-welcome { display: grid; grid-template-columns: minmax(0, 1fr) 240px; align-items: center; gap: 40px; padding: 0 28px 26px; }
+.writing-kicker { display: flex; align-items: center; gap: 9px; font-family: Georgia, serif; font-style: italic; font-size: 0.85rem; color: var(--muted); }
+.writing-kicker > span { font-size: 1.4rem; color: var(--accent-2); }
+.writing-welcome h1 { margin-block: 10px 12px; color: var(--ink); font-size: clamp(2.5rem, 4.2vw, 2.7rem); font-weight: 500; letter-spacing: -0.05em; line-height: 1.5; }
+.writing-welcome h1 > span { position: relative; display: inline-block; color: var(--accent); }
+.writing-welcome h1 svg { position: absolute; width: 106%; height: 12px; left: -3%; bottom: 0; stroke: var(--accent-2); stroke-width: 1.6; stroke-linecap: round; opacity: 0.6; }
+.writing-intro { color: var(--text); font-size: 0.88rem; line-height: 1.95; }
+.writing-stats { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-top: 18px; color: var(--muted); font-size: 0.74rem; }
+.writing-stats > span + span::before { content: '·'; margin-right: 18px; color: var(--line-strong); }
+.writing-stats a { color: var(--accent); }
+.writing-doodle { position: relative; width: 180px; justify-self: center; transform: rotate(3deg); }
+.writing-doodle svg { width: 100%; height: auto; }
+.doodle-shadow { fill: var(--topic-purple); }
+.doodle-paper { fill: var(--surface); stroke: var(--line-strong); stroke-width: 1.5; stroke-linejoin: round; }
+.doodle-spine, .doodle-lines { stroke: var(--accent-2); stroke-width: 1.5; stroke-linecap: round; opacity: 0.45; }
+.doodle-tape { fill: var(--topic-green); stroke: color-mix(in srgb, var(--accent) 14%, transparent); }
+.doodle-pencil { fill: var(--topic-orange); stroke: var(--accent-2); stroke-width: 1.2; stroke-linejoin: round; }
+.doodle-spark { fill: var(--accent-2); opacity: 0.55; }
+.doodle-loop { stroke: var(--accent-2); stroke-width: 1.5; stroke-linecap: round; opacity: 0.5; }
+.writing-doodle > span { display: block; text-align: center; font-family: Georgia, serif; font-style: italic; font-size: 0.85rem; color: var(--muted); }
+.writing-find { padding: 20px 26px; border-radius: 22px; background: var(--bg-2); }
+.writing-find-top { display: flex; align-items: center; gap: 24px; }
+.writing-search { flex: 1; display: flex; align-items: center; gap: 10px; min-width: 0; padding: 0 14px; border: 1px solid var(--line); border-radius: 100px; background: var(--surface); }
+.writing-search > svg { width: 18px; height: 18px; flex: 0 0 auto; stroke: var(--muted); stroke-width: 1.5; stroke-linecap: round; }
+.writing-search input { width: 100%; min-width: 0; height: 44px; padding: 0; border: 0; outline: 0; background: transparent; color: var(--ink); font-size: 0.8rem; }
+.writing-search:focus-within { outline: 2px solid var(--accent); outline-offset: 3px; }
+.writing-search input:focus-visible { outline: 0; }
+.writing-search input::placeholder { color: var(--muted); }
+.writing-search input::-webkit-search-cancel-button { display: none; }
+.writing-search button { flex: 0 0 auto; width: 30px; height: 32px; border: 0; background: transparent; color: var(--muted); font-size: 1.3rem; cursor: pointer; }
+.writing-tag-link { flex: 0 0 auto; font-size: 0.75rem; color: var(--accent); white-space: nowrap; }
+.writing-tag-link > span { margin-left: 6px; }
+.writing-filters { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 16px; }
+.writing-filters button { display: inline-flex; align-items: center; gap: 7px; min-height: 34px; padding: 5px 11px; border: 1px solid transparent; border-radius: 100px; background: transparent; color: var(--text); font-size: 0.72rem; cursor: pointer; overflow-wrap: anywhere; }
+.writing-filters button > span { color: var(--muted); font-size: 0.64rem; }
+.writing-filters button:hover { background: var(--surface); }
+.writing-filters button[aria-pressed="true"] { background: var(--surface); border-color: var(--accent); color: var(--accent); }
+.writing-filters button[data-tone="purple"][aria-pressed="true"] { background: var(--topic-purple); }
+.writing-filters button[data-tone="green"][aria-pressed="true"] { background: var(--topic-green); }
+.writing-filters button[data-tone="blue"][aria-pressed="true"] { background: var(--topic-blue); }
+.writing-filters button[data-tone="orange"][aria-pressed="true"] { background: var(--topic-orange); }
+.writing-results { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-block: 22px 16px; color: var(--muted); font-size: 0.74rem; }
+.writing-results p { min-width: 0; overflow-wrap: anywhere; }
+.writing-results button { flex: 0 0 auto; padding: 6px 0; border: 0; background: transparent; color: var(--accent); font-size: 0.73rem; cursor: pointer; }
+.writing-empty { padding: 50px 20px 60px; text-align: center; }
+.writing-empty-mark { display: block; color: var(--accent-2); font-size: 2.6rem; line-height: 1.2; }
+.writing-empty h2 { margin-top: 15px; color: var(--ink); font-size: 1.15rem; font-weight: 500; }
+.writing-empty p { margin-top: 10px; color: var(--muted); font-size: 0.85rem; }
+.writing-empty button, .writing-empty a { display: inline-flex; gap: 16px; align-items: center; min-height: 40px; margin-top: 20px; padding: 5px 18px; border: 0; border-radius: 100px; background: var(--surface-2); color: var(--accent); font-size: 0.8rem; cursor: pointer; }
+.writing-signoff { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 36px; padding-inline: 4px; color: var(--muted); font-size: 0.74rem; }
+.writing-signoff > span { font-size: 1.3rem; color: var(--accent-2); }
+.writing-signoff a { margin-left: auto; color: var(--accent); }
+@media (hover: hover) and (pointer: fine) {
+  .writing-doodle { transition: transform 220ms ease; }
+  .writing-doodle:hover { transform: rotate(0deg) translateY(-2px); }
+}
+@media (max-width: 700px) {
+  .writing-welcome { grid-template-columns: minmax(0, 1fr) 160px; gap: 20px; padding-inline: 4px; }
+  .writing-doodle { width: 155px; }
+  .writing-find { padding: 20px; }
+  .writing-find-top { gap: 16px; }
+}
+@media (max-width: 480px) {
+  .writing-welcome { grid-template-columns: 1fr; padding: 0 2px 28px; }
+  .writing-doodle { display: none; }
+  .writing-welcome h1 { font-size: 2.5rem; margin-bottom: 14px; }
+  .writing-intro { font-size: 0.83rem; }
+  .writing-stats { gap: 9px 14px; font-size: 0.7rem; margin-top: 18px; }
+  .writing-stats > span + span::before { margin-right: 14px; }
+  .writing-find { padding: 16px; border-radius: 18px; }
+  .writing-find-top { flex-wrap: wrap; gap: 10px; }
+  .writing-search { flex-basis: 100%; }
+  .writing-search input { font-size: 1rem; }
+  .writing-tag-link { margin-left: auto; font-size: 0.7rem; }
+  .writing-filters { gap: 4px; margin-top: 10px; }
+  .writing-filters button { padding-inline: 9px; font-size: 0.68rem; }
+  .writing-results { font-size: 0.7rem; margin-block: 20px; }
+  .writing-signoff { font-size: 0.7rem; gap: 9px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .writing-doodle { transition: none; }
+  .writing-doodle:hover { transform: rotate(3deg); }
+}
+</style>
