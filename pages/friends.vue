@@ -51,11 +51,15 @@
 </template>
 
 <script setup lang="ts">
+import friendAvatars from '~/data/friend-avatars.json'
+
 const appConfig = useAppConfig()
 const failedAvatars = reactive<Record<string, boolean>>({})
 
 function avatarSource(src: string) {
-  // GitHub's public avatar endpoint accepts a pixel size before redirecting.
+  const cached = (friendAvatars as Record<string, string>)[src]
+  if (cached) return cached
+  // Unprocessed future entries retain the existing bounded remote request.
   if (/^https:\/\/github\.com\/[^/?]+\.png$/.test(src)) return `${src}?size=112`
   return src
 }

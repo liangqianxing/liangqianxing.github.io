@@ -27,6 +27,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 PUBLIC_ROOT = REPO_ROOT / "public"
 MEDIA_ROOT = PUBLIC_ROOT / "media"
 MANIFEST_PATH = REPO_ROOT / "data" / "image-assets.json"
+FRIEND_AVATARS_PATH = REPO_ROOT / "data" / "friend-avatars.json"
 WEBP_QUALITY = 84
 
 # Explicitly scoped to raster images currently referenced by the Pages frontend.
@@ -35,7 +36,13 @@ RASTER_SOURCES: dict[str, tuple[int, ...]] = {
     "/avatar.jpg": (160, 320, 640),
     "/logos/ecnu.png": (48, 96, 144),
     "/logos/westlake.png": (48, 96, 144),
+    "/images/friends/sssn.jpg": (56, 112, 168),
 }
+
+# Remote friend sources are downloaded explicitly, never during site builds.
+# Their verified local snapshots are also retained as the fallback originals.
+for snapshot in json.loads(FRIEND_AVATARS_PATH.read_text(encoding="utf-8")).values():
+    RASTER_SOURCES[snapshot] = (56, 112, 168)
 
 # SVGs keep their original vector data. Dimensions reserve space before loading.
 SVG_SOURCES: tuple[str, ...] = (

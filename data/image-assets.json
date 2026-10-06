@@ -62,6 +62,69 @@
       }
     ]
   },
+  "/images/friends/sssn.jpg": {
+    "width": 192,
+    "height": 192,
+    "variants": [
+      {
+        "src": "/media/sssn-56w-d553772fc740.webp",
+        "width": 56,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/sssn-112w-3792a081d708.webp",
+        "width": 112,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/sssn-168w-e24a6a82a7a8.webp",
+        "width": 168,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/media/friends/friend-liumengxuan04-76187fa71b83.png": {
+    "width": 256,
+    "height": 256,
+    "variants": [
+      {
+        "src": "/media/friend-liumengxuan04-76187fa71b83-56w-ce20923f9f69.webp",
+        "width": 56,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/friend-liumengxuan04-76187fa71b83-112w-f6263fa2061d.webp",
+        "width": 112,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/friend-liumengxuan04-76187fa71b83-168w-bdf34ef228fa.webp",
+        "width": 168,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/media/friends/friend-chenchishui-f64dc0d061d4.png": {
+    "width": 256,
+    "height": 256,
+    "variants": [
+      {
+        "src": "/media/friend-chenchishui-f64dc0d061d4-56w-be9d979aa884.webp",
+        "width": 56,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/friend-chenchishui-f64dc0d061d4-112w-0caad1539004.webp",
+        "width": 112,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/friend-chenchishui-f64dc0d061d4-168w-aeb9102bd552.webp",
+        "width": 168,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
   "/logos/meituan.svg": {
     "width": 96,
     "height": 96,
