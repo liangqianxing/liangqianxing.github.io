@@ -43,7 +43,10 @@
           </a>
           <p class="portal-opening-caption">研究、工程，以及沿途的记录。</p>
         </div>
-        <div class="portal-scroll-cue" aria-hidden="true"><span /><span /></div>
+        <div class="portal-scroll-cue">
+          <p>向下滚动 · 上滑进入</p>
+          <div class="portal-scroll-arrows" aria-hidden="true"><span /><span /></div>
+        </div>
         <svg class="portal-curtain-edge" viewBox="0 0 1440 240" preserveAspectRatio="none" aria-hidden="true">
           <path d="M0 0H1440V22Q720 380 0 22Z" />
         </svg>
@@ -116,9 +119,20 @@ const phase = ref<'opening' | 'revealing' | 'entered'>('opening')
 let motionQuery: MediaQueryList | undefined
 let revealTimer: ReturnType<typeof setTimeout> | undefined
 let disposed = false
+let wheelDistance = 0
+let lastWheelTime = 0
+let touchOrigin: { id: number; x: number; y: number } | undefined
+
+function resetGesture() {
+  wheelDistance = 0
+  lastWheelTime = 0
+  touchOrigin = undefined
+}
 
 async function finishReveal(focus = true) {
+  if (disposed || phase.value === 'entered') return
   clearTimeout(revealTimer)
+  resetGesture()
   phase.value = 'entered'
   await nextTick()
   if (!disposed && focus) choicesTitle.value?.focus({ preventScroll: true })
@@ -132,10 +146,70 @@ function enter(event: MouseEvent) {
     choicesTitle.value?.focus({ preventScroll: true })
     return
   }
-  if (phase.value !== 'opening') return
+  startReveal()
+}
+
+function startReveal() {
+  if (disposed || !enhanced.value || phase.value !== 'opening') return
+  resetGesture()
   if (reducedMotion.value) { void finishReveal(); return }
   phase.value = 'revealing'
   revealTimer = setTimeout(() => void finishReveal(), 1250)
+}
+
+function onWheel(event: WheelEvent) {
+  if (!enhanced.value || phase.value === 'entered' || event.ctrlKey || event.defaultPrevented) return
+  if (event.deltaY <= 0 || Math.abs(event.deltaY) <= Math.abs(event.deltaX)) {
+    wheelDistance = 0
+    return
+  }
+  if (event.cancelable) event.preventDefault()
+  if (phase.value !== 'opening') return
+  const now = performance.now()
+  const unit = event.deltaMode === 1 ? 24 : event.deltaMode === 2 ? window.innerHeight : 1
+  wheelDistance = (now - lastWheelTime > 350 ? 0 : wheelDistance) + event.deltaY * unit
+  lastWheelTime = now
+  if (wheelDistance >= 48) startReveal()
+}
+
+function onTouchStart(event: TouchEvent) {
+  touchOrigin = undefined
+  if (!enhanced.value || phase.value !== 'opening' || event.touches.length !== 1) return
+  if (event.target instanceof Element && event.target.closest('.portal-header, .portal-skip, button, input, textarea, select, [contenteditable]')) return
+  const touch = event.touches[0]!
+  touchOrigin = { id: touch.identifier, x: touch.clientX, y: touch.clientY }
+}
+
+function onTouchMove(event: TouchEvent) {
+  if (event.touches.length !== 1) { touchOrigin = undefined; return }
+  if (!enhanced.value || phase.value === 'entered') return
+  if (phase.value === 'revealing') {
+    if (event.cancelable) event.preventDefault()
+    return
+  }
+  const touch = event.touches[0]!
+  if (!touchOrigin || touch.identifier !== touchOrigin.id) return
+  const distance = touchOrigin.y - touch.clientY
+  const sideways = Math.abs(touch.clientX - touchOrigin.x)
+  if (distance >= 48 && distance > sideways * 1.25) {
+    if (event.cancelable) event.preventDefault()
+    startReveal()
+  }
+}
+
+function onTouchEnd() {
+  touchOrigin = undefined
+}
+
+function onKeyDown(event: KeyboardEvent) {
+  if (!enhanced.value || phase.value === 'entered' || event.defaultPrevented || event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) return
+  const target = event.target instanceof Element ? event.target : null
+  if (target?.closest('input, textarea, select, [contenteditable]:not([contenteditable="false"])')) return
+  const space = event.key === ' '
+  if (space && target?.closest('a, button, [role="button"]')) return
+  if (event.key !== 'ArrowDown' && event.key !== 'PageDown' && !space) return
+  event.preventDefault()
+  startReveal()
 }
 
 function onCurtainEnd(event: AnimationEvent) {
@@ -144,6 +218,7 @@ function onCurtainEnd(event: AnimationEvent) {
 
 async function replay() {
   clearTimeout(revealTimer)
+  resetGesture()
   phase.value = 'opening'
   await nextTick()
   if (!disposed) {
@@ -173,13 +248,26 @@ onMounted(() => {
   enhanced.value = true
   motionQuery.addEventListener('change', onMotionChange)
   document.addEventListener('visibilitychange', onVisibilityChange)
+  document.addEventListener('keydown', onKeyDown)
+  scene.value?.addEventListener('wheel', onWheel, { passive: false })
+  scene.value?.addEventListener('touchstart', onTouchStart, { passive: true })
+  scene.value?.addEventListener('touchmove', onTouchMove, { passive: false })
+  scene.value?.addEventListener('touchend', onTouchEnd)
+  scene.value?.addEventListener('touchcancel', onTouchEnd)
 })
 
 onBeforeUnmount(() => {
   disposed = true
   clearTimeout(revealTimer)
+  resetGesture()
   motionQuery?.removeEventListener('change', onMotionChange)
   document.removeEventListener('visibilitychange', onVisibilityChange)
+  document.removeEventListener('keydown', onKeyDown)
+  scene.value?.removeEventListener('wheel', onWheel)
+  scene.value?.removeEventListener('touchstart', onTouchStart)
+  scene.value?.removeEventListener('touchmove', onTouchMove)
+  scene.value?.removeEventListener('touchend', onTouchEnd)
+  scene.value?.removeEventListener('touchcancel', onTouchEnd)
 })
 
 const appConfig = useAppConfig()
