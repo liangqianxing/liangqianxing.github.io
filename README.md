@@ -28,32 +28,6 @@
 
 文章页提供浅色、深色与 Cyber 三套主题联动的代码高亮，并包含固定目录、阅读进度、作者轨道和响应式长文排版。
 
-## 三大会论文精读
-
-每天从 NeurIPS、ICML、ICLR 选择一篇论文进行中文精读。文章会核对官方原文、实验结果与开源资源，优先使用论文原图并注明论文、图号与官方来源；仅在原图不适合引用时进行原创重绘。
-
-<!-- PAPER_READING_START -->
-- [VisionLLM 精读：训练侧如何用语言指令定制检测与分割](https://diycv.top/archives/visionllm-open-ended-task-customization) · NeurIPS 2023 · 2026-08-06
-- [MMInference 精读：为百万 Token 多模态预填充重排稀疏注意力](https://diycv.top/archives/mminference-modality-aware-sparse-attention) · ICML 2025 · 2026-08-05
-- [RePIC 精读：用可验证奖励训练个性化多模态模型](https://diycv.top/archives/repic-reinforced-multimodal-personalization) · NeurIPS 2025 · 2026-08-04
-- [EVE 精读：移除视觉编码器能加速多模态推理吗](https://diycv.top/archives/eve-encoder-free-vlm-inference-acceleration) · NeurIPS 2024 · 2026-08-03
-- [LaVIN 精读：用 3.8M 参数适配视觉语言指令](https://diycv.top/archives/lavin-mixture-of-modality-adaptation) · NeurIPS 2023 · 2026-07-31
-- [LLaVA-Mini 精读：一个视觉 Token 如何加速图像与视频推理](https://diycv.top/archives/llava-mini-one-vision-token) · ICLR 2025 · 2026-07-29
-- [MM-FSS 精读：免费多模态如何提升少样本 3D 分割](https://diycv.top/archives/mm-fss-multimodal-few-shot-3d-segmentation) · ICLR 2025 · 2026-07-29
-- [Dynamic-LLaVA 精读：同时压缩视觉 Token 与生成上下文](https://diycv.top/archives/dynamic-llava-context-sparsification) · ICLR 2025 · 2026-07-28
-- [VideoLISA 精读：多模态模型的训练侧视频分割适配](https://diycv.top/archives/videolisa-video-reasoning-segmentation) · NeurIPS 2024 · 2026-07-27
-- [SparseVLM 精读：让问题决定保留哪些视觉 Token](https://diycv.top/archives/sparsevlm-text-guided-visual-token-sparsification) · ICML 2025 · 2026-07-23
-- [InstructBLIP 精读：让视觉特征听懂任务指令](https://diycv.top/archives/instructblip-vision-language-instruction-tuning) · NeurIPS 2023 · 2026-07-23
-- [DeeR-VLA 精读：用动态早退加速多模态机器人推理](https://diycv.top/archives/deervla-dynamic-early-exit-inference-acceleration) · NeurIPS 2024 · 2026-07-22
-- [TD-MPC2 精读：用隐式世界模型统一 104 个连续控制任务](https://diycv.top/archives/tdmpc2-scalable-world-models) · ICLR 2024 · 2026-07-22
-- [Yo'LLaVA 精读：用 16 个软 Token 记住你的专属视觉概念](https://diycv.top/archives/yollava-personalized-multimodal-assistant) · NeurIPS 2024 · 2026-07-21
-- [FlashAttention-3 精读：用异步流水与 FP8 加速 Hopper Attention](https://diycv.top/archives/flashattention3-hopper-asynchronous-attention) · NeurIPS 2024 · 2026-07-21
-- [M3 精读：可伸缩视觉 Token 如何加速多模态推理](https://diycv.top/archives/matryoshka-multimodal-models-inference-acceleration) · ICLR 2025 · 2026-07-20
-- [BLIP-2 精读：用 Q-Former 接通冻结视觉编码器与大语言模型](https://diycv.top/archives/blip2-q-former-multimodal) · ICML 2023 · 2026-07-20
-- [DPO 精读：不用 PPO，如何直接从偏好数据对齐语言模型](https://diycv.top/archives/dpo-direct-preference-optimization) · NeurIPS 2023 · 2026-07-19
-- [QLoRA 精读：4-bit 量化如何把 65B 微调压进单卡](https://diycv.top/archives/qlora-efficient-finetuning) · NeurIPS 2023 · 2026-07-18
-<!-- PAPER_READING_END -->
-
 ## 技术栈
 
 - Nuxt 4、Vue 3、TypeScript
