@@ -2,10 +2,12 @@
   <aside
     class="notebook-code-canvas"
     :class="{ 'notebook-code-paused': isPageHidden, 'notebook-code-reduced': prefersReducedMotion }"
-    aria-label="作者的代码名片"
+    aria-label="作者的三页手记"
   >
     <div class="notebook-code-glow" aria-hidden="true" />
-    <svg class="notebook-code-doodle" width="200" height="100" viewBox="0 0 200 100" fill="none" aria-hidden="true"><path d="M10 80C40 70 80 90 120 70C160 50 180 20 190 10" stroke="currentColor" stroke-width="2" stroke-dasharray="6 6" /></svg>
+    <svg class="notebook-code-doodle" width="150" height="92" viewBox="0 0 150 92" fill="none" aria-hidden="true">
+      <path d="M5 72C25 88 60 74 64 47C68 20 35 25 44 43C53 61 112 63 142 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+    </svg>
     <div class="notebook-code-stage">
       <div class="notebook-code-stack">
         <section
@@ -18,67 +20,85 @@
           :aria-hidden="index !== activeIndex"
           :inert="index !== activeIndex"
         >
-          <div class="notebook-code-header">
-            <span class="notebook-code-dots" aria-hidden="true"><i /><i /><i /></span>
-            <span>{{ card.file }}</span>
-          </div>
-          <pre v-if="index === 0" class="notebook-code-profile"><code><span class="notebook-code-keyword">const</span> <span class="notebook-code-variable">enhao</span> = {
-  name: <span class="notebook-code-string">"{{ name }}"</span>,
-  notebook: <span class="notebook-code-string">"{{ notebook }}"</span>,
-  focus: [<span class="notebook-code-string">"LLM"</span>, <span class="notebook-code-string">"Agent"</span>, <span class="notebook-code-string">"Systems"</span>],
-  next: <span class="notebook-code-string">"ECNU · 2027 incoming"</span>
-};</code></pre>
-          <pre v-else-if="index === 1" class="notebook-code-profile"><code><span class="notebook-code-keyword">const</span> <span class="notebook-code-variable">interests</span> = {
-  research: [
-    <span class="notebook-code-string">"LLM"</span>,
-    <span class="notebook-code-string">"Agent Systems"</span>
-  ],
-  journal: <span class="notebook-code-string">"{{ notebook }}"</span>
-};</code></pre>
-          <pre v-else class="notebook-code-profile"><code><span class="notebook-code-keyword">const</span> <span class="notebook-code-variable">now</span> = {
-  next: <span class="notebook-code-string">"ECNU"</span>,
-  entry: <span class="notebook-code-string">"2027 incoming"</span>,
-  internship: <span class="notebook-code-string">"Meituan"</span>,
-  role: <span class="notebook-code-string">"Full-stack Engineer"</span>
-};</code></pre>
+          <template v-if="index === 0">
+            <div class="notebook-paper-intro">
+              <div>
+                <p class="notebook-paper-heading">hello, world.</p>
+                <h2 class="notebook-paper-name">我是{{ name }}</h2>
+              </div>
+              <figure class="notebook-paper-photo">
+                <span class="notebook-paper-tape" aria-hidden="true" />
+                <img :src="academicProfile.avatar" :alt="`${name}的相片`" width="82" height="90" />
+              </figure>
+            </div>
+            <p class="notebook-paper-thought">喜欢研究，<br />也喜欢把想法做出来。</p>
+            <div class="notebook-paper-chips" aria-label="关注的方向">
+              <span>LLM</span><span>Agent</span><span>Systems</span>
+            </div>
+          </template>
+          <template v-else-if="index === 1">
+            <p class="notebook-paper-heading">things I explore.</p>
+            <h2 class="notebook-paper-name">好奇的方向</h2>
+            <dl class="notebook-paper-interests">
+              <div v-for="interest in interests" :key="interest.title">
+                <dt>{{ interest.title }}</dt>
+                <dd>{{ interest.note }}</dd>
+              </div>
+            </dl>
+          </template>
+          <template v-else>
+            <p class="notebook-paper-heading">a little update.</p>
+            <h2 class="notebook-paper-name">最近，慢慢向前</h2>
+            <div class="notebook-paper-updates">
+              <p><span class="notebook-paper-mark notebook-paper-mark-lilac">下一站</span>已保研录取华东师范大学软件工程，<strong>2027 年入学</strong>。</p>
+              <p><span class="notebook-paper-mark notebook-paper-mark-peach">现在</span>在美团做全栈开发实习，把想法放进实际的工程里。</p>
+            </div>
+          </template>
+          <p class="notebook-paper-signature"><span>{{ notebook }}</span><svg width="36" height="13" viewBox="0 0 36 13" fill="none" aria-hidden="true"><path d="M1 8C8 0 14 2 13 8C12 13 20 10 22 4C24 0 20 2 22 7C24 12 30 7 35 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" /></svg></p>
         </section>
       </div>
     </div>
-    <span class="notebook-code-note" aria-hidden="true">&lt;/&gt;</span>
     <span class="notebook-code-logo" aria-hidden="true"><img src="/logo.svg?v=3" alt="" width="48" height="48" /></span>
-    <svg class="notebook-code-star" width="44" height="44" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2 14.5 9.5 22 12 14.5 14.5 12 22 9.5 14.5 2 12 9.5 9.5Z" /></svg>
-    <span class="notebook-code-dot" aria-hidden="true" />
-    <span class="notebook-code-sticker" aria-hidden="true">LEARN · BUILD · REPEAT</span>
-    <nav class="notebook-code-controls" aria-label="切换代码名片">
+    <svg class="notebook-code-star" width="38" height="38" viewBox="0 0 38 38" fill="none" aria-hidden="true">
+      <path d="M19 4C22 4 24 8 22 12C26 9 30 10 31 13C32 16 30 19 26 19C30 21 31 25 29 27C27 30 23 29 21 25C21 30 18 33 15 31C12 30 12 26 15 23C10 25 6 23 7 20C7 17 11 15 15 17C12 13 13 8 16 9C18 9 19 11 19 14C17 10 16 5 19 4Z" fill="currentColor" />
+      <circle cx="19" cy="19" r="3.2" fill="var(--paper)" />
+    </svg>
+    <nav class="notebook-code-controls" aria-label="翻阅个人手记">
       <div class="notebook-code-pages">
         <button
           v-for="(card, index) in cards"
           :key="card.file"
           type="button"
           class="notebook-code-page"
-          :aria-label="`查看 ${card.file}，第 ${index + 1} 张，共 ${cards.length} 张`"
+          :aria-label="`查看${card.label}，第 ${index + 1} 页，共 ${cards.length} 页`"
           :aria-current="index === activeIndex ? 'true' : undefined"
           :disabled="isSwitching"
           @click="showCard(index)"
-        ><span aria-hidden="true">{{ String(index + 1).padStart(2, '0') }}</span></button>
+        >{{ card.tab }}</button>
       </div>
       <button type="button" class="notebook-code-next" :disabled="isSwitching" @click="showCard((activeIndex + 1) % cards.length)">
-        下一张 <span aria-hidden="true">↗</span>
+        翻一页 <span aria-hidden="true">↗</span>
       </button>
     </nav>
-    <span class="notebook-code-status" role="status">{{ cards[activeIndex].file }}，第 {{ activeIndex + 1 }} 张，共 {{ cards.length }} 张</span>
+    <span class="notebook-code-status" role="status">{{ cards[activeIndex].label }}，第 {{ activeIndex + 1 }} 页，共 {{ cards.length }} 页</span>
   </aside>
 </template>
 
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue'
+import { academicProfile } from '~/data/academic'
 
 defineProps<{ name: string; notebook: string }>()
 
 const cards = [
-  { file: 'profile.ts', label: '个人介绍' },
-  { file: 'interests.ts', label: '研究兴趣' },
-  { file: 'now.ts', label: '近期经历与入学计划' },
+  { file: 'profile.ts', tab: '手记', label: '个人手记' },
+  { file: 'interests.ts', tab: '探索', label: '好奇的方向' },
+  { file: 'now.ts', tab: '近况', label: '近期经历与入学计划' },
+]
+const interests = [
+  { title: '大语言模型', note: '理解模型，也试着让它解决实际问题。' },
+  { title: '智能体', note: '探索工具、记忆与上下文如何配合。' },
+  { title: 'AI 系统', note: '把模型与服务连接起来，跑得更稳。' },
 ]
 const activeIndex = ref(0)
 const leavingIndex = ref<number | null>(null)
@@ -142,121 +162,149 @@ onUnmounted(() => {
 
 <style scoped>
 .notebook-code-canvas {
-  --syntax-keyword: #7550c0;
-  --syntax-variable: #c53c66;
-  --syntax-string: #08785b;
-  --note-bg: #ffe898;
-  --note-ink: #b45309;
-  --sticker-bg: #f5ebff;
-  --sticker-ink: #7550aa;
-  --code-height: 276px;
+  --paper: #fffdf8;
+  --paper-behind: #f1ecfa;
+  --paper-ink: #4e485d;
+  --paper-muted: #766d86;
+  --paper-line: #e6dccb44;
+  --paper-lilac: #eee5fa;
+  --paper-peach: #fce7dc;
+  --paper-sky: #e6f2fb;
+  --paper-shadow: #6d598814;
+  --paper-control: #785997;
   position: relative;
+  width: 100%;
+  max-width: 420px;
   min-width: 0;
-  margin-inline: 2px 8px;
+  margin-inline: auto;
 }
 .notebook-code-glow,
 .notebook-code-doodle,
-.notebook-code-note,
 .notebook-code-logo,
-.notebook-code-star,
-.notebook-code-dot,
-.notebook-code-sticker { pointer-events: none; }
+.notebook-code-star { pointer-events: none; }
 .notebook-code-glow {
   position: absolute;
-  inset: 0 0 32px;
-  background: radial-gradient(ellipse at 60% 30%, #b6a4ff80, transparent 68%), radial-gradient(ellipse at 20% 80%, #9ccfff90, transparent 70%);
-  filter: blur(22px);
+  inset: 10% -3% 18%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 65% 35%, #dbc6f84a, transparent 70%), radial-gradient(ellipse at 22% 78%, #ffe5d856, transparent 72%);
+  filter: blur(24px);
 }
-.notebook-code-doodle { position: absolute; top: -8px; left: -26px; z-index: 2; color: var(--accent); opacity: .6; transform: rotate(-12deg); }
-.notebook-code-stage { position: relative; padding: 34px 10px 28px; overflow: clip; isolation: isolate; }
-.notebook-code-stack { position: relative; height: var(--code-height); perspective: 1000px; }
+.notebook-code-doodle { position: absolute; top: -12px; left: -20px; z-index: 2; color: var(--paper-control); opacity: .32; transform: rotate(-9deg); }
+.notebook-code-stage { position: relative; padding: 28px 12px 20px; overflow: clip; isolation: isolate; }
+.notebook-code-stack { display: grid; position: relative; perspective: 1000px; }
 .notebook-code-window {
-  position: absolute;
-  inset: 0;
-  padding: 22px;
-  border: 1px solid color-mix(in srgb, var(--accent) 16%, var(--surface));
-  border-radius: 20px;
-  background: color-mix(in srgb, var(--accent) calc(var(--card-depth) * 6%), var(--surface));
-  color: var(--text);
-  box-shadow: 0 12px 24px #0000000b;
-  font-family: var(--font-mono);
-  font-size: 13px;
-  line-height: 1.85;
-  transform: translateY(calc(var(--card-depth) * -14px)) rotate(calc(var(--card-depth) * 1.25deg)) scale(var(--card-scale));
+  display: flex;
+  flex-direction: column;
+  grid-area: 1 / 1;
+  position: relative;
+  min-width: 0;
+  min-height: 316px;
+  padding: 28px 28px 22px;
+  border: 1px solid color-mix(in srgb, var(--paper-muted) 11%, var(--paper));
+  border-radius: 24px 38px 30px 20px;
+  background-color: color-mix(in srgb, var(--paper-behind) calc(var(--card-depth) * 15%), var(--paper));
+  background-image: repeating-linear-gradient(transparent 0 31px, var(--paper-line) 31px 32px);
+  background-position: 0 10px;
+  color: var(--paper-ink);
+  box-shadow: 0 8px 24px var(--paper-shadow);
+  font-family: var(--font-sans);
+  transform: translateY(calc(var(--card-depth) * -10px)) rotate(calc(var(--card-depth) * 2deg - 1deg)) scale(var(--card-scale));
   transform-origin: 50% 22%;
   transition: transform 600ms cubic-bezier(.22, 1, .36, 1), background-color 300ms, box-shadow 600ms;
   pointer-events: none;
 }
-.notebook-code-active { pointer-events: auto; box-shadow: 0 15px 35px #0000000f; }
+.notebook-code-active { pointer-events: auto; box-shadow: 0 14px 40px var(--paper-shadow); }
 .notebook-code-leaving { animation: notebook-code-deal 600ms cubic-bezier(.45, 0, .55, 1) both; }
-.notebook-code-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 11px; }
-.notebook-code-dots { display: flex; gap: 6px; }
-.notebook-code-dots i { width: 10px; height: 10px; border-radius: 50%; background: #ff5f56; }
-.notebook-code-dots i:nth-child(2) { background: #ffbd2e; }
-.notebook-code-dots i:nth-child(3) { background: #27c93f; }
-.notebook-code-profile { margin: 0; padding: 0; border: 0; background: transparent; color: var(--text); font: inherit; white-space: pre-wrap; overflow-wrap: anywhere; }
-.notebook-code-profile code { display: block; padding: 0; background: transparent; color: inherit; font: inherit; }
-.notebook-code-keyword { color: var(--syntax-keyword); }
-.notebook-code-variable { color: var(--syntax-variable); }
-.notebook-code-string { color: var(--syntax-string); }
-.notebook-code-note { position: absolute; top: 0; right: 22px; z-index: 7; display: grid; place-items: center; width: 58px; height: 58px; border-radius: 4px; background: var(--note-bg); color: var(--note-ink); box-shadow: 2px 4px 10px #00000014; transform: rotate(8deg); font-size: 22px; animation: notebook-code-float 7s ease-in-out infinite; }
-.notebook-code-logo { position: absolute; right: 22px; bottom: 56px; z-index: 7; width: 64px; height: 64px; padding: 8px; border: 1px solid color-mix(in srgb, var(--note-bg) 45%, var(--line)); border-radius: 16px; background: var(--surface); box-shadow: 0 10px 25px #00000019; transform: rotate(-6deg); animation: notebook-code-float 8s ease-in-out infinite reverse; }
+.notebook-paper-intro { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; }
+.notebook-paper-heading { margin: 0 0 10px; color: var(--paper-control); font: italic 28px / 1.2 Georgia, 'Times New Roman', serif; letter-spacing: -.025em; }
+.notebook-paper-name { margin: 0; color: var(--paper-ink); font-size: 14px; line-height: 1.8; font-weight: 500; }
+.notebook-paper-photo { position: relative; flex: 0 0 auto; width: 90px; margin: 0 0 0 auto; padding: 5px 5px 14px; border-radius: 2px; background: var(--paper); box-shadow: 0 3px 13px var(--paper-shadow); transform: rotate(6deg); }
+.notebook-paper-photo img { display: block; width: 80px; height: 86px; border-radius: 1px; object-fit: cover; }
+.notebook-paper-tape { position: absolute; top: -10px; left: 21px; width: 47px; height: 20px; background: color-mix(in srgb, var(--paper-lilac) 80%, transparent); clip-path: polygon(3% 0, 96% 0, 100% 15%, 96% 28%, 100% 43%, 96% 62%, 100% 78%, 96% 100%, 3% 100%, 0 86%, 3% 72%, 0 56%, 3% 39%, 0 22%); transform: rotate(-9deg); }
+.notebook-paper-thought { margin: 22px 0 18px; color: var(--paper-ink); font-size: 21px; line-height: 1.7; letter-spacing: .025em; }
+.notebook-paper-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.notebook-paper-chips span { padding: 5px 12px; border-radius: 50px; background: var(--paper-lilac); color: var(--paper-control); font-size: 11px; line-height: 1.4; }
+.notebook-paper-chips span:nth-child(2) { background: var(--paper-peach); }
+.notebook-paper-chips span:nth-child(3) { background: var(--paper-sky); }
+.notebook-paper-interests { display: grid; gap: 14px; margin: 21px 0 20px; }
+.notebook-paper-interests div { position: relative; padding-left: 15px; }
+.notebook-paper-interests div::before { position: absolute; top: 7px; left: 0; width: 6px; height: 6px; border-radius: 50%; background: var(--paper-control); opacity: .5; content: ''; }
+.notebook-paper-interests dt { color: var(--paper-ink); font-size: 13px; line-height: 1.6; font-weight: 600; }
+.notebook-paper-interests dd { margin: 3px 0 0; color: var(--paper-muted); font-size: 12px; line-height: 1.7; overflow-wrap: anywhere; }
+.notebook-paper-updates { display: grid; gap: 18px; margin: 24px 0 22px; }
+.notebook-paper-updates p { margin: 0; color: var(--paper-ink); font-size: 14px; line-height: 1.95; }
+.notebook-paper-updates strong { font-weight: 500; }
+.notebook-paper-mark { display: table; margin-bottom: 5px; padding: 1px 8px; border-radius: 5px 10px 4px 8px; color: var(--paper-control); font-size: 11px; line-height: 1.8; }
+.notebook-paper-mark-lilac { background: var(--paper-lilac); }
+.notebook-paper-mark-peach { background: var(--paper-peach); }
+.notebook-paper-signature { display: flex; align-items: center; gap: 10px; margin: auto 0 0; padding-top: 18px; color: var(--paper-muted); font: italic 13px / 1.4 Georgia, 'Times New Roman', serif; }
+.notebook-code-logo { position: absolute; right: 1px; bottom: 52px; z-index: 7; width: 54px; height: 54px; padding: 7px; border: 1px solid color-mix(in srgb, var(--paper-muted) 12%, var(--paper)); border-radius: 16px 20px 15px 18px; background: var(--paper); box-shadow: 0 5px 16px var(--paper-shadow); transform: rotate(7deg); animation: notebook-code-float 8s ease-in-out infinite reverse; }
 .notebook-code-logo img { width: 100%; height: 100%; }
-.notebook-code-star { position: absolute; top: 2px; left: -6px; z-index: 6; color: #f7b827; transform: rotate(8deg); filter: drop-shadow(0 2px 4px #fbbf2433); animation: notebook-code-float 6s ease-in-out infinite; }
-.notebook-code-dot { position: absolute; bottom: 36%; left: -7px; z-index: 6; width: 12px; height: 12px; border-radius: 50%; background: #ff9387; }
-.notebook-code-sticker { position: absolute; bottom: 66px; left: 18px; z-index: 7; padding: 7px 11px; border: 1px solid color-mix(in srgb, var(--sticker-ink) 18%, var(--surface)); border-radius: 8px; background: var(--sticker-bg); color: var(--sticker-ink); transform: rotate(-4deg); font: 10px var(--font-mono); letter-spacing: .06em; animation: notebook-code-float 9s ease-in-out infinite reverse; }
-.notebook-code-controls { position: relative; z-index: 8; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 12px; }
-.notebook-code-pages { display: flex; align-items: center; gap: 3px; }
+.notebook-code-star { position: absolute; top: 2px; right: -2px; z-index: 6; color: #eab89f; transform: rotate(8deg); animation: notebook-code-float 7s ease-in-out infinite; }
+.notebook-code-controls { position: relative; z-index: 8; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 12px; }
+.notebook-code-pages { display: flex; align-items: center; gap: 4px; padding: 3px; border-radius: 50px; background: color-mix(in srgb, var(--paper) 65%, transparent); }
 .notebook-code-page,
-.notebook-code-next { appearance: none; min-height: 34px; border: 0; border-radius: 8px; background: transparent; color: var(--muted); cursor: pointer; font: 11px var(--font-mono); transition: color 180ms, background-color 180ms; }
-.notebook-code-page { min-width: 34px; padding: 7px; }
-.notebook-code-page[aria-current="true"] { background: color-mix(in srgb, var(--accent) 12%, var(--surface)); color: var(--accent); }
-.notebook-code-next { display: inline-flex; align-items: center; gap: 10px; padding: 7px 9px; color: var(--accent); }
+.notebook-code-next { appearance: none; min-height: 36px; border: 0; border-radius: 50px; background: transparent; color: var(--paper-muted); cursor: pointer; font: 12px / 1.4 var(--font-sans); transition: color 180ms, background-color 180ms; }
+.notebook-code-page { min-width: 49px; padding: 7px 11px; }
+.notebook-code-page[aria-current="true"] { background: var(--paper-lilac); color: var(--paper-control); }
+.notebook-code-next { display: inline-flex; align-items: center; gap: 8px; padding: 7px 8px; color: var(--paper-control); }
 .notebook-code-next span { font-size: 17px; transition: translate 180ms; }
 .notebook-code-page:hover,
-.notebook-code-next:hover { background: color-mix(in srgb, var(--accent) 9%, var(--surface)); color: var(--accent); }
+.notebook-code-next:hover { background: color-mix(in srgb, var(--paper-lilac) 60%, transparent); color: var(--paper-control); }
 .notebook-code-next:hover span { translate: 2px -2px; }
 .notebook-code-page:focus-visible,
-.notebook-code-next:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.notebook-code-next:focus-visible { outline: 2px solid var(--paper-control); outline-offset: 3px; }
 .notebook-code-page:disabled,
 .notebook-code-next:disabled { cursor: default; }
 .notebook-code-status { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
-.notebook-code-paused :is(.notebook-code-note, .notebook-code-logo, .notebook-code-star, .notebook-code-sticker) { animation-play-state: paused; }
+.notebook-code-paused :is(.notebook-code-logo, .notebook-code-star) { animation-play-state: paused; }
 .notebook-code-reduced .notebook-code-window { animation: none; transition: none; }
-.notebook-code-reduced :is(.notebook-code-note, .notebook-code-logo, .notebook-code-star, .notebook-code-sticker) { animation: none; }
+.notebook-code-reduced :is(.notebook-code-logo, .notebook-code-star) { animation: none; }
 @keyframes notebook-code-deal {
-  0% { transform: translateY(0) rotate(0) scale(1); opacity: 1; }
+  0% { transform: translateY(0) rotate(-1deg) scale(1); opacity: 1; }
   45% { opacity: 1; }
-  100% { transform: translate3d(54px, 48px, 0) rotate(18deg) scale(.93); opacity: 0; }
+  100% { transform: translate3d(36px, 42px, 0) rotate(13deg) scale(.95); opacity: 0; }
 }
 @keyframes notebook-code-float {
   0%, 100% { translate: 0 0; }
-  50% { translate: 0 -6px; }
+  50% { translate: 0 -4px; }
 }
-:global(html.dark .notebook-code-canvas) { --syntax-keyword: #c9afff; --syntax-variable: #ff9bb9; --syntax-string: #86e7c5; --note-bg: #d4a847; --note-ink: #382604; --sticker-bg: #37294e; --sticker-ink: #ddc1ff; }
-:global(html.cyber .notebook-code-canvas) { --syntax-keyword: #81e5f2; --syntax-variable: #ffa9c7; --syntax-string: #9affc4; --note-bg: #d4a847; --note-ink: #382604; --sticker-bg: #193b32; --sticker-ink: #9affc4; }
+:global(html.dark .notebook-code-canvas) { --paper: #2b2935; --paper-behind: #373042; --paper-ink: #ede4f1; --paper-muted: #b9abc8; --paper-line: #a28aae12; --paper-lilac: #443550; --paper-peach: #4b3736; --paper-sky: #2f4251; --paper-shadow: #07030f2b; --paper-control: #d5bde8; }
+:global(html.cyber .notebook-code-canvas) { --paper: #20362f; --paper-behind: #2e423a; --paper-ink: #e6eee5; --paper-muted: #adbfad; --paper-line: #abbe9f10; --paper-lilac: #3d4b42; --paper-peach: #49433a; --paper-sky: #2c4649; --paper-shadow: #03170e2b; --paper-control: #c1d9b8; }
 @media (min-width: 769px) and (max-width: 1020px) {
-  .notebook-code-window { padding: 18px; font-size: 12px; line-height: 1.7; }
-  .notebook-code-header { margin-bottom: 12px; padding-bottom: 10px; }
+  .notebook-code-window { padding: 25px 22px 20px; }
+  .notebook-paper-heading { font-size: 25px; }
+  .notebook-paper-photo { width: 77px; padding: 4px 4px 12px; }
+  .notebook-paper-photo img { width: 69px; height: 75px; }
+  .notebook-paper-tape { left: 15px; }
+  .notebook-paper-thought { font-size: 20px; }
 }
 @media (max-width: 768px) {
-  .notebook-code-canvas { --code-height: 286px; margin-inline: 2px 6px; }
-  .notebook-code-stage { padding-bottom: 24px; }
-  .notebook-code-window { padding: 16px; font-size: 12px; line-height: 1.7; }
-  .notebook-code-header { margin-bottom: 12px; padding-bottom: 10px; }
-  .notebook-code-glow { filter: blur(16px); }
-  .notebook-code-star { top: 7px; left: -2px; width: 36px; height: 36px; }
-  .notebook-code-note { top: 8px; right: 18px; width: 44px; height: 44px; font-size: 18px; }
-  .notebook-code-logo { right: 14px; bottom: 54px; width: 48px; height: 48px; padding: 6px; }
-  .notebook-code-doodle { display: none; }
-  .notebook-code-sticker { bottom: 61px; left: 12px; font-size: 9px; }
+  .notebook-code-canvas { max-width: 390px; }
+  .notebook-code-stage { padding-inline: 10px; }
+  .notebook-code-window { min-height: 314px; padding: 26px 24px 22px; }
+  .notebook-code-glow { filter: blur(18px); }
+  .notebook-code-doodle { left: -7px; width: 115px; }
+  .notebook-code-star { right: 2px; width: 32px; height: 32px; }
+  .notebook-code-logo { right: 3px; bottom: 54px; width: 48px; height: 48px; padding: 6px; }
+}
+@media (max-width: 380px) {
+  .notebook-code-window { padding: 24px 19px 20px; }
+  .notebook-paper-heading { font-size: 25px; }
+  .notebook-paper-photo { width: 68px; padding: 4px 4px 12px; }
+  .notebook-paper-photo img { width: 60px; height: 66px; }
+  .notebook-paper-tape { left: 12px; width: 40px; }
+  .notebook-paper-thought { font-size: 19px; }
+  .notebook-paper-chips { gap: 6px; }
+  .notebook-paper-chips span { padding-inline: 10px; }
+  .notebook-code-controls { padding-inline: 9px; gap: 4px; }
+  .notebook-code-page { min-width: 44px; padding-inline: 9px; }
+  .notebook-code-next { gap: 5px; padding-inline: 5px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .notebook-code-window,
   .notebook-code-next span { animation: none; transition: none; }
-  .notebook-code-note,
   .notebook-code-logo,
-  .notebook-code-star,
-  .notebook-code-sticker { animation: none; }
+  .notebook-code-star { animation: none; }
 }
 </style>

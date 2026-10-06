@@ -33,7 +33,7 @@ function setTheme(mode: ThemeMode, persist = true) {
   root.classList.toggle('cyber', mode === 'cyber')
   root.dataset.theme = mode
   document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')
-    ?.setAttribute('content', mode === 'light' ? '#ffffff' : mode === 'cyber' ? '#07110f' : '#10151f')
+    ?.setAttribute('content', mode === 'light' ? '#fffdf8' : mode === 'cyber' ? '#07110f' : '#10151f')
   if (persist) {
     try { localStorage.setItem('theme', mode) } catch { /* Storage may be unavailable. */ }
   }
@@ -84,9 +84,10 @@ provide('themeMode', themeMode)
 provide('setTheme', setTheme)
 provide('toggleTheme', toggleTheme)
 
-useHead({
+useHead(() => ({
   titleTemplate: title => title ? `${title} · ${appConfig.title}` : appConfig.title,
   meta: [
+    { name: 'theme-color', content: themeMode.value === 'light' ? '#fffdf8' : themeMode.value === 'cyber' ? '#07110f' : '#10151f' },
     { name: 'description', content: appConfig.description },
     { property: 'og:site_name', content: appConfig.title },
     { property: 'og:type', content: 'website' },
@@ -94,5 +95,5 @@ useHead({
   ],
   htmlAttrs: { lang: 'zh-CN' },
   bodyAttrs: { class: 'blog-body' },
-})
+}))
 </script>

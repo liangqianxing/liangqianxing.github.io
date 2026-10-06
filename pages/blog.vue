@@ -11,20 +11,14 @@
             </svg>
             你好，我是{{ appConfig.authorCN }}
           </p>
-          <h1 id="journal-title" class="notebook-title">认真折腾，<span class="notebook-highlight">随手记录<svg viewBox="0 0 100 20" preserveAspectRatio="none" fill="none" aria-hidden="true"><path d="M5 15C20 12 50 12 95 18" stroke="currentColor" stroke-width="4" stroke-linecap="round" /></svg></span>。</h1>
+          <h1 id="journal-title" class="notebook-title">认真折腾，<br /><span class="notebook-highlight">随手记录<svg viewBox="0 0 100 20" preserveAspectRatio="none" fill="none" aria-hidden="true"><path d="M5 15C20 12 50 12 95 18" stroke="currentColor" stroke-width="6" stroke-linecap="round" /></svg></span>。</h1>
           <p class="notebook-summary">这里是{{ appConfig.authorCN }}的个人笔记。记录 LLM、Agent 与工程实践，也留下一些比赛、实习和旅行的片段。</p>
           <NotebookTypewriter />
           <div class="notebook-actions">
-            <NuxtLink to="#home-content" class="notebook-primary">探索主题</NuxtLink>
+            <NuxtLink to="#home-content" class="notebook-primary">翻翻我的笔记 <span aria-hidden="true">↗</span></NuxtLink>
             <NuxtLink to="/about" class="notebook-secondary">关于我 <span aria-hidden="true">→</span></NuxtLink>
           </div>
-          <div class="notebook-author">
-            <img src="/avatar.jpg" :alt="appConfig.authorCN" width="48" height="48" />
-            <div>
-              <strong>{{ appConfig.authorEN }} / {{ appConfig.authorCN }}</strong>
-              <span>{{ appConfig.status }}</span>
-            </div>
-          </div>
+          <p class="notebook-signoff" aria-hidden="true">a little curiosity, a little progress.</p>
         </div>
         <NotebookCode :name="appConfig.authorCN" :notebook="appConfig.title" />
       </section>
@@ -49,7 +43,10 @@
           <span class="notebook-topic-symbol" aria-hidden="true">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9L12 3Z" /></svg>
           </span>
-          <h2 id="notebook-topics-title">从一个方向开始</h2>
+          <div>
+            <p class="notebook-topic-kicker" aria-hidden="true">a few things I’m curious about</p>
+            <h2 id="notebook-topics-title">好奇心，落在这些地方</h2>
+          </div>
         </div>
         <KnowledgeMap :items="knowledgeMap" />
       </section>
@@ -117,7 +114,7 @@ const topicCounts = computed(() => {
 const knowledgeMap = [
   {
     key: 'AI',
-    eyebrow: 'AI / INFRA',
+    eyebrow: '和智能一起折腾',
     title: 'AI Infra / Agent',
     desc: '从模型基础到 RAG、上下文工程、推理服务和 Agent 平台。',
     label: '看 AI Infra',
@@ -125,7 +122,7 @@ const knowledgeMap = [
   },
   {
     key: 'SYS',
-    eyebrow: 'SYSTEMS',
+    eyebrow: '把系统慢慢搭好',
     title: '后端与分布式',
     desc: '数据库、缓存、高并发、分布式系统与 Go 后端项目。',
     label: '看后端系统',
@@ -133,7 +130,7 @@ const knowledgeMap = [
   },
   {
     key: 'SRC',
-    eyebrow: 'SOURCE',
+    eyebrow: '沿着代码找答案',
     title: '源码阅读',
     desc: '从入口、数据流和关键抽象读懂开源项目。',
     label: '看源码分析',
@@ -141,7 +138,7 @@ const knowledgeMap = [
   },
   {
     key: 'INT',
-    eyebrow: 'PRACTICE',
+    eyebrow: '一路走，一路积累',
     title: '面试与实践',
     desc: '按岗位组织的准备清单、项目表达和高频追问。',
     label: '看面试',

@@ -2,7 +2,7 @@
   <p class="notebook-typewriter" :class="{ 'is-paused': paused }">
     <span class="sr-only">写代码、读论文，探索语言模型与系统。</span>
     <span class="notebook-typewriter-visual" aria-hidden="true">
-      <span class="notebook-typewriter-prompt">&gt;</span>
+      <span class="notebook-typewriter-prompt">✳</span>
       <span>{{ displayed }}</span><span class="notebook-typewriter-caret" />
     </span>
   </p>
@@ -91,9 +91,9 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-.notebook-typewriter { min-height: 26px; margin: 14px 0 0; color: var(--accent); font-size: 13px; line-height: 26px; }
+.notebook-typewriter { min-height: 28px; margin: 18px 0 0; color: var(--accent); font-size: 14px; line-height: 28px; }
 .notebook-typewriter-visual { display: inline-flex; align-items: center; }
-.notebook-typewriter-prompt { margin-right: 9px; color: var(--notebook-highlight); font-family: var(--font-mono); }
+.notebook-typewriter-prompt { margin-right: 10px; color: var(--notebook-highlight); font-size: 19px; }
 .notebook-typewriter-caret { display: inline-block; width: 2px; height: 14px; margin-left: 4px; background: currentColor; animation: notebook-caret-blink 1s steps(1) infinite; }
 .is-paused .notebook-typewriter-caret { animation-play-state: paused; }
 @keyframes notebook-caret-blink { 0%, 45% { opacity: 1; } 46%, 100% { opacity: 0; } }
