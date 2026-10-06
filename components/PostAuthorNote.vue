@@ -31,14 +31,19 @@
         <a href="#article-start" aria-label="跳到文章正文">读到这里 <span aria-hidden="true">↓</span></a>
         <span aria-hidden="true">{{ progress }}%</span>
       </div>
-      <div
-        class="author-note-meter"
-        role="progressbar"
-        aria-label="文章阅读进度"
-        aria-valuemin="0"
-        aria-valuemax="100"
-        :aria-valuenow="progress"
-      >
+      <div class="author-note-meter">
+        <input
+          class="author-note-slider"
+          type="range"
+          min="0"
+          max="100"
+          step="1"
+          :value="progress"
+          :disabled="!seekable"
+          aria-label="文章阅读进度，拖动滑页"
+          :aria-valuetext="`已读 ${progress}%`"
+          @input="onSeek"
+        />
         <svg viewBox="0 0 180 24" fill="none" aria-hidden="true">
           <path class="author-note-trail" d="M6 14Q90-1 174 14" />
           <path class="author-note-trail-fill" :d="readingTrail.path" />
@@ -47,6 +52,7 @@
           </g>
         </svg>
       </div>
+      <p class="author-note-reading-hint">拖动星星，快速翻页</p>
     </div>
 
     <div class="author-note-links">
@@ -59,7 +65,8 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{ readingProgress: number }>()
+const props = defineProps<{ readingProgress: number; seekable: boolean }>()
+const emit = defineEmits<{ seek: [progress: number] }>()
 const appConfig = useAppConfig()
 const roleLines = computed(() => appConfig.role.split(' · '))
 const progress = computed(() => props.readingProgress)
@@ -69,6 +76,10 @@ const readingTrail = computed(() => {
   const y = 14 - 30 * t * (1 - t)
   return { x, y, path: `M6 14Q${6 + 84 * t} ${14 - 15 * t} ${x} ${y}` }
 })
+
+function onSeek(event: Event) {
+  emit('seek', (event.target as HTMLInputElement).valueAsNumber)
+}
 </script>
 
 <style scoped>
@@ -118,7 +129,13 @@ html.cyber .author-note { --note-purple-ink: #bddbc8; --note-green-ink: #abe3c5;
 .author-note-reading-label a { display: inline-flex; align-items: center; gap: 6px; min-height: 28px; color: inherit; }
 .author-note-reading-label a:hover { color: var(--accent); }
 .author-note-reading-label > span { font-variant-numeric: tabular-nums; }
-.author-note-meter svg { display: block; width: 100%; height: 24px; overflow: visible; }
+.author-note-meter { position: relative; display: grid; align-items: center; height: 44px; }
+.author-note-slider { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: grab; }
+.author-note-slider:active { cursor: grabbing; }
+.author-note-slider:disabled { cursor: default; }
+.author-note-meter svg { display: block; width: 100%; height: 24px; overflow: visible; pointer-events: none; }
+.author-note-slider:focus-visible + svg { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 8px; }
+.author-note-reading-hint { margin: -2px 0 5px; color: var(--muted); font-size: 10px; line-height: 1.6; }
 .author-note-trail, .author-note-trail-fill { stroke-width: 1.4; stroke-linecap: round; }
 .author-note-trail { stroke: var(--line-strong); }
 .author-note-trail-fill { stroke: var(--accent); }

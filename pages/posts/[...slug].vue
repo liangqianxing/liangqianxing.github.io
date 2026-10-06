@@ -1,7 +1,7 @@
 <template>
   <div>
     <aside v-if="page" class="author-sidebar" aria-label="关于作者">
-      <PostAuthorNote :reading-progress="readingProgress" />
+      <PostAuthorNote :reading-progress="readingProgress" :seekable="readingSeekable" @seek="seekReadingProgress" />
     </aside>
 
     <!-- TOC Sidebar -->
@@ -219,7 +219,10 @@ const postReadingTime = computed(() => {
 const activeId = ref('')
 const articleRef = ref<HTMLElement | null>(null)
 const readingProgress = ref(0)
+const readingSeekable = ref(false)
 let progressFrame = 0
+let seekFrame = 0
+let pendingSeek: number | null = null
 let headingObserver: IntersectionObserver | null = null
 let navResizeObserver: ResizeObserver | null = null
 
@@ -243,15 +246,55 @@ function observeHeadings() {
   headings.forEach(heading => headingObserver?.observe(heading))
 }
 
-function updateReadingProgress() {
+function readingScrollRange() {
   const article = articleRef.value
-  if (!article) return
+  if (!article) return null
 
   const articleTop = window.scrollY + article.getBoundingClientRect().top
-  const start = articleTop - window.innerHeight * 0.22
-  const end = articleTop + article.offsetHeight - window.innerHeight * 0.72
-  const progress = ((window.scrollY - start) / Math.max(1, end - start)) * 100
+  const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight)
+  const start = Math.min(maxScroll, Math.max(0, articleTop - window.innerHeight * 0.22))
+  const end = Math.min(maxScroll, Math.max(start, articleTop + article.offsetHeight - window.innerHeight * 0.72))
+  return { start, end }
+}
+
+function updateReadingProgress() {
+  const range = readingScrollRange()
+  if (!range) return
+
+  readingSeekable.value = range.end > range.start
+  const progress = readingSeekable.value
+    ? ((window.scrollY - range.start) / (range.end - range.start)) * 100
+    : window.scrollY >= range.end ? 100 : 0
   readingProgress.value = Math.min(100, Math.max(0, Math.round(progress)))
+}
+
+function syncHeadingAfterSeek() {
+  const headings = articleRef.value?.querySelectorAll<HTMLElement>('h2, h3')
+  if (!headings?.length) return
+
+  const threshold = headingOffset() + 1
+  let current = headings[0]
+  for (const heading of headings) {
+    if (heading.getBoundingClientRect().top > threshold) break
+    current = heading
+  }
+  if (current?.id) activeId.value = current.id
+}
+
+function seekReadingProgress(progress: number) {
+  if (!Number.isFinite(progress)) return
+  pendingSeek = Math.min(100, Math.max(0, progress))
+  if (seekFrame) return
+  seekFrame = window.requestAnimationFrame(() => {
+    seekFrame = 0
+    const range = readingScrollRange()
+    const target = pendingSeek
+    pendingSeek = null
+    if (!range || target === null || range.end <= range.start) return
+    window.scrollTo({ top: range.start + (range.end - range.start) * target / 100, behavior: 'instant' })
+    updateReadingProgress()
+    syncHeadingAfterSeek()
+  })
 }
 
 function scheduleReadingProgress() {
@@ -281,6 +324,8 @@ onBeforeUnmount(() => {
   window.removeEventListener('scroll', scheduleReadingProgress)
   window.removeEventListener('resize', scheduleReadingProgress)
   if (progressFrame) window.cancelAnimationFrame(progressFrame)
+  if (seekFrame) window.cancelAnimationFrame(seekFrame)
+  pendingSeek = null
   headingObserver?.disconnect()
   navResizeObserver?.disconnect()
 })
