@@ -2332,7 +2332,7 @@ html.theme-switching .theme-transition-sheen {
 .prose ul,
 .prose ol,
 .prose blockquote,
-.prose table,
+.prose .prose-table-scroll,
 .prose pre {
   margin: 0 0 1.35em;
 }
@@ -2441,13 +2441,19 @@ html.theme-switching .theme-transition-sheen {
   color: var(--accent);
 }
 
-.prose table {
-  width: 100%;
-  display: block;
+.prose .prose-table-scroll {
+  max-width: 100%;
   overflow-x: auto;
-  border-collapse: collapse;
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
+}
+
+.prose table {
+  display: table;
+  width: 100%;
+  margin: 0;
+  border-collapse: collapse;
+  table-layout: auto;
   font-size: 0.92rem;
 }
 
@@ -2461,6 +2467,10 @@ html.theme-switching .theme-transition-sheen {
 
 .prose th {
   background: var(--surface-2);
+}
+
+.prose tbody tr:last-child td {
+  border-bottom: 0;
 }
 
 .prose img {
