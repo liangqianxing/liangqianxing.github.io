@@ -1,6 +1,6 @@
 ---
 title: 从零实现 BPE Tokenizer：现代大语言模型分词器的核心原理
-date: 2025-01-07
+date: 2026-10-07
 description: 深入理解并手写实现 GPT、LLaMA 等大语言模型使用的 Byte Pair Encoding (BPE) 分词算法，包含完整代码和可视化讲解
 series: LLM 从零实现
 seriesOrder: 1
