@@ -25,6 +25,7 @@ function normalizeTheme(value: string | null): ThemeMode {
 }
 
 function setTheme(mode: ThemeMode, persist = true) {
+  if (persist && themeMode.value === mode) return
   const root = document.documentElement
   themeMode.value = mode
   isDark.value = mode !== 'light'
@@ -57,7 +58,7 @@ function onScroll() {
 function onKeydown(event: KeyboardEvent) {
   const target = event.target as HTMLElement | null
   if (target?.closest('input, textarea, select, [contenteditable="true"]')) return
-  if (event.key === 't' && !event.ctrlKey && !event.metaKey && !event.altKey) toggleTheme()
+  if (event.key === 't' && !event.repeat && !event.ctrlKey && !event.metaKey && !event.altKey) toggleTheme()
 }
 
 onMounted(() => {

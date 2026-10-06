@@ -12,6 +12,8 @@ html body.blog-body {
   --topic-orange: #fbede2;
   background: var(--bg);
   color: var(--text);
+  /* Apply the palette once; inherited color animation repaints long documents. */
+  transition: none;
 }
 html:not(.dark) body.blog-body {
   --bg: #fffdf8;

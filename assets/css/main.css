@@ -2977,6 +2977,12 @@ html.theme-switching .theme-transition-sheen {
   color: var(--shiki-default, #e5e7eb);
 }
 
+/* Keep code metrics stable when Nuxt Content switches syntax themes. */
+.prose pre.shiki code span {
+  font-style: var(--shiki-default-font-style, normal) !important;
+  font-weight: var(--shiki-default-font-weight, inherit) !important;
+}
+
 html:not(.dark):not(.cyber) .shiki code .line span {
   color: var(--shiki-light, #172033);
 }
