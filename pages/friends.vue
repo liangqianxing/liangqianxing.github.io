@@ -16,13 +16,14 @@
         class="friend-card"
       >
         <span class="friend-avatar">
-          <img
-            v-if="friend.avatar"
-            :src="friend.avatar"
+          <SiteImage
+            v-if="friend.avatar && !failedAvatars[friend.url]"
+            :src="avatarSource(friend.avatar)"
             :alt="friend.name"
             loading="lazy"
             width="56"
             height="56"
+            @error="failedAvatars[friend.url] = true"
           />
           <span v-else>{{ friend.name.charAt(0) }}</span>
         </span>
@@ -51,6 +52,13 @@
 
 <script setup lang="ts">
 const appConfig = useAppConfig()
+const failedAvatars = reactive<Record<string, boolean>>({})
+
+function avatarSource(src: string) {
+  // GitHub's public avatar endpoint accepts a pixel size before redirecting.
+  if (/^https:\/\/github\.com\/[^/?]+\.png$/.test(src)) return `${src}?size=112`
+  return src
+}
 
 useHead({
   title: '友情链接',

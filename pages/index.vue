@@ -61,7 +61,7 @@
       >
         <div class="portal-choice-content">
           <header class="portal-identity">
-            <img :src="academicProfile.avatar" :alt="academicProfile.nameCN" width="88" height="88" />
+            <SiteImage :src="academicProfile.avatar" :alt="academicProfile.nameCN" width="88" height="88" />
             <p class="portal-kicker">WELCOME TO MY SPACE</p>
             <h2 id="choices-title" ref="choicesTitle" tabindex="-1">{{ academicProfile.name }}<span>{{ academicProfile.nameCN }}</span></h2>
             <p class="portal-identity-summary">研究、工程，以及沿途的记录。</p>

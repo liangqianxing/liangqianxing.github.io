@@ -59,7 +59,7 @@ useHead({
           >{{ link.label }}<span v-if="isExternal(link.url)" aria-hidden="true"> ↗</span></a>
         </div>
       </div>
-      <img class="academic-portrait" :src="profile.avatar" :alt="`${profile.nameCN}的头像`" width="156" height="156" />
+      <SiteImage class="academic-portrait" :src="profile.avatar" :alt="`${profile.nameCN}的头像`" width="156" height="156" priority />
     </header>
 
     <nav class="academic-sections" aria-label="学术主页栏目">
@@ -97,7 +97,7 @@ useHead({
       <h2 id="publications-heading">Publications <span>论文</span></h2>
       <div v-if="profile.publications.length" class="academic-publications">
         <article v-for="paper in profile.publications" :key="paper.title" class="academic-paper" :class="{ 'with-image': paper.image }" :data-year="paper.year">
-          <img v-if="paper.image" :src="paper.image" :alt="`${paper.title}概览`" width="180" height="112" loading="lazy" />
+          <SiteImage v-if="paper.image" :src="paper.image" :alt="`${paper.title}概览`" width="180" height="112" sizes="(max-width: 620px) calc(100vw - 48px), 180px" loading="lazy" />
           <div>
             <h3>{{ paper.title }}</h3>
             <p class="academic-authors">
@@ -129,7 +129,7 @@ useHead({
     <section id="education" class="academic-section" aria-labelledby="education-heading">
       <h2 id="education-heading">Education <span>教育背景</span></h2>
       <article v-for="item in profile.education" :key="item.institution" class="academic-entry" :class="{ 'with-logo': item.logo }">
-        <img v-if="item.logo" :src="item.logo" :alt="item.institution" width="44" height="44" loading="lazy" />
+        <SiteImage v-if="item.logo" :src="item.logo" :alt="item.institution" width="44" height="44" loading="lazy" />
         <div class="academic-entry-copy">
           <h3>{{ item.institution }} <span>{{ item.english }}</span></h3>
           <p>{{ item.role }}</p>
@@ -142,7 +142,7 @@ useHead({
     <section id="experience" class="academic-section" aria-labelledby="experience-heading">
       <h2 id="experience-heading">Experience <span>经历</span></h2>
       <article v-for="item in profile.experience" :key="item.institution" class="academic-entry" :class="{ 'with-logo': item.logo }">
-        <img v-if="item.logo" :src="item.logo" :alt="item.institution" width="44" height="44" loading="lazy" />
+        <SiteImage v-if="item.logo" :src="item.logo" :alt="item.institution" width="44" height="44" loading="lazy" />
         <div class="academic-entry-copy">
           <h3>{{ item.institution }} <span>{{ item.english }}</span></h3>
           <p>{{ item.role }}</p>

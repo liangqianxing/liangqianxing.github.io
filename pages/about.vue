@@ -55,11 +55,13 @@
         </svg>
         <figure class="about-photo">
           <span class="about-photo-tape" aria-hidden="true"></span>
-          <img
+          <SiteImage
             src="/avatar.jpg"
             :alt="`${appConfig.authorCN}的头像`"
             width="1080"
             height="1080"
+            sizes="(max-width: 700px) 245px, 230px"
+            priority
           />
           <figcaption>
             {{ appConfig.authorEN }}
@@ -163,7 +165,7 @@
             class="about-journey-entry"
           >
             <div class="about-entry-logo">
-              <img
+              <SiteImage
                 v-if="entry.logo"
                 :src="entry.logo"
                 alt=""

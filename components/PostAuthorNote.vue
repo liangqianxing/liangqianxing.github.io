@@ -10,7 +10,7 @@
 
     <NuxtLink to="/about" class="author-note-identity">
       <span class="author-note-photo" aria-hidden="true">
-        <img src="/avatar.jpg" alt="" width="58" height="58" />
+        <SiteImage src="/avatar.jpg" alt="" width="58" height="58" />
       </span>
       <span class="author-note-name">
         <strong>{{ appConfig.authorCN }}</strong>

@@ -28,7 +28,7 @@
               </div>
               <figure class="notebook-paper-photo">
                 <span class="notebook-paper-tape" aria-hidden="true" />
-                <img :src="academicProfile.avatar" :alt="`${name}的相片`" width="82" height="90" />
+                <SiteImage :src="academicProfile.avatar" :alt="`${name}的相片`" width="82" height="90" priority />
               </figure>
             </div>
             <p class="notebook-paper-thought">喜欢研究，<br />也喜欢把想法做出来。</p>

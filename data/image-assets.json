@@ -1,0 +1,100 @@
+{
+  "/avatar.jpg": {
+    "width": 1080,
+    "height": 1080,
+    "variants": [
+      {
+        "src": "/media/avatar-160w-620f3ed9db10.webp",
+        "width": 160,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/avatar-320w-5b1f012abe30.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/avatar-640w-25468264d183.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/logos/ecnu.png": {
+    "width": 256,
+    "height": 256,
+    "variants": [
+      {
+        "src": "/media/ecnu-48w-52e882f43a0b.webp",
+        "width": 48,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/ecnu-96w-bd967909de17.webp",
+        "width": 96,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/ecnu-144w-da351e45f92a.webp",
+        "width": 144,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/logos/westlake.png": {
+    "width": 473,
+    "height": 474,
+    "variants": [
+      {
+        "src": "/media/westlake-48w-a14709aec26f.webp",
+        "width": 48,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/westlake-96w-da0482298c1a.webp",
+        "width": 96,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/westlake-144w-e5e935ffe1a1.webp",
+        "width": 144,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/logos/meituan.svg": {
+    "width": 96,
+    "height": 96,
+    "variants": []
+  },
+  "/images/posts/bpe-tokenizer-from-scratch/bpe-tokenizer-overview.svg": {
+    "width": 640,
+    "height": 740,
+    "variants": []
+  },
+  "/images/posts/bpe-tokenizer-from-scratch/bpe-utf8-byte-roundtrip.svg": {
+    "width": 640,
+    "height": 670,
+    "variants": []
+  },
+  "/images/posts/bpe-tokenizer-from-scratch/bpe-non-overlapping-merge.svg": {
+    "width": 640,
+    "height": 636,
+    "variants": []
+  },
+  "/images/posts/bpe-tokenizer-from-scratch/bpe-abab-training-steps.svg": {
+    "width": 640,
+    "height": 804,
+    "variants": []
+  },
+  "/images/posts/bpe-tokenizer-from-scratch/bpe-rank-priority.svg": {
+    "width": 640,
+    "height": 853,
+    "variants": []
+  },
+  "/images/posts/bpe-tokenizer-from-scratch/bpe-pretokenization-boundaries.svg": {
+    "width": 640,
+    "height": 742,
+    "variants": []
+  }
+}
