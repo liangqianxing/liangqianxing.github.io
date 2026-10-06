@@ -157,11 +157,11 @@ def backward(self, grad_output: np.ndarray) -> np.ndarray:
 
 Softmax 的梯度是最复杂的部分：
 
-```
-∂L/∂s_i = a_i * (∂L/∂a_i - Σ_j a_j * ∂L/∂a_j)
-```
+$$
+\frac{\partial L}{\partial s_i} = a_i \left( \frac{\partial L}{\partial a_i} - \sum_j a_j \frac{\partial L}{\partial a_j} \right)
+$$
 
-其中 `a = softmax(s)`。
+其中 $a = \text{softmax}(s)$。
 
 ### 3. Layer Normalization
 
@@ -379,8 +379,8 @@ def stable_softmax(x, axis=-1):
 ```
 
 **为什么要减去最大值？**
-- `exp(1000)` 会溢出 → Inf
-- `exp(1000 - 1000) = exp(0) = 1` ✓
+- $e^{1000}$ 会溢出 → Inf
+- $e^{1000 - 1000} = e^0 = 1$ ✓
 
 ### 2. 梯度裁剪
 
