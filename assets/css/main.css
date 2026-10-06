@@ -2475,15 +2475,11 @@ html.theme-switching .theme-transition-sheen {
 
 .prose img {
   display: block;
-  max-width: 100%;
+  max-width: min(100%, 640px);
   height: auto;
   margin: 1.7em auto;
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
-}
-
-.prose img[src$=".svg"] {
-  width: 100%;
 }
 
 .prose .katex {
