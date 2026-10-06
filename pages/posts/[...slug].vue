@@ -1,62 +1,7 @@
 <template>
   <div>
     <aside v-if="page" class="author-sidebar" aria-label="关于作者">
-      <div
-        class="post-author-card"
-        :style="{ '--reading-progress': readingProgress }"
-      >
-        <p class="post-author-head">
-          <span>About</span>
-          <strong>{{ String(readingProgress).padStart(2, '0') }}%</strong>
-        </p>
-        <NuxtLink to="/about" class="post-author-identity">
-          <span class="post-author-orbit" aria-hidden="true">
-            <img class="post-author-avatar" src="/avatar.jpg" alt="" width="44" height="44" />
-          </span>
-          <span class="post-author-name">
-            <strong>{{ appConfig.authorCN }}</strong>
-            <small>{{ appConfig.authorEN }}</small>
-          </span>
-          <span class="post-author-arrow" aria-hidden="true">↗</span>
-        </NuxtLink>
-        <p class="post-author-role">{{ appConfig.role }}</p>
-        <div class="post-author-focus" aria-label="关注领域">
-          <span>LLM</span>
-          <span>Agent</span>
-          <span>Backend</span>
-        </div>
-        <div
-          class="post-author-progress"
-          role="progressbar"
-          aria-label="文章阅读进度"
-          aria-valuemin="0"
-          aria-valuemax="100"
-          :aria-valuenow="readingProgress"
-        >
-          <div>
-            <span>Reading track</span>
-            <a href="#article-start" aria-label="跳到文章正文">↓</a>
-          </div>
-          <span class="post-author-progress-track" aria-hidden="true">
-            <span :style="{ width: `${readingProgress}%` }" />
-          </span>
-        </div>
-        <div class="post-author-links">
-          <NuxtLink to="/about">
-            查看介绍
-            <span aria-hidden="true">→</span>
-          </NuxtLink>
-          <a
-            :href="appConfig.github"
-            target="_blank"
-            rel="noopener noreferrer"
-            :aria-label="`${appConfig.authorCN} 的 GitHub`"
-          >
-            GitHub
-            <span aria-hidden="true">↗</span>
-          </a>
-        </div>
-      </div>
+      <PostAuthorNote :reading-progress="readingProgress" />
     </aside>
 
     <!-- TOC Sidebar -->
