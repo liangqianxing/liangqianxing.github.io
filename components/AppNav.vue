@@ -23,14 +23,29 @@
           :aria-current="isActive(item.path) ? 'page' : undefined"
         >{{ item.label }}</NuxtLink>
       </nav>
-      <label class="blog-theme-control">
-        <span class="sr-only">阅读主题</span>
-        <select :value="themeMode" aria-label="阅读主题" @change="onThemeChange">
-          <option value="light">浅色</option>
-          <option value="dark">深色</option>
-          <option value="cyber">终端</option>
-        </select>
-      </label>
+      <div class="blog-theme-control" :class="{ 'is-ready': isThemeReady }" role="group" aria-label="阅读主题" :data-theme="themeMode">
+        <span class="blog-theme-thumb" aria-hidden="true" />
+        <button
+          v-for="option in themeOptions"
+          :key="option.mode"
+          class="blog-theme-option"
+          type="button"
+          :data-mode="option.mode"
+          :aria-label="option.label"
+          :title="option.label"
+          :aria-pressed="themeMode === option.mode"
+          @click="setTheme(option.mode)"
+        >
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <template v-if="option.mode === 'light'">
+              <circle cx="12" cy="12" r="4" />
+              <path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5" />
+            </template>
+            <path v-else-if="option.mode === 'dark'" d="M20.5 13.1A8.5 8.5 0 0 1 10.9 3.5a8.5 8.5 0 1 0 9.6 9.6Z" />
+            <path v-else d="m5 6 6 6-6 6m9 0h5" />
+          </svg>
+        </button>
+      </div>
     </div>
   </header>
 </template>
@@ -40,13 +55,15 @@ type ThemeMode = 'dark' | 'light' | 'cyber'
 const appConfig = useAppConfig()
 const route = useRoute()
 const headerRef = ref<HTMLElement | null>(null)
+const isThemeReady = inject<Ref<boolean>>('isThemeReady', ref(false))
 const themeMode = inject<Ref<ThemeMode>>('themeMode', ref('light'))
 const setTheme = inject<(mode: ThemeMode) => void>('setTheme', () => {})
+const themeOptions: { mode: ThemeMode; label: string }[] = [
+  { mode: 'light', label: '浅色主题' },
+  { mode: 'dark', label: '深色主题' },
+  { mode: 'cyber', label: '终端主题' },
+]
 let headerObserver: ResizeObserver | undefined
-
-function onThemeChange(event: Event) {
-  setTheme((event.target as HTMLSelectElement).value as ThemeMode)
-}
 
 function isActive(path: string): boolean {
   const currentPath = route.path.replace(/\/$/, '') || '/'

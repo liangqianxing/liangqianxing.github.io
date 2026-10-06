@@ -70,10 +70,36 @@ html.cyber body.blog-body {
 }
 .blog-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 42px; padding-bottom: 8px; }
 .blog-section-links { gap: 8px; font-size: 0.78rem; }
-.blog-theme-control { flex: 0 0 auto; }
-.blog-theme-control select {
-  max-width: 90px; min-height: 30px; padding: 4px 10px; border: 0; border-radius: 100px;
-  background: var(--bg-2); color: var(--text); font: inherit; font-size: 0.73rem; cursor: pointer;
+.blog-theme-control {
+  --theme-size: 32px; --theme-index: 0;
+  position: relative; flex: 0 0 auto; display: grid; grid-template-columns: repeat(3, var(--theme-size)); gap: 3px;
+  padding: 3px; border: 1px solid color-mix(in srgb, var(--line) 70%, transparent); border-radius: 999px;
+  background: var(--bg-2); isolation: isolate;
+}
+/* The head script restores this before hydration, including the saved thumb position. */
+html.dark .blog-theme-control { --theme-index: 1; }
+html.cyber .blog-theme-control { --theme-index: 2; }
+.blog-theme-thumb {
+  position: absolute; top: 3px; left: 3px; width: var(--theme-size); height: var(--theme-size); border-radius: 50%;
+  background: var(--surface); box-shadow: 0 1px 5px #33264012, 0 0 0 1px color-mix(in srgb, var(--line) 55%, transparent);
+  transform: translateX(calc(var(--theme-index) * (var(--theme-size) + 3px))); pointer-events: none;
+}
+.blog-theme-control.is-ready .blog-theme-thumb { transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1), background 180ms ease; }
+.blog-theme-option {
+  position: relative; display: grid; place-items: center; width: var(--theme-size); height: var(--theme-size);
+  padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--muted); cursor: pointer;
+  -webkit-tap-highlight-color: transparent; transition: color 180ms ease;
+}
+.blog-theme-option svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; transition: transform 220ms ease; }
+html:not(.dark) .blog-theme-option[data-mode="light"],
+html.dark:not(.cyber) .blog-theme-option[data-mode="dark"],
+html.cyber .blog-theme-option[data-mode="cyber"] { color: var(--accent); }
+.blog-site .blog-theme-option:focus-visible { border-radius: 50%; outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .blog-theme-option:hover { color: var(--accent); }
+  .blog-theme-option[data-mode="light"]:hover svg { transform: rotate(22.5deg); }
+  .blog-theme-option[data-mode="dark"]:hover svg { transform: rotate(-12deg); }
+  .blog-theme-option[data-mode="cyber"]:hover svg { transform: translateX(1px); }
 }
 .blog-skip { position: fixed; top: 12px; left: 24px; z-index: 10000; padding: 10px 18px; border: 1px solid var(--accent); border-radius: 4px; background: var(--surface); color: var(--accent); transform: translateY(-180%); }
 .blog-skip:focus { transform: translateY(0); }
@@ -248,7 +274,7 @@ html.dark .blog-site .knowledge-card[data-key="INT"] { --topic-ink: #ffd0a0; }
   .blog-site-links, .blog-section-links { gap: 4px; font-size: 12px; }
   .blog-site-links a, .blog-section-links a { padding-inline: 6px; }
   .blog-toolbar { gap: 8px; }
-  .blog-theme-control select { padding: 4px; font-size: 11px; }
+  .blog-theme-control { --theme-size: 30px; }
   .notebook-greeting { font-size: 13px; }
   .notebook-signoff { font-size: 13px; }
   .notebook-topic-kicker { font-size: 12px; }
@@ -275,10 +301,13 @@ html.dark .blog-site .knowledge-card[data-key="INT"] { --topic-ink: #ffd0a0; }
   .blog-header-row, .blog-toolbar, .blog-footer, .blog-site .page-frame, .blog-site .site-main, .notebook-hero, .blog-site .page-wrapper-narrow { width: calc(100% - 32px); }
   .blog-section-links { gap: 1px; }
   .blog-site-links a, .blog-section-links a { padding-inline: 5px; }
+  .blog-section-links a { padding-inline: 4px; }
+  .blog-toolbar { gap: 6px; }
   .notebook-title { font-size: 34px; }
   .blog-site .knowledge-grid { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .blog-site *, .blog-site *::before, .blog-site *::after { animation: none; transition: none; }
+  .blog-theme-control.is-ready .blog-theme-thumb, .blog-theme-option svg { transition: none; }
 }
