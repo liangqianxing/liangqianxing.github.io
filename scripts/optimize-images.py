@@ -37,6 +37,8 @@ RASTER_SOURCES: dict[str, tuple[int, ...]] = {
     "/logos/ecnu.png": (48, 96, 144),
     "/logos/westlake.png": (48, 96, 144),
     "/images/friends/sssn.jpg": (56, 112, 168),
+    "/media/publications/autofigure-edit-overview.png": (320, 640, 960),
+    "/media/publications/deepreviewer-v2-overview.png": (320, 640, 960),
 }
 
 # Remote friend sources are downloaded explicitly, never during site builds.

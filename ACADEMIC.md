@@ -38,8 +38,11 @@ publications: [
     ],
     venue: '替换为会议、期刊或预印本名称',
     year: '替换为真实年份',
+    badge: '替换为简短会议 / 预印本标签与年份',
     summary: '可选：一句话概括研究问题与方法。',
-    // image: '/images/publications/paper-overview.png',
+    // image: '/media/publications/paper-overview.png',
+    // imageAlt: '可选：简短描述框架图的内容。',
+    // imageSource: { label: 'Figure 1 · arXiv', url: '替换为原图出处' },
     links: [
       { label: 'Paper', url: '替换为真实论文链接' },
       { label: 'Code', url: '替换为真实代码链接' },
@@ -48,7 +51,28 @@ publications: [
 ] as Publication[],
 ```
 
-`self: true` 会加粗自己的姓名。`image` 和 `summary` 可以不填；不需要的链接直接删除。按你希望展示的顺序排列论文即可。
+`self: true` 会加粗自己的姓名；标题使用 `links` 中标签为 `Paper` 的链接，没有时显示普通标题。
+`badge` 是简短的会议 / 预印本标签，不填则显示年份。`image`、`imageAlt`、`imageSource` 和 `summary` 均可不填，
+无图的论文直接显示文字列表。`imageSource` 是独立的图源链接，不替代论文的 `Paper` 链接。
+不需要的资源链接直接删除，按你希望展示的顺序排列论文即可。预印本不能标为已录用会议论文。
+
+### 出版物框架图
+
+桌面左图右文，760px 及以下单列。图保持原比例，点击图片可在新标签页查看本站原图。
+图源链接位于图片下方，完整作者串、论文简介与资源链接直接显示。
+
+当前两张图来自论文原文，核实于 2026-10-08：
+
+| 论文 | 本地原图 | 图号与官方来源 |
+| --- | --- | --- |
+| AutoFigure-Edit | `public/media/publications/autofigure-edit-overview.png` | [Figure 1 · arXiv:2603.06674v1](https://arxiv.org/html/2603.06674v1/method_v1.png) |
+| DeepReviewer 2.0 | `public/media/publications/deepreviewer-v2-overview.png` | [Figure 2 · arXiv:2604.09590v1](https://arxiv.org/html/2604.09590v1/final.png) |
+
+新增框架图时，将原图保存到 `public/media/publications/`，并在 `scripts/optimize-images.py` 的
+`RASTER_SOURCES` 注册站内路径与 320 / 640 / 960px 宽度，运行 `python scripts/optimize-images.py`。
+把原图、生成的 WebP 和 `data/image-assets.json` 一起提交；`SiteImage` 自动选择适合显示宽度的变体，
+变体失败回退原图，原图也失败则保留稳定占位。原 PNG 和旧哈希变体均保留。
+这一目录只用于 Pages，不放入会触发 Halo 同步的 `public/images/`；论文图修改不运行 `sync:halo`。
 
 ## 动态与项目
 

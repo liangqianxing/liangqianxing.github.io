@@ -83,6 +83,48 @@
       }
     ]
   },
+  "/media/publications/autofigure-edit-overview.png": {
+    "width": 1394,
+    "height": 738,
+    "variants": [
+      {
+        "src": "/media/autofigure-edit-overview-320w-59a583978a88.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/autofigure-edit-overview-640w-7d6270e111ee.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/autofigure-edit-overview-960w-f7c8a7a8c0c5.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/media/publications/deepreviewer-v2-overview.png": {
+    "width": 2018,
+    "height": 1066,
+    "variants": [
+      {
+        "src": "/media/deepreviewer-v2-overview-320w-84a480e11a72.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/deepreviewer-v2-overview-640w-49f922a8529c.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/deepreviewer-v2-overview-960w-1d0b05983957.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
   "/media/friends/friend-liumengxuan04-76187fa71b83.png": {
     "width": 256,
     "height": 256,

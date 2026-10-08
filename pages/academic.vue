@@ -1,9 +1,15 @@
 <script setup lang="ts">
 import { academicProfile as profile } from '~/data/academic'
+import { imageWithBase } from '~/utils/image-assets'
 
 definePageMeta({ layout: 'profile' })
 
 const appConfig = useAppConfig()
+const imageBaseURL = useRuntimeConfig().app.baseURL
+const publications = profile.publications.map(paper => ({
+  ...paper,
+  paperUrl: paper.links.find(link => link.label === 'Paper')?.url,
+}))
 const quickLinks = computed(() => [
   ...(profile.email ? [{ label: 'Email', url: `mailto:${profile.email}` }] : []),
   { label: 'GitHub', url: profile.github },
@@ -96,17 +102,29 @@ useHead({
     <section id="publications" class="academic-section" aria-labelledby="publications-heading">
       <h2 id="publications-heading">Publications <span>论文</span></h2>
       <div v-if="profile.publications.length" class="academic-publications">
-        <article v-for="paper in profile.publications" :key="paper.title" class="academic-paper" :class="{ 'with-image': paper.image }" :data-year="paper.year">
-          <SiteImage v-if="paper.image" :src="paper.image" :alt="`${paper.title}概览`" width="180" height="112" sizes="(max-width: 620px) calc(100vw - 48px), 180px" loading="lazy" />
-          <div>
-            <h3>{{ paper.title }}</h3>
+        <article v-for="paper in publications" :key="paper.title" class="academic-paper" :class="{ 'with-image': paper.image }">
+          <figure v-if="paper.image" class="academic-paper-figure">
+            <span class="academic-paper-badge">{{ paper.badge || paper.year }}</span>
+            <a class="academic-paper-figure-link" :href="imageWithBase(paper.image, imageBaseURL)" target="_blank" rel="noopener noreferrer" :aria-label="`查看 ${paper.title} 的框架原图`">
+              <SiteImage :src="paper.image" :alt="paper.imageAlt || `${paper.title} 框架概览`" width="334" sizes="(max-width: 468px) calc(100vw - 48px), (max-width: 760px) 420px, (max-width: 1008px) calc(36vw - 28.8px), 334px" loading="lazy" />
+            </a>
+            <figcaption v-if="paper.imageSource" class="academic-paper-caption">
+              <a :href="paper.imageSource.url" :target="isExternal(paper.imageSource.url) ? '_blank' : undefined" :rel="isExternal(paper.imageSource.url) ? 'noopener noreferrer' : undefined" :aria-label="`${paper.title} 的图源：${paper.imageSource.label}`">{{ paper.imageSource.label }} <span aria-hidden="true">↗</span></a>
+            </figcaption>
+          </figure>
+          <div class="academic-paper-copy">
+            <span v-if="!paper.image" class="academic-paper-badge academic-paper-badge-inline">{{ paper.badge || paper.year }}</span>
+            <h3>
+              <a v-if="paper.paperUrl" :href="paper.paperUrl" :target="isExternal(paper.paperUrl) ? '_blank' : undefined" :rel="isExternal(paper.paperUrl) ? 'noopener noreferrer' : undefined">{{ paper.title }}</a>
+              <template v-else>{{ paper.title }}</template>
+            </h3>
             <p class="academic-authors">
               <template v-for="(author, index) in paper.authors" :key="author.name"><span v-if="index">, </span><strong v-if="author.self">{{ author.name }}</strong><span v-else>{{ author.name }}</span></template>
             </p>
-            <p class="academic-venue">{{ paper.venue }}</p>
+            <p class="academic-venue">{{ paper.venue }} <span aria-hidden="true">·</span> {{ paper.year }}</p>
             <p v-if="paper.summary" class="academic-summary">{{ paper.summary }}</p>
             <div v-if="paper.links.length" class="academic-resource-links">
-              <a v-for="link in paper.links" :key="link.label" :href="link.url" :target="isExternal(link.url) ? '_blank' : undefined" :rel="isExternal(link.url) ? 'noopener noreferrer' : undefined">{{ link.label }} <span aria-hidden="true">↗</span></a>
+              <a v-for="link in paper.links" :key="link.label" :href="link.url" :target="isExternal(link.url) ? '_blank' : undefined" :rel="isExternal(link.url) ? 'noopener noreferrer' : undefined" :aria-label="`${paper.title} — ${link.label}`">{{ link.label }} <span aria-hidden="true">↗</span></a>
             </div>
           </div>
         </article>
@@ -190,21 +208,26 @@ useHead({
 .academic-news li { display: grid; grid-template-columns: 100px minmax(0, 1fr); gap: 16px; padding: 6px 0; }
 .academic-news p { margin: 0; }
 .academic-date { color: var(--academic-muted-strong); font-size: 12px; white-space: nowrap; font-variant-numeric: tabular-nums; }
-.academic-paper { position: relative; padding: 22px 0 22px 58px; border-bottom: 1px solid #e0e5df; }
-.academic-paper::before { position: absolute; top: 25px; left: 0; color: var(--academic-muted-strong); content: attr(data-year); font-size: 12px; font-variant-numeric: tabular-nums; }
-.academic-paper:first-child { padding-top: 0; }
-.academic-paper:first-child::before { top: 3px; }
-.academic-paper.with-image { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 25px; }
-.academic-paper > img { width: 180px; height: 112px; object-fit: contain; border-radius: 6px; background: white; border: 1px solid #e0e5df; }
-.academic-paper h3 { color: #202824; font-size: 16px; line-height: 1.55; }
-.academic-paper > div { min-width: 0; }
-.academic-paper h3 { overflow-wrap: anywhere; }
-.academic-paper p { margin: 5px 0; font-size: 13px; }
-.academic-authors { color: #65716b; line-height: 1.65; }
-.academic-authors strong { color: #303b35; font-weight: 600; }
+.academic-paper { padding: 36px 0 30px; border-bottom: 1px solid #e0e5df; }
+.academic-paper:first-child { padding-top: 24px; }
+.academic-paper.with-image { display: grid; grid-template-columns: minmax(0, .36fr) minmax(0, .64fr); align-items: start; gap: 32px; }
+.academic-paper-figure { position: relative; min-width: 0; margin: 0; }
+.academic-paper-badge { position: absolute; top: -24px; left: -8px; z-index: 1; padding: 4px 10px; border-radius: 2px; background: #285b45; color: #fff; font-size: 11px; font-weight: 650; letter-spacing: .035em; line-height: 1.4; }
+.academic-paper-badge-inline { position: static; display: inline-block; margin-bottom: 10px; }
+.academic-paper-figure-link { display: block; border: 1px solid #e0e5df; border-radius: 4px; background: #fff; box-shadow: 0 3px 9px rgb(32 40 36 / 7%); cursor: zoom-in; }
+.academic-paper-figure-link > img { display: block; width: 100%; height: auto; object-fit: contain; border-radius: 3px; }
+.academic-paper-figure-link:hover { border-color: #9fb7a7; }
+.academic-paper-caption { margin-top: 7px; font-size: 11px; line-height: 1.6; text-align: center; }
+.academic-paper-caption a { color: var(--academic-muted-strong); }
+.academic-paper-copy { min-width: 0; }
+.academic-paper h3 { color: #202824; font-size: 18px; line-height: 1.5; overflow-wrap: anywhere; }
+.academic-paper p { margin: 8px 0; font-size: 13px; }
+.academic-authors { color: #65716b; line-height: 1.8; }
+.academic-authors strong { color: #303b35; font-weight: 650; }
 .academic-venue { color: var(--academic-muted-strong); font-style: italic; }
-.academic-summary { max-width: 72ch; color: #65716b; }
-.academic-resource-links { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 7px; font-size: 12px; }
+.academic-summary { max-width: 72ch; color: #65716b; line-height: 1.8; }
+.academic-resource-links { display: flex; flex-wrap: wrap; gap: 6px 19px; margin-top: 10px; font-size: 12px; font-weight: 550; }
+.academic-resource-links a { display: inline-flex; align-items: center; gap: 4px; padding-block: 3px; }
 .academic-entry { display: flex; align-items: flex-start; gap: 18px; padding: 17px 0; border-bottom: 1px solid #e0e5df; }
 .academic-entry > img { width: 44px; height: 44px; padding: 3px; object-fit: contain; background: white; border: 1px solid #e8ece6; border-radius: 7px; flex-shrink: 0; }
 .academic-entry-copy { flex: 1; min-width: 0; }
@@ -219,6 +242,11 @@ useHead({
 .academic-project-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 10px; font-size: 12px; }
 .academic-project-tag { padding: 1px 7px; border: 1px solid #e0e5df; border-radius: 4px; font-size: 11px; color: #65716b; }
 .academic-updated { margin: 36px 0 0; color: var(--academic-muted-strong); font-size: 11px; }
+@media (max-width: 760px) {
+  .academic-paper.with-image { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .academic-paper-figure { width: min(100%, 420px); }
+  .academic-paper h3 { font-size: 17px; }
+}
 @media (max-width: 640px) {
   .academic-page { padding-top: 32px; font-size: 14px; }
   .academic-identity { align-items: flex-start; gap: 18px; padding-bottom: 28px; }
@@ -239,11 +267,7 @@ useHead({
   .academic-entry-copy { flex-basis: 100%; }
   .academic-entry.with-logo > .academic-date { padding-left: 57px; }
   .academic-entry.with-logo .academic-entry-copy { flex-basis: calc(100% - 57px); }
-  .academic-paper { padding: 20px 0; }
-  .academic-paper::before,
-  .academic-paper:first-child::before { position: static; display: block; margin-bottom: 6px; }
-  .academic-paper.with-image { grid-template-columns: 1fr; gap: 15px; }
-  .academic-paper > img { width: 100%; height: auto; max-height: 180px; aspect-ratio: 180 / 112; object-fit: contain; }
+  .academic-paper { padding: 36px 0 26px; }
   .academic-news li { grid-template-columns: 70px minmax(0, 1fr); gap: 12px; }
 }
 @media print {

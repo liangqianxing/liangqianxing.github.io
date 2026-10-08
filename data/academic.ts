@@ -8,7 +8,10 @@ export interface Publication {
   authors: { name: string; self?: boolean }[]
   venue: string
   year: string
+  badge?: string
   image?: string
+  imageAlt?: string
+  imageSource?: AcademicLink
   summary?: string
   links: AcademicLink[]
 }
@@ -67,6 +70,10 @@ export const academicProfile = {
       ],
       venue: 'ACL (System Demonstrations)',
       year: '2026',
+      badge: 'ACL 2026',
+      image: '/media/publications/autofigure-edit-overview.png',
+      imageAlt: 'AutoFigure-Edit 的五阶段框架：风格生成、结构索引、素材提取、SVG 模板细化与素材注入。',
+      imageSource: { label: 'Figure 1 · arXiv', url: 'https://arxiv.org/html/2603.06674v1/method_v1.png' },
       summary: '结合长文本理解、参考图风格控制与原生 SVG 编辑，生成可编辑的科研插图。',
       links: [
         { label: 'Paper', url: 'https://aclanthology.org/2026.acl-demo.6/' },
@@ -91,6 +98,10 @@ export const academicProfile = {
       ],
       venue: 'arXiv preprint · arXiv:2604.09590',
       year: '2026',
+      badge: 'arXiv 2026',
+      image: '/media/publications/deepreviewer-v2-overview.png',
+      imageAlt: 'DeepReviewer 2.0 框架：论文解析与证据锚定、两阶段认知评审链、可追溯评审报告与批注。',
+      imageSource: { label: 'Figure 2 · arXiv', url: 'https://arxiv.org/html/2604.09590v1/final.png' },
       summary: '面向可审计的科学同行评审，生成包含锚定批注、局部证据与后续验证动作的可追溯评审结果。',
       links: [
         { label: 'Paper', url: 'https://arxiv.org/abs/2604.09590' },
