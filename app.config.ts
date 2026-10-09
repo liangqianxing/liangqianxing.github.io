@@ -11,7 +11,7 @@ export default defineAppConfig({
   friends: [
     {
       name: '小黄鼠',
-      url: 'https://liumengxuan04.github.io/',
+      url: 'https://liumengxuan04.github.io/about/',
       avatar: 'https://github.com/liumengxuan04.png',
       desc: '一只爱写代码的小黄鼠',
     },
@@ -23,7 +23,7 @@ export default defineAppConfig({
     },
     {
       name: '石上三年',
-      url: 'https://blog.sssn.tech/',
+      url: 'https://blog.sssn.tech/?p=175',
       avatar: '/images/friends/sssn.jpg',
       desc: '石上三年',
     },
