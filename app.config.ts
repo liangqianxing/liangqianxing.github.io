@@ -17,7 +17,7 @@ export default defineAppConfig({
     },
     {
       name: '陈驰水',
-      url: 'https://blog.chencs.online/posts/',
+      url: 'https://blog.chencs.online/posts/%E5%85%B3%E4%BA%8E%E6%88%91/',
       avatar: 'https://github.com/chenchishui.png',
       desc: '陈驰水的博客',
     },
