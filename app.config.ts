@@ -53,9 +53,9 @@ export default defineAppConfig({
       company: '美团',
       companyEN: 'Meituan',
       logo: '/logos/meituan.svg',
-      role: '全栈工程师（实习）',
+      role: '暑期开发实习生',
       period: '2026.06 – 至今',
-      desc: '参与美团内部平台全栈开发，涉及 LLM 相关工程和后端服务。',
+      desc: '参与美团内部平台开发，涉及 LLM 相关工程和后端服务。',
     },
     {
       company: '西湖大学',

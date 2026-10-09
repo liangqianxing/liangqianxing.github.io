@@ -51,7 +51,7 @@
             <h2 class="notebook-paper-name">最近，慢慢向前</h2>
             <div class="notebook-paper-updates">
               <p><span class="notebook-paper-mark notebook-paper-mark-lilac">下一站</span>已保研录取华东师范大学软件工程，<strong>2027 年入学</strong>。</p>
-              <p><span class="notebook-paper-mark notebook-paper-mark-peach">现在</span>在美团做全栈开发实习，把想法放进实际的工程里。</p>
+              <p><span class="notebook-paper-mark notebook-paper-mark-peach">现在</span>在美团做开发实习，把想法放进实际的工程里。</p>
             </div>
           </template>
           <p class="notebook-paper-signature"><span>{{ notebook }}</span><svg width="36" height="13" viewBox="0 0 36 13" fill="none" aria-hidden="true"><path d="M1 8C8 0 14 2 13 8C12 13 20 10 22 4C24 0 20 2 22 7C24 12 30 7 35 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" /></svg></p>
