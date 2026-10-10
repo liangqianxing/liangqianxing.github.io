@@ -276,7 +276,7 @@ def train_bpe(
 
 ![字节序列 97、98、97、98 先合并成两个 256，再合并成 257，对应 a b a b 到 ab ab 再到 abab](/images/posts/bpe-tokenizer-from-scratch/bpe-merge-process.webp)
 
-*图 1 · `abab` 的两轮合并。第一轮得到两个 `ab`，第二轮得到 `abab`；编码时仍需按训练得到的规则顺序执行。原创示意图，AI 辅助绘制。[查看大图](/images/posts/bpe-tokenizer-from-scratch/bpe-merge-process.webp)。*
+*图 1 · `abab` 的两轮合并。第一轮得到两个 `ab`，第二轮得到 `abab`；编码时仍需按训练得到的规则顺序执行。原创示意图，AI 辅助绘制。<a href="/images/posts/bpe-tokenizer-from-scratch/bpe-merge-process.webp" target="_blank" rel="noopener noreferrer">查看大图</a>。*
 
 以 `"abab"` 为例：
 

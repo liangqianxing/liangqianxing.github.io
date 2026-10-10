@@ -86,7 +86,7 @@ Adam 保存梯度的一阶、二阶移动平均，并做偏差校正。AdamW 把
 
 ![单步训练从 Token 批次前向计算 Logits 和损失，再经梯度与 AdamW 更新权重并返回模型，目标 Token 单独传入损失](/images/posts/lm-lab-project-complete/lm-lab-training-cycle.webp)
 
-*图 1 · 一次训练迭代的目标数据流。它说明各模块应如何连接，不能代替端到端训练验证。原创示意图，AI 辅助绘制。[查看大图](/images/posts/lm-lab-project-complete/lm-lab-training-cycle.webp)。*
+*图 1 · 一次训练迭代的目标数据流。它说明各模块应如何连接，不能代替端到端训练验证。原创示意图，AI 辅助绘制。<a href="/images/posts/lm-lab-project-complete/lm-lab-training-cycle.webp" target="_blank" rel="noopener noreferrer">查看大图</a>。*
 
 训练数据的输入和目标只差一个位置。例如 token 序列为 `[8, 12, 5, 9]`，长度为 3 的样本应当是：
 

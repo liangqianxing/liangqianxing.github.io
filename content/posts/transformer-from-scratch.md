@@ -29,7 +29,7 @@ haloPublished: true
 
 ![Token ID 经过嵌入、重复的 Transformer Block 和词表投影，形成下一 Token 的概率分布](/images/posts/transformer-from-scratch/transformer-architecture.webp)
 
-*图 1 · Decoder-only 模型的简化数据流。图中省略归一化与残差连接，完整计算顺序见下方代码。原创示意图，AI 辅助绘制。[查看大图](/images/posts/transformer-from-scratch/transformer-architecture.webp)。*
+*图 1 · Decoder-only 模型的简化数据流。图中省略归一化与残差连接，完整计算顺序见下方代码。原创示意图，AI 辅助绘制。<a href="/images/posts/transformer-from-scratch/transformer-architecture.webp" target="_blank" rel="noopener noreferrer">查看大图</a>。*
 
 对于一批长度相同的序列，模型的数据流是：
 
@@ -72,7 +72,7 @@ $$
 
 ![四乘四因果注意力矩阵：对角线及其下方可见，上三角的未来位置被屏蔽](/images/posts/transformer-from-scratch/transformer-causal-mask.webp)
 
-*图 2 · 行是查询位置，列是被查询的位置。绿色格子可见，灰色格子被遮住；对角线也参与注意力。原创示意图，AI 辅助绘制。[查看大图](/images/posts/transformer-from-scratch/transformer-causal-mask.webp)。*
+*图 2 · 行是查询位置，列是被查询的位置。绿色格子可见，灰色格子被遮住；对角线也参与注意力。原创示意图，AI 辅助绘制。<a href="/images/posts/transformer-from-scratch/transformer-causal-mask.webp" target="_blank" rel="noopener noreferrer">查看大图</a>。*
 
 下面保留前向传播的主要步骤，省略构造函数和反向传播缓存：
 
