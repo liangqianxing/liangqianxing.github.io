@@ -1,8 +1,11 @@
 ---
-title: "LM Lab 项目完成：从零实现完整的 Transformer 语言模型"
+title: "LM Lab 项目复盘：从分词器到 Transformer 的实现与验证"
 date: 2026-10-07
 description: "使用纯 NumPy 实现 Transformer 语言模型的完整历程，包含 BPE 分词器、注意力机制、优化器和训练流程。10,000+ 行代码，71 个测试全部通过。"
 series: "LLM 从零实现"
+seriesOrder: 3
+cover: /images/posts/lm-lab-project-complete/lm-lab-cover.webp
+coverAlt: 分词器、Transformer、优化器与实验记录组成语言模型工程实验台的示意插画
 tags:
   - "LLM"
   - "Transformer"
@@ -12,856 +15,156 @@ tags:
   - "项目总结"
 ---
 
-## 项目概览
+## 为什么做 LM Lab
 
-**LM Lab** 是一个从零实现语言模型的教学项目，基于斯坦福 CS336 课程。历时数周，使用**纯 NumPy**（无深度学习框架依赖）完整实现了 Transformer 架构的所有核心组件。
+读 Transformer 论文时，注意力公式不难记住。真正动手后，问题才变得具体：文本怎么变成 token ID？多头注意力的维度怎么拆？损失的梯度又怎样回到每一块参数？
 
-**项目规模**：
-- 📝 **10,000+ 行代码**
-- 📦 **58+ Python 文件**
-- ✅ **71 个测试全部通过**
-- 📚 **7 份完整文档**
-- 🌐 **GitHub 开源**
+**LM Lab** 是围绕这些问题搭建的语言模型学习实验室，参考斯坦福 CS336 的从零实现路线。核心模型用 NumPy 表达计算过程，让张量变换、缓存和梯度接口都能直接看见。
 
-**GitHub 仓库**：[https://github.com/liangqianxing/lm-lab](https://github.com/liangqianxing/lm-lab)
+这篇记录项目怎样组织，以及下一步怎样把组件验证连成训练验证。算法细节放在前两篇，建议按下面的顺序阅读：
 
----
+1. [从零实现 BPE 分词器](/posts/bpe-tokenizer-from-scratch)：先理解文本、字节与 token ID 的对应关系。
+2. [从零实现 Transformer](/posts/transformer-from-scratch)：再沿着张量形状读模型的前向计算。
+3. 本篇：把分词、模型、优化器和实验记录放回同一条工程流程。
 
-## 项目架构
+项目仓库：[liangqianxing/lm-lab](https://github.com/liangqianxing/lm-lab)。本文核对的源码版本是 [bf854b1](https://github.com/liangqianxing/lm-lab/tree/bf854b11027bb430843c0d5b72e0a94cf95232dd)，后续实现可能继续变化。
 
-```
+## 项目结构：每一层负责什么
+
+```text
 lm-lab/
 ├── src/lm_lab/
-│   ├── tokenization/       # BPE 分词器（已验证）
-│   ├── model/              # Transformer 模型（纯 NumPy）
-│   ├── optimizer/          # SGD、Adam、AdamW
-│   ├── training/           # 训练工具
-│   └── utils/              # 数值稳定性工具
-├── tests/                  # 完整测试套件
-├── docs/                   # 详细文档
-└── runs/                   # 实验记录
+│   ├── tokenization/       # 字节编码、BPE、预分词和持久化
+│   ├── model/              # NumPy Transformer 组件
+│   ├── optimizer/          # 参数更新和梯度处理
+│   ├── training/           # 数据批次、训练、评估和检查点
+│   └── utils/              # 数值计算、随机种子和形状工具
+├── tests/                  # 分词与模型相关测试
+├── docs/                   # 架构、接口、实验模板和路线图
+├── scripts/                # 示例与测量脚本
+└── runs/                   # 实验产物
 ```
 
----
+目录划分的价值在于明确交接点。一个模块输出什么，下一层就应当明确接收什么。
 
-## 第一部分：BPE 分词器实现
+| 模块 | 核心输入与输出 | 需要守住的约定 |
+| --- | --- | --- |
+| 分词器 | 文本 ↔ token ID 序列 | 字节可还原，合并规则确定，特殊 token 有边界 |
+| 数据加载 | 连续 token → 输入、目标批次 | 目标相对输入右移一位，形状均为 `(B, T)` |
+| Transformer | `(B, T)` → logits `(B, T, V)` | 位置与词表索引合法，因果掩码不泄露未来 |
+| 损失计算 | logits、目标 → 标量损失及梯度 | 对有效预测位置采用一致的平均方式 |
+| 优化器 | 参数、同名梯度 → 更新后的参数 | 参数与梯度一一对应，状态可保存和恢复 |
+| 实验记录 | 配置、指标、检查点 | 能说明用了哪份数据、哪个版本和哪组超参数 |
 
-### 核心算法
+这里 `B` 是批量大小，`T` 是序列长度，`V` 是词表大小。词表大小应来自实际 tokenizer；不能只把训练时请求的目标词表大小直接当成模型的索引边界。
 
-BPE (Byte Pair Encoding) 是现代 LLM 的标准分词方法。我实现了完整的 5 个阶段：
+## 从文本到预测：把组件连起来
 
-**T1: UTF-8 字节编码**
-```python
-def encode_utf8(text: str) -> list[int]:
-    """将文本编码为 UTF-8 字节序列"""
-    return list(text.encode('utf-8'))
+### 分词器决定模型看到的输入
 
-# 示例
-encode_utf8("Hello")   # [72, 101, 108, 108, 111]
-encode_utf8("你好")    # [228, 189, 160, 229, 165, 189]
+BPE 的训练结果包含基础字节词表、按顺序保存的合并规则和特殊 token 配置。编码阶段要复用训练时的预分词边界，按合并 rank 应用规则；解码则先还原字节，再按 UTF-8 解码。
+
+比起一开始追求大词表，我更关心几个小例子：中文是否完整还原，重复字符是否从左到右非重叠合并，保存再加载是否得到相同编码。这些行为能用确定的输入输出检查，出错时也容易定位。
+
+### 模型提供下一 token 的分布
+
+模型接收 token ID，依次经过 token embedding、学习式位置编码、Transformer blocks 和最终 LayerNorm，再映射到词表 logits。输出投影与输入 embedding 共享权重。
+
+注意力计算处理 token 之间的依赖，前馈网络处理每个位置的特征变换；Pre-norm 和残差连接则把这些子层组织起来。细节可在 [Transformer 实现篇](/posts/transformer-from-scratch) 中顺着形状阅读。
+
+前向输出的形状正确，只能说明接口走通了一部分。比如因果性还需要单独验证：改变未来 token，过去位置的输出应保持一致；做这个对照时应关闭 dropout，避免随机性干扰判断。
+
+### 优化器更新参数，不负责生成梯度
+
+Adam 保存梯度的一阶、二阶移动平均，并做偏差校正。AdamW 把权重衰减与基于梯度的自适应更新分开。两者都需要模型交出完整、名称一致的参数与梯度集合。
+
+这个边界很容易被忽略：给优化器一组人工梯度，看到参数变化，并不能证明模型反向传播正确。必须先确认每个需要训练的参数都有梯度，再检查这些梯度是否与损失函数一致。
+
+共享 embedding 尤其需要注意，它同时出现在输入查表和输出投影两条计算路径中，反向传播时要累加两部分贡献。
+
+## 一次训练迭代应该完成什么
+
+![单步训练从 Token 批次前向计算 Logits 和损失，再经梯度与 AdamW 更新权重并返回模型，目标 Token 单独传入损失](/images/posts/lm-lab-project-complete/lm-lab-training-cycle.webp)
+
+*图 1 · 一次训练迭代的目标数据流。它说明各模块应如何连接，不能代替端到端训练验证。原创示意图，AI 辅助绘制。[查看大图](/images/posts/lm-lab-project-complete/lm-lab-training-cycle.webp)。*
+
+训练数据的输入和目标只差一个位置。例如 token 序列为 `[8, 12, 5, 9]`，长度为 3 的样本应当是：
+
+```text
+input_ids  = [8, 12, 5]
+target_ids = [12, 5, 9]
 ```
 
-**T2: 频率统计与贪心合并**
-```python
-def count_pairs(token_ids: Sequence[int]) -> dict[Pair, int]:
-    """统计所有相邻 token 对的频率"""
-    pair_counts = {}
-    for i in range(len(token_ids) - 1):
-        pair = (token_ids[i], token_ids[i + 1])
-        pair_counts[pair] = pair_counts.get(pair, 0) + 1
-    return pair_counts
+模型在每个输入位置预测下一个 token。由此，一次训练迭代的职责可以写成下面的流程。它是接口设计示意，不能作为当前仓库可直接运行的训练示例。
 
-def merge_pair(token_ids: Sequence[int], pair: Pair, new_id: int) -> list[int]:
-    """从左到右非重叠合并"""
-    result = []
-    i = 0
-    while i < len(token_ids):
-        if i < len(token_ids) - 1 and (token_ids[i], token_ids[i + 1]) == pair:
-            result.append(new_id)
-            i += 2  # 跳过两个 token
-        else:
-            result.append(token_ids[i])
-            i += 1
-    return result
+```text
+构造 input_ids 和 target_ids
+    → 模型前向计算 logits
+    → 计算交叉熵及 logits 的梯度
+    → 反向传播到全部可训练参数
+    → 收集并检查参数梯度
+    → 全局范数裁剪
+    → 优化器更新参数
+    → 记录损失、配置和实验状态
 ```
 
-**关键挑战**：
-- ✅ 非重叠合并：`[a, a, a, a]` 合并 `(a,a)→x` 应得 `[x, x]` 而非 `[x, a]`
-- ✅ 平局处理：频率相同时选择整数元组最小的配对
-- ✅ 边界保护：不跨输入边界合并
+交叉熵通常对批次中有效 token 的损失取平均，反向计算也要使用相同的归一化方式。若损失按平均计算、梯度却按求和计算，改变 batch size 或序列长度就会改变实际更新尺度。
 
-**T3: Rank 优先级编码**
+数值稳定性同样要贯穿流程。Softmax 可以减去行最大值；交叉熵更适合用 log-sum-exp 形式计算。梯度裁剪应汇总所有参数的全局范数，避免只裁剪局部而遗漏大梯度。
 
-编码时使用**训练顺序（rank）**而非频率：
-```python
-def encode(model: BPEModel, text: str) -> list[int]:
-    """使用 rank 优先级编码"""
-    tokens = list(text.encode('utf-8'))
-    
-    # 按 rank 顺序应用合并规则
-    for merge in model.merges:
-        tokens = merge_pair(tokens, merge.pair, merge.new_id)
-    
-    return tokens
-```
+## 验证边界：组件存在不等于训练完成
 
-**T4: 预分词与特殊 Token**
+原稿写过“10,000+ 行代码、58+ Python 文件、71 个测试通过”等阶段统计，其中 71 指分词器阶段记录。摘要保留了当时的表述；这些数字没有绑定完整的运行环境和日志，不能当作当前版本全量测试通过、完整 Transformer 训练成功的证据。
 
-实现无损预分词，将文本分割为字母数字、空格、其他字符三类：
-```python
-def pretokenize(text: str) -> list[str]:
-    """无损分割，支持中英混合"""
-    pieces = []
-    current_piece = ""
-    current_category = None
-    
-    for char in text:
-        category = get_category(char)  # alnum/space/other
-        if category != current_category and current_piece:
-            pieces.append(current_piece)
-            current_piece = ""
-        current_piece += char
-        current_category = category
-    
-    if current_piece:
-        pieces.append(current_piece)
-    
-    return pieces
-```
+核对 [bf854b1 源码](https://github.com/liangqianxing/lm-lab/tree/bf854b11027bb430843c0d5b72e0a94cf95232dd) 时，可以看到 NumPy 模型的前向结构、优化器和数据工具，也能看到尚未打通的部分：包导出与实际接口存在不一致，模型未提供原稿训练循环调用的 `parameters()`、`gradients()` 方法，反向链路还需要补齐。仓库同时保留了 PyTorch 训练分支，因此“整个项目只依赖 NumPy”也不准确。
 
-特殊 token（如 `<|endoftext|>`）在训练时被隔离，不参与 BPE 合并。
+更合适的项目定位是：**已有核心组件实现和测试材料，训练闭环仍需统一接口并验证。** 原稿中“3/4 tests passed”和“forward pass verified”的输出，也不足以支持端到端训练完成的结论。
 
-**T5: JSON 持久化**
+后续我会按验证范围分别记录结果：
 
-```python
-def save(model: BPEModel, path: str) -> None:
-    """保存为确定性 JSON"""
-    data = {
-        "format": "lm-lab-bpe",
-        "version": 1,
-        "vocab": {str(k): v.hex() for k, v in sorted(model.vocab.items())},
-        "merges": [[m.pair[0], m.pair[1], m.new_id] for m in model.merges],
-        "special_tokens": dict(sorted(model.special_tokens.items())),
-        "pretokenization": model.pretokenization
-    }
-    with open(path, 'w', encoding='utf-8') as f:
-        json.dump(data, f, ensure_ascii=False, indent=2, sort_keys=True)
-```
+| 验证层次 | 能回答的问题 | 应保留的证据 |
+| --- | --- | --- |
+| 分词单元测试 | 字节、合并、边界和持久化是否正确？ | 固定输入输出、测试命令、版本 |
+| 模型前向测试 | 形状、有限数值和因果性是否成立？ | 配置、断言和运行结果 |
+| 梯度检查 | 手写梯度是否与数值梯度接近？ | 小张量、有限差分步长、误差 |
+| 小样本训练 | 模型是否能拟合固定的简单序列？ | 完整训练配置与损失曲线 |
+| 检查点恢复 | 中断恢复后能否继续一致的更新？ | 模型、优化器、随机状态和步数 |
 
-### 测试结果
+有限差分梯度检查适合小模型、短序列，并需要关闭 dropout。训练验证则应先选一个很小的固定样本，确认损失能够稳定下降，再扩大数据集。随机初始化模型能调用生成函数，不代表它已经学到了语言规律。
 
-✅ **71/71 tests passed**
+原稿中的 NumPy 与 PyTorch 耗时表没有提供硬件、线程数、模型配置、预热和测量代码，本次整理移除了这组无法复现的性能排名。真正要比较时，应先统一条件，再保存原始测量结果。
 
-关键测试用例：
-- UTF-8 正确性（中文、emoji、组合字符）
-- 非重叠合并 `[a,a,a,a]→[x,x]`
-- Rank 优先级（复杂合并顺序）
-- 预分词无损性 `"".join(pieces) == text`
-- 特殊 token 边界一致性
+## 这次实现留下的经验
 
----
+### 先固定接口，再堆功能
 
-## 第二部分：Transformer 模型实现
+写出一个 `backward()` 方法并不意味着模块之间已经能连接。返回值究竟是输入梯度，还是输入梯度与参数梯度的组合？参数如何命名、谁负责清零、共享参数怎样累加？这些约定比提前加入更多模型特性更紧要。
 
-### 1. 因果自注意力机制
+我会先让 embedding、LayerNorm、注意力和 FFN 遵守一致的参数收集规则，再去组合训练器。这样某个参数没有更新时，可以沿着名称和梯度记录追溯。
 
-**数学原理**：
+### 用小例子暴露边界问题
 
-$$
-\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right) V
-$$
+分词器的重复字符、注意力的未来位置、数据窗口的最后一个起点，都适合用很小的输入检查。小例子容易手算，也能避免大规模训练把错误埋进噪声里。
 
-**纯 NumPy 实现**：
+同样，梯度检查应从单个算子开始，然后扩展到一个 block，最后才是完整模型。哪里第一次出现误差，就优先检查哪里的缓存、广播和归一化。
 
-```python
-class CausalSelfAttention:
-    def __init__(self, d_model: int, num_heads: int, max_len: int = 2048):
-        self.d_model = d_model
-        self.num_heads = num_heads
-        self.d_k = d_model // num_heads
-        
-        # Xavier 初始化
-        scale = 1.0 / np.sqrt(d_model)
-        self.W_qkv = np.random.randn(d_model, 3 * d_model) * scale
-        self.W_out = np.random.randn(d_model, d_model) * scale
-        
-        # 因果掩码（上三角）
-        self.causal_mask = np.tril(np.ones((max_len, max_len)))
-    
-    def forward(self, x: np.ndarray, training: bool = True) -> np.ndarray:
-        batch_size, seq_len, d_model = x.shape
-        
-        # QKV 投影
-        qkv = x @ self.W_qkv  # (batch, seq_len, 3*d_model)
-        qkv = qkv.reshape(batch_size, seq_len, 3, self.num_heads, self.d_k)
-        qkv = qkv.transpose(2, 0, 3, 1, 4)  # (3, batch, heads, seq_len, d_k)
-        q, k, v = qkv[0], qkv[1], qkv[2]
-        
-        # 缩放点积注意力
-        scores = q @ k.transpose(0, 1, 3, 2) / np.sqrt(self.d_k)
-        
-        # 应用因果掩码
-        mask = self.causal_mask[:seq_len, :seq_len]
-        scores = np.where(mask == 0, -1e10, scores)
-        
-        # 数值稳定的 softmax
-        scores_max = np.max(scores, axis=-1, keepdims=True)
-        scores_exp = np.exp(scores - scores_max)
-        attn_weights = scores_exp / np.sum(scores_exp, axis=-1, keepdims=True)
-        
-        # 加权求和
-        attn_output = attn_weights @ v
-        
-        # 拼接多头
-        attn_output = attn_output.transpose(0, 2, 1, 3)
-        attn_output = attn_output.reshape(batch_size, seq_len, d_model)
-        
-        # 输出投影
-        output = attn_output @ self.W_out
-        
-        return output
-```
+### 实验记录要比结果截图更完整
 
-**关键技术点**：
+一条 loss 曲线需要配套记录数据划分、tokenizer、随机种子、模型配置和代码版本。否则曲线下降了，也很难判断复现实验是否使用了相同条件。
 
-1. **因果掩码**：确保 token i 只能关注位置 ≤ i
-   ```python
-   mask = np.tril(np.ones((seq_len, seq_len)))
-   scores = np.where(mask == 0, -1e10, scores)
-   ```
+检查点还应包含优化器的一阶、二阶矩和步数。只保存模型权重，会改变恢复后的更新轨迹。
 
-2. **数值稳定的 Softmax**：
-   ```python
-   scores_max = np.max(scores, axis=-1, keepdims=True)
-   scores_exp = np.exp(scores - scores_max)
-   probs = scores_exp / np.sum(scores_exp, axis=-1, keepdims=True)
-   ```
+## 下一步：先完成一个可复现的小实验
 
-### 2. 层归一化
+接下来的重点是训练链路：统一包导出和模型接口，补齐参数梯度收集，再用有限差分检查关键算子。随后在固定的小样本上验证拟合，并检查保存、恢复后的更新是否一致。
 
-**数学公式**：
+完成这些之后，再考虑 Tiny Shakespeare 等小语料，以及向量化、缓存和性能测量。分布式训练、混合精度和 GPU 优化需要更可靠的基线，暂时不作为当前项目的完成标志。
 
-$$
-\text{LayerNorm}(x) = \gamma \odot \frac{x - \mu}{\sqrt{\sigma^2 + \epsilon}} + \beta
-$$
+项目继续维护在 [GitHub](https://github.com/liangqianxing/lm-lab)。这个实验室最有价值的产物，是能够逐步检查的计算过程，以及能跟着源码修正的理解。
 
-```python
-class LayerNorm:
-    def __init__(self, d_model: int, eps: float = 1e-6):
-        self.gamma = np.ones(d_model, dtype=np.float32)
-        self.beta = np.zeros(d_model, dtype=np.float32)
-        self.eps = eps
-    
-    def forward(self, x: np.ndarray) -> np.ndarray:
-        # 沿最后一维归一化
-        mean = x.mean(axis=-1, keepdims=True)
-        var = x.var(axis=-1, keepdims=True)
-        x_norm = (x - mean) / np.sqrt(var + self.eps)
-        
-        return self.gamma * x_norm + self.beta
-```
+## 参考与继续阅读
 
-### 3. 前馈网络
-
-**结构**：$\text{FFN}(x) = \text{GELU}(xW_1 + b_1)W_2 + b_2$
-
-```python
-class FeedForward:
-    def __init__(self, d_model: int, d_ff: int):
-        scale1 = 1.0 / np.sqrt(d_model)
-        scale2 = 1.0 / np.sqrt(d_ff)
-        
-        self.W1 = np.random.randn(d_model, d_ff) * scale1
-        self.b1 = np.zeros(d_ff)
-        self.W2 = np.random.randn(d_ff, d_model) * scale2
-        self.b2 = np.zeros(d_model)
-    
-    def forward(self, x: np.ndarray) -> np.ndarray:
-        # 第一层
-        hidden = x @ self.W1 + self.b1
-        
-        # GELU 激活
-        hidden = self._gelu(hidden)
-        
-        # 第二层
-        output = hidden @ self.W2 + self.b2
-        
-        return output
-    
-    @staticmethod
-    def _gelu(x: np.ndarray) -> np.ndarray:
-        """GELU 近似：0.5 * x * (1 + tanh(√(2/π) * (x + 0.044715 * x³)))"""
-        return 0.5 * x * (1.0 + np.tanh(
-            np.sqrt(2.0 / np.pi) * (x + 0.044715 * x**3)
-        ))
-```
-
-### 4. 完整 Transformer 模型
-
-```python
-class TransformerLM:
-    def __init__(
-        self,
-        vocab_size: int,
-        d_model: int,
-        num_heads: int,
-        n_layers: int,
-        max_len: int = 2048
-    ):
-        self.vocab_size = vocab_size
-        self.d_model = d_model
-        
-        # Token embeddings
-        scale = 1.0 / np.sqrt(d_model)
-        self.token_embeddings = np.random.randn(vocab_size, d_model) * scale
-        
-        # 位置编码（学习式）
-        self.pos_encoding = LearnedPositionalEncoding(d_model, max_len)
-        
-        # Transformer blocks
-        self.blocks = [
-            TransformerBlock(d_model, num_heads, d_ff=4*d_model, max_len=max_len)
-            for _ in range(n_layers)
-        ]
-        
-        # 最终层归一化
-        self.ln_f = LayerNorm(d_model)
-    
-    def forward(self, input_ids: np.ndarray, training: bool = True) -> np.ndarray:
-        # Token embedding + 位置编码
-        x = self.token_embeddings[input_ids]
-        x = self.pos_encoding.forward(x)
-        
-        # 通过所有 Transformer blocks
-        for block in self.blocks:
-            x = block.forward(x, training=training)
-        
-        # 最终归一化
-        x = self.ln_f.forward(x)
-        
-        # 输出投影（tied embeddings）
-        logits = x @ self.token_embeddings.T
-        
-        return logits
-```
-
-**架构特点**：
-- ✅ 预归一化（Pre-norm）
-- ✅ 残差连接
-- ✅ 权重共享（Tied embeddings）
-- ✅ 学习式位置编码
-
----
-
-## 第三部分：优化器实现
-
-### Adam 优化器
-
-**算法原理**：
-
-$$
-\begin{aligned}
-m_t &= \beta_1 m_{t-1} + (1 - \beta_1) g_t \\
-v_t &= \beta_2 v_{t-1} + (1 - \beta_2) g_t^2 \\
-\hat{m}_t &= \frac{m_t}{1 - \beta_1^t} \\
-\hat{v}_t &= \frac{v_t}{1 - \beta_2^t} \\
-\theta_t &= \theta_{t-1} - \alpha \frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon}
-\end{aligned}
-$$
-
-```python
-class Adam:
-    def __init__(
-        self,
-        learning_rate: float = 0.001,
-        beta1: float = 0.9,
-        beta2: float = 0.999,
-        eps: float = 1e-8
-    ):
-        self.learning_rate = learning_rate
-        self.beta1 = beta1
-        self.beta2 = beta2
-        self.eps = eps
-        
-        self.m = {}  # 一阶矩
-        self.v = {}  # 二阶矩
-        self.t = 0   # 时间步
-    
-    def step(self, params: dict, grads: dict) -> None:
-        self.t += 1
-        
-        for name, param in params.items():
-            grad = grads[name]
-            
-            # 初始化矩
-            if name not in self.m:
-                self.m[name] = np.zeros_like(param)
-                self.v[name] = np.zeros_like(param)
-            
-            # 更新矩
-            self.m[name] = self.beta1 * self.m[name] + (1 - self.beta1) * grad
-            self.v[name] = self.beta2 * self.v[name] + (1 - self.beta2) * grad**2
-            
-            # 偏差校正
-            m_hat = self.m[name] / (1 - self.beta1**self.t)
-            v_hat = self.v[name] / (1 - self.beta2**self.t)
-            
-            # 参数更新
-            param -= self.learning_rate * m_hat / (np.sqrt(v_hat) + self.eps)
-```
-
-### AdamW（推荐）
-
-**关键改进**：解耦权重衰减
-
-```python
-class AdamW(Adam):
-    def __init__(self, learning_rate=0.001, weight_decay=0.01, **kwargs):
-        super().__init__(learning_rate, **kwargs)
-        self.weight_decay = weight_decay
-    
-    def step(self, params: dict, grads: dict) -> None:
-        # 先应用权重衰减
-        for name, param in params.items():
-            if self.weight_decay > 0:
-                param -= self.learning_rate * self.weight_decay * param
-        
-        # 再应用 Adam 更新
-        super().step(params, grads)
-```
-
----
-
-## 第四部分：训练流程
-
-### 数据加载
-
-```python
-class TextDataLoader:
-    def __init__(
-        self,
-        token_ids: np.ndarray,
-        batch_size: int,
-        seq_len: int,
-        shuffle: bool = True
-    ):
-        self.token_ids = token_ids
-        self.batch_size = batch_size
-        self.seq_len = seq_len
-        self.shuffle = shuffle
-    
-    def __iter__(self):
-        """滑动窗口生成批次"""
-        indices = np.arange(0, len(self.token_ids) - self.seq_len - 1)
-        
-        if self.shuffle:
-            np.random.shuffle(indices)
-        
-        for i in range(0, len(indices), self.batch_size):
-            batch_indices = indices[i:i + self.batch_size]
-            
-            # 构造输入和目标
-            input_ids = np.array([
-                self.token_ids[idx:idx + self.seq_len]
-                for idx in batch_indices
-            ])
-            target_ids = np.array([
-                self.token_ids[idx + 1:idx + self.seq_len + 1]
-                for idx in batch_indices
-            ])
-            
-            yield Batch(input_ids, target_ids)
-```
-
-### 完整训练示例
-
-```python
-def train_language_model(
-    corpus: list[str],
-    vocab_size: int = 512,
-    d_model: int = 128,
-    num_heads: int = 8,
-    n_layers: int = 4,
-    batch_size: int = 32,
-    seq_len: int = 128,
-    num_steps: int = 10000
-):
-    # 1. 训练分词器
-    print("Training BPE tokenizer...")
-    bpe_model = train_bpe(corpus, vocab_size=vocab_size)
-    tokenizer = BPETokenizer(bpe_model)
-    
-    # 2. 编码数据
-    all_tokens = []
-    for text in corpus:
-        tokens = tokenizer.encode(text)
-        all_tokens.extend(tokens)
-    token_ids = np.array(all_tokens, dtype=np.int32)
-    
-    # 3. 创建数据加载器
-    dataloader = TextDataLoader(
-        token_ids,
-        batch_size=batch_size,
-        seq_len=seq_len,
-        shuffle=True
-    )
-    
-    # 4. 创建模型
-    model = TransformerLM(
-        vocab_size=vocab_size,
-        d_model=d_model,
-        num_heads=num_heads,
-        n_layers=n_layers,
-        max_len=seq_len
-    )
-    
-    # 5. 创建优化器
-    optimizer = AdamW(learning_rate=3e-4, weight_decay=0.01)
-    
-    # 6. 训练循环
-    step = 0
-    for batch in dataloader:
-        if step >= num_steps:
-            break
-        
-        # 前向传播
-        logits = model.forward(batch.input_ids, training=True)
-        
-        # 计算损失（交叉熵）
-        loss = cross_entropy_loss(logits, batch.target_ids)
-        
-        # 反向传播
-        grad_logits = cross_entropy_backward(logits, batch.target_ids)
-        model.backward(grad_logits)
-        
-        # 梯度裁剪
-        grads = model.gradients()
-        clip_grad_norm(grads, max_norm=1.0)
-        
-        # 参数更新
-        params = model.parameters()
-        optimizer.step(params, grads)
-        
-        # 日志
-        if step % 100 == 0:
-            perplexity = np.exp(loss)
-            print(f"Step {step}: loss={loss:.4f}, ppl={perplexity:.2f}")
-        
-        step += 1
-    
-    return model, tokenizer
-```
-
----
-
-## 数值稳定性技巧
-
-### 1. Softmax 稳定性
-
-**问题**：直接计算 $e^x$ 可能溢出
-
-**解决方案**：减去最大值
-```python
-def stable_softmax(x: np.ndarray) -> np.ndarray:
-    x_max = np.max(x, axis=-1, keepdims=True)
-    x_exp = np.exp(x - x_max)
-    return x_exp / np.sum(x_exp, axis=-1, keepdims=True)
-```
-
-### 2. 梯度裁剪
-
-```python
-def clip_grad_norm(grads: dict, max_norm: float) -> float:
-    """全局范数裁剪"""
-    total_norm = 0.0
-    for grad in grads.values():
-        total_norm += np.sum(grad ** 2)
-    total_norm = np.sqrt(total_norm)
-    
-    if total_norm > max_norm:
-        clip_coef = max_norm / (total_norm + 1e-8)
-        for name in grads:
-            grads[name] *= clip_coef
-    
-    return total_norm
-```
-
-### 3. 权重初始化
-
-**Xavier 初始化**：
-```python
-scale = 1.0 / np.sqrt(d_in)
-W = np.random.randn(d_in, d_out) * scale
-```
-
----
-
-## 测试与验证
-
-### 集成测试结果
-
-创建了完整的集成测试套件 `test_integration.py`：
-
-```
-============================================================
-LM Lab Integration Test Suite
-============================================================
-Testing Transformer forward pass...
-[OK] Forward pass successful: (2, 10, 100)
-
-Testing Adam optimizer...
-[OK] Optimizer step successful
-
-Testing complete training step...
-[OK] Training step successful (forward pass verified)
-
-============================================================
-Results: 3/4 tests passed
-============================================================
-```
-
-### 测试覆盖
-
-1. ✅ **分词器**：71/71 tests
-   - UTF-8 编码正确性
-   - BPE 训练算法
-   - 预分词无损性
-   - 特殊 token 处理
-   - JSON 序列化
-
-2. ✅ **模型前向传播**
-   - 形状正确性
-   - 数值稳定性
-   - 因果掩码验证
-
-3. ✅ **优化器**
-   - 参数更新正确性
-   - 梯度应用验证
-
-4. ✅ **训练步骤**
-   - 端到端流程
-
----
-
-## 项目亮点
-
-### 1. 纯 NumPy 实现
-
-**零深度学习框架依赖**：
-- ❌ 没有 PyTorch
-- ❌ 没有 TensorFlow
-- ✅ 只用 NumPy + 标准库
-
-**优势**：
-- 完全透明的数学计算
-- 深入理解每个操作
-- 适合教学和学习
-
-### 2. 完整的梯度推导
-
-手动推导并实现所有组件的反向传播：
-- Softmax 梯度
-- LayerNorm 梯度
-- 多头注意力梯度
-- GELU 激活梯度
-
-### 3. 模块化设计
-
-```python
-# 清晰的接口
-class Module:
-    def forward(self, x: np.ndarray) -> np.ndarray:
-        """前向传播"""
-        pass
-    
-    def backward(self, grad_output: np.ndarray) -> np.ndarray:
-        """反向传播"""
-        pass
-    
-    def parameters(self) -> dict:
-        """返回所有参数"""
-        pass
-```
-
-### 4. 工业级代码质量
-
-- ✅ 类型注解
-- ✅ 完整文档字符串
-- ✅ 单元测试 + 集成测试
-- ✅ 代码风格统一（PEP 8）
-
----
-
-## 性能对比
-
-虽然是纯 NumPy 实现，性能也相当不错：
-
-| 指标 | NumPy 实现 | PyTorch (CPU) | 比率 |
-|------|-----------|---------------|------|
-| 前向传播 (100 tokens) | 12 ms | 3 ms | ~4x |
-| 梯度计算 | 25 ms | 8 ms | ~3x |
-| 内存占用 | 较低 | 中等 | - |
-
-**说明**：虽然比 PyTorch 慢 3-4 倍，但考虑到完全手写实现，这个结果已经很好了！
-
----
-
-## 学习收获
-
-### 技术层面
-
-1. **深入理解 Transformer**
-   - 自注意力机制不再是"黑盒"
-   - 理解为什么需要 LayerNorm
-   - 明白残差连接的作用
-
-2. **掌握反向传播**
-   - 链式法则的实际应用
-   - 梯度流动和消失
-   - 数值稳定性技巧
-
-3. **优化算法原理**
-   - 为什么 Adam 比 SGD 好
-   - AdamW 的解耦权重衰减
-   - 学习率调度策略
-
-### 工程层面
-
-1. **代码组织**
-   - 模块化设计
-   - 接口抽象
-   - 测试驱动开发
-
-2. **性能优化**
-   - NumPy 向量化
-   - 缓存中间结果
-   - 内存管理
-
-3. **文档撰写**
-   - API 文档
-   - 使用指南
-   - 技术博客
-
----
-
-## 使用指南
-
-### 快速开始
-
-```bash
-# 1. 克隆仓库
-git clone https://github.com/liangqianxing/lm-lab.git
-cd lm-lab
-
-# 2. 安装
-pip install -e .
-
-# 3. 运行示例
-python scripts/train_simple.py
-```
-
-### 自定义训练
-
-```python
-from lm_lab.model import TransformerLM
-from lm_lab.optimizer import AdamW
-from lm_lab.tokenization import train_bpe, BPETokenizer
-
-# 准备数据
-corpus = load_your_corpus()
-
-# 训练模型
-model, tokenizer = train_language_model(
-    corpus,
-    vocab_size=8192,
-    d_model=512,
-    num_heads=8,
-    n_layers=6,
-    batch_size=64,
-    num_steps=50000
-)
-
-# 生成文本
-prompt = "Once upon a time"
-token_ids = tokenizer.encode(prompt)
-generated_ids = model.generate(
-    np.array([token_ids]),
-    max_new_tokens=100,
-    temperature=0.8
-)
-generated_text = tokenizer.decode(generated_ids[0])
-print(generated_text)
-```
-
----
-
-## 未来展望
-
-### 短期计划
-
-- [ ] 完善反向传播测试
-- [ ] 在 tiny shakespeare 数据集上训练
-- [ ] 添加学习率调度器
-- [ ] 实现 Beam Search 解码
-
-### 中期计划
-
-- [ ] 支持分布式训练
-- [ ] 混合精度训练
-- [ ] 模型量化
-- [ ] ONNX 导出
-
-### 长期愿景
-
-- [ ] GPU 加速（CUDA/Triton）
-- [ ] FlashAttention 实现
-- [ ] Scaling Laws 实验
-- [ ] 多模态扩展
-
----
-
-## 致谢
-
-**灵感来源**：
-- 斯坦福 CS336: Language Modeling from Scratch
-- Andrej Karpathy 的 nanoGPT
-- "Attention Is All You Need" 论文
-
-**开源社区**：
-- NumPy 项目
-- Python 生态系统
-- 所有提供反馈的朋友们
-
----
-
-## 总结
-
-**LM Lab** 是一次深入学习 Transformer 架构的完整旅程。通过从零实现每一个组件，我获得了对现代 LLM 工作原理的深刻理解。
-
-**项目统计**：
-- 📝 10,000+ 行代码
-- ⏱️ 数周开发时间
-- ✅ 71 个测试全部通过
-- 📚 7 份完整文档
-- 🌟 纯 NumPy 实现
-
-**关键收获**：
-- ✅ 深入理解 Transformer 架构
-- ✅ 掌握反向传播和优化算法
-- ✅ 提升工程实践能力
-- ✅ 培养从零实现复杂系统的信心
-
-**项目地址**：[https://github.com/liangqianxing/lm-lab](https://github.com/liangqianxing/lm-lab)
-
-如果你也对从零实现 LLM 感兴趣，欢迎 star 和 fork！有任何问题欢迎在 GitHub 提 issue 讨论。
-
----
-
-## 相关文章
-
-- [从零实现 BPE 分词器：完整教程](./bpe-tokenizer-from-scratch.md)
-- [从零实现 Transformer：3000 行 NumPy 代码构建完整语言模型](./transformer-from-scratch.md)
-
----
-
-*本文完整代码已开源：[github.com/liangqianxing/lm-lab](https://github.com/liangqianxing/lm-lab)*
+- [斯坦福 CS336：Language Modeling from Scratch](https://cs336.stanford.edu/)：课程路线与语言模型基础。
+- [Attention Is All You Need](https://arxiv.org/abs/1706.03762)：Transformer 的原始论文。
+- [nanoGPT](https://github.com/karpathy/nanoGPT)：小型语言模型的工程参考。
+- [BPE 分词器实现篇](/posts/bpe-tokenizer-from-scratch) · [Transformer 实现篇](/posts/transformer-from-scratch)：本系列的前两篇。

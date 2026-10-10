@@ -79,6 +79,10 @@
           </div>
         </header>
 
+        <figure v-if="page.cover" class="post-cover">
+          <SiteImage :src="page.cover" :alt="page.coverAlt || ''" priority sizes="(max-width: 800px) calc(100vw - 40px), 760px" />
+        </figure>
+
         <details v-if="hasToc" class="post-inline-toc">
           <summary>文章目录</summary>
           <nav class="post-inline-toc-links" aria-label="文章目录">
@@ -166,7 +170,8 @@ const appConfig = useAppConfig()
 // Build path from slug
 const path = computed(() => {
   const slug = route.params.slug
-  const slugStr = Array.isArray(slug) ? slug.join('/') : slug
+  const slugStr = (Array.isArray(slug) ? slug.filter(Boolean).join('/') : slug ?? '')
+    .replace(/^\/+|\/+$/g, '')
   return `/posts/${slugStr}`
 })
 
@@ -192,7 +197,9 @@ const prevPost = computed(() => {
 
 const nextPost = computed(() => {
   const posts = navPosts.value ?? []
-  return currentIndex.value < posts.length - 1 ? posts[currentIndex.value + 1] : null
+  return currentIndex.value >= 0 && currentIndex.value < posts.length - 1
+    ? posts[currentIndex.value + 1]
+    : null
 })
 
 const seriesPosts = computed(() => {
@@ -382,6 +389,7 @@ useHead(() => ({
     { property: 'og:title', content: page.value?.title ?? '' },
     { property: 'og:description', content: page.value?.description ?? appConfig.description },
     { property: 'og:type', content: 'article' },
+    ...(page.value?.cover ? [{ property: 'og:image', content: `${appConfig.url}${page.value.cover}` }] : []),
     { property: 'article:published_time', content: page.value?.date ?? '' },
     { property: 'article:author', content: appConfig.authorCN },
   ],
@@ -394,6 +402,7 @@ useHead(() => ({
             '@type': 'BlogPosting',
             headline: page.value.title,
             description: page.value.description ?? '',
+            image: page.value.cover ? `${appConfig.url}${page.value.cover}` : undefined,
             datePublished: page.value.date,
             author: {
               '@type': 'Person',

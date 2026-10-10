@@ -10,6 +10,8 @@ export default defineContentConfig({
         date: z.string(),
         tags: z.array(z.string()).optional().default([]),
         description: z.string().optional(),
+        cover: z.string().optional(),
+        coverAlt: z.string().optional(),
         draft: z.boolean().optional().default(false),
         hidden: z.boolean().optional().default(false),
         published: z.boolean().optional(),

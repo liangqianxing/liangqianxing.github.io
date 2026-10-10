@@ -15,6 +15,8 @@ export interface PostMeta {
   date: string
   tags: string[]
   description: string
+  cover?: string
+  coverAlt?: string
   excerpt: string
   draft: boolean
   hidden: boolean
@@ -113,6 +115,8 @@ export default defineEventHandler((_event): PostMeta[] => {
       date: String(data.date ?? '2020-01-01'),
       tags: Array.isArray(data.tags) ? (data.tags as string[]) : [],
       description: String(data.description ?? ''),
+      cover: typeof data.cover === 'string' ? data.cover : undefined,
+      coverAlt: typeof data.coverAlt === 'string' ? data.coverAlt : undefined,
       excerpt: excerptFromBody(body),
       draft: Boolean(data.draft),
       hidden: Boolean(data.hidden),
@@ -123,7 +127,14 @@ export default defineEventHandler((_event): PostMeta[] => {
     })
   }
 
-  // 按日期降序
-  posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  // 同一天更新的系列文章按学习顺序展示。
+  posts.sort((a, b) => {
+    const dateOrder = new Date(b.date).getTime() - new Date(a.date).getTime()
+    if (dateOrder) return dateOrder
+    if (a.series && a.series === b.series) {
+      return (a.seriesOrder ?? 999) - (b.seriesOrder ?? 999)
+    }
+    return a.title.localeCompare(b.title, 'zh-CN')
+  })
   return posts
 })

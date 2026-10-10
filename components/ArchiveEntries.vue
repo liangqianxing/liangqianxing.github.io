@@ -7,7 +7,7 @@
         <svg viewBox="0 0 72 16" fill="none" aria-hidden="true"><path d="M2 10q21-10 43-2t25-3" /></svg>
       </h2>
       <div class="archive-entry-list">
-        <article v-for="post in yearPosts" :key="post.path" class="archive-entry" :data-tone="archiveTone(post.series || post.tags[0] || post.slug)">
+        <article v-for="post in yearPosts" :key="post.path" class="archive-entry" :class="{ 'archive-entry-illustrated': post.cover }" :data-tone="archiveTone(post.series || post.tags[0] || post.slug)">
           <div class="archive-entry-date">
             <time :datetime="formatDate(post.date) || undefined">{{ formatMonthDay(post.date).replace('-', '.') || '—' }}</time>
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 6q4-2 7 0v14q-3-2-7 0V6Zm7 0q3-2 7 0v14q-4-2-7 0M8 10h1m6 0h1M8 13h1m6 0h1" /></svg>
@@ -31,6 +31,9 @@
               <NuxtLink v-for="entry in collectArchiveTags([post])" :key="entry.slug" :to="tagPath(entry.tag)">#{{ entry.tag }}</NuxtLink>
             </nav>
           </div>
+          <NuxtLink v-if="post.cover" :to="post.path" class="archive-entry-cover" :aria-label="`阅读：${post.title}`">
+            <SiteImage :src="post.cover" :alt="post.coverAlt || ''" sizes="(max-width: 700px) calc(100vw - 80px), 192px" />
+          </NuxtLink>
         </article>
       </div>
     </section>
@@ -62,6 +65,9 @@ const groupedPosts = computed(() => groupArchiveByYear(props.posts))
 .archive-entry-date time { font-family: var(--font-mono); font-size: 0.8rem; font-weight: 400; }
 .archive-entry-date svg { width: 26px; height: 26px; stroke: var(--accent-2); stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; opacity: 0.6; transform: rotate(-8deg); }
 .archive-entry-copy { min-width: 0; }
+.archive-entry-illustrated { grid-template-columns: 70px minmax(0, 1fr) 192px; align-items: center; }
+.archive-entry-cover { display: block; overflow: hidden; aspect-ratio: 16 / 10; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+.archive-entry-cover img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .archive-entry-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin-bottom: 12px; font-size: 0.7rem; color: var(--muted); }
 .archive-entry-series { padding: 3px 10px; border-radius: 6px; background: var(--entry-paper); color: var(--text); }
 .archive-entry-time { display: inline-flex; align-items: center; gap: 5px; }
@@ -82,10 +88,19 @@ const groupedPosts = computed(() => groupArchiveByYear(props.posts))
 }
 @media (max-width: 700px) {
   .archive-entry { grid-template-columns: 52px minmax(0, 1fr); gap: 16px; padding: 24px 22px; }
+  .archive-entry-illustrated { grid-template-columns: 52px minmax(0, 1fr); }
+  .archive-entry-illustrated .archive-entry-date { grid-column: 1; grid-row: 1; }
+  .archive-entry-illustrated .archive-entry-cover { grid-column: 2; grid-row: 1; aspect-ratio: 16 / 9; }
+  .archive-entry-illustrated .archive-entry-copy { grid-column: 2; grid-row: 2; }
   .archive-entry-title { font-size: 1.1rem; }
 }
 @media (max-width: 480px) {
   .archive-entry { grid-template-columns: 1fr; gap: 11px; padding: 22px 20px; border-radius: 18px 18px 18px 6px; }
+  .archive-entry-illustrated .archive-entry-date,
+  .archive-entry-illustrated .archive-entry-cover,
+  .archive-entry-illustrated .archive-entry-copy { grid-column: 1; grid-row: auto; }
+  .archive-entry-illustrated .archive-entry-cover { order: 1; margin-block: 4px 8px; }
+  .archive-entry-illustrated .archive-entry-copy { order: 2; }
   .archive-entry-date { flex-direction: row; justify-content: space-between; align-items: center; gap: 12px; padding-top: 0; }
   .archive-entry-date time { font-size: 0.7rem; }
   .archive-entry-date svg { width: 20px; height: 20px; }

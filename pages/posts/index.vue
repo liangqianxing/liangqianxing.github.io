@@ -22,6 +22,22 @@
       </div>
     </header>
 
+    <section v-if="!hasFilters && readingSequence.length > 1" class="writing-route" aria-labelledby="reading-route-title">
+      <div class="writing-route-heading">
+        <h2 id="reading-route-title">从分词到语言模型</h2>
+        <p>第一次来，可以沿着这条路线读。</p>
+      </div>
+      <ol>
+        <li v-for="post in readingSequence" :key="post.path">
+          <NuxtLink :to="post.path">
+            <span>{{ String(post.seriesOrder).padStart(2, '0') }}</span>
+            <strong>{{ readingLabels[post.slug] || post.title }}</strong>
+            <span aria-hidden="true">↗</span>
+          </NuxtLink>
+        </li>
+      </ol>
+    </section>
+
     <section class="writing-find" aria-label="查找文章">
       <div class="writing-find-top">
         <label class="writing-search">
@@ -67,6 +83,14 @@ const query = ref('')
 const activeTag = ref('')
 const activeTagName = computed(() => tags.value.find(tag => tag.slug === activeTag.value)?.tag ?? '')
 const hasFilters = computed(() => Boolean(query.value.trim() || activeTag.value))
+const readingLabels: Record<string, string> = {
+  'bpe-tokenizer-from-scratch': 'BPE 分词',
+  'transformer-from-scratch': 'Transformer 模型',
+  'lm-lab-project-complete': '项目复盘',
+}
+const readingSequence = computed(() => posts.value
+  .filter(post => post.series === 'LLM 从零实现' && typeof post.seriesOrder === 'number')
+  .sort((a, b) => a.seriesOrder! - b.seriesOrder!))
 const filteredPosts = computed(() => {
   const keyword = query.value.trim().toLocaleLowerCase('zh-CN')
   return posts.value.filter(post => {
@@ -108,6 +132,16 @@ useHead({
 .doodle-spark { fill: var(--accent-2); opacity: 0.55; }
 .doodle-loop { stroke: var(--accent-2); stroke-width: 1.5; stroke-linecap: round; opacity: 0.5; }
 .writing-doodle > span { display: block; text-align: center; font-family: Georgia, serif; font-style: italic; font-size: 0.85rem; color: var(--muted); }
+.writing-route { margin-bottom: 28px; padding: 22px 4px; border-block: 1px solid var(--line); }
+.writing-route-heading { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px 22px; }
+.writing-route-heading h2 { color: var(--ink); font-size: 1rem; font-weight: 500; }
+.writing-route-heading p { color: var(--muted); font-size: 0.75rem; }
+.writing-route ol { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin: 18px 0 0; padding: 0; list-style: none; }
+.writing-route a { display: flex; align-items: center; gap: 10px; min-height: 40px; color: var(--text); font-size: 0.8rem; }
+.writing-route a > span:first-child { color: var(--accent); font-family: var(--font-mono); font-size: 0.72rem; }
+.writing-route strong { flex: 1; min-width: 0; font-weight: 400; }
+.writing-route a > span:last-child { color: var(--accent); }
+.writing-route a:hover strong { text-decoration: underline; text-underline-offset: 4px; }
 .writing-find { padding: 20px 26px; border-radius: 22px; background: var(--bg-2); }
 .writing-find-top { display: flex; align-items: center; gap: 24px; }
 .writing-search { flex: 1; display: flex; align-items: center; gap: 10px; min-width: 0; padding: 0 14px; border: 1px solid var(--line); border-radius: 100px; background: var(--surface); }
@@ -151,6 +185,9 @@ useHead({
   .writing-find-top { gap: 16px; }
 }
 @media (max-width: 480px) {
+  .writing-route { margin-bottom: 24px; padding-block: 18px; }
+  .writing-route ol { grid-template-columns: 1fr; gap: 2px; margin-top: 12px; }
+  .writing-route a { min-height: 44px; font-size: 0.85rem; }
   .writing-welcome { grid-template-columns: 1fr; padding: 0 2px 28px; }
   .writing-doodle { display: none; }
   .writing-welcome h1 { font-size: 2.5rem; margin-bottom: 14px; }

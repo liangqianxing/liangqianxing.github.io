@@ -174,6 +174,8 @@ html.cyber .blog-theme-option[data-mode="cyber"] { color: var(--accent); }
 
 .blog-site .page-wrapper-narrow { width: min(760px, calc(100% - 48px)); padding-block: 44px 52px; }
 .blog-site .post-header { padding: 0 0 28px; border-top: 0; }
+.blog-site .post-cover { margin: 0 0 32px; overflow: hidden; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); }
+.blog-site .post-cover img { display: block; width: 100%; height: auto; }
 .blog-site .post-header::before { display: none; }
 .blog-site .post-title { font-size: clamp(1.8rem, 3vw, 2.5rem); line-height: 1.45; font-weight: 500; letter-spacing: -0.025em; }
 .blog-site .post-desc { font-size: 0.94rem; }

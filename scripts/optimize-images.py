@@ -39,6 +39,13 @@ RASTER_SOURCES: dict[str, tuple[int, ...]] = {
     "/images/friends/sssn.jpg": (56, 112, 168),
     "/media/publications/autofigure-edit-overview.png": (320, 640, 960),
     "/media/publications/deepreviewer-v2-overview.png": (320, 640, 960),
+    "/images/posts/bpe-tokenizer-from-scratch/bpe-cover.webp": (320, 640, 960, 1440),
+    "/images/posts/bpe-tokenizer-from-scratch/bpe-merge-process.webp": (640, 960, 1440),
+    "/images/posts/transformer-from-scratch/transformer-cover.webp": (320, 640, 960, 1440),
+    "/images/posts/transformer-from-scratch/transformer-architecture.webp": (640, 960, 1440),
+    "/images/posts/transformer-from-scratch/transformer-causal-mask.webp": (640, 960, 1440),
+    "/images/posts/lm-lab-project-complete/lm-lab-cover.webp": (320, 640, 960, 1440),
+    "/images/posts/lm-lab-project-complete/lm-lab-training-cycle.webp": (640, 960, 1440),
 }
 
 # Remote friend sources are downloaded explicitly, never during site builds.
@@ -49,12 +56,6 @@ for snapshot in json.loads(FRIEND_AVATARS_PATH.read_text(encoding="utf-8")).valu
 # SVGs keep their original vector data. Dimensions reserve space before loading.
 SVG_SOURCES: tuple[str, ...] = (
     "/logos/meituan.svg",
-    "/images/posts/bpe-tokenizer-from-scratch/bpe-tokenizer-overview.svg",
-    "/images/posts/bpe-tokenizer-from-scratch/bpe-utf8-byte-roundtrip.svg",
-    "/images/posts/bpe-tokenizer-from-scratch/bpe-non-overlapping-merge.svg",
-    "/images/posts/bpe-tokenizer-from-scratch/bpe-abab-training-steps.svg",
-    "/images/posts/bpe-tokenizer-from-scratch/bpe-rank-priority.svg",
-    "/images/posts/bpe-tokenizer-from-scratch/bpe-pretokenization-boundaries.svg",
 )
 
 

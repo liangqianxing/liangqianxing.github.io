@@ -91,9 +91,13 @@ seriesOrder: 1
 
 ## 文章配图
 
-图片放在 `public/images/posts/<slug>/`，正文使用 `/images/posts/<slug>/image.svg` 引用。
+图片放在 `public/images/posts/<slug>/`，正文使用 `/images/posts/<slug>/image.webp` 引用。
 
-- 优先使用带 `title`、`desc` 和 `viewBox` 的 SVG，保证清晰度和可访问性。
+- 当前「LLM 从零实现」系列使用统一风格的原创插图；AI 辅助绘制的技术示意图必须核对模块、箭头、矩阵与标签，并在图注中说明。
+- 封面在 frontmatter 中使用 `cover` 与 `coverAlt`，文章列表和详情页会显示同一张图。
+- 站内图片先保存为 WebP，再通过 `python3 scripts/optimize-images.py` 生成响应式尺寸和图片清单；尺寸信息用于预留空间，减少布局跳动。
+- 数值图表和需要精确标签的复杂技术图使用可复现绘图工具，不用生成图片代替实验数据。
+- 本次系列插图的生成任务、提示词摘要和技术核对点见 [插图维护记录](docs/blog-illustrations-20261010.md)。
 - 论文原图只有在许可明确允许时才收录，并保留 caption、来源和许可说明。
 - 无法确认复用许可时，根据论文机制原创重绘，并在正文标注“本文原创重绘”和论文链接。
 - 禁止热链、来源不明图片和未经核对的实验图表。
