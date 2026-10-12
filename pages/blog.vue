@@ -25,7 +25,7 @@
     </div>
 
     <div id="home-content" class="site-main journal-content">
-      <LearningTopicPreview />
+      <LearningCoursesPreview />
       <SiteBlock
         v-if="featured"
         eyebrow="01 / Fresh notes"

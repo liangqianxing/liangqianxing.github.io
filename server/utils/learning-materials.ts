@@ -8,11 +8,10 @@ export interface LearningMaterial {
   extension: string
 }
 
-const materialBasePath = '/materials/cmu-15-779/'
-
 /** Build the public index without following links or exposing hidden files. */
-export async function readLearningMaterials(directory: string): Promise<LearningMaterial[]> {
+export async function readLearningMaterials(directory: string, publicBasePath: string): Promise<LearningMaterial[]> {
   const materials: LearningMaterial[] = []
+  const materialBasePath = publicBasePath.endsWith('/') ? publicBasePath : `${publicBasePath}/`
 
   async function visit(parts: string[]): Promise<void> {
     const currentDirectory = join(directory, ...parts)

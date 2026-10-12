@@ -2,6 +2,7 @@ import tailwindcss from '@tailwindcss/vite'
 import { defineNuxtConfig } from 'nuxt/config'
 import { readFileSync, readdirSync } from 'node:fs'
 import { join, basename } from 'node:path'
+import { learningCourses } from './data/learning/courses'
 
 function parsePostFrontmatter(source: string): Record<string, unknown> {
   const match = source.match(/^---\r?\n([\s\S]*?)\r?\n---/)
@@ -125,7 +126,15 @@ export default defineNuxtConfig({
       crawlLinks: true,
       // 直接从文件系统注入所有 post 和 tag 路由，
       // 绕过 Content v3 SQLite WASM 在 SSR 阶段未初始化的问题
-      routes: ['/', '/academic', '/blog', '/learning/cmu-15-779', '/api/posts', '/api/learning/cmu-15-779/materials', '/posts', '/tags', '/about', '/friends', ...getPostSlugs(), ...getTagRoutes()],
+      routes: [
+        '/', '/academic', '/blog', '/learning', '/api/posts', '/posts', '/tags', '/about', '/friends',
+        ...learningCourses.flatMap((course) => [
+          `/learning/${encodeURIComponent(course.slug)}`,
+          `/api/learning/${encodeURIComponent(course.slug)}/materials`,
+        ]),
+        ...getPostSlugs(),
+        ...getTagRoutes(),
+      ],
     },
   },
   app: {

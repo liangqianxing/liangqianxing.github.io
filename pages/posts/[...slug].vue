@@ -34,11 +34,11 @@
     <!-- Post content -->
     <div class="page-wrapper-narrow">
       <!-- Back link -->
-      <NuxtLink to="/posts" class="post-header-back">
+      <NuxtLink :to="learningCourse ? `/learning/${encodeURIComponent(learningCourse.slug)}` : '/posts'" class="post-header-back">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <polyline points="15 18 9 12 15 6"/>
         </svg>
-        所有文章
+        {{ learningCourse ? `${learningCourse.title} 学习专题` : '所有文章' }}
       </NuxtLink>
 
       <template v-if="page">
@@ -162,7 +162,7 @@
 
 <script setup lang="ts">
 import { formatDate, tagSlug, readingTime } from '~/utils/blog'
-import type { PostMeta } from '~/server/api/posts.get'
+import { learningCourses } from '~/data/learning/courses'
 
 const route = useRoute()
 const appConfig = useAppConfig()
@@ -182,9 +182,8 @@ const { data: page } = await useAsyncData(`post-${path.value}`, () =>
 
 // 用轻量 API 获取导航用的文章列表（只含 metadata，无 body AST）
 // 替换原来的 queryCollection('.all()') 避免把 35 篇 body AST 塞进 payload
-const { data: navPosts } = await useAsyncData<PostMeta[]>('all-posts-nav', () =>
-  $fetch('/api/posts')
-)
+const { data: navPosts } = await usePublicArchive()
+const learningCourse = computed(() => learningCourses.find(course => course.series === page.value?.series))
 
 const currentIndex = computed(() =>
   (navPosts.value ?? []).findIndex(p => p.path === path.value)

@@ -1,16 +1,16 @@
 <template>
   <section class="learning-preview" aria-labelledby="learning-preview-title">
     <div>
-      <p class="learning-preview-kicker">LEARNING / 学习专题</p>
-      <h2 id="learning-preview-title">{{ cmuLearning.title }}</h2>
-      <p class="learning-preview-description">{{ cmuLearning.description }}</p>
+      <p class="learning-preview-kicker">LEARNING / 课程学习</p>
+      <h2 id="learning-preview-title">课程学习</h2>
+      <p class="learning-preview-description">{{ learningCourses.length }} 门课程 · 课程资料、实验与学习记录</p>
     </div>
-    <NuxtLink to="/learning/cmu-15-779">打开专题 <span aria-hidden="true">↗</span></NuxtLink>
+    <NuxtLink to="/learning">查看课程 <span aria-hidden="true">→</span></NuxtLink>
   </section>
 </template>
 
 <script setup lang="ts">
-import { cmuLearning } from '~/data/learning/cmu-15-779'
+import { learningCourses } from '~/data/learning/courses'
 </script>
 
 <style scoped>

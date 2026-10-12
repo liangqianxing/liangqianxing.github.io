@@ -2,16 +2,16 @@
   <div class="page-frame learning-notebook">
     <header class="learning-welcome">
       <div>
-        <NuxtLink to="/blog" class="learning-back">← 回到博客</NuxtLink>
+        <NuxtLink to="/learning" class="learning-back">← 课程学习</NuxtLink>
         <p class="learning-kicker">LEARNING NOTEBOOK / 学习专题</p>
-        <h1>CMU 15-779 <span>学习专题</span></h1>
-        <p class="learning-course-title" lang="en">{{ cmuLearning.courseTitle }}</p>
-        <p class="learning-intro">{{ cmuLearning.description }}</p>
-        <a :href="cmuLearning.courseUrl" class="learning-course-link" target="_blank" rel="noopener noreferrer">课程官网 <span aria-hidden="true">↗</span></a>
+        <h1>{{ course.title }} <span>学习专题</span></h1>
+        <p class="learning-course-title" lang="en">{{ course.courseTitle }}</p>
+        <p class="learning-intro">{{ course.description }}</p>
+        <a :href="course.courseUrl" class="learning-course-link" target="_blank" rel="noopener noreferrer">课程官网 <span aria-hidden="true">↗</span></a>
       </div>
       <div class="learning-cover" aria-hidden="true">
-        <span>CARNEGIE MELLON</span>
-        <strong>15<span>—</span>779</strong>
+        <span>{{ course.institution }}</span>
+        <strong>{{ course.code }}</strong>
         <p>materials / learning notes</p>
       </div>
     </header>
@@ -43,34 +43,42 @@
 
     <footer class="learning-update">
       <div class="learning-update-actions">
-        <a href="/materials/cmu-15-779/templates/learning-note.md" download="cmu-15-779-learning-note.md">下载记录模板 ↓</a>
+        <a href="/materials/templates/learning-note.md" download="learning-note.md">下载记录模板 ↓</a>
       </div>
     </footer>
   </div>
 </template>
 
 <script setup lang="ts">
-import { cmuLearning } from '~/data/learning/cmu-15-779'
+import { getLearningCourse } from '~/data/learning/courses'
 import { formatDate } from '~/utils/blog'
-import type { LearningMaterial } from '~/server/api/learning/cmu-15-779/materials.get'
+import type { LearningMaterial } from '~/server/utils/learning-materials'
 
+definePageMeta({ validate: route => Boolean(getLearningCourse(String(route.params.course))) })
 const appConfig = useAppConfig()
+const route = useRoute()
+const course = computed(() => {
+  const registered = getLearningCourse(String(route.params.course))
+  if (!registered) throw createError({ statusCode: 404, statusMessage: 'Course not found' })
+  return registered
+})
+const materialKey = computed(() => `learning-materials-${course.value.slug}`)
 const [{ data: allPosts, error: notesError, refresh: refreshNotes }, { data: uploadedFiles, error: materialsError, refresh: refreshMaterials }] = await Promise.all([
   usePublicArchive(),
-  useAsyncData<LearningMaterial[]>('cmu-15-779-materials', () => $fetch('/api/learning/cmu-15-779/materials', { responseType: 'json' })),
+  useAsyncData<LearningMaterial[]>(materialKey, () => $fetch(`/api/learning/${encodeURIComponent(course.value.slug)}/materials`, { responseType: 'json' })),
 ])
-const notes = computed(() => (allPosts.value ?? []).filter(post => post.series === cmuLearning.series).sort((a, b) => (a.seriesOrder ?? 999) - (b.seriesOrder ?? 999)))
+const notes = computed(() => (allPosts.value ?? []).filter(post => post.series === course.value.series).sort((a, b) => (a.seriesOrder ?? 999) - (b.seriesOrder ?? 999)))
 const materials = computed(() => uploadedFiles.value ?? [])
 function formatBytes(bytes: number) {
   if (bytes < 1024) return `${bytes} B`
   if (bytes < 1024 ** 2) return `${(bytes / 1024).toFixed(1)} KB`
   return `${(bytes / 1024 ** 2).toFixed(1)} MB`
 }
-useHead({
-  title: cmuLearning.title,
-  meta: [{ name: 'description', content: cmuLearning.description }, { property: 'og:title', content: cmuLearning.title }, { property: 'og:description', content: cmuLearning.description }],
-  link: [{ rel: 'canonical', href: `${appConfig.url}/learning/cmu-15-779` }],
-})
+useHead(() => ({
+  title: `${course.value.title} 学习专题`,
+  meta: [{ name: 'description', content: course.value.description }, { property: 'og:title', content: `${course.value.title} 学习专题` }, { property: 'og:description', content: course.value.description }],
+  link: [{ rel: 'canonical', href: `${appConfig.url}/learning/${encodeURIComponent(course.value.slug)}` }],
+}))
 </script>
 
 <style scoped>
@@ -86,8 +94,7 @@ useHead({
 .learning-course-link { display: inline-flex; align-items: center; gap: 12px; min-height: 40px; margin-top: 12px; color: var(--accent); font-size: 0.8rem; }
 .learning-cover { display: flex; flex-direction: column; gap: 16px; align-items: start; padding: 24px; border: 1px solid var(--line); border-radius: 6px 18px 18px 6px; background: var(--topic-purple); transform: rotate(3deg); color: var(--ink); box-shadow: 4px 6px 0 var(--topic-orange); }
 .learning-cover > span { font: 0.57rem/1.6 var(--font-mono); letter-spacing: 0; color: var(--muted); }
-.learning-cover strong { font: 500 2.8rem/1.05 var(--font-mono); letter-spacing: 0; }
-.learning-cover strong span { display: block; font-size: 1.6rem; color: var(--accent); }
+.learning-cover strong { font: 500 2rem/1.3 var(--font-mono); letter-spacing: 0; overflow-wrap: anywhere; }
 .learning-cover p { font: 0.65rem/1.7 var(--font-mono); }
 .learning-section-nav { display: flex; flex-wrap: wrap; gap: 10px 26px; padding: 14px 4px; margin-bottom: 26px; border-block: 1px solid var(--line); }
 .learning-section-nav a { display: inline-flex; align-items: center; gap: 8px; color: var(--text); font-size: 0.8rem; min-height: 28px; }
@@ -116,6 +123,6 @@ useHead({
 .learning-update-actions { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-top: 6px; }
 .learning-update-actions a { color: var(--accent); font-size: 0.75rem; padding-block: 7px; }
 .learning-notebook a:hover { color: var(--accent); }
-@media (max-width: 820px) { .learning-welcome { grid-template-columns: minmax(0, 1fr) 170px; gap: 26px; } .learning-cover { padding: 20px; } .learning-cover strong { font-size: 2.3rem; } }
+@media (max-width: 820px) { .learning-welcome { grid-template-columns: minmax(0, 1fr) 170px; gap: 26px; } .learning-cover { padding: 20px; } }
 @media (max-width: 640px) { .learning-welcome { grid-template-columns: minmax(0, 1fr); padding: 0 0 24px; } .learning-cover { display: none; } .learning-welcome h1 { font-size: 2rem; } .learning-library-grid { grid-template-columns: minmax(0, 1fr); gap: 16px; } .learning-section { padding: 22px; } }
 </style>

@@ -2,6 +2,8 @@
 
 本专题发布在 `liangqianxing.github.io`，预留 CMU 15-779 的学习资料归档和学习记录板块。目前没有预填学习计划、课程目录或启动文章，内容由本人后续添加。新增内容仅发布到当前 GitHub Pages 站点，使用 `haloSync: false` 避免同步到 Halo。
 
+多课程结构与新增课程方法见 [学习专题通用维护说明](learning-maintenance.md)。本文件保留 CMU 15-779 的资料路径和现有模板用法。
+
 ## 新增学习记录
 
 1. 在本地仓库中复制 `public/materials/cmu-15-779/templates/learning-note.md` 到 `content/posts/cmu-15-779-<主题>.md`。
@@ -32,6 +34,6 @@ public/materials/cmu-15-779/
 
 ## 更新专题信息
 
-专题名称、简介与课程主页链接集中在 `data/learning/cmu-15-779.ts`。这里仅保留专题元数据，不预填学习内容。
+专题名称、简介与课程主页链接集中在 `data/learning/courses.ts` 的 `learningCourses` 数组中，对应 `slug: 'cmu-15-779'` 的课程对象。这里仅保留专题元数据，不预填学习内容。新增其他课程按 [通用维护说明](learning-maintenance.md) 操作。
 
 课程主页：<https://www.cs.cmu.edu/~zhihaoj2/15-779/>。后续资料和记录可以持续添加，无需重新创建专题。
