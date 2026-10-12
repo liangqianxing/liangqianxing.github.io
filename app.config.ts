@@ -79,6 +79,8 @@ export default defineAppConfig({
       school: '新疆大学',
       schoolEN: 'Xinjiang University',
       logo: '/logos/xju.jpg',
+      jointSchool: '中南大学',
+      jointLogo: '/logos/csu.jpg',
       major: '软件工程',
       period: '预计 2027 年毕业',
       status: '中南大学计算机学院联合培养',

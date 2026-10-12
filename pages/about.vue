@@ -194,7 +194,18 @@
                   {{ entry.nameEN }}
                 </span>
               </div>
-              <p v-if="entry.desc" class="about-entry-desc">{{ entry.desc }}</p>
+              <p v-if="entry.desc" class="about-entry-desc">
+                <SiteImage
+                  v-if="entry.jointLogo"
+                  :src="entry.jointLogo"
+                  :alt="`${entry.jointSchool}校徽`"
+                  width="26"
+                  height="26"
+                  class="about-entry-joint-logo"
+                  loading="lazy"
+                />
+                <span>{{ entry.desc }}</span>
+              </p>
             </div>
           </article>
         </div>
@@ -303,6 +314,8 @@ const journeyEntries = computed(() => [
     name: edu.school,
     nameEN: edu.schoolEN,
     logo: edu.logo,
+    jointSchool: edu.jointSchool ?? '',
+    jointLogo: edu.jointLogo ?? '',
     role: edu.major,
     desc: edu.status,
     period: edu.period,
@@ -313,6 +326,8 @@ const journeyEntries = computed(() => [
     name: exp.company,
     nameEN: exp.companyEN,
     logo: exp.logo,
+    jointSchool: '',
+    jointLogo: '',
     role: exp.role,
     desc: exp.desc,
     period: exp.period,
@@ -797,10 +812,27 @@ useHead({
   font-size: 0.83rem;
 }
 .about-journal .about-entry-desc {
+  display: flex;
+  align-items: center;
+  gap: 7px;
   color: var(--text);
   font-size: 0.79rem;
   line-height: 1.7;
   margin-top: 4px;
+}
+.about-entry-desc > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.about-entry-joint-logo {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  padding: 2px;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  background: #fff;
+  object-fit: contain;
 }
 .about-journal .about-entry-period {
   display: flex;
