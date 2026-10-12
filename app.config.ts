@@ -75,5 +75,21 @@ export default defineAppConfig({
       period: '2027 – 2030',
       status: '已保研录取，2027 年入学',
     },
+    {
+      school: '新疆大学',
+      schoolEN: 'Xinjiang University',
+      logo: '/logos/xju.jpg',
+      major: '软件工程',
+      period: '预计 2027 年毕业',
+      status: '',
+    },
+    {
+      school: '中南大学',
+      schoolEN: 'Central South University',
+      logo: '/logos/csu.jpg',
+      major: '计算机学院',
+      period: '联合培养',
+      status: '',
+    },
   ],
 })
