@@ -4,10 +4,10 @@
 
 ## 新增学习记录
 
-1. 复制 `public/materials/cmu-15-779/templates/learning-note.md` 到 `content/posts/cmu-15-779-<主题>.md`。
+1. 在本地仓库中复制 `public/materials/cmu-15-779/templates/learning-note.md` 到 `content/posts/cmu-15-779-<主题>.md`。
 2. 填写标题、真实日期、描述和正文。保持 `series: CMU 15-779`，第一篇使用 `seriesOrder: 1`，之后依次递增。
 3. 准备完成后设置 `draft: false`，保持 `hidden: false`、`haloSync: false`、`haloPublished: false`。
-4. 运行 `npm run build` 并检查专题和文章页面。提交并推送后由现有 GitHub Pages 流程发布。
+4. 运行 `npm run build` 并检查专题和文章页面，然后通过本地 Git 提交到 `main` 分支，执行 `git push origin main`。现有 GitHub Pages 流程会构建并部署。
 
 模板默认 `draft: true`，未完成的正文不会作为公开学习记录展示。不要将 `YYYY-MM-DD` 日期占位符用于正式记录。
 
@@ -15,7 +15,7 @@
 
 ## 添加学习资料
 
-将资料放在 `public/materials/cmu-15-779/` 下，可以创建子目录。构建时自动生成资料索引，无需另写清单。
+在本地仓库中将资料放在 `public/materials/cmu-15-779/` 下，可以创建子目录。构建时自动生成专题的「学习资料」索引，无需另写清单。
 
 ```text
 public/materials/cmu-15-779/
@@ -28,7 +28,7 @@ public/materials/cmu-15-779/
 
 文件可通过 `/materials/cmu-15-779/<相对路径>` 访问。文章中可以直接链接附件，例如 `[实验代码](/materials/cmu-15-779/experiments/kernel-experiment.zip)`。README、隐藏文件和 `templates/` 不会显示在资料列表中，符号链接不会被索引。
 
-添加、修改或删除附件后重新构建并发布，公开索引随构建结果更新。此站点是静态站点，资料通过仓库上传和发布；专题本身没有登录或网页上传后台。请在上传前清理私人信息和凭据。
+添加、修改或删除附件后，运行 `npm run build` 检查，再用本地 Git 暂存本次文件、提交到 `main` 分支并执行 `git push origin main`。部署完成后，公开索引随构建结果更新。专题网页仅展示资料和记录，所有内容都通过本地 Git 维护。请在提交前清理私人信息和凭据。
 
 ## 更新专题信息
 

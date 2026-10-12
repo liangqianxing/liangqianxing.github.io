@@ -28,8 +28,7 @@
         <ul v-else-if="materials.length" class="learning-file-list">
           <li v-for="file in materials" :key="file.path"><a :href="file.path" download><span>{{ file.name }}</span><small>{{ file.extension.toUpperCase() || 'FILE' }} · {{ formatBytes(file.bytes) }} ↓</small></a></li>
         </ul>
-        <div v-else class="learning-empty"><span aria-hidden="true">＋</span><p>还没有学习资料</p><small>讲义、代码和实验附件，都可以收在这里。</small></div>
-        <a :href="materialUploadUrl" class="learning-button" target="_blank" rel="noopener noreferrer">上传学习资料 <span>GitHub ↗</span></a>
+        <div v-else class="learning-empty"><p>还没有学习资料</p><small>讲义、代码和实验附件，都可以收在这里。</small></div>
       </section>
 
       <section id="notes" class="learning-section learning-notes" aria-labelledby="notes-title">
@@ -38,15 +37,13 @@
         <ol v-else-if="notes.length" class="learning-note-list">
           <li v-for="note in notes" :key="note.path"><NuxtLink :to="note.path"><span class="learning-note-number">{{ String(note.seriesOrder ?? 0).padStart(2, '0') }}</span><div><h3>{{ note.title }}</h3><p>{{ note.description || note.excerpt }}</p><time :datetime="formatDate(note.date)">{{ formatDate(note.date) }}</time></div><span aria-hidden="true">↗</span></NuxtLink></li>
         </ol>
-        <div v-else class="learning-empty"><span aria-hidden="true">＋</span><p>还没有学习记录</p><small>从第一篇笔记开始，按学习顺序慢慢积累。</small></div>
-        <a :href="noteUploadUrl" class="learning-button" target="_blank" rel="noopener noreferrer">上传学习记录 <span>GitHub ↗</span></a>
+        <div v-else class="learning-empty"><p>还没有学习记录</p><small>从第一篇笔记开始，按学习顺序慢慢积累。</small></div>
       </section>
     </div>
 
     <footer class="learning-update">
       <div class="learning-update-actions">
         <a href="/materials/cmu-15-779/templates/learning-note.md" download="cmu-15-779-learning-note.md">下载记录模板 ↓</a>
-        <a :href="maintenanceUrl" target="_blank" rel="noopener noreferrer">更新方法 ↗</a>
       </div>
     </footer>
   </div>
@@ -64,10 +61,6 @@ const [{ data: allPosts, error: notesError, refresh: refreshNotes }, { data: upl
 ])
 const notes = computed(() => (allPosts.value ?? []).filter(post => post.series === cmuLearning.series).sort((a, b) => (a.seriesOrder ?? 999) - (b.seriesOrder ?? 999)))
 const materials = computed(() => uploadedFiles.value ?? [])
-const repoUrl = 'https://github.com/liangqianxing/liangqianxing.github.io'
-const materialUploadUrl = `${repoUrl}/upload/main/public/materials/cmu-15-779`
-const noteUploadUrl = `${repoUrl}/upload/main/content/posts`
-const maintenanceUrl = `${repoUrl}/blob/main/docs/cmu-15-779-maintenance.md`
 function formatBytes(bytes: number) {
   if (bytes < 1024) return `${bytes} B`
   if (bytes < 1024 ** 2) return `${(bytes / 1024).toFixed(1)} KB`
@@ -107,11 +100,8 @@ useHead({
 .learning-section-head h2 { margin-top: 5px; font-size: 1.25rem; font-weight: 500; color: var(--ink); }
 .learning-section-head > span { color: var(--muted); font-size: 0.75rem; }
 .learning-empty { padding: 22px 0; color: var(--text); font-size: 0.85rem; line-height: 1.8; }
-.learning-empty > span { display: block; color: var(--accent); font-size: 1.5rem; margin-bottom: 8px; }
 .learning-empty small { display: block; color: var(--muted); font-size: 0.75rem; margin-top: 5px; }
 .learning-empty button { margin-top: 10px; border: 0; background: none; color: var(--accent); cursor: pointer; }
-.learning-button { display: flex; justify-content: space-between; gap: 12px; padding: 11px 14px; margin-top: 12px; color: var(--ink); border: 1px solid var(--line-strong); border-radius: 9px; font-size: 0.77rem; }
-.learning-button span { color: var(--muted); font-size: 0.65rem; }
 .learning-file-list, .learning-note-list { list-style: none; padding: 0; margin: 12px 0; }
 .learning-file-list li + li, .learning-note-list li + li { border-top: 1px dashed var(--line-strong); }
 .learning-file-list a { display: flex; flex-direction: column; gap: 4px; color: var(--ink); padding-block: 12px; font-size: 0.82rem; overflow-wrap: anywhere; }
