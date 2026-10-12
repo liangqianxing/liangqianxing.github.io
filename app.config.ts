@@ -81,15 +81,7 @@ export default defineAppConfig({
       logo: '/logos/xju.jpg',
       major: '软件工程',
       period: '预计 2027 年毕业',
-      status: '',
-    },
-    {
-      school: '中南大学',
-      schoolEN: 'Central South University',
-      logo: '/logos/csu.jpg',
-      major: '计算机学院',
-      period: '联合培养',
-      status: '',
+      status: '中南大学计算机学院联合培养',
     },
   ],
 })
