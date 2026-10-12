@@ -71,7 +71,7 @@ html.cyber body.blog-body {
   color: var(--accent); background: var(--surface-2);
 }
 .blog-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 42px; padding-bottom: 8px; }
-.blog-section-links { gap: 8px; font-size: 0.78rem; }
+.blog-section-links { flex-wrap: wrap; min-width: 0; gap: 8px; font-size: 0.78rem; }
 .blog-theme-control {
   --theme-size: 32px; --theme-index: 0;
   position: relative; flex: 0 0 auto; display: grid; grid-template-columns: repeat(3, var(--theme-size)); gap: 3px;

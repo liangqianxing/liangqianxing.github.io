@@ -31,6 +31,7 @@ export default defineAppConfig({
   nav: [
     { label: '首页', path: '/blog' },
     { label: '文章', path: '/posts' },
+    { label: '学习', path: '/learning/cmu-15-779' },
     { label: '标签', path: '/tags' },
     { label: '友链', path: '/friends' },
     { label: '关于', path: '/about' },

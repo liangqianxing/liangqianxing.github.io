@@ -219,7 +219,7 @@ function replaceContentLinks(markdown, imageUrls) {
 
 async function main() {
   const postFiles = (await readdir(postsDir)).filter((name) => name.endsWith(".md")).sort();
-  const posts = await Promise.all(
+  const posts = (await Promise.all(
     postFiles.map(async (filename) => {
       const sourcePath = path.join(postsDir, filename);
       const source = await readFile(sourcePath, "utf8");
@@ -232,7 +232,7 @@ async function main() {
         slug: filename.replace(/\.md$/, ""),
       };
     }),
-  );
+  )).filter((post) => post.data.haloSync !== false);
 
   const [attachmentItems, existingCategories, existingTags, existingPosts] = await Promise.all([
     listAll("/apis/api.console.halo.run/v1alpha1/attachments"),

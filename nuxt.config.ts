@@ -125,7 +125,7 @@ export default defineNuxtConfig({
       crawlLinks: true,
       // 直接从文件系统注入所有 post 和 tag 路由，
       // 绕过 Content v3 SQLite WASM 在 SSR 阶段未初始化的问题
-      routes: ['/', '/academic', '/blog', '/posts', '/tags', '/about', '/friends', ...getPostSlugs(), ...getTagRoutes()],
+      routes: ['/', '/academic', '/blog', '/learning/cmu-15-779', '/api/posts', '/api/learning/cmu-15-779/materials', '/posts', '/tags', '/about', '/friends', ...getPostSlugs(), ...getTagRoutes()],
     },
   },
   app: {
