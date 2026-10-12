@@ -177,20 +177,24 @@
             </div>
             <div class="about-entry-copy">
               <div class="about-entry-top">
-                <h3>{{ entry.name }}</h3>
-                <span v-if="entry.upcoming" class="about-upcoming">
-                  即将开启
+                <div class="about-entry-title">
+                  <h3>{{ entry.name }}</h3>
+                  <span v-if="entry.upcoming" class="about-upcoming">
+                    即将开启
+                  </span>
+                </div>
+                <p class="about-entry-period">
+                  <span class="about-entry-time">{{ entry.period }}</span>
+                  <span>{{ entry.kind }}</span>
+                </p>
+              </div>
+              <div class="about-entry-details">
+                <p class="about-entry-role">{{ entry.role }}</p>
+                <span v-if="entry.nameEN" class="about-entry-en" lang="en">
+                  {{ entry.nameEN }}
                 </span>
               </div>
-              <p v-if="entry.nameEN" class="about-entry-en">
-                {{ entry.nameEN }}
-              </p>
-              <p class="about-entry-role">{{ entry.role }}</p>
               <p v-if="entry.desc" class="about-entry-desc">{{ entry.desc }}</p>
-              <p class="about-entry-period">
-                <span class="about-entry-time">{{ entry.period }}</span>
-                <span>{{ entry.kind }}</span>
-              </p>
             </div>
           </article>
         </div>
@@ -713,7 +717,7 @@ useHead({
   min-width: 0;
 }
 .about-journey-paper {
-  padding: 4px 28px;
+  padding: 2px 22px;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 22px;
@@ -721,9 +725,9 @@ useHead({
 }
 .about-journey-entry {
   display: grid;
-  grid-template-columns: 46px minmax(0, 1fr);
-  gap: 18px;
-  padding-block: 26px;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 14px;
+  padding-block: 16px;
 }
 .about-journey-entry + .about-journey-entry {
   border-top: 1px dashed var(--line);
@@ -732,11 +736,11 @@ useHead({
   display: grid;
   place-items: center;
   align-self: start;
-  width: 46px;
-  height: 46px;
-  padding: 5px;
+  width: 38px;
+  height: 38px;
+  padding: 4px;
   background: #fff;
-  border-radius: 12px;
+  border-radius: 10px;
   border: 1px solid #eee;
 }
 .about-entry-logo img {
@@ -746,10 +750,17 @@ useHead({
 }
 .about-entry-top {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
-  gap: 10px;
+  gap: 4px 12px;
   flex-wrap: wrap;
+}
+.about-entry-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  min-width: 0;
 }
 .about-entry-copy {
   min-width: 0;
@@ -770,31 +781,37 @@ useHead({
 }
 .about-entry-en {
   color: var(--muted);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   overflow-wrap: anywhere;
+}
+.about-entry-details {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 2px 10px;
+  margin-top: 4px;
+  line-height: 1.6;
 }
 .about-journal .about-entry-role {
   color: var(--ink);
   font-size: 0.83rem;
-  margin-top: 12px;
 }
 .about-journal .about-entry-desc {
   color: var(--text);
   font-size: 0.79rem;
-  line-height: 1.85;
+  line-height: 1.7;
   margin-top: 4px;
 }
 .about-journal .about-entry-period {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   color: var(--muted);
   font-size: 0.72rem;
-  margin-top: 12px;
-  flex-wrap: wrap;
+  line-height: 1.6;
 }
 .about-entry-period > span:last-child {
-  padding-left: 12px;
+  padding-left: 8px;
   border-left: 1px solid var(--line-strong);
   font-size: 0.68rem;
 }
@@ -961,7 +978,7 @@ useHead({
     padding: 20px 12px 32px;
   }
   .about-detail-grid {
-    grid-template-columns: minmax(0, 1fr) 250px;
+    grid-template-columns: minmax(0, 1fr);
     gap: 24px;
   }
   .about-journey-paper {
@@ -969,6 +986,7 @@ useHead({
   }
   .about-tools {
     padding-inline: 20px;
+    margin-top: 8px;
   }
 }
 @media (max-width: 640px) {
@@ -1098,14 +1116,15 @@ useHead({
     font-size: 1.25rem;
   }
   .about-journey-entry {
-    grid-template-columns: 36px minmax(0, 1fr);
-    gap: 14px;
+    grid-template-columns: 32px minmax(0, 1fr);
+    gap: 12px;
+    padding-block: 14px;
   }
   .about-entry-logo {
-    width: 36px;
-    height: 36px;
-    padding: 4px;
-    border-radius: 9px;
+    width: 32px;
+    height: 32px;
+    padding: 3px;
+    border-radius: 8px;
   }
   .about-journey-paper {
     padding-inline: 18px;
