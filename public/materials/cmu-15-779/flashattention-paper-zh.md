@@ -55,7 +55,10 @@ FlashAttention 也可作为近似注意力的基础。我们实现了块稀疏 F
 
 给定输入序列 $Q,K,V\in\mathbb{R}^{N\times d}$，其中 $N$ 是序列长度、$d$ 是头维度，注意力输出 $O\in\mathbb{R}^{N\times d}$ 为
 
-$$S=QK^T\in\mathbb{R}^{N\times N},\qquad P=\operatorname{softmax}(S)\in\mathbb{R}^{N\times N},\qquad O=PV\in\mathbb{R}^{N\times d},$$
+$$
+S=QK^T\in\mathbb{R}^{N\times N},\qquad P=\operatorname{softmax}(S)\in\mathbb{R}^{N\times N},\qquad O=PV\in\mathbb{R}^{N\times d},
+$$
+
 
 其中 softmax 按行计算。
 
@@ -80,13 +83,25 @@ $$S=QK^T\in\mathbb{R}^{N\times N},\qquad P=\operatorname{softmax}(S)\in\mathbb{R
 
 **分块。** Softmax 把 $K$ 的各列耦合在一起。对向量 $x\in\mathbb{R}^B$，定义
 
-$$m(x)=\max_i x_i,\qquad f(x)_i=e^{x_i-m(x)},\qquad \ell(x)=\sum_i f(x)_i,\qquad \operatorname{softmax}(x)=f(x)/\ell(x).$$
+$$
+m(x)=\max_i x_i,\qquad f(x)_i=e^{x_i-m(x)},\qquad \ell(x)=\sum_i f(x)_i,\qquad \operatorname{softmax}(x)=f(x)/\ell(x).
+$$
+
 
 将 $x=[x^{(1)},x^{(2)}]$ 拼接，可用额外统计量递归计算：
 
-$$m(x)=\max(m(x^{(1)}),m(x^{(2)})),$$
-$$f(x)=\left[e^{m(x^{(1)})-m(x)}f(x^{(1)}),\ e^{m(x^{(2)})-m(x)}f(x^{(2)})\right],$$
-$$\ell(x)=e^{m(x^{(1)})-m(x)}\ell(x^{(1)})+e^{m(x^{(2)})-m(x)}\ell(x^{(2)}).$$
+$$
+m(x)=\max(m(x^{(1)}),m(x^{(2)})),
+$$
+
+$$
+f(x)=\left[e^{m(x^{(1)})-m(x)}f(x^{(1)}),\ e^{m(x^{(2)})-m(x)}f(x^{(2)})\right],
+$$
+
+$$
+\ell(x)=e^{m(x^{(1)})-m(x)}\ell(x^{(1)})+e^{m(x^{(2)})-m(x)}\ell(x^{(2)}).
+$$
+
 
 因此只要维护 $(m,\ell)$，便能一次处理一个块。我们把 $Q,K,V$ 分块，将每块的 softmax 值与统计量算出，再合并结果。
 
@@ -97,7 +112,11 @@ $$\ell(x)=e^{m(x^{(1)})-m(x)}\ell(x^{(1)})+e^{m(x^{(2)})-m(x)}\ell(x^{(2)}).$$
 **算法 1：FlashAttention**
 
 输入：位于 HBM 的 $Q,K,V\in\mathbb{R}^{N\times d}$，片上 SRAM 大小 $M$。设置块大小
-$$B_c=\left\lfloor\frac{M}{4d}\right\rfloor,\qquad B_r=\min\left(\left\lfloor\frac{M}{4d}\right\rfloor,d\right).$$
+
+$$
+B_c=\left\lfloor\frac{M}{4d}\right\rfloor,\qquad B_r=\min\left(\left\lfloor\frac{M}{4d}\right\rfloor,d\right).
+$$
+
 初始化 $O=0_{N\times d}$、$\ell=0_N$、$m=-\infty_N$（均在 HBM）。把 $Q$ 分成 $T_r=\lceil N/B_r\rceil$ 个块，把 $K,V$ 分成 $T_c=\lceil N/B_c\rceil$ 个块。对每个列块 $j$：
 
 1. 将 $K_j,V_j$ 从 HBM 加载至片上 SRAM。
@@ -105,9 +124,17 @@ $$B_c=\left\lfloor\frac{M}{4d}\right\rfloor,\qquad B_r=\min\left(\left\lfloor\fr
 3. 片上计算 $S_{ij}=Q_iK_j^T$。
 4. 计算该块行最大值 $\tilde m_{ij}$、$\tilde P_{ij}=\exp(S_{ij}-\tilde m_{ij})$ 和行和 $\tilde\ell_{ij}$。
 5. 更新
-$$m_i^{\rm new}=\max(m_i,\tilde m_{ij}),\quad \ell_i^{\rm new}=e^{m_i-m_i^{\rm new}}\ell_i+e^{\tilde m_{ij}-m_i^{\rm new}}\tilde\ell_{ij}.$$
+
+   $$
+   m_i^{\rm new}=\max(m_i,\tilde m_{ij}),\quad \ell_i^{\rm new}=e^{m_i-m_i^{\rm new}}\ell_i+e^{\tilde m_{ij}-m_i^{\rm new}}\tilde\ell_{ij}.
+   $$
+
 6. 更新并写回
-$$O_i\leftarrow \operatorname{diag}(\ell_i^{\rm new})^{-1}\left(\operatorname{diag}(\ell_i)e^{m_i-m_i^{\rm new}}O_i+e^{\tilde m_{ij}-m_i^{\rm new}}\tilde P_{ij}V_j\right).$$
+
+   $$
+   O_i\leftarrow \operatorname{diag}(\ell_i^{\rm new})^{-1}\left(\operatorname{diag}(\ell_i)e^{m_i-m_i^{\rm new}}O_i+e^{\tilde m_{ij}-m_i^{\rm new}}\tilde P_{ij}V_j\right).
+   $$
+
 7. 写回 $\ell_i\leftarrow\ell_i^{\rm new},m_i\leftarrow m_i^{\rm new}$。
 
 最后返回 $O$。算法进行 $O(N^2d)$ FLOP，除输入和输出外仅需 $O(N)$ 额外内存。
@@ -115,9 +142,17 @@ $$O_i\leftarrow \operatorname{diag}(\ell_i^{\rm new})^{-1}\left(\operatorname{di
 ### 3.2 FlashAttention 的 IO 复杂度
 
 设序列长度为 $N$、头维度为 $d$、SRAM 大小为 $M$，且 $d\le M\le Nd$。标准注意力需要
-$$\Theta(Nd+N^2)$$
+
+$$
+\Theta(Nd+N^2)
+$$
+
 次 HBM 访问，而 FlashAttention 需要
-$$\Theta(N^2d^2M^{-1})$$
+
+$$
+\Theta(N^2d^2M^{-1})
+$$
+
 次 HBM 访问。证明思路是：片上可容纳大小为 $\Theta(M)$ 的 $K,V$ 块；每个块需遍历所有 $Q$ 块，因此对 $Q$ 有 $\Theta(Nd/M)$ 次遍历，每次加载 $\Theta(Nd)$ 个元素。
 
 **命题 3（下界）。** 不存在一个精确注意力算法，对所有 $M\in[d,Nd]$ 都使用 $o(N^2d^2M^{-1})$ 次 HBM 访问。令 $M=\Theta(Nd)$，输入和输出本身就有 $Nd$ 个元素，算法至少要进行 $\Omega(Nd)$ 次访问，与假设矛盾。
@@ -129,11 +164,19 @@ $$\Theta(N^2d^2M^{-1})$$
 ### 3.3 扩展：块稀疏 FlashAttention
 
 给定 $Q,K,V$ 和块掩码 $\widetilde M\in\{0,1\}^{N\times N}$，计算
-$$S=QK^T,\quad P=\operatorname{softmax}(S\odot\mathbf 1_{\widetilde M}),\quad O=PV,$$
+
+$$
+S=QK^T,\quad P=\operatorname{softmax}(S\odot\mathbf 1_{\widetilde M}),\quad O=PV,
+$$
+
 其中掩码为 0 的位置置为 $-\infty$。要求掩码按块定义：块掩码矩阵 $M$ 的每个元素决定对应 $B_r\times B_c$ 子块。
 
 算法与算法 1 相同，只跳过零块。若非零块比例为 $s$，其 HBM 访问复杂度为
-$$\Theta\left(Nd+N^2d^2M^{-1}s\right).$$
+
+$$
+\Theta\left(Nd+N^2d^2M^{-1}s\right).
+$$
+
 因此稀疏化直接按 $s$ 改善较大的 IO 项。长序列中常取 $s=N^{-1/2}$ 或 $s=N^{-1}\log N$，对应 $\Theta(N\sqrt N)$ 或 $\Theta(N\log N)$ 的 IO 复杂度。本文实验使用固定 butterfly 稀疏模式。图 2（右）验证运行时间随稀疏率近似成比例改善；在 LRA 上块稀疏 FlashAttention 加速 2.8 倍，同时精度与标准注意力相当。
 
 ## 4 实验
@@ -205,26 +248,55 @@ Transformer 在 NLP 和计算机视觉中广泛使用，但时间和内存关于
 ### B.1 内存高效的前向传播
 
 注意力内存效率的主要挑战是 softmax 将 $K$ 的各列耦合。将 softmax 归一化常数单独计算即可解耦。省略 max-shifting 时，定义
-$$L_i=\sum_j e^{q_i^Tk_j},\qquad o_i=\sum_j\frac{e^{q_i^Tk_j}}{L_i}v_j.$$
+
+$$
+L_i=\sum_j e^{q_i^Tk_j},\qquad o_i=\sum_j\frac{e^{q_i^Tk_j}}{L_i}v_j.
+$$
+
 先计算所有 $L_i$（额外 $O(N)$ 内存），再重复累加得到 $o_i$（额外 $O(d)$ 内存），前向传播只需线性额外内存。
 
 ### B.2 内存高效的反向传播
 
 设标量损失为 $\phi$，输出梯度为 $dO$。有 $dV=P^TdO$，即
-$$dv_j=\sum_i\frac{e^{q_i^Tk_j}}{L_i}do_i.$$
+
+$$
+dv_j=\sum_i\frac{e^{q_i^Tk_j}}{L_i}do_i.
+$$
+
 由 $dP=dOV^T$ 和 softmax 雅可比矩阵，令
-$$D_i=P_{i:}dP_{i:}^T=do_i^To_i,$$
+
+$$
+D_i=P_{i:}dP_{i:}^T=do_i^To_i,
+$$
+
 则
-$$dS_{ij}=P_{ij}(dP_{ij}-D_i),$$
-$$dq_i=\sum_j\frac{e^{q_i^Tk_j}}{L_i}(do_i^Tv_j-D_i)k_j,$$
-$$dk_j=\sum_i\frac{e^{q_i^Tk_j}}{L_i}(do_i^Tv_j-D_i)q_i.$$
+
+$$
+dS_{ij}=P_{ij}(dP_{ij}-D_i),
+$$
+
+$$
+dq_i=\sum_j\frac{e^{q_i^Tk_j}}{L_i}(do_i^Tv_j-D_i)k_j,
+$$
+
+$$
+dk_j=\sum_i\frac{e^{q_i^Tk_j}}{L_i}(do_i^Tv_j-D_i)q_i.
+$$
+
 因此反向传播也只需 $O(N)$ 额外内存。
 
 ### B.3 FlashAttention 前向传播
 
 完整计算为
-$$S=\tau QK^T,\quad S_{masked}=\operatorname{mask}(S),\quad P=\operatorname{softmax}(S_{masked}),$$
-$$P_{dropped}=\operatorname{dropout}(P,p_{drop}),\quad O=P_{dropped}V,$$
+
+$$
+S=\tau QK^T,\quad S_{masked}=\operatorname{mask}(S),\quad P=\operatorname{softmax}(S_{masked}),
+$$
+
+$$
+P_{dropped}=\operatorname{dropout}(P,p_{drop}),\quad O=P_{dropped}V,
+$$
+
 其中 $\tau$ 通常为 $1/\sqrt d$。算法 2 保存输出 $O$、softmax 统计量 $\ell,m$ 以及伪随机数发生器状态 $R$；逐块计算 mask、softmax、dropout 并更新输出。返回 $O,\ell,m,R$。
 
 ### B.4 FlashAttention 反向传播
@@ -258,7 +330,11 @@ $$P_{dropped}=\operatorname{dropout}(P,p_{drop}),\quad O=P_{dropped}V,$$
 ### D.1 块稀疏 FlashAttention
 
 算法 5 与算法 2 相同，只在块掩码 $M_{ij}\ne0$ 时执行。非零块比例为 $s$ 时，需要写出 $O$，因此访问数为
-$$\Theta\left(Nd+\frac{N^2d^2}{M}s\right).$$
+
+$$
+\Theta\left(Nd+\frac{N^2d^2}{M}s\right).
+$$
+
 
 ### D.2 潜在扩展
 
@@ -288,7 +364,7 @@ Path-X/Path-256 先在 Path-64 预训练 200 个 epoch，再网格插值位置�
 
 ### E.4 与 Apex FMHA 比较
 
-Apex FMHA 面向最多 512 长度、头维度 64、A100，融合 `dropout(softmax(mask(QK^T)))V`，前向把注意力矩阵写入 HBM。FlashAttention 以其代码为起点，加入分块和重计算，因此可支持最长 64K、头维度 16/32/64/128 及 Turing/Ampere GPU。短序列上，FlashAttention 前向略快、反向略慢；综合时间在长度 128 慢约 4%，长度 256 快 8%，长度 512 快 5%。
+Apex FMHA 面向最多 512 长度、头维度 64、A100，融合 $\operatorname{dropout}(\operatorname{softmax}(\operatorname{mask}(QK^T)))V$，前向把注意力矩阵写入 HBM。FlashAttention 以其代码为起点，加入分块和重计算，因此可支持最长 64K、头维度 16/32/64/128 及 Turing/Ampere GPU。短序列上，FlashAttention 前向略快、反向略慢；综合时间在长度 128 慢约 4%，长度 256 快 8%，长度 512 快 5%。
 
 ### E.5 不同硬件与配置
 

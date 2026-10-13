@@ -99,7 +99,7 @@
 0x29: STOR(STBUF[32-39])             // ST@TID3
 ```
 
-**(b) 卷积访问模式：** 对 `y∈[0,i)`、`x∈[0,j)`，例如 `idxrf = a_rf*y + b_rf*x + c_rf0`；其中 `c_rf0` 由微操作字段给出，并执行 `rf[idxrf] += GEVM(act[idxact], par[idxpar])`。
+**(b) 卷积访问模式：** 对 $y \in [0,i)$、$x \in [0,j)$，例如 `idxrf = a_rf*y + b_rf*x + c_rf0`；其中 `c_rf0` 由微操作字段给出，并执行 `rf[idxrf] += GEVM(act[idxact], par[idxpar])`。
 
 **(c) 最大池化、批归一化和激活：**
 

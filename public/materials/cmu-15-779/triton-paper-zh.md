@@ -50,7 +50,7 @@
 
 与这些方法相比，Triton 把 tile 级操作与 tile 级优化加入传统编译流水线。这种方法相比 XLA 和 Glow 更灵活；支持非仿射张量索引，克服 TC 和 Diesel 的限制；并且可以自动推断执行 schedule，而 Halide 和 TVM 通常需要手工指定。代价是编程工作量增加。
 
-对于 `C = A × B^T`，不同 DSL 的表达形式例如：
+对于 $C = A \times B^T$，不同 DSL 的表达形式例如：
 
 ```text
 C = tf.matmul(A, tf.transpose(B))       // TensorFlow
@@ -154,7 +154,7 @@ Triton-IR 使用静态单赋值（SSA）形式：每个基本块中的每个变�
 
 #### 4.2.1 类型
 
-多维 tile 是 Triton-IR 数据流分析的中心，可以使用类似 LLVM-IR 向量声明的语法。例如，`i32<8, 8>` 表示 `8 × 8` 的 32 位整数 tile。
+多维 tile 是 Triton-IR 数据流分析的中心，可以使用类似 LLVM-IR 向量声明的语法。例如，`i32<8, 8>` 表示 $8 \times 8$ 的 32 位整数 tile。
 
 Triton-IR 中没有 `tunable` 关键字，因此参数化形状必须在生成程序之前解析。在本文实现中，这是由 Triton-JIT 的自动调优器完成的。
 
@@ -205,7 +205,7 @@ Triton-JIT 的目标是通过一组与机器无关的 pass（第 5.1 节）和�
 
 #### 5.1.2 Tile 级窥孔优化
 
-Triton-IR 中存在 tile 级操作，为窥孔优化器 [29] 带来了新的机会。例如，对任意 tile `X`，恒等式 `X = (X^T)^T` 可以简化连续的转置操作。未来还可以利用与对角 tile 等结构相关的其他代数性质。
+Triton-IR 中存在 tile 级操作，为窥孔优化器 [29] 带来了新的机会。例如，对任意 tile $X$，恒等式 $X = (X^T)^T$ 可以简化连续的转置操作。未来还可以利用与对角 tile 等结构相关的其他代数性质。
 
 ### 5.2 与机器相关的 pass
 
@@ -266,13 +266,13 @@ Triton-IR 中存在 tile 级操作，为窥孔优化器 [29] 带来了新的机�
 
 ### 6.1 矩阵乘法
 
-矩阵乘法任务 `A = D × W^T`（`D ∈ R^(M×K)`，`W ∈ R^(N×K)`）是神经网络计算的核心。我们从循环网络（DeepSpeech2 [3]）和 Transformer [44] 中选择多种任务，并在图 8 中报告性能。
+矩阵乘法任务 $A = D \times W^T$（$D \in \mathbb{R}^{M \times K}$，$W \in \mathbb{R}^{N \times K}$）是神经网络计算的核心。我们从循环网络（DeepSpeech2 [3]）和 Transformer [44] 中选择多种任务，并在图 8 中报告性能。
 
 Triton 与 cuBLAS 通常性能相当，达到设备峰值性能的 90% 以上；在某些任务上，Triton 还比其他 DSL 快最多 3 倍。
 
 ![矩阵乘法性能（原文图 8）](/images/materials/cmu-15-779/triton/figure-08.webp)
 
-不过，在浅层 Transformer 网络上，cuBLAS 仍然更快，因为它使用了三维算法 [2]，把较深的归约拆分为独立块，在 `M` 和 `N` 较小时提供更多并行性。除此之外，现有 DSL 通常比 Triton 慢 2–3 倍；当输入形状是 32 的倍数时，TVM 的差距小于 2 倍。
+不过，在浅层 Transformer 网络上，cuBLAS 仍然更快，因为它使用了三维算法 [2]，把较深的归约拆分为独立块，在 $M$ 和 $N$ 较小时提供更多并行性。除此之外，现有 DSL 通常比 Triton 慢 2–3 倍；当输入形状是 32 的倍数时，TVM 的差距小于 2 倍。
 
 ### 6.2 卷积
 

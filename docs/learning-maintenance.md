@@ -50,6 +50,16 @@ Markdown 资料可在 `data/learning/materials.ts` 的 `learningMaterialArticles
 
 阅读页面以博客样式呈现正文、目录、表格、代码和 KaTeX 公式，保留译稿下载与原文 PDF 对照。插图在 Markdown 中使用公开绝对路径，例如 `![原文图 1](/images/materials/<courseSlug>/<topic>/figure-01.webp)`。原图资源放在 `public/images/materials/`，避免让图片逐项进入课程资料列表。资料阅读页独立于 `content/posts/`，不会作为学习记录计数或同步到 Halo。
 
+公式使用 LaTeX 定界符：行内公式写成 `$d_{\mathrm{model}} = 512$`；独立公式使用单独成行的 `$$`，上下留空行。例如：
+
+```markdown
+$$
+\operatorname{Attention}(Q, K, V) = \operatorname{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+$$
+```
+
+反引号用于代码和 API 名称，公式放在反引号中会按普通代码显示。下标、幂次、根号和矩阵维度使用 `d_{\mathrm{model}}`、`10^{-9}`、`\sqrt{d_k}`、`\mathbb{R}^{M \times K}` 等标准 LaTeX 写法；更新译稿后，同步更新对应下载压缩包中的 Markdown。
+
 此目录内容会公开访问，提交前清理私人信息、访问令牌和密码。课程官方资料可以在学习记录中链接到原站。
 
 ## 添加学习记录
