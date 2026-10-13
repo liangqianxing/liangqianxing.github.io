@@ -25,21 +25,26 @@
       <section id="materials" class="learning-section learning-materials" aria-labelledby="materials-title">
         <header class="learning-section-head"><div><p class="learning-kicker">01 / MATERIALS</p><h2 id="materials-title">学习资料</h2></div><span>{{ materialsError ? '—' : materials.length }} 份</span></header>
         <div v-if="materialsError" class="learning-empty" role="alert"><p>资料暂时没能加载。</p><button type="button" @click="refreshMaterials()">重新加载</button></div>
-        <ul v-else-if="materials.length" class="learning-file-list">
-          <li v-for="file in materials" :key="file.path">
-            <div class="learning-file-row">
-              <NuxtLink v-if="materialArticle(file)" :to="materialReaderPath(file)" class="learning-file-main">
-                <span>{{ materialArticle(file)?.title || file.name }}</span>
-                <small>{{ file.extension.toUpperCase() }} · {{ formatBytes(file.bytes) }} · 在线阅读 ↗</small>
-              </NuxtLink>
-              <a v-else :href="file.path" :download="file.extension === 'pdf' ? undefined : file.name" :target="file.extension === 'pdf' ? '_blank' : undefined" rel="noopener noreferrer" class="learning-file-main">
-                <span>{{ sourceTitle(file) }}</span>
-                <small>{{ file.extension.toUpperCase() || 'FILE' }} · {{ formatBytes(file.bytes) }}<template v-if="file.extension === 'pdf'"> · 查看原文 ↗</template></small>
-              </a>
-              <a :href="file.path" :download="file.name" class="learning-file-download" :aria-label="`下载 ${file.name}`">下载 ↓</a>
-            </div>
-          </li>
-        </ul>
+        <div v-else-if="materials.length" class="learning-material-groups">
+          <section v-for="group in materialGroups" :key="group.id" class="learning-material-group" :aria-labelledby="`materials-${group.id}-title`">
+            <header class="learning-material-group-head"><h3 :id="`materials-${group.id}-title`">{{ group.title }}</h3><span>{{ group.files.length }} 份</span></header>
+            <ul class="learning-file-list">
+              <li v-for="file in group.files" :key="file.path">
+                <div class="learning-file-row">
+                  <NuxtLink v-if="materialArticle(file)" :to="materialReaderPath(file)" class="learning-file-main">
+                    <span>{{ materialArticle(file)?.title || file.name }}</span>
+                    <small>{{ file.extension.toUpperCase() }} · {{ formatBytes(file.bytes) }} · 在线阅读 ↗</small>
+                  </NuxtLink>
+                  <a v-else :href="file.path" :download="file.extension === 'pdf' ? undefined : file.name" :target="file.extension === 'pdf' ? '_blank' : undefined" rel="noopener noreferrer" class="learning-file-main">
+                    <span>{{ sourceTitle(file) }}</span>
+                    <small>{{ file.extension.toUpperCase() || 'FILE' }} · {{ formatBytes(file.bytes) }}<template v-if="file.extension === 'pdf'"> · 查看原文 ↗</template></small>
+                  </a>
+                  <a :href="file.path" :download="file.name" class="learning-file-download" :aria-label="`下载 ${file.name}`">下载 ↓</a>
+                </div>
+              </li>
+            </ul>
+          </section>
+        </div>
         <div v-else class="learning-empty"><p>还没有学习资料</p><small>讲义、代码和实验附件，都可以收在这里。</small></div>
       </section>
 
@@ -63,7 +68,7 @@
 
 <script setup lang="ts">
 import { getLearningCourse } from '~/data/learning/courses'
-import { getLearningMaterialArticleByFileName, learningMaterialArticles } from '~/data/learning/materials'
+import { getLearningMaterialArticleByFileName, getLearningMaterialCategory, learningMaterialArticles, learningMaterialCategories } from '~/data/learning/materials'
 import { formatDate } from '~/utils/blog'
 import type { LearningMaterial } from '~/server/utils/learning-materials'
 
@@ -83,10 +88,14 @@ const [{ data: allPosts, error: notesError, refresh: refreshNotes }, { data: upl
 const notes = computed(() => (allPosts.value ?? []).filter(post => post.series === course.value.series).sort((a, b) => (a.seriesOrder ?? 999) - (b.seriesOrder ?? 999)))
 const courseArticles = computed(() => learningMaterialArticles.filter(article => article.courseSlug === course.value.slug))
 const materials = computed(() => [...(uploadedFiles.value ?? [])].sort((a, b) => {
-  const aOrder = courseArticles.value.findIndex(article => article.fileName === a.name)
-  const bOrder = courseArticles.value.findIndex(article => article.fileName === b.name)
+  const aOrder = courseArticles.value.findIndex(article => article.fileName === a.name || article.sourcePdf === a.path)
+  const bOrder = courseArticles.value.findIndex(article => article.fileName === b.name || article.sourcePdf === b.path)
   return (aOrder < 0 ? 999 : aOrder) - (bOrder < 0 ? 999 : bOrder)
 }))
+const materialGroups = computed(() => learningMaterialCategories.map(category => ({
+  ...category,
+  files: materials.value.filter(file => getLearningMaterialCategory(file, course.value.slug) === category.id),
+})).filter(group => group.files.length))
 function sourceTitle(file: LearningMaterial) {
   const source = courseArticles.value.find(article => article.sourcePdf === file.path)
   return source ? `${source.title} · 原文 PDF` : file.name
@@ -139,6 +148,12 @@ useHead(() => ({
 .learning-empty small { display: block; color: var(--muted); font-size: 0.75rem; margin-top: 5px; }
 .learning-empty button { margin-top: 10px; border: 0; background: none; color: var(--accent); cursor: pointer; }
 .learning-file-list, .learning-note-list { list-style: none; padding: 0; margin: 12px 0; }
+.learning-material-group { padding-top: 16px; }
+.learning-material-group + .learning-material-group { margin-top: 16px; border-top: 1px solid var(--line-strong); }
+.learning-material-group-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.learning-material-group-head h3 { color: var(--ink); font-size: 0.85rem; font-weight: 500; }
+.learning-material-group-head > span { color: var(--muted); font-size: 0.68rem; }
+.learning-material-group .learning-file-list { margin: 4px 0 0; }
 .learning-file-list li + li, .learning-note-list li + li { border-top: 1px dashed var(--line-strong); }
 .learning-file-row { display: flex; align-items: center; gap: 14px; }
 .learning-file-main { display: flex; flex: 1; min-width: 0; flex-direction: column; gap: 4px; color: var(--ink); padding-block: 12px; font-size: 0.82rem; overflow-wrap: anywhere; text-decoration: none; }

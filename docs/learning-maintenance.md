@@ -44,9 +44,17 @@
 
 资料访问地址是 `/materials/<slug>/<文件相对路径>`，文章可以直接链接到该地址。README、隐藏文件和顶层 `templates/` 目录不会进入资料索引，符号链接不会被索引。
 
+资料列表按「中文资料」「英文资料」「实验附件」「其他资料」分组，仅显示有文件的分组。新增课程也使用相同规则：
+
+- `experiments/`、`code/` 下的文件归入实验附件。
+- 已登记的在线阅读稿和对应原文分别使用 `language` 与 `sourceLanguage` 指定语言，值为 `zh` 或 `en`。
+- 其他资料放在课程目录的 `zh/` 或 `en/` 下，或使用 `-zh`、`-en` 文件名后缀，例如 `lecture-01-zh.pdf`。文件格式不会决定语言。
+- 需要保留旧文件路径时，可在 `data/learning/materials.ts` 的 `learningMaterialLanguages` 中登记完整公开路径及语言。例如现有中文译稿压缩包保持原地址并归入中文资料。
+- 未标明语言的文件归入其他资料，仍保留访问和下载入口。
+
 ## 在线阅读资料
 
-Markdown 资料可在 `data/learning/materials.ts` 的 `learningMaterialArticles` 中登记 `courseSlug`、`slug`、`fileName`、`title`、`description` 和 `sourcePdf`。文件名对应课程资料目录中的译稿，`sourcePdf` 对应公开的原始 PDF。登记后课程资料列表会显示中文标题和在线阅读入口，构建自动生成 `/learning/<courseSlug>/materials/<slug>` 及内容接口。
+Markdown 资料可在 `data/learning/materials.ts` 的 `learningMaterialArticles` 中登记 `courseSlug`、`slug`、`fileName`、`title`、`description`、`language`、`sourcePdf` 和 `sourceLanguage`。文件名对应课程资料目录中的译稿，`sourcePdf` 对应公开的原始 PDF。登记后课程资料列表会显示资料标题和在线阅读入口，构建自动生成 `/learning/<courseSlug>/materials/<slug>` 及内容接口。
 
 阅读页面以博客样式呈现正文、目录、表格、代码和 KaTeX 公式，保留译稿下载与原文 PDF 对照。插图在 Markdown 中使用公开绝对路径，例如 `![原文图 1](/images/materials/<courseSlug>/<topic>/figure-01.webp)`。原图资源放在 `public/images/materials/`，避免让图片逐项进入课程资料列表。资料阅读页独立于 `content/posts/`，不会作为学习记录计数或同步到 Halo。
 
