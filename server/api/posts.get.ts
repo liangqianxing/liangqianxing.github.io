@@ -24,6 +24,8 @@ export interface PostMeta {
   readingTime: number
   series?: string
   seriesOrder?: number
+  codeUrl?: string
+  attachmentUrl?: string
 }
 
 /** 简单 frontmatter 解析（YAML only） */
@@ -124,6 +126,8 @@ export default defineEventHandler((_event): PostMeta[] => {
       readingTime: readingTime(body),
       series: data.series ? String(data.series) : undefined,
       seriesOrder: typeof data.seriesOrder === 'number' ? data.seriesOrder : undefined,
+      codeUrl: typeof data.codeUrl === 'string' ? data.codeUrl : undefined,
+      attachmentUrl: typeof data.attachmentUrl === 'string' ? data.attachmentUrl : undefined,
     })
   }
 

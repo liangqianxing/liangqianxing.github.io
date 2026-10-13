@@ -75,6 +75,7 @@ $$
 推荐复制通用空模板 `public/materials/templates/learning-note.md` 到 `content/posts/<课程slug>-<主题>.md`，例如 `cmu-15-779-<主题>.md`。模板公开地址是 `/materials/templates/learning-note.md`，可在课程详情页下载。填写模板里的标题、日期、描述和 `series` 占位字段，再编写正文。文章的 `series` 必须与课程登记表中的值完全一致，专题才能自动归集。
 
 - `seriesOrder` 从 `1` 开始，按实际学习顺序递增。
+- 如果记录有配套代码或附件，可在 front matter 中填写 `codeUrl` 和 `attachmentUrl`；课程页会在学习记录卡片下显示对应入口。
 - 填写真实的标题、日期、描述与正文。
 - 未完成记录保持 `draft: true`，准备公开时改为 `draft: false`。
 - 当前 GitHub Pages 学习专题使用 `hidden: false`、`haloSync: false`、`haloPublished: false`。

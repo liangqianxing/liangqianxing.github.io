@@ -4,6 +4,8 @@ date: '2026-10-13'
 description: '从自动求导和手动梯度下降开始，比较学习率，再用 SGD 训练线性回归。记录 w * 4 写错后停在 1.25 的原因和修正结果。'
 series: CMU 15-779
 seriesOrder: 1
+codeUrl: https://github.com/liangqianxing/cmu-15-779-labs
+attachmentUrl: /materials/cmu-15-779/experiments/pytorch-basics-20261013.zip
 categories:
   - 技术
 tags:
@@ -21,7 +23,7 @@ haloPublished: false
 
 这篇记录整理的是 2026 年 10 月 13 日的练习。我把运行结果和中间写错的地方一起留下，方便以后回看。
 
-实验使用 Python 3.11.15、PyTorch 2.14.1，张量采用默认的 `float32`，运行设备是 CPU。三个脚本和依赖文件放在[实验代码压缩包](/materials/cmu-15-779/experiments/pytorch-basics-20261013.zip)中。参考阅读是 [PyTorch 中文译稿](/learning/cmu-15-779/materials/pytorch-paper-zh/)的第 4.3 节「自动微分」。
+实验使用 Python 3.11.15、PyTorch 2.14.1，张量采用默认的 `float32`，运行设备是 CPU。三个脚本和依赖文件可以在 [GitHub 代码仓库](https://github.com/liangqianxing/cmu-15-779-labs)查看，也可以下载[实验代码 ZIP](/materials/cmu-15-779/experiments/pytorch-basics-20261013.zip)。参考阅读是 [PyTorch 中文译稿](/learning/cmu-15-779/materials/pytorch-paper-zh/)的第 4.3 节「自动微分」。
 
 ## 自动求导算的是哪个导数
 
@@ -290,7 +292,7 @@ $$
 
 ## 实验代码和复现方式
 
-[下载实验代码压缩包](/materials/cmu-15-779/experiments/pytorch-basics-20261013.zip)，解压后包含：
+[GitHub 代码仓库](https://github.com/liangqianxing/cmu-15-779-labs)持续保存源代码；也可以[下载实验代码压缩包](/materials/cmu-15-779/experiments/pytorch-basics-20261013.zip)，解压后包含：
 
 | 文件 | 内容 |
 | --- | --- |

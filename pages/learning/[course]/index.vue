@@ -52,7 +52,12 @@
         <header class="learning-section-head"><div><p class="learning-kicker">02 / LEARNING LOG</p><h2 id="notes-title">学习记录</h2></div><span>{{ notesError ? '—' : notes.length }} 篇</span></header>
         <div v-if="notesError" class="learning-empty" role="alert"><p>学习记录暂时没能加载。</p><button type="button" @click="refreshNotes()">重新加载</button></div>
         <ol v-else-if="notes.length" class="learning-note-list">
-          <li v-for="note in notes" :key="note.path"><NuxtLink :to="note.path"><span class="learning-note-number">{{ String(note.seriesOrder ?? 0).padStart(2, '0') }}</span><div><h3>{{ note.title }}</h3><p>{{ note.description || note.excerpt }}</p><time :datetime="formatDate(note.date)">{{ formatDate(note.date) }}</time></div><span aria-hidden="true">↗</span></NuxtLink></li>
+          <li v-for="note in notes" :key="note.path">
+            <div class="learning-note-row">
+              <NuxtLink :to="note.path" class="learning-note-main"><span class="learning-note-number">{{ String(note.seriesOrder ?? 0).padStart(2, '0') }}</span><div><h3>{{ note.title }}</h3><p>{{ note.description || note.excerpt }}</p><time :datetime="formatDate(note.date)">{{ formatDate(note.date) }}</time></div><span aria-hidden="true">↗</span></NuxtLink>
+              <div v-if="note.codeUrl || note.attachmentUrl" class="learning-note-resources"><a v-if="note.codeUrl" :href="note.codeUrl" target="_blank" rel="noopener noreferrer">代码仓库 ↗</a><a v-if="note.attachmentUrl" :href="note.attachmentUrl" download>ZIP 附件 ↓</a></div>
+            </div>
+          </li>
         </ol>
         <div v-else class="learning-empty"><p>还没有学习记录</p><small>从第一篇笔记开始，按学习顺序慢慢积累。</small></div>
       </section>
@@ -159,12 +164,15 @@ useHead(() => ({
 .learning-file-main { display: flex; flex: 1; min-width: 0; flex-direction: column; gap: 4px; color: var(--ink); padding-block: 12px; font-size: 0.82rem; overflow-wrap: anywhere; text-decoration: none; }
 .learning-file-main small { color: var(--muted); font-size: 0.65rem; }
 .learning-file-download { flex: 0 0 auto; color: var(--accent); font-size: .68rem; text-decoration: none; white-space: nowrap; }
-.learning-note-list a { display: grid; grid-template-columns: 24px minmax(0, 1fr) 16px; gap: 12px; align-items: baseline; padding-block: 14px; color: var(--ink); }
+.learning-note-main { display: grid; grid-template-columns: 24px minmax(0, 1fr) 16px; gap: 12px; align-items: baseline; padding-top: 14px; color: var(--ink); }
+.learning-note-row { padding-bottom: 14px; }
 .learning-note-number, .learning-note-list time { font: 0.67rem var(--font-mono); color: var(--muted); }
 .learning-note-list h3 { font-size: 0.9rem; font-weight: 500; line-height: 1.7; overflow-wrap: anywhere; }
 .learning-note-list p { font-size: 0.75rem; color: var(--muted); margin-top: 4px !important; line-height: 1.7; }
 .learning-note-list time { display: block; margin-top: 8px; }
-.learning-note-list a > span:last-child { color: var(--accent); }
+.learning-note-resources { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 8px 0 0 36px; }
+.learning-note-resources a { color: var(--accent); font-size: 0.68rem; }
+.learning-note-main > span:last-child { color: var(--accent); }
 .learning-update { margin-top: 24px; padding: 14px 4px; }
 .learning-update-actions { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-top: 6px; }
 .learning-update-actions a { color: var(--accent); font-size: 0.75rem; padding-block: 7px; }
