@@ -20,6 +20,8 @@ Transformer 模型已成为自然语言处理和图像分类等应用中最广�
 
 本文提出让注意力算法具备 IO 感知：仔细计算不同层次的快速、慢速内存之间的读写，例如 GPU 芯片上快速的 SRAM 与相对较慢的 GPU 高带宽内存 HBM 之间的读写（图 1 左）。在现代 GPU 上，计算速度已超过内存速度，Transformer 中的大多数操作都受内存访问瓶颈限制。对数据库连接、图像处理、数值线性代数等内存受限操作，IO 感知算法一直很关键；然而 PyTorch、TensorFlow 等深度学习常用 Python 接口无法对内存访问进行细粒度控制。
 
+![GPU 内存层次、FlashAttention 分块及 GPT-2 加速（原文图 1）](/images/materials/cmu-15-779/flashattention/figure-01.webp)
+
 我们提出 FlashAttention，一种通过大幅减少内存访问来计算精确注意力的新算法。主要目标是避免把注意力矩阵在 HBM 中读写。为此需要：(i) 在不访问完整输入的情况下完成 softmax 归约；(ii) 在反向传播时不保存巨大的中间注意力矩阵。我们采用两项成熟技术解决这些问题：把输入分成块，多次遍历输入块，以增量方式执行 softmax 归约（也称分块）；在前向传播中保存 softmax 归一化因子，在反向传播时快速地在片上重新计算注意力，这比从 HBM 读取中间注意力矩阵更快。
 
 我们在 CUDA 中实现 FlashAttention，以便精细控制内存访问，并把全部注意力操作融合到一个 GPU kernel。即使因重计算导致 FLOP 增加，该算法仍运行更快（GPT-2 上最高 7.6 倍），且内存使用量仅随序列长度线性增长。
@@ -122,6 +124,8 @@ $$\Theta(N^2d^2M^{-1})$$
 
 图 2（左）显示，虽然 FlashAttention 因反向重计算 FLOP 更多，但 HBM 访问显著更少，因此 GPT-2 上运行更快。图 2（中）改变块大小 $B_c$：块越大，遍历次数越少、HBM 访问越少、前向运行越快；超过 256 后，运行时间转而受算术操作等因素限制，块太大也无法装入 SRAM。
 
+![FlashAttention 运行时间、块大小与稀疏率（原文图 2）](/images/materials/cmu-15-779/flashattention/figure-02.webp)
+
 ### 3.3 扩展：块稀疏 FlashAttention
 
 给定 $Q,K,V$ 和块掩码 $\widetilde M\in\{0,1\}^{N\times N}$，计算
@@ -163,6 +167,8 @@ $$\Theta\left(Nd+N^2d^2M^{-1}s\right).$$
 **运行时间。** 图 3 左显示前向+反向时间。精确注意力的时间随长度二次增长，FlashAttention 比 PyTorch 最多快 3 倍。虽然许多近似/稀疏方法随长度线性增长，但短序列中 FlashAttention 因 HBM 访问更少仍更快；长度在 512–1024 之间时近似方法才与 FlashAttention 交叉。块稀疏 FlashAttention 在全部长度上都快于作者所知的精确、稀疏和近似实现。
 
 **内存占用。** 图 3 右显示 FlashAttention 和块稀疏版本均线性增长，比精确基线最多节省 20 倍，也比近似基线更省。除 Linformer 外其他算法在 64K 前均在 A100 上耗尽内存；即使与 Linformer 相比，FlashAttention 仍节省约 2 倍内存。
+
+![注意力运行时间与内存占用（原文图 3）](/images/materials/cmu-15-779/flashattention/figure-03.webp)
 
 ## 5 局限与未来方向
 
@@ -272,6 +278,8 @@ $$\Theta\left(Nd+\frac{N^2d^2}{M}s\right).$$
 
 使用 HuggingFace Transformers 和 Megatron-LM 的 GPT-2 实现，遵循 Megatron 训练配方。有效批大小 512，AdamW，GPT-2 small 学习率 $6\times10^{-4}$，medium 为 $1.5\times10^{-4}$，权重衰减 0.1，训练 400K 步，使用 PyTorch AMP。OpenWebText 随机抽取 0.5% 为验证集，所有实现使用相同验证集。在 8×A100-40GB 上测量壁钟时间。FlashAttention 与 HuggingFace 的验证困惑度曲线几乎重合。
 
+![GPT-2 small 和 medium 的验证困惑度（原文图 4）](/images/materials/cmu-15-779/flashattention/figure-04.webp)
+
 ### E.3 LRA 细节
 
 遵循 Long Range Arena 论文、代码库和 Nyströmformer 复现实验的超参数。若无法复现某基线，则报告原论文或复现工作中较好的结果。除 Performer（混合精度不稳定）和 Local Attention（仅支持 FP32）外均采用混合精度。总体加速取五个任务壁钟加速的几何平均。
@@ -285,6 +293,14 @@ Apex FMHA 面向最多 512 长度、头维度 64、A100，融合 `dropout(softma
 ### E.5 不同硬件与配置
 
 在 A100（批大小 8、头维度 64、12 头）上，FlashAttention 通常加速 2–4 倍，启用 dropout 和 mask 时因 kernel 融合加速更明显。头维度 128 会因块更大而降低加速，但因果 mask 可跳过一半块，仍最高约 3 倍。RTX 3090 因 HBM 带宽较低（约 900 GB/s 对 A100 的 1.5 TB/s）加速约 2.5–4.5 倍。T4 的 SRAM 更小，块尺寸必须更小，因此加速低于 A100；论文同时报告仅前向的推理加速。
+
+![A100 上不同序列长度的加速（原文图 5）](/images/materials/cmu-15-779/flashattention/figure-05.webp)
+
+![A100 上头维度 128 时的加速（原文图 6）](/images/materials/cmu-15-779/flashattention/figure-06.webp)
+
+![RTX 3090 上不同序列长度的加速（原文图 7）](/images/materials/cmu-15-779/flashattention/figure-07.webp)
+
+![T4 上不同序列长度的加速（原文图 8）](/images/materials/cmu-15-779/flashattention/figure-08.webp)
 
 ### E.6 完整基准
 

@@ -44,6 +44,12 @@
 
 资料访问地址是 `/materials/<slug>/<文件相对路径>`，文章可以直接链接到该地址。README、隐藏文件和顶层 `templates/` 目录不会进入资料索引，符号链接不会被索引。
 
+## 在线阅读资料
+
+Markdown 资料可在 `data/learning/materials.ts` 的 `learningMaterialArticles` 中登记 `courseSlug`、`slug`、`fileName`、`title`、`description` 和 `sourcePdf`。文件名对应课程资料目录中的译稿，`sourcePdf` 对应公开的原始 PDF。登记后课程资料列表会显示中文标题和在线阅读入口，构建自动生成 `/learning/<courseSlug>/materials/<slug>` 及内容接口。
+
+阅读页面以博客样式呈现正文、目录、表格、代码和 KaTeX 公式，保留译稿下载与原文 PDF 对照。插图在 Markdown 中使用公开绝对路径，例如 `![原文图 1](/images/materials/<courseSlug>/<topic>/figure-01.webp)`。原图资源放在 `public/images/materials/`，避免让图片逐项进入课程资料列表。资料阅读页独立于 `content/posts/`，不会作为学习记录计数或同步到 Halo。
+
 此目录内容会公开访问，提交前清理私人信息、访问令牌和密码。课程官方资料可以在学习记录中链接到原站。
 
 ## 添加学习记录

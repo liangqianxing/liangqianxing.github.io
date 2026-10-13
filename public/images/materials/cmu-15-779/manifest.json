@@ -1,0 +1,1286 @@
+{
+  "description": "Original CMU 15-779 reading-list figures and TVM slide pages rendered from locally supplied source PDFs. Paper figure crops omit the English caption while retaining diagram labels. All sourcePage values are 1-based PDF page numbers.",
+  "format": "lossless WebP",
+  "documents": {
+    "transformer": {
+      "sourceOriginalUrl": "/materials/cmu-15-779/originals/transformer-paper-original.pdf",
+      "sourceLocalBasename": "NIPS-2017-attention-is-all-you-need-Paper.pdf",
+      "sourceSha256": "d87d482d5ae7960e2e43d7dd6d21377e60e73e8fce1bf2a01aff7aca8a08c537",
+      "renderDpi": 300,
+      "figures": [
+        {
+          "figure": 1,
+          "sourcePage": 3,
+          "cropPoints": [
+            193,
+            68,
+            419,
+            399
+          ],
+          "url": "/images/materials/cmu-15-779/transformer/figure-01.webp",
+          "width": 942,
+          "height": 1379,
+          "bytes": 43826
+        },
+        {
+          "figure": 2,
+          "sourcePage": 4,
+          "cropPoints": [
+            144,
+            67,
+            472,
+            270
+          ],
+          "url": "/images/materials/cmu-15-779/transformer/figure-02.webp",
+          "width": 1367,
+          "height": 846,
+          "bytes": 41446
+        }
+      ]
+    },
+    "flashattention": {
+      "sourceOriginalUrl": "/materials/cmu-15-779/originals/flashattention-paper-original.pdf",
+      "sourceLocalBasename": "2205.14135v2.pdf",
+      "sourceSha256": "ca7f9fda10b90fc05dd291a3accc85e9c1a4a860b99b31928dab03ed3fcb14e4",
+      "renderDpi": 300,
+      "figures": [
+        {
+          "figure": 1,
+          "sourcePage": 2,
+          "cropPoints": [
+            105,
+            69,
+            507,
+            231
+          ],
+          "url": "/images/materials/cmu-15-779/flashattention/figure-01.webp",
+          "width": 1674,
+          "height": 674,
+          "bytes": 55804
+        },
+        {
+          "figure": 2,
+          "sourcePage": 6,
+          "cropPoints": [
+            112,
+            69,
+            507,
+            150
+          ],
+          "url": "/images/materials/cmu-15-779/flashattention/figure-02.webp",
+          "width": 1645,
+          "height": 337,
+          "bytes": 38054
+        },
+        {
+          "figure": 3,
+          "sourcePage": 9,
+          "cropPoints": [
+            105,
+            69,
+            507,
+            195
+          ],
+          "url": "/images/materials/cmu-15-779/flashattention/figure-03.webp",
+          "width": 1674,
+          "height": 524,
+          "bytes": 43210
+        },
+        {
+          "figure": 4,
+          "sourcePage": 27,
+          "cropPoints": [
+            147,
+            68,
+            469,
+            326
+          ],
+          "url": "/images/materials/cmu-15-779/flashattention/figure-04.webp",
+          "width": 1342,
+          "height": 1075,
+          "bytes": 27402
+        },
+        {
+          "figure": 5,
+          "sourcePage": 28,
+          "cropPoints": [
+            105,
+            453,
+            507,
+            643
+          ],
+          "url": "/images/materials/cmu-15-779/flashattention/figure-05.webp",
+          "width": 1674,
+          "height": 791,
+          "bytes": 82110
+        },
+        {
+          "figure": 6,
+          "sourcePage": 29,
+          "cropPoints": [
+            105,
+            69,
+            507,
+            250
+          ],
+          "url": "/images/materials/cmu-15-779/flashattention/figure-06.webp",
+          "width": 1674,
+          "height": 754,
+          "bytes": 87410
+        },
+        {
+          "figure": 7,
+          "sourcePage": 29,
+          "cropPoints": [
+            105,
+            357,
+            507,
+            547
+          ],
+          "url": "/images/materials/cmu-15-779/flashattention/figure-07.webp",
+          "width": 1674,
+          "height": 791,
+          "bytes": 78482
+        },
+        {
+          "figure": 8,
+          "sourcePage": 30,
+          "cropPoints": [
+            105,
+            69,
+            507,
+            440
+          ],
+          "url": "/images/materials/cmu-15-779/flashattention/figure-08.webp",
+          "width": 1674,
+          "height": 1545,
+          "bytes": 161082
+        }
+      ]
+    },
+    "tensorflow": {
+      "sourceOriginalUrl": "/materials/cmu-15-779/originals/tensorflow-paper-original.pdf",
+      "sourceLocalBasename": "osdi16-abadi.pdf",
+      "sourceSha256": "bb1a8762e6555d231f2aa008e35ca2697384ff5077dbb7243e15d9dfe73f355a",
+      "renderDpi": 300,
+      "figures": [
+        {
+          "figure": 1,
+          "sourcePage": 4,
+          "cropPoints": [
+            70,
+            69,
+            544,
+            312
+          ],
+          "url": "/images/materials/cmu-15-779/tensorflow/figure-01.webp",
+          "width": 1975,
+          "height": 1012,
+          "bytes": 55530
+        },
+        {
+          "figure": 2,
+          "sourcePage": 6,
+          "cropPoints": [
+            74,
+            67,
+            541,
+            166
+          ],
+          "url": "/images/materials/cmu-15-779/tensorflow/figure-02.webp",
+          "width": 1946,
+          "height": 413,
+          "bytes": 22030
+        },
+        {
+          "figure": 3,
+          "sourcePage": 8,
+          "cropPoints": [
+            314,
+            69,
+            539,
+            147
+          ],
+          "url": "/images/materials/cmu-15-779/tensorflow/figure-03.webp",
+          "width": 938,
+          "height": 324,
+          "bytes": 11204
+        },
+        {
+          "figure": 4,
+          "sourcePage": 10,
+          "cropPoints": [
+            92,
+            69,
+            277,
+            166
+          ],
+          "url": "/images/materials/cmu-15-779/tensorflow/figure-04.webp",
+          "width": 771,
+          "height": 404,
+          "bytes": 5690
+        },
+        {
+          "figure": 5,
+          "sourcePage": 11,
+          "cropPoints": [
+            76,
+            77,
+            540,
+            185
+          ],
+          "url": "/images/materials/cmu-15-779/tensorflow/figure-05.webp",
+          "width": 1933,
+          "height": 450,
+          "bytes": 18222
+        },
+        {
+          "figure": 6,
+          "sourcePage": 12,
+          "cropPoints": [
+            101,
+            69,
+            274,
+            222
+          ],
+          "url": "/images/materials/cmu-15-779/tensorflow/figure-06.webp",
+          "width": 721,
+          "height": 637,
+          "bytes": 17150
+        },
+        {
+          "figure": 7,
+          "sourcePage": 13,
+          "cropPoints": [
+            314,
+            75,
+            539,
+            221
+          ],
+          "url": "/images/materials/cmu-15-779/tensorflow/figure-07.webp",
+          "width": 938,
+          "height": 609,
+          "bytes": 16098
+        },
+        {
+          "figure": 8,
+          "sourcePage": 14,
+          "cropPoints": [
+            74,
+            75,
+            539,
+            194
+          ],
+          "url": "/images/materials/cmu-15-779/tensorflow/figure-08.webp",
+          "width": 1938,
+          "height": 496,
+          "bytes": 34190
+        },
+        {
+          "figure": 9,
+          "sourcePage": 15,
+          "cropPoints": [
+            73,
+            75,
+            299,
+            194
+          ],
+          "url": "/images/materials/cmu-15-779/tensorflow/figure-09.webp",
+          "width": 942,
+          "height": 496,
+          "bytes": 20584
+        }
+      ]
+    },
+    "pytorch": {
+      "sourceOriginalUrl": "/materials/cmu-15-779/originals/pytorch-paper-original.pdf",
+      "sourceLocalBasename": "1912.01703v1.pdf",
+      "sourceSha256": "b47fb010f6872701d6d3bdd8270497be700c9961e2ec2cac2b08a154a43d81f2",
+      "renderDpi": 300,
+      "figures": [
+        {
+          "figure": 1,
+          "sourcePage": 8,
+          "cropPoints": [
+            105,
+            158,
+            507,
+            186
+          ],
+          "url": "/images/materials/cmu-15-779/pytorch/figure-01.webp",
+          "width": 1674,
+          "height": 117,
+          "bytes": 75658
+        },
+        {
+          "figure": 2,
+          "sourcePage": 8,
+          "cropPoints": [
+            105,
+            363,
+            507,
+            423
+          ],
+          "url": "/images/materials/cmu-15-779/pytorch/figure-02.webp",
+          "width": 1674,
+          "height": 250,
+          "bytes": 130990
+        },
+        {
+          "figure": 3,
+          "sourcePage": 9,
+          "cropPoints": [
+            105,
+            189,
+            507,
+            278
+          ],
+          "url": "/images/materials/cmu-15-779/pytorch/figure-03.webp",
+          "width": 1674,
+          "height": 370,
+          "bytes": 32860
+        }
+      ]
+    },
+    "triton": {
+      "sourceOriginalUrl": "/materials/cmu-15-779/originals/triton-paper-original.pdf",
+      "sourceLocalBasename": "2019-mapl-tillet-kung-cox.pdf",
+      "sourceSha256": "7c4d200693c223c4d4c53c98b22c2693bdcf6adf3c902436b070368be097a7c1",
+      "renderDpi": 300,
+      "figures": [
+        {
+          "figure": 1,
+          "sourcePage": 1,
+          "cropPoints": [
+            320,
+            486,
+            552,
+            663
+          ],
+          "url": "/images/materials/cmu-15-779/triton/figure-01.webp",
+          "width": 967,
+          "height": 737,
+          "bytes": 16248
+        },
+        {
+          "figure": 2,
+          "sourcePage": 2,
+          "cropPoints": [
+            108,
+            199,
+            234,
+            380
+          ],
+          "url": "/images/materials/cmu-15-779/triton/figure-02.webp",
+          "width": 525,
+          "height": 754,
+          "bytes": 10780
+        },
+        {
+          "figure": 3,
+          "sourcePage": 4,
+          "cropPoints": [
+            93,
+            414,
+            255,
+            598
+          ],
+          "url": "/images/materials/cmu-15-779/triton/figure-03.webp",
+          "width": 674,
+          "height": 767,
+          "bytes": 88212
+        },
+        {
+          "figure": 4,
+          "sourcePage": 5,
+          "cropPoints": [
+            61,
+            588,
+            290,
+            649
+          ],
+          "url": "/images/materials/cmu-15-779/triton/figure-04.webp",
+          "width": 954,
+          "height": 254,
+          "bytes": 4990
+        },
+        {
+          "figure": 5,
+          "sourcePage": 6,
+          "cropPoints": [
+            87,
+            366,
+            260,
+            542
+          ],
+          "url": "/images/materials/cmu-15-779/triton/figure-05.webp",
+          "width": 721,
+          "height": 733,
+          "bytes": 22158
+        },
+        {
+          "figure": 6,
+          "sourcePage": 6,
+          "cropPoints": [
+            319,
+            65,
+            561,
+            203
+          ],
+          "url": "/images/materials/cmu-15-779/triton/figure-06.webp",
+          "width": 1009,
+          "height": 575,
+          "bytes": 14028
+        },
+        {
+          "figure": 7,
+          "sourcePage": 6,
+          "cropPoints": [
+            348,
+            369,
+            526,
+            451
+          ],
+          "url": "/images/materials/cmu-15-779/triton/figure-07.webp",
+          "width": 742,
+          "height": 341,
+          "bytes": 5650
+        },
+        {
+          "figure": 8,
+          "sourcePage": 7,
+          "cropPoints": [
+            62,
+            458,
+            287,
+            664
+          ],
+          "url": "/images/materials/cmu-15-779/triton/figure-08.webp",
+          "width": 938,
+          "height": 859,
+          "bytes": 18934
+        },
+        {
+          "figure": 9,
+          "sourcePage": 7,
+          "cropPoints": [
+            317,
+            324,
+            561,
+            584
+          ],
+          "url": "/images/materials/cmu-15-779/triton/figure-09.webp",
+          "width": 1017,
+          "height": 1083,
+          "bytes": 25942
+        },
+        {
+          "figure": 10,
+          "sourcePage": 8,
+          "cropPoints": [
+            62,
+            216,
+            287,
+            417
+          ],
+          "url": "/images/materials/cmu-15-779/triton/figure-10.webp",
+          "width": 938,
+          "height": 838,
+          "bytes": 7958
+        },
+        {
+          "figure": 11,
+          "sourcePage": 8,
+          "cropPoints": [
+            321,
+            408,
+            548,
+            584
+          ],
+          "url": "/images/materials/cmu-15-779/triton/figure-11.webp",
+          "width": 945,
+          "height": 733,
+          "bytes": 7700
+        }
+      ]
+    },
+    "tvm-slides": {
+      "sourceOriginalUrl": "/materials/cmu-15-779/originals/tvm-slides-original.pdf",
+      "sourceLocalBasename": "osdi18_slides_chen.pdf",
+      "sourceSha256": "6c50adc78e7ab053be89d4555ede01c772a656c2dbb4a76ede002a1234917cc8",
+      "renderLongestSide": 1600,
+      "slides": [
+        {
+          "sourcePage": 1,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-001.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 49956
+        },
+        {
+          "sourcePage": 2,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-002.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 439396
+        },
+        {
+          "sourcePage": 3,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-003.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 5152
+        },
+        {
+          "sourcePage": 4,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-004.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 6128
+        },
+        {
+          "sourcePage": 5,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-005.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 78864
+        },
+        {
+          "sourcePage": 6,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-006.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 127072
+        },
+        {
+          "sourcePage": 7,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-007.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 33734
+        },
+        {
+          "sourcePage": 8,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-008.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 39620
+        },
+        {
+          "sourcePage": 9,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-009.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 42596
+        },
+        {
+          "sourcePage": 10,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-010.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 60984
+        },
+        {
+          "sourcePage": 11,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-011.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 72064
+        },
+        {
+          "sourcePage": 12,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-012.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 92170
+        },
+        {
+          "sourcePage": 13,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-013.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 103892
+        },
+        {
+          "sourcePage": 14,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-014.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 139382
+        },
+        {
+          "sourcePage": 15,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-015.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 169882
+        },
+        {
+          "sourcePage": 16,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-016.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 196616
+        },
+        {
+          "sourcePage": 17,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-017.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 197814
+        },
+        {
+          "sourcePage": 18,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-018.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 210732
+        },
+        {
+          "sourcePage": 19,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-019.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 47460
+        },
+        {
+          "sourcePage": 20,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-020.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 55476
+        },
+        {
+          "sourcePage": 21,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-021.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 63496
+        },
+        {
+          "sourcePage": 22,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-022.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 72680
+        },
+        {
+          "sourcePage": 23,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-023.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 10268
+        },
+        {
+          "sourcePage": 24,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-024.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 10694
+        },
+        {
+          "sourcePage": 25,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-025.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 24716
+        },
+        {
+          "sourcePage": 26,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-026.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 25700
+        },
+        {
+          "sourcePage": 27,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-027.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 39486
+        },
+        {
+          "sourcePage": 28,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-028.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 43664
+        },
+        {
+          "sourcePage": 29,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-029.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 50234
+        },
+        {
+          "sourcePage": 30,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-030.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 52256
+        },
+        {
+          "sourcePage": 31,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-031.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 54014
+        },
+        {
+          "sourcePage": 32,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-032.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 56832
+        },
+        {
+          "sourcePage": 33,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-033.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 57574
+        },
+        {
+          "sourcePage": 34,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-034.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 59168
+        },
+        {
+          "sourcePage": 35,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-035.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 67170
+        },
+        {
+          "sourcePage": 36,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-036.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 68710
+        },
+        {
+          "sourcePage": 37,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-037.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 135484
+        },
+        {
+          "sourcePage": 38,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-038.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 142832
+        },
+        {
+          "sourcePage": 39,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-039.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 86390
+        },
+        {
+          "sourcePage": 40,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-040.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 81574
+        },
+        {
+          "sourcePage": 41,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-041.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 92002
+        },
+        {
+          "sourcePage": 42,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-042.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 98526
+        },
+        {
+          "sourcePage": 43,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-043.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 109924
+        },
+        {
+          "sourcePage": 44,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-044.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 97426
+        },
+        {
+          "sourcePage": 45,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-045.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 97998
+        },
+        {
+          "sourcePage": 46,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-046.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 70666
+        },
+        {
+          "sourcePage": 47,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-047.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 84324
+        },
+        {
+          "sourcePage": 48,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-048.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 52616
+        },
+        {
+          "sourcePage": 49,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-049.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 80948
+        },
+        {
+          "sourcePage": 50,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-050.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 45352
+        },
+        {
+          "sourcePage": 51,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-051.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 54840
+        },
+        {
+          "sourcePage": 52,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-052.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 63284
+        },
+        {
+          "sourcePage": 53,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-053.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 46404
+        },
+        {
+          "sourcePage": 54,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-054.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 45572
+        },
+        {
+          "sourcePage": 55,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-055.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 7304
+        },
+        {
+          "sourcePage": 56,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-056.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 8832
+        },
+        {
+          "sourcePage": 57,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-057.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 9632
+        },
+        {
+          "sourcePage": 58,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-058.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 10382
+        },
+        {
+          "sourcePage": 59,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-059.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 42164
+        },
+        {
+          "sourcePage": 60,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-060.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 45652
+        },
+        {
+          "sourcePage": 61,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-061.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 46418
+        },
+        {
+          "sourcePage": 62,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-062.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 45576
+        },
+        {
+          "sourcePage": 63,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-063.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 28938
+        },
+        {
+          "sourcePage": 64,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-064.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 35948
+        },
+        {
+          "sourcePage": 65,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-065.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 43326
+        },
+        {
+          "sourcePage": 66,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-066.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 67216
+        },
+        {
+          "sourcePage": 67,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-067.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 82880
+        },
+        {
+          "sourcePage": 68,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-068.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 86904
+        },
+        {
+          "sourcePage": 69,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-069.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 85924
+        },
+        {
+          "sourcePage": 70,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-070.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 86450
+        },
+        {
+          "sourcePage": 71,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-071.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 80850
+        },
+        {
+          "sourcePage": 72,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-072.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 99250
+        },
+        {
+          "sourcePage": 73,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-073.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 99782
+        },
+        {
+          "sourcePage": 74,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-074.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 79180
+        },
+        {
+          "sourcePage": 75,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-075.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 83516
+        },
+        {
+          "sourcePage": 76,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-076.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 89540
+        },
+        {
+          "sourcePage": 77,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-077.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 98784
+        },
+        {
+          "sourcePage": 78,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-078.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 83554
+        },
+        {
+          "sourcePage": 79,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-079.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 85976
+        },
+        {
+          "sourcePage": 80,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-080.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 93580
+        },
+        {
+          "sourcePage": 81,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-081.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 83542
+        },
+        {
+          "sourcePage": 82,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-082.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 87564
+        },
+        {
+          "sourcePage": 83,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-083.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 94392
+        },
+        {
+          "sourcePage": 84,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-084.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 105424
+        },
+        {
+          "sourcePage": 85,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-085.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 12206
+        },
+        {
+          "sourcePage": 86,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-086.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 16754
+        },
+        {
+          "sourcePage": 87,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-087.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 18186
+        },
+        {
+          "sourcePage": 88,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-088.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 22466
+        },
+        {
+          "sourcePage": 89,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-089.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 28000
+        },
+        {
+          "sourcePage": 90,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-090.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 34746
+        },
+        {
+          "sourcePage": 91,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-091.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 99276
+        },
+        {
+          "sourcePage": 92,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-092.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 21102
+        },
+        {
+          "sourcePage": 93,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-093.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 25040
+        },
+        {
+          "sourcePage": 94,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-094.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 24006
+        },
+        {
+          "sourcePage": 95,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-095.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 25262
+        },
+        {
+          "sourcePage": 96,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-096.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 31672
+        },
+        {
+          "sourcePage": 97,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-097.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 35142
+        },
+        {
+          "sourcePage": 98,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-098.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 20914
+        },
+        {
+          "sourcePage": 99,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-099.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 27772
+        },
+        {
+          "sourcePage": 100,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-100.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 24208
+        },
+        {
+          "sourcePage": 101,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-101.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 87582
+        },
+        {
+          "sourcePage": 102,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-102.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 158632
+        },
+        {
+          "sourcePage": 103,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-103.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 73460
+        },
+        {
+          "sourcePage": 104,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-104.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 76476
+        },
+        {
+          "sourcePage": 105,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-105.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 82158
+        },
+        {
+          "sourcePage": 106,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-106.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 86270
+        },
+        {
+          "sourcePage": 107,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-107.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 120004
+        },
+        {
+          "sourcePage": 108,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-108.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 137382
+        },
+        {
+          "sourcePage": 109,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-109.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 149870
+        },
+        {
+          "sourcePage": 110,
+          "url": "/images/materials/cmu-15-779/tvm-slides/page-110.webp",
+          "width": 1600,
+          "height": 900,
+          "bytes": 99088
+        }
+      ]
+    }
+  }
+}

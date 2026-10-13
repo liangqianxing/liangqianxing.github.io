@@ -12,7 +12,9 @@
 - `tvm-slides-zh.md`：TVM OSDI 2018 幻灯片中文译稿
 - `cmu-15-779-translations.zip`：以上 6 份译稿的总压缩包
 
-资料会自动显示在 [CMU 15-779 学习专题](https://liangqianxing.github.io/learning/cmu-15-779) 的「学习资料」列表中。
+资料会自动显示在 [CMU 15-779 学习专题](https://liangqianxing.github.io/learning/cmu-15-779) 的「学习资料」列表中。点击译稿标题可在线阅读，单独的「下载」按钮保留 Markdown 下载。
+
+6 份译稿均已配上原 PDF 的插图：论文按图号裁切，TVM 幻灯片逐页展示原始图版。完整原文保存在 `originals/`，阅读页也可展开 PDF 对照。图版资源位于 `/images/materials/cmu-15-779/`，不进入资料下载列表。
 
 - 在本地仓库中将资料放在本目录或其子目录，通过 Git 提交并推送到 `main` 分支；部署后会自动出现在专题的「学习资料」列表中。
 - 可以按自己的主题或日期建立子目录，例如 `notes/`、`code/`、`experiments/`。

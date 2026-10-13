@@ -23,11 +23,15 @@
 
 厂商库 cuBLAS 和 cuDNN 也支持了这一过程，它们把最新硬件创新快速带给使用者。然而，这些库只支持有限的一组张量操作，使新原语的实现仍然需要专家完成。
 
+![不同实现的矩阵乘与卷积性能（原文图 1）](/images/materials/cmu-15-779/triton/figure-01.webp)
+
 这一观察推动了多种 DNN 领域专用语言（DSL）的发展，包括基于多面体模型的 Tensor Comprehensions，以及基于循环综合技术的 Halide、TVM 和 PlaidML。这些系统在深度可分离卷积（如 MobileNet）等部分问题上通常表现良好，但实践中往往比厂商库慢很多，而且缺少表达结构化稀疏模式所需的表达能力；这类模式无法直接用嵌套循环中的仿射数组索引指定。
 
 人们经常使用 micro-kernel（手写的 tile 级内核指令）解决上述问题，但这需要大量人工工作且缺少可移植性。近来也有人提出高层次的分块编程抽象，但底层编译器后端仍不支持 tile 级操作和优化。
 
 因此，我们提出 Triton（图 2）：一种开源的中间语言和编译器，用于指定并把 tile 程序编译为高效 GPU 代码。
+
+![Triton 编译流程概览（原文图 2）](/images/materials/cmu-15-779/triton/figure-02.webp)
 
 本文主要贡献如下：
 
@@ -114,6 +118,8 @@ int y[16, 16] = a + c;
 
 CUDA [33] 在 GPU 上使用 SPMD [4] 编程模型：每个 kernel 与 launch grid 中一个可识别的线程块关联。Triton 的编程模型类似，但每个 kernel 是单线程的（编译器会自动并行化），并与一组会随实例变化的全局范围关联，如图 3 所示。
 
+![CUDA 与 Triton 编程模型的差异（原文图 3）](/images/materials/cmu-15-779/triton/figure-03.webp)
+
 这种方法产生更简单的 kernel，因为不存在 CUDA 风格的并发原语，如共享内存同步和线程间通信。
 
 kernel 可以通过 `get_global_range(axis)` 内置函数查询与之关联的全局范围，从而构造指针 tile，如前面的矩阵乘法示例所示。
@@ -158,6 +164,8 @@ Triton-IR 引入了一组重新分块指令，用于支持第 3.2.2 节描述的
 
 - `reshape` 根据输入数据创建指定形状的 tile。它特别适合通过在输入形状中补 1，把变量重新解释为更高维数组，以准备隐式或显式广播。
 - `broadcast` 沿大小为 1 的维度复制输入参数，创建指定形状的 tile。
+
+![Triton-IR 的广播指令（原文图 4）](/images/materials/cmu-15-779/triton/figure-04.webp)
 
 普通标量指令（`cmp`、`getelementptr`、`add`、`load` 等）被保留并扩展，以表示对 tile 操作数的逐元素操作。Triton-IR 还公开了处理转置（`trans`）和矩阵乘法（`dot`）的专用算术指令。
 
@@ -212,6 +220,8 @@ Triton-IR 中存在 tile 级操作，为窥孔优化器 [29] 带来了新的机�
 
 嵌套分块策略（图 5）把 tile 分解为 micro-tile，最终分解为 nano-tile，使其尽可能紧密地适配机器的计算能力和内存层次结构。
 
+![Triton-IR 机器模型中的分层分块（原文图 5）](/images/materials/cmu-15-779/triton/figure-05.webp)
+
 虽然自动调优框架经常使用这一技术，但 Triton-IR 的结构使编译器能够自动枚举并优化任意可表达程序的有效嵌套分块配置，而不需要多面体工具。
 
 #### 5.2.2 内存合并
@@ -222,11 +232,15 @@ Triton-IR 中存在 tile 级操作，为窥孔优化器 [29] 带来了新的机�
 
 图 6 中，未合并访问会让不同线程从 DRAM 读取彼此分散的位置；合并访问则把访问组织为相邻块，减少传输开销。
 
+![未合并与合并 DRAM 访问（原文图 6）](/images/materials/cmu-15-779/triton/figure-06.webp)
+
 #### 5.2.3 共享内存分配
 
 具有高算术强度的 tile 级操作（例如 `dot`）可以把操作数暂时存储在快速共享内存中。共享内存分配 pass 的目标是确定何时、何地把 tile 放入这块空间。
 
 如图 7 所示，首先计算每个相关变量的活跃区间，再使用 [15] 提出的线性时间存储分配算法。
+
+![共享内存分配与变量活跃区间（原文图 7）](/images/materials/cmu-15-779/triton/figure-07.webp)
 
 #### 5.2.4 共享内存同步
 
@@ -256,17 +270,23 @@ Triton-IR 中存在 tile 级操作，为窥孔优化器 [29] 带来了新的机�
 
 Triton 与 cuBLAS 通常性能相当，达到设备峰值性能的 90% 以上；在某些任务上，Triton 还比其他 DSL 快最多 3 倍。
 
+![矩阵乘法性能（原文图 8）](/images/materials/cmu-15-779/triton/figure-08.webp)
+
 不过，在浅层 Transformer 网络上，cuBLAS 仍然更快，因为它使用了三维算法 [2]，把较深的归约拆分为独立块，在 `M` 和 `N` 较小时提供更多并行性。除此之外，现有 DSL 通常比 Triton 慢 2–3 倍；当输入形状是 32 的倍数时，TVM 的差距小于 2 倍。
 
 ### 6.2 卷积
 
 卷积神经网络是机器学习模型的重要类别，DSL 和编译器应当很好地支持它们。CNN 以卷积层为基础（图 9a）；为了利用专用张量处理硬件，必须把卷积实现为矩阵乘法（图 9b），但现有 DSL 通常不支持这一点。
 
+![稠密和移位卷积的实现（原文图 9）](/images/materials/cmu-15-779/triton/figure-09.webp)
+
 我们测试了 Triton 对 cuDNN `IMPLICIT_GEMM` 算法的重新实现（第 6.2.1 节），并提供了第一个可用的 shift convolution 融合 kernel（第 6.2.2 节）。这些程序使用指针增量查找表实现，如代码清单 8 所示。
 
 #### 6.2.1 稠密卷积
 
 本小节考虑深度学习文献中的卷积层，任务列在表 1 中。图 10 显示，Triton 在 ResNet 上超过了 cuDNN 的 `IMPLICIT_GEMM` 实现。
+
+![隐式矩阵乘法性能（原文图 10）](/images/materials/cmu-15-779/triton/figure-10.webp)
 
 可能的原因是 cuDNN 对 3×3 卷积还维护了更好的算法，例如 Winograd [25]，因此没有投入很多工程资源去优化重要性较低的 kernel。在没有快速算法可用的任务（如 DeepSpeech2）上，cuDNN 与 Triton 性能相当。
 
@@ -275,6 +295,8 @@ Triton 与 cuBLAS 通常性能相当，达到设备峰值性能的 90% 以上；
 最后，我们把表 1 中的 Task 1–5 作为 shift convolution（图 9a）进行实现。这是 CNN 的一种新方法。我们将 Triton 中融合的 shift-conv 模块与一种朴素实现比较：后者依赖手写 shift kernel，再单独调用 cuBLAS。
 
 我们还报告了不执行 shift 时的最大可达到性能，即 1×1 卷积的性能。如图 11 所示，Triton 实现几乎完全隐藏了 shift 操作的代价。
+
+![Triton 移位卷积性能（原文图 11）](/images/materials/cmu-15-779/triton/figure-11.webp)
 
 ## 7 结论
 

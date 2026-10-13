@@ -224,6 +224,8 @@ PyTorch 采用了不同方案：通过引用计数跟踪每个张量被使用的
 
 图 1 展示了 ResNet-50 模型前几个运算符的代表性时间线。负责排队工作的主机 CPU 很快就领先于 GPU 上运算符的执行。这使 PyTorch 几乎可以实现完美的设备利用率。在这个例子中，GPU 执行时间约为 CPU 调度时间的三倍。确切比例取决于主机 CPU 与 GPU 的相对性能、每个张量中的元素数量，以及 GPU 上浮点计算的平均算术复杂度。
 
+![ResNet-50 前几个运算符的执行轨迹（原文图 1）](/images/materials/cmu-15-779/pytorch/figure-01.webp)
+
 **图 1：**ResNet-50 前几个运算符的执行轨迹。顶部一行表示主机 CPU 上控制流的执行，其中灰色区域是由 Python 解释器执行的代码，彩色区域对应主机 CPU 为各种运算符（卷积、批归一化等）排队所做的工作。底部一行显示这些运算符在 GPU 上的对应执行。箭头表示按时间配对的两个事件。
 
 ### 6.2 内存管理
@@ -231,6 +233,8 @@ PyTorch 采用了不同方案：通过引用计数跟踪每个张量被使用的
 我们使用 NVIDIA profiler 跟踪一次 ResNet-50 训练迭代中 CUDA runtime 的执行，以及启动的 CUDA kernel 的执行。如图 2 所示，第一次迭代的行为与后续迭代明显不同。
 
 在第一次迭代中，CUDA 内存管理函数（`cudaMalloc` 和 `cudaFree`）的调用会显著拖慢执行，因为它们会长时间阻塞 CPU 线程，从而降低 GPU 利用率。后续迭代中，这种影响消失了，因为 PyTorch 的缓存内存分配器开始复用之前分配的内存区域。
+
+![ResNet-50 GPU 执行过程的标注轨迹（原文图 2）](/images/materials/cmu-15-779/pytorch/figure-02.webp)
 
 **图 2：**ResNet-50 在 GPU 上执行过程的标注轨迹。
 
@@ -256,6 +260,8 @@ PyTorch 采用了不同方案：通过引用计数跟踪每个张量被使用的
 设计决策对易用性的影响很难直接衡量。作为替代指标，我们尝试统计机器学习社区对 PyTorch 的接受程度：计算自 PyTorch 于 2017 年 1 月首次发布以来，arXiv 论文中各种机器学习工具（包括 Caffe、Chainer、CNTK、Keras、MXNet、PyTorch、TensorFlow 和 Theano）被提及的频率。
 
 图 3 报告了每月提到“PyTorch”的论文数量，占所有提到这些深度学习框架的论文数量的百分比。同一篇论文多次提到某个工具时只计一次；搜索不区分大小写，以涵盖不同拼写形式。
+
+![arXiv 论文提及 PyTorch 的比例（原文图 3）](/images/materials/cmu-15-779/pytorch/figure-03.webp)
 
 **图 3：**在每个月提到常见深度学习框架的 arXiv 论文中，提到 PyTorch 的论文所占比例。
 

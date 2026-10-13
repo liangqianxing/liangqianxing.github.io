@@ -3,6 +3,7 @@ import { defineNuxtConfig } from 'nuxt/config'
 import { readFileSync, readdirSync } from 'node:fs'
 import { join, basename } from 'node:path'
 import { learningCourses } from './data/learning/courses'
+import { learningMaterialArticles } from './data/learning/materials'
 
 function parsePostFrontmatter(source: string): Record<string, unknown> {
   const match = source.match(/^---\r?\n([\s\S]*?)\r?\n---/)
@@ -131,6 +132,10 @@ export default defineNuxtConfig({
         ...learningCourses.flatMap((course) => [
           `/learning/${encodeURIComponent(course.slug)}`,
           `/api/learning/${encodeURIComponent(course.slug)}/materials`,
+        ]),
+        ...learningMaterialArticles.flatMap((material) => [
+          `/learning/${encodeURIComponent(material.courseSlug)}/materials/${encodeURIComponent(material.slug)}`,
+          `/api/learning/${encodeURIComponent(material.courseSlug)}/material/${encodeURIComponent(material.slug)}`,
         ]),
         ...getPostSlugs(),
         ...getTagRoutes(),

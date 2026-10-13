@@ -87,6 +87,8 @@ TensorFlow 使用单个数据流图表示机器学习算法中的全部计算和
 
 ### 图 1：使用 TensorFlow Python API 编写的图像分类器
 
+![TensorFlow Python API 图像分类器（原文图 1）](/images/materials/cmu-15-779/tensorflow/figure-01.webp)
+
 该程序是 MNIST 手写数字分类问题 [48] 的简单解决方案，输入为 784 像素图像，输出为 10 个类别。
 
 ```python
@@ -118,6 +120,8 @@ with tf.Session() as sess:                                            # 连接�
 
 ## 图 2：训练流水线的数据流图
 
+![训练流水线的数据流图（原文图 2）](/images/materials/cmu-15-779/tensorflow/figure-02.webp)
+
 该图包含读取输入数据、预处理、训练和检查点状态等子图。图中的 `Input data`、`Reader`、`Preprocessing`、`Training`、`Periodic checkpoint`、`Dist. FS` 等标签分别表示输入数据、读取器、预处理、训练、周期性检查点和分布式文件系统；`Queue`、`Parameters`、`Read params`、`Apply grads`、`Fwd`、`Back`、`Mod`、`Part`、`Stitch`、`Sum` 等为相应操作或张量。
 
 ### 3.1 数据流图元素
@@ -134,9 +138,9 @@ with tf.Session() as sess:                                            # 连接�
 
 **有状态操作：变量。** 每次执行操作时，它都可以读取或写入可变状态。`Variable` 操作拥有一个可变缓冲区，可以在训练模型时存储共享参数。`Variable` 没有输入，并产生一个引用句柄；这个句柄是一种带类型的能力，用来读取和写入缓冲区。`Read` 操作接收引用句柄 `r`，并把变量的值 `State[r]` 作为稠密张量输出。其他操作会修改底层缓冲区。例如，`AssignAdd` 接收引用句柄 `r` 和张量值 `x`，执行时进行更新：
 
-\[
+$$
 State'[r] \leftarrow State[r] + x。
-\]
+$$
 
 后续的 `Read(r)` 操作将产生值 `State'[r]`。
 
@@ -176,6 +180,8 @@ TensorFlow 支持包含条件和迭代控制流的高级机器学习算法。例
 
 ### 图 3：抽象 RNN 的伪代码（§3.4）
 
+![抽象 RNN 伪代码（原文图 3）](/images/materials/cmu-15-779/tensorflow/figure-03.webp)
+
 ```text
 input = ...        # 张量序列
 state = 0          # 初始状态
@@ -198,9 +204,9 @@ for i in range(len(input)):
 
 TensorFlow 用户还可以试验多种优化算法，这些算法在每个训练步骤中计算参数的新值。在参数服务器中实现 SGD 很简单：对于参数 W、梯度 ∂L/∂W 和学习率 α，更新规则为
 
-\[
+$$
 W' \leftarrow W - \alpha \times \frac{\partial L}{\partial W}。
-\]
+$$
 
 参数服务器可以使用 `-=` 作为写操作，并在每个训练步骤后把 α×∂L/∂W 写入每个 W。
 
@@ -219,6 +225,8 @@ W' \leftarrow W - \alpha \times \frac{\partial L}{\partial W}。
 虽然参数服务器也可以实现稀疏读取和更新 [49]，但 TensorFlow 增加了把任意计算卸载到保存共享参数的设备上的灵活性。例如，分类模型通常使用 softmax 分类器，把最终输出乘以一个有 c 列的权重矩阵，其中 c 是可能类别数；语言模型中 c 就是词表大小，可能非常大。我们的用户试验了多种加速 softmax 计算的方案。第一种与 Project Adam [14] 中的优化类似：把权重分片到多个 task，并把乘法和梯度计算与分片共置。使用 sampled softmax 可以更高效地训练 [37]：它根据样本的真实类别和一组随机采样的错误类别执行稀疏乘法。我们在 §6.4 比较了这两种方案的性能。
 
 ### 图 4：采用双向分片嵌入矩阵的嵌入层稀疏更新数据流
+
+![双向分片嵌入矩阵的稀疏更新数据流（原文图 4）](/images/materials/cmu-15-779/tensorflow/figure-04.webp)
 
 图中 `Shard 0`、`Shard 1` 表示两个分片，`Gather` 表示提取行，`Mod`、`Part`、`Stitch`、`Sum` 为相应基本操作；`True branch` 与 `False branch` 表示条件分支。
 
@@ -246,6 +254,8 @@ SGD 对异步性具有鲁棒性 [61]，许多系统使用异步参数更新训�
 
 ### 图 5：并行 SGD 的三种同步方案
 
+![并行 SGD 的三种同步方案（原文图 5）](/images/materials/cmu-15-779/tensorflow/figure-05.webp)
+
 （a）异步复制；（b）同步复制；（c）带备用 worker 的同步复制。每种颜色代表不同的起始参数值；白色方格表示参数更新。在（c）中，虚线矩形表示其结果会被丢弃的备用 worker。
 
 ## 5 实现
@@ -269,6 +279,8 @@ TensorFlow 运行时是一个跨平台库。图 6 展示了其架构：C API 把
 除核心运行时外，我们的同事还构建了多个帮助 TensorFlow 用户的工具。这些工具包括生产环境推理服务基础设施 [27]；用于跟踪训练运行进度的可视化仪表板；帮助用户理解模型连接关系的图可视化器；以及能够跨多个设备和 task 跟踪计算执行的分布式分析器。我们在扩展白皮书 [1] 中描述了这些工具。
 
 ### 图 6：分层 TensorFlow 架构
+
+![TensorFlow 的分层架构（原文图 6）](/images/materials/cmu-15-779/tensorflow/figure-06.webp)
 
 从上到下的主要组件包括训练库、推理库、Python/C++ 客户端、C API、分布式 master、数据流执行器、基本操作及其内核实现、RPC/RDMA 与 CPU/GPU 设备、网络层和设备层。
 
@@ -307,6 +319,8 @@ Dense 曲线显示 worker 获取整个模型时空步骤的性能。我们分别
 
 ### 图 7：空模型同步复制的基线吞吐量
 
+![空模型同步复制的基线吞吐量（原文图 7）](/images/materials/cmu-15-779/tensorflow/figure-07.webp)
+
 稀疏访问使 TensorFlow 能够处理更大的模型，例如嵌入矩阵（§4.2）。横轴为 worker 数量，纵轴为 batches/second；曲线分别表示 Scalar、Sparse 1GB、Sparse 16GB、Dense 100M 和 Dense 1GB。
 
 ### 6.3 图像分类
@@ -323,13 +337,15 @@ Dense 曲线显示 worker 获取整个模型时空步骤的性能。我们分别
 
 图 8(c) 还绘制了归一化加速比，其定义为
 
-\[
+$$
 \frac{t(b)}{t(0)} \times \frac{50}{50+b},
-\]
+$$
 
 其中 t(b) 是加入 b 个备用 worker 时的中位数 step 时间；该指标根据额外资源消耗的比例折算加速比。加入 4 个备用 worker 可获得最短总 step 时间（1.93 s）；加入 3 个备用 worker 则取得最高归一化加速比（9.5%），因此到达同样质量所消耗的 GPU 时间更少。
 
 ### 图 8：Inception-v3 训练性能评测结果（§6.3）
+
+![Inception-v3 训练性能评测（原文图 8）](/images/materials/cmu-15-779/tensorflow/figure-08.webp)
 
 （a）TensorFlow 的异步训练吞吐量略高于 MXNet；（b）异步和同步训练的吞吐量最多可扩展到 200 个 worker；（c）向 50-worker 训练作业加入备用 worker 可以降低总 step 时间，即使按资源消耗归一化后仍能提升性能。
 
@@ -346,6 +362,8 @@ Dense 曲线显示 worker 获取整个模型时空步骤的性能。我们分别
 采样 softmax（图 9(b)）减少了 PS task 上的数据传输和计算量 [37]。它不使用稠密权重矩阵，而是把输出乘以一个随机稀疏矩阵；该矩阵包含真实类别和随机采样错误类别的权重。我们为每个批次采样 512 个类别，使 softmax 的数据传输和计算量减少 78 倍。
 
 ### 图 9：语言模型训练中的 softmax 吞吐量
+
+![语言模型训练中的 softmax 吞吐量（原文图 9）](/images/materials/cmu-15-779/tensorflow/figure-09.webp)
 
 增加 PS task 数量可以并行化 softmax 计算，从而提高吞吐量。采样 softmax 通过减少计算量进一步提高吞吐量。（a）完整 softmax；（b）采样 softmax。纵轴为每秒处理单词数，曲线对应 4、32、256 个 worker；横轴为 PS task 数量。
 
