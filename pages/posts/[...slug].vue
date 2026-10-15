@@ -185,27 +185,29 @@ const { data: page } = await useAsyncData(`post-${path.value}`, () =>
 const { data: navPosts } = await usePublicArchive()
 const learningCourse = computed(() => learningCourses.find(course => course.series === page.value?.series))
 
-const currentIndex = computed(() =>
-  (navPosts.value ?? []).findIndex(p => p.path === path.value)
-)
-
-const prevPost = computed(() => {
-  const posts = navPosts.value ?? []
-  return currentIndex.value > 0 ? posts[currentIndex.value - 1] : null
-})
-
-const nextPost = computed(() => {
-  const posts = navPosts.value ?? []
-  return currentIndex.value >= 0 && currentIndex.value < posts.length - 1
-    ? posts[currentIndex.value + 1]
-    : null
-})
-
 const seriesPosts = computed(() => {
   if (!page.value?.series) return []
   return (navPosts.value ?? [])
     .filter(post => post.series === page.value?.series)
     .sort((a, b) => (a.seriesOrder ?? 999) - (b.seriesOrder ?? 999))
+})
+
+const adjacentPosts = computed(() => learningCourse.value ? seriesPosts.value : (navPosts.value ?? []))
+
+const currentIndex = computed(() =>
+  adjacentPosts.value.findIndex(p => p.path === path.value)
+)
+
+const prevPost = computed(() => {
+  const posts = adjacentPosts.value
+  return currentIndex.value > 0 ? posts[currentIndex.value - 1] : null
+})
+
+const nextPost = computed(() => {
+  const posts = adjacentPosts.value
+  return currentIndex.value >= 0 && currentIndex.value < posts.length - 1
+    ? posts[currentIndex.value + 1]
+    : null
 })
 
 const toc = computed(() => page.value?.body?.toc ?? null)
