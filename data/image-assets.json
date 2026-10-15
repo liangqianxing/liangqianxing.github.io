@@ -287,6 +287,84 @@
       }
     ]
   },
+  "/images/posts/cmu-15-779-pytorch-autograd-linear-regression/cmu-pytorch-autograd-cover-20261015.webp": {
+    "width": 1600,
+    "height": 900,
+    "variants": [
+      {
+        "src": "/media/cmu-pytorch-autograd-cover-20261015-320w-17f577ce672a.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-pytorch-autograd-cover-20261015-640w-376445bb0878.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-pytorch-autograd-cover-20261015-960w-e5de2dd34b66.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-pytorch-autograd-cover-20261015-1440w-11045f37362f.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/images/posts/cmu-15-779-pytorch-linear-module-relu/cmu-pytorch-relu-cover-20261015.webp": {
+    "width": 1600,
+    "height": 900,
+    "variants": [
+      {
+        "src": "/media/cmu-pytorch-relu-cover-20261015-320w-189a1575ad38.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-pytorch-relu-cover-20261015-640w-f49a4968ed1b.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-pytorch-relu-cover-20261015-960w-4380b47f8733.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-pytorch-relu-cover-20261015-1440w-2452a9e57a08.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/images/posts/cmu-15-779-pytorch-dataloader-checkpoints-batching/cmu-pytorch-batching-cover-20261015.webp": {
+    "width": 1600,
+    "height": 900,
+    "variants": [
+      {
+        "src": "/media/cmu-pytorch-batching-cover-20261015-320w-4ca871ad9f66.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-pytorch-batching-cover-20261015-640w-5c306e53ede8.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-pytorch-batching-cover-20261015-960w-28491c17427a.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-pytorch-batching-cover-20261015-1440w-170ef32866f6.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
   "/media/friends/friend-liumengxuan04-76187fa71b83.png": {
     "width": 256,
     "height": 256,

@@ -4,6 +4,8 @@ date: '2026-10-15'
 description: '用 DataLoader 分批训练平方函数，保存并加载模型参数，再比较 1000 个样本与 1 个样本的推理耗时，最后把批量计算对应到矩阵乘法。'
 series: CMU 15-779
 seriesOrder: 3
+cover: /images/posts/cmu-15-779-pytorch-dataloader-checkpoints-batching/cmu-pytorch-batching-cover-20261015.webp
+coverAlt: 样本卡片按批次进入计算模块，旁边配有参数存储盒和输出矩阵面板的技术插画
 codeUrl: https://github.com/liangqianxing/cmu-15-779-labs
 attachmentUrl: /materials/cmu-15-779/experiments/pytorch-batching-20261015.zip
 categories:

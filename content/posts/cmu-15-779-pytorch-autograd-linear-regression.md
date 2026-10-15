@@ -4,6 +4,8 @@ date: '2026-10-13'
 description: '从自动求导和手动梯度下降开始，比较学习率，再用 SGD 训练线性回归。记录 w * 4 写错后停在 1.25 的原因和修正结果。'
 series: CMU 15-779
 seriesOrder: 1
+cover: /images/posts/cmu-15-779-pytorch-autograd-linear-regression/cmu-pytorch-autograd-cover-20261015.webp
+coverAlt: 梯度曲面上的小球沿路径下降，前侧面板展示散点与拟合直线的技术插画
 codeUrl: https://github.com/liangqianxing/cmu-15-779-labs
 attachmentUrl: /materials/cmu-15-779/experiments/pytorch-basics-20261013.zip
 categories:

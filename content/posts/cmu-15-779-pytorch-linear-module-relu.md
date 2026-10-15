@@ -4,6 +4,8 @@ date: '2026-10-15'
 description: '从带偏置的线性回归开始，弄清 nn.Linear 和 nn.Module 的分工，再用平方函数观察线性模型的限制、ReLU 的作用和测试点的选择。'
 series: CMU 15-779
 seriesOrder: 2
+cover: /images/posts/cmu-15-779-pytorch-linear-module-relu/cmu-pytorch-relu-cover-20261015.webp
+coverAlt: 输入经过两层神经网络和 ReLU 折角模块，输出曲线拟合结果的技术插画
 codeUrl: https://github.com/liangqianxing/cmu-15-779-labs
 attachmentUrl: /materials/cmu-15-779/experiments/pytorch-models-20261015.zip
 categories:
