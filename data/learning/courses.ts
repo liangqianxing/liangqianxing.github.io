@@ -8,7 +8,7 @@ export interface LearningCourse {
   courseUrl: string
   description: string
   topics: string[]
-  cover?: { src: string, alt: string }
+  cover?: { src: string, alt: string, caption?: string }
 }
 
 export const learningCourses: LearningCourse[] = [
@@ -23,8 +23,9 @@ export const learningCourses: LearningCourse[] = [
     description: '用于收录课程资料、实验附件和学习记录。',
     topics: ['ML Systems', 'LLM'],
     cover: {
-      src: '/images/learning/cmu-15-779-cover.svg',
-      alt: '计算芯片连接张量矩阵与神经网络的机器学习系统插图',
+      src: '/images/learning/cmu-15-779-flashattention-figure1.webp',
+      alt: 'FlashAttention 论文图 1 的左、中子图：GPU 内存层次与注意力分块计算',
+      caption: 'FlashAttention · 图 1（局部）',
     },
   },
 ]

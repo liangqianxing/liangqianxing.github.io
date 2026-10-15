@@ -19,7 +19,7 @@
 | `courseUrl` | 官方课程主页 |
 | `description` | 专题简介 |
 | `topics` | 主题关键词数组 |
-| `cover` | 可选封面，包含 `src` 图片路径与 `alt` 图片说明；未设置时显示课程编号 |
+| `cover` | 可选封面，包含 `src` 图片路径、`alt` 图片说明与可选的 `caption` 出处；未设置时显示课程编号 |
 
 以后需要加入 CMU 15-445 时，可以参考以下对象。此示例仅存在于维护文档中，当前没有登记或发布该课程。
 
@@ -39,7 +39,9 @@
 
 构建时会根据 `learningCourses` 自动预渲染课程总览、每门课程的详情页和资料索引。没有资料或记录的课程会保留空板块，不需要先写文章或添加占位内容。
 
-课程封面放在 `public/images/learning/`，在课程登记对象中设置 `cover: { src: '/images/learning/<文件名>', alt: '图片说明' }`。总览在电脑上将封面与课程介绍并排展示，手机上改为上下排列。建议使用 8:5 的图片，主体靠近画面中心，以适配手机裁切。
+课程封面放在 `public/images/learning/`，在课程登记对象中设置 `cover: { src: '/images/learning/<文件名>', alt: '图片说明', caption: '图片出处' }`。总览在电脑上将封面与课程介绍并排展示，手机上改为上下排列。图片等比完整显示，避免裁切论文中的标注。
+
+CMU 15-779 当前封面取自 FlashAttention 论文图 1 的左、中子图，展示 GPU 内存层次与注意力分块计算。源图为 `public/images/materials/cmu-15-779/flashattention/figure-01.webp`，从 1674×674 像素截取 `(0, 0, 1200, 674)`，无损保存为 `public/images/learning/cmu-15-779-flashattention-figure1.webp`，未修改图中文字、连线或数据。原文 PDF、页码及来源哈希见 `public/images/materials/cmu-15-779/manifest.json`。
 
 ## 添加课程资料
 

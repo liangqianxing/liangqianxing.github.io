@@ -14,6 +14,7 @@
         <NuxtLink :to="`/learning/${encodeURIComponent(course.slug)}`" class="learning-course-row">
           <div class="learning-course-visual">
             <img v-if="course.cover" :src="course.cover.src" :alt="course.cover.alt" width="640" height="400" decoding="async" class="learning-course-image">
+            <span v-if="course.cover?.caption" class="learning-course-caption">{{ course.cover.caption }}</span>
             <div v-else class="learning-course-code" aria-hidden="true"><span>{{ course.institution }}</span><strong>{{ course.code }}</strong></div>
           </div>
           <div class="learning-course-copy">
@@ -54,7 +55,8 @@ useHead({
 .learning-course-list li { border-bottom: 1px solid var(--line); }
 .learning-course-row { display: grid; grid-template-columns: 224px minmax(0, 1fr) auto; align-items: center; gap: 26px; padding: 28px 4px; color: var(--ink); text-decoration: none; }
 .learning-course-visual { min-width: 0; overflow: hidden; border-radius: 12px; background: var(--topic-purple); }
-.learning-course-image { display: block; width: 100%; height: auto; aspect-ratio: 8 / 5; object-fit: cover; }
+.learning-course-image { display: block; width: 100%; height: auto; aspect-ratio: 8 / 5; object-fit: contain; background: #fff; }
+.learning-course-caption { display: block; padding: 7px 10px; color: var(--muted); font-size: 0.6rem; line-height: 1.6; }
 .learning-course-code { display: flex; flex-direction: column; justify-content: center; gap: 8px; min-height: 104px; padding: 16px; border-radius: 12px; background: var(--topic-purple); }
 .learning-course-code span { color: var(--muted); font: 0.67rem var(--font-mono); }
 .learning-course-code strong { font: 500 1.3rem var(--font-mono); color: var(--accent); overflow-wrap: anywhere; }
