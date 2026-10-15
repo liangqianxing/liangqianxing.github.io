@@ -12,7 +12,10 @@
     <ul class="learning-course-list" aria-label="课程列表">
       <li v-for="course in learningCourses" :key="course.slug">
         <NuxtLink :to="`/learning/${encodeURIComponent(course.slug)}`" class="learning-course-row">
-          <div class="learning-course-code" aria-hidden="true"><span>{{ course.institution }}</span><strong>{{ course.code }}</strong></div>
+          <div class="learning-course-visual">
+            <img v-if="course.cover" :src="course.cover.src" :alt="course.cover.alt" width="640" height="400" decoding="async" class="learning-course-image">
+            <div v-else class="learning-course-code" aria-hidden="true"><span>{{ course.institution }}</span><strong>{{ course.code }}</strong></div>
+          </div>
           <div class="learning-course-copy">
             <h2>{{ course.title }}</h2>
             <p lang="en">{{ course.courseTitle }}</p>
@@ -49,7 +52,9 @@ useHead({
 .learning-directory-count { color: var(--muted); font-size: 0.76rem; white-space: nowrap; padding-bottom: 4px; }
 .learning-course-list { list-style: none; padding: 0; margin: 0; }
 .learning-course-list li { border-bottom: 1px solid var(--line); }
-.learning-course-row { display: grid; grid-template-columns: 118px minmax(0, 1fr) auto; align-items: center; gap: 26px; padding: 28px 4px; color: var(--ink); text-decoration: none; }
+.learning-course-row { display: grid; grid-template-columns: 224px minmax(0, 1fr) auto; align-items: center; gap: 26px; padding: 28px 4px; color: var(--ink); text-decoration: none; }
+.learning-course-visual { min-width: 0; overflow: hidden; border-radius: 12px; background: var(--topic-purple); }
+.learning-course-image { display: block; width: 100%; height: auto; aspect-ratio: 8 / 5; object-fit: cover; }
 .learning-course-code { display: flex; flex-direction: column; justify-content: center; gap: 8px; min-height: 104px; padding: 16px; border-radius: 12px; background: var(--topic-purple); }
 .learning-course-code span { color: var(--muted); font: 0.67rem var(--font-mono); }
 .learning-course-code strong { font: 500 1.3rem var(--font-mono); color: var(--accent); overflow-wrap: anywhere; }
@@ -61,6 +66,6 @@ useHead({
 .learning-course-meta > span:first-child { color: var(--muted); font-size: 0.7rem; }
 .learning-course-meta > span:last-child { color: var(--accent); }
 .learning-course-row:hover .learning-course-copy h2 { color: var(--accent); }
-@media (max-width: 760px) { .learning-course-row { grid-template-columns: 100px minmax(0, 1fr); gap: 18px; } .learning-course-meta { grid-column: 2; flex-direction: row; justify-content: space-between; align-items: center; gap: 12px; } .learning-course-code { grid-row: 1 / 3; } }
-@media (max-width: 480px) { .learning-directory-head { align-items: start; gap: 12px; } .learning-directory h1 { font-size: 1.9rem; } .learning-directory-count { padding-top: 5px; } .learning-course-row { grid-template-columns: minmax(0, 1fr); gap: 14px; padding-block: 24px; } .learning-course-code { grid-row: auto; flex-direction: row; justify-content: start; align-items: baseline; min-height: 0; gap: 12px; padding: 12px 14px; } .learning-course-meta { grid-column: 1; } }
+@media (max-width: 760px) { .learning-course-row { grid-template-columns: 180px minmax(0, 1fr); gap: 14px 20px; } .learning-course-meta { grid-column: 2; flex-direction: row; justify-content: space-between; align-items: center; gap: 12px; } .learning-course-visual { grid-row: 1 / 3; } }
+@media (max-width: 560px) { .learning-directory-head { align-items: start; gap: 12px; } .learning-directory h1 { font-size: 1.9rem; } .learning-directory-count { padding-top: 5px; } .learning-course-row { grid-template-columns: minmax(0, 1fr); gap: 16px; padding-block: 24px; } .learning-course-visual { grid-row: auto; } .learning-course-image { aspect-ratio: 16 / 9; } .learning-course-code { flex-direction: row; justify-content: start; align-items: baseline; min-height: 0; gap: 12px; padding: 12px 14px; } .learning-course-meta { grid-column: 1; } }
 </style>
