@@ -391,6 +391,58 @@
       }
     ]
   },
+  "/images/posts/cmu-15-779-profiler-operator-batching/cmu-pytorch-profiling-cover-20261015.webp": {
+    "width": 1600,
+    "height": 900,
+    "variants": [
+      {
+        "src": "/media/cmu-pytorch-profiling-cover-20261015-320w-fc6ba6574310.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-pytorch-profiling-cover-20261015-640w-adfbf6177a50.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-pytorch-profiling-cover-20261015-960w-3361450e37cd.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-pytorch-profiling-cover-20261015-1440w-00d4671ea100.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/images/posts/cmu-15-779-profiler-operator-batching/cmu-batch-size-sweep-20261015.webp": {
+    "width": 1920,
+    "height": 1008,
+    "variants": [
+      {
+        "src": "/media/cmu-batch-size-sweep-20261015-640w-f8eecb50038c.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-batch-size-sweep-20261015-960w-6cea8758c8e1.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-batch-size-sweep-20261015-1440w-c1e1a7051233.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-batch-size-sweep-20261015-1920w-6ba698e99677.webp",
+        "width": 1920,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
   "/media/friends/friend-liumengxuan04-76187fa71b83.png": {
     "width": 256,
     "height": 256,

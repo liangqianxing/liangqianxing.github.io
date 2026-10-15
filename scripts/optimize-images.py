@@ -50,6 +50,8 @@ RASTER_SOURCES: dict[str, tuple[int, ...]] = {
     "/images/posts/cmu-15-779-pytorch-linear-module-relu/cmu-pytorch-relu-cover-20261015.webp": (320, 640, 960, 1440),
     "/images/posts/cmu-15-779-pytorch-dataloader-checkpoints-batching/cmu-pytorch-batching-cover-20261015.webp": (320, 640, 960, 1440),
     "/images/posts/cmu-15-779-pytorch-linear-relu-absolute-value/cmu-pytorch-absolute-cover-20261015.webp": (320, 640, 960, 1440),
+    "/images/posts/cmu-15-779-profiler-operator-batching/cmu-pytorch-profiling-cover-20261015.webp": (320, 640, 960, 1440),
+    "/images/posts/cmu-15-779-profiler-operator-batching/cmu-batch-size-sweep-20261015.webp": (640, 960, 1440, 1920),
 }
 
 # Remote friend sources are downloaded explicitly, never during site builds.
