@@ -192,7 +192,7 @@ const seriesPosts = computed(() => {
     .sort((a, b) => (a.seriesOrder ?? 999) - (b.seriesOrder ?? 999))
 })
 
-const adjacentPosts = computed(() => learningCourse.value ? seriesPosts.value : (navPosts.value ?? []))
+const adjacentPosts = computed(() => seriesPosts.value.length > 1 ? seriesPosts.value : (navPosts.value ?? []))
 
 const currentIndex = computed(() =>
   adjacentPosts.value.findIndex(p => p.path === path.value)

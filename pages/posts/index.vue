@@ -54,7 +54,7 @@
     </section>
 
     <div class="writing-results">
-      <p role="status" aria-live="polite" aria-atomic="true">{{ hasFilters ? `找到 ${filteredPosts.length} 篇文章` : '按时间，慢慢翻。' }}<span v-if="activeTagName"> · #{{ activeTagName }}</span></p>
+      <p role="status" aria-live="polite" aria-atomic="true">{{ hasFilters ? `找到 ${filteredPosts.length} 篇文章` : '按时间倒序，最新在前。' }}<span v-if="activeTagName"> · #{{ activeTagName }}</span></p>
       <button v-if="hasFilters" type="button" @click="resetFilters">重置筛选 <span aria-hidden="true">↺</span></button>
     </div>
     <div v-if="error" class="writing-empty" role="alert"><p>文章暂时没能加载，刷新页面再试试吧。</p><a href="/posts/">刷新页面 <span aria-hidden="true">↻</span></a></div>

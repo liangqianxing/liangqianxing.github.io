@@ -131,14 +131,17 @@ export default defineEventHandler((_event): PostMeta[] => {
     })
   }
 
-  // 同一天更新的系列文章按学习顺序展示。
+  // 时间线始终最新在前；同日的系列文章按篇号倒序，阅读目录另按正序排列。
   posts.sort((a, b) => {
     const dateOrder = new Date(b.date).getTime() - new Date(a.date).getTime()
     if (dateOrder) return dateOrder
+    const groupOrder = (a.series || a.title).localeCompare(b.series || b.title, 'zh-CN')
+    if (groupOrder) return groupOrder
     if (a.series && a.series === b.series) {
-      return (a.seriesOrder ?? 999) - (b.seriesOrder ?? 999)
+      const seriesOrder = (b.seriesOrder ?? 0) - (a.seriesOrder ?? 0)
+      if (seriesOrder) return seriesOrder
     }
-    return a.title.localeCompare(b.title, 'zh-CN')
+    return a.title.localeCompare(b.title, 'zh-CN') || a.path.localeCompare(b.path)
   })
   return posts
 })
