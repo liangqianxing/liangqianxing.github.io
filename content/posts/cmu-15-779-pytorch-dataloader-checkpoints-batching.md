@@ -22,6 +22,8 @@ haloSync: false
 haloPublished: false
 ---
 
+> 本篇整理的是学习 CMU 15-779 时补充的 PyTorch 预备练习。脚本编号不对应课程讲次，也不是课程官方作业。
+
 接着[前一篇的平方函数实验](/posts/cmu-15-779-pytorch-linear-module-relu/)，我在 2026 年 10 月 15 日继续练习分批训练、保存参数和独立预测。最后做了一次计时：同一个小网络，逐个处理 1000 个样本与一次处理整批样本，耗时相差很大；把样本数改为 1 后，差距又明显缩小。
 
 本篇对应 `11_batches.py` 到 `16_matmul.py`。网络仍是 `Linear(1, 8) → ReLU → Linear(8, 1)`，运行设备是 Mac 的 CPU。

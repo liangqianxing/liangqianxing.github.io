@@ -21,6 +21,8 @@ haloSync: false
 haloPublished: false
 ---
 
+> 本篇整理的是学习 CMU 15-779 时补充的 PyTorch 预备练习。脚本编号不对应课程讲次，也不是课程官方作业。
+
 [上一篇](/posts/cmu-15-779-pytorch-autograd-linear-regression/)里，我用一个参数拟合了 $y=2x$。2026 年 10 月 15 日继续练习，先加上偏置，再把手写参数换成 `nn.Linear`，最后尝试拟合平方函数。
 
 这一段对应代码仓库里的 `04_linear_bias.py` 到 `10_more_data.py`。环境仍是 Python 3.11、PyTorch 2.14.1，使用 CPU。
