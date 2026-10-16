@@ -52,6 +52,9 @@ RASTER_SOURCES: dict[str, tuple[int, ...]] = {
     "/images/posts/cmu-15-779-pytorch-linear-relu-absolute-value/cmu-pytorch-absolute-cover-20261015.webp": (320, 640, 960, 1440),
     "/images/posts/cmu-15-779-profiler-operator-batching/cmu-pytorch-profiling-cover-20261015.webp": (320, 640, 960, 1440),
     "/images/posts/cmu-15-779-profiler-operator-batching/cmu-batch-size-sweep-20261015.webp": (640, 960, 1440, 1920),
+    "/images/posts/cmu-15-779-cuda-thread-indexing/cmu-cuda-indexing-cover-20261015.webp": (320, 640, 960, 1440),
+    "/images/posts/cmu-15-779-matmul-tiling-tree-reduction/cmu-matmul-reduction-cover-20261016.webp": (320, 640, 960, 1440),
+    "/images/posts/cmu-15-779-attention-online-softmax/cmu-online-attention-cover-20261016.webp": (320, 640, 960, 1440),
 }
 
 # Remote friend sources are downloaded explicitly, never during site builds.
@@ -62,6 +65,7 @@ for snapshot in json.loads(FRIEND_AVATARS_PATH.read_text(encoding="utf-8")).valu
 # SVGs keep their original vector data. Dimensions reserve space before loading.
 SVG_SOURCES: tuple[str, ...] = (
     "/logos/meituan.svg",
+    "/images/posts/cmu-15-779-cuda-thread-indexing/cmu-cuda-thread-map-20261015.svg",
 )
 
 

@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="640" viewBox="0 0 1000 640" role="img" aria-labelledby="title desc">
+<title id="title">Ten elements mapped to three blocks of four logical threads</title>
+<desc id="desc">Block zero handles indices zero through three; block one handles four through seven; block two handles eight and nine, while indices ten and eleven are skipped by the bounds guard.</desc>
+<rect x="1" y="1" width="998" height="638" rx="20" fill="#fffdf8" stroke="#e4ddd4"/>
+<text x="45" y="57" font-family="Georgia,serif" font-size="34" fill="#3d3545">10 elements / 4 threads per block</text>
+<text x="46" y="94" font-family="Courier New,monospace" font-size="20" fill="#7c7285">3 blocks = 12 logical threads; 10 writes + 2 skips</text>
+<rect x="40" y="130" width="920" height="385" rx="14" fill="#f8f4ee" stroke="#e4ddd4"/>
+<text x="60" y="165" font-family="Courier New,monospace" font-size="18" fill="#7c7285">threadIdx.x</text>
+<text x="295" y="165" text-anchor="middle" font-family="Courier New,monospace" font-size="21" fill="#7c7285">0</text>
+<text x="475" y="165" text-anchor="middle" font-family="Courier New,monospace" font-size="21" fill="#7c7285">1</text>
+<text x="655" y="165" text-anchor="middle" font-family="Courier New,monospace" font-size="21" fill="#7c7285">2</text>
+<text x="835" y="165" text-anchor="middle" font-family="Courier New,monospace" font-size="21" fill="#7c7285">3</text>
+<text x="60" y="239" font-family="Courier New,monospace" font-size="18" fill="#5d5367">blockIdx.x=0</text>
+<rect x="220" y="190" width="150" height="84" rx="12" fill="#eae1f0" stroke="#cbbbd6" stroke-width="1.5"/>
+<text x="295" y="224" text-anchor="middle" font-family="Courier New,monospace" font-size="25" fill="#4f425a">i = 0</text>
+<text x="295" y="252" text-anchor="middle" font-family="Courier New,monospace" font-size="16" fill="#7c7285">write c[0]</text>
+<rect x="400" y="190" width="150" height="84" rx="12" fill="#eae1f0" stroke="#cbbbd6" stroke-width="1.5"/>
+<text x="475" y="224" text-anchor="middle" font-family="Courier New,monospace" font-size="25" fill="#4f425a">i = 1</text>
+<text x="475" y="252" text-anchor="middle" font-family="Courier New,monospace" font-size="16" fill="#7c7285">write c[1]</text>
+<rect x="580" y="190" width="150" height="84" rx="12" fill="#eae1f0" stroke="#cbbbd6" stroke-width="1.5"/>
+<text x="655" y="224" text-anchor="middle" font-family="Courier New,monospace" font-size="25" fill="#4f425a">i = 2</text>
+<text x="655" y="252" text-anchor="middle" font-family="Courier New,monospace" font-size="16" fill="#7c7285">write c[2]</text>
+<rect x="760" y="190" width="150" height="84" rx="12" fill="#eae1f0" stroke="#cbbbd6" stroke-width="1.5"/>
+<text x="835" y="224" text-anchor="middle" font-family="Courier New,monospace" font-size="25" fill="#4f425a">i = 3</text>
+<text x="835" y="252" text-anchor="middle" font-family="Courier New,monospace" font-size="16" fill="#7c7285">write c[3]</text>
+<text x="60" y="347" font-family="Courier New,monospace" font-size="18" fill="#5d5367">blockIdx.x=1</text>
+<rect x="220" y="298" width="150" height="84" rx="12" fill="#eae1f0" stroke="#cbbbd6" stroke-width="1.5"/>
+<text x="295" y="332" text-anchor="middle" font-family="Courier New,monospace" font-size="25" fill="#4f425a">i = 4</text>
+<text x="295" y="360" text-anchor="middle" font-family="Courier New,monospace" font-size="16" fill="#7c7285">write c[4]</text>
+<rect x="400" y="298" width="150" height="84" rx="12" fill="#eae1f0" stroke="#cbbbd6" stroke-width="1.5"/>
+<text x="475" y="332" text-anchor="middle" font-family="Courier New,monospace" font-size="25" fill="#4f425a">i = 5</text>
+<text x="475" y="360" text-anchor="middle" font-family="Courier New,monospace" font-size="16" fill="#7c7285">write c[5]</text>
+<rect x="580" y="298" width="150" height="84" rx="12" fill="#eae1f0" stroke="#cbbbd6" stroke-width="1.5"/>
+<text x="655" y="332" text-anchor="middle" font-family="Courier New,monospace" font-size="25" fill="#4f425a">i = 6</text>
+<text x="655" y="360" text-anchor="middle" font-family="Courier New,monospace" font-size="16" fill="#7c7285">write c[6]</text>
+<rect x="760" y="298" width="150" height="84" rx="12" fill="#eae1f0" stroke="#cbbbd6" stroke-width="1.5"/>
+<text x="835" y="332" text-anchor="middle" font-family="Courier New,monospace" font-size="25" fill="#4f425a">i = 7</text>
+<text x="835" y="360" text-anchor="middle" font-family="Courier New,monospace" font-size="16" fill="#7c7285">write c[7]</text>
+<text x="60" y="455" font-family="Courier New,monospace" font-size="18" fill="#5d5367">blockIdx.x=2</text>
+<rect x="220" y="406" width="150" height="84" rx="12" fill="#eae1f0" stroke="#cbbbd6" stroke-width="1.5"/>
+<text x="295" y="440" text-anchor="middle" font-family="Courier New,monospace" font-size="25" fill="#4f425a">i = 8</text>
+<text x="295" y="468" text-anchor="middle" font-family="Courier New,monospace" font-size="16" fill="#7c7285">write c[8]</text>
+<rect x="400" y="406" width="150" height="84" rx="12" fill="#eae1f0" stroke="#cbbbd6" stroke-width="1.5"/>
+<text x="475" y="440" text-anchor="middle" font-family="Courier New,monospace" font-size="25" fill="#4f425a">i = 9</text>
+<text x="475" y="468" text-anchor="middle" font-family="Courier New,monospace" font-size="16" fill="#7c7285">write c[9]</text>
+<rect x="580" y="406" width="150" height="84" rx="12" fill="#fbefdf" stroke="#cba679" stroke-width="1.5" stroke-dasharray="7 5"/>
+<text x="655" y="440" text-anchor="middle" font-family="Courier New,monospace" font-size="25" fill="#4f425a">i = 10</text>
+<text x="655" y="468" text-anchor="middle" font-family="Courier New,monospace" font-size="16" fill="#7c7285">skip: i &gt;= 10</text>
+<rect x="760" y="406" width="150" height="84" rx="12" fill="#fbefdf" stroke="#cba679" stroke-width="1.5" stroke-dasharray="7 5"/>
+<text x="835" y="440" text-anchor="middle" font-family="Courier New,monospace" font-size="25" fill="#4f425a">i = 11</text>
+<text x="835" y="468" text-anchor="middle" font-family="Courier New,monospace" font-size="16" fill="#7c7285">skip: i &gt;= 10</text>
+<text x="46" y="560" font-family="Courier New,monospace" font-size="23" fill="#5d5367">i = blockIdx.x * blockDim.x + threadIdx.x</text>
+<text x="46" y="601" font-family="Courier New,monospace" font-size="18" fill="#7c7285">CPU mapping example. No GPU execution or scheduling is measured.</text>
+</svg>

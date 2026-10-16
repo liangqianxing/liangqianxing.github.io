@@ -443,6 +443,84 @@
       }
     ]
   },
+  "/images/posts/cmu-15-779-cuda-thread-indexing/cmu-cuda-indexing-cover-20261015.webp": {
+    "width": 1600,
+    "height": 900,
+    "variants": [
+      {
+        "src": "/media/cmu-cuda-indexing-cover-20261015-320w-5c40d7483880.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-cuda-indexing-cover-20261015-640w-072429fa52d1.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-cuda-indexing-cover-20261015-960w-dd80e313bf0d.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-cuda-indexing-cover-20261015-1440w-7b48e9f7fd1f.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/images/posts/cmu-15-779-matmul-tiling-tree-reduction/cmu-matmul-reduction-cover-20261016.webp": {
+    "width": 1600,
+    "height": 900,
+    "variants": [
+      {
+        "src": "/media/cmu-matmul-reduction-cover-20261016-320w-20cf4ad21aa8.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-matmul-reduction-cover-20261016-640w-b06e9e8ff557.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-matmul-reduction-cover-20261016-960w-5f6e98445b38.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-matmul-reduction-cover-20261016-1440w-387e8d3d8df6.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/images/posts/cmu-15-779-attention-online-softmax/cmu-online-attention-cover-20261016.webp": {
+    "width": 1600,
+    "height": 900,
+    "variants": [
+      {
+        "src": "/media/cmu-online-attention-cover-20261016-320w-18eb254558fb.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-online-attention-cover-20261016-640w-41e7eb8df4b2.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-online-attention-cover-20261016-960w-a2fc0bbf0f69.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-online-attention-cover-20261016-1440w-652b1ef47cc0.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
   "/media/friends/friend-liumengxuan04-76187fa71b83.png": {
     "width": 256,
     "height": 256,
@@ -488,6 +566,11 @@
   "/logos/meituan.svg": {
     "width": 96,
     "height": 96,
+    "variants": []
+  },
+  "/images/posts/cmu-15-779-cuda-thread-indexing/cmu-cuda-thread-map-20261015.svg": {
+    "width": 1000,
+    "height": 640,
     "variants": []
   }
 }
