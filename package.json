@@ -25,7 +25,7 @@
     "highlight.js": "^11.11.1",
     "marked": "^18.0.7",
     "marked-highlight": "^2.2.4",
-    "marked-katex-extension": "^5.1.10",
+    "marked-katex-extension": "^5.1.13",
     "tailwindcss": "^4.3.3"
   }
 }
