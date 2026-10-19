@@ -6,8 +6,8 @@ series: CMU 15-779
 seriesOrder: 6
 cover: /images/posts/cmu-15-779-cuda-thread-indexing/cmu-cuda-indexing-cover-20261015.webp
 coverAlt: 分组的浅紫色计算方块与末端边界挡板组成线程分配教具的浅色插画
-codeUrl: https://github.com/liangqianxing/cmu-15-779-labs/tree/2f21dd338cf2e6a1e129d951993d5f8e5dd56ba1
-attachmentUrl: /materials/cmu-15-779/experiments/cuda-thread-indexing-20261015.zip
+codeUrl: https://github.com/liangqianxing/cmu-15-779-labs/tree/200faf569eccf94fb125e65110bb5d14094d454a
+attachmentUrl: /materials/cmu-15-779/experiments/cuda-triton-sdpa-20261019.zip
 categories:
   - 技术
 tags:
@@ -22,13 +22,13 @@ haloSync: false
 haloPublished: false
 ---
 
-> 本篇是 GPU Architecture & CUDA Programming 的个人配套练习。已执行的是 CPU 索引演示；随附的 CUDA C++ 源码尚未编译或在 GPU 上运行。
+> GPU Architecture & CUDA Programming 的个人配套练习。首次记录为 CPU 索引演示；2026 年 10 月 19 日补入原生 CUDA 编译、运行与 memcheck，以及 Triton 向量加法实测。
 
 [上一节](/posts/cmu-15-779-profiler-operator-batching/)从算子调用次数解释批量推理。这次把视角往下移一层：一个 CUDA kernel 中，线程怎样知道自己应该处理哪个元素？
 
 本篇对应 `25_cuda_indexing.py`，先用 10 个元素的向量加法拆开索引公式。原始记录和整理时的复跑都来自 Mac CPU，不包含 GPU 性能测量。课件依据是[原课 GPU/CUDA 幻灯片](https://www.cs.cmu.edu/~zhihaoj2/15-779/slides/03-CUDA-programming.pdf)中的线程组织部分。
 
-[查看本篇代码](https://github.com/liangqianxing/cmu-15-779-labs/tree/2f21dd338cf2e6a1e129d951993d5f8e5dd56ba1) · [下载代码与结果 ZIP](/materials/cmu-15-779/experiments/cuda-thread-indexing-20261015.zip)
+[首次 CPU 代码](https://github.com/liangqianxing/cmu-15-779-labs/tree/2f21dd338cf2e6a1e129d951993d5f8e5dd56ba1) · [下载代码与结果 ZIP](/materials/cmu-15-779/experiments/cuda-thread-indexing-20261015.zip)
 
 ## 每个线程负责一个加法
 
@@ -158,9 +158,9 @@ check_cuda(cudaDeviceSynchronize(), "execute vector_add");
 
 第一项检查启动错误；第二项等待先前提交到设备的工作完成，并检查执行错误。普通 kernel 启动相对主机通常是异步的，“启动调用返回”与“计算已经完成”需要分开理解，具体行为以 [NVIDIA 的异步执行说明](https://docs.nvidia.com/cuda/cuda-programming-guide/02-basics/asynchronous-execution.html)为准。
 
-**这份 CUDA 文件尚未编译、尚未执行。** 2026 年 10 月 15 日的本机检查结果是：`torch.cuda.is_available()` 为 `False`，没有 `nvcc` 和 `nvidia-smi`，MPS 可用。MPS 可用不提供这份 CUDA C++ 程序的执行证据。
+**首次记录时，这份 CUDA 文件尚未编译、尚未执行。** 2026 年 10 月 15 日的本机检查结果是：`torch.cuda.is_available()` 为 `False`，没有 `nvcc` 和 `nvidia-smi`，MPS 可用。MPS 可用不提供这份 CUDA C++ 程序的执行证据。
 
-CPU 演示验证了索引计算和数值覆盖；它没有验证设备内存访问、实际线程调度、GPU 上的运行结果或速度。CUDA 目录中的运行说明保留了编译、执行与 Compute Sanitizer 检查命令，当前没有用预期结果代替实测输出。
+CPU 演示验证了索引计算和数值覆盖；它没有验证设备内存访问、实际线程调度、GPU 上的运行结果或速度。CUDA 目录中的运行说明保留了编译、执行与 Compute Sanitizer 检查命令，首次记录没有用预期结果代替实测输出；后续实际运行见下文续验。
 
 ## 和上一节的 batch size 有什么区别
 
@@ -168,11 +168,11 @@ CPU 演示验证了索引计算和数值覆盖；它没有验证设备内存访�
 
 一次 `model(x)` 里可能有多个框架操作。某个操作在设备上如何拆成 kernel，再如何组织线程，还取决于数据、后端和实现，不能把一行 Python 代码直接当成一个固定数量的 GPU kernel。
 
-本篇只记录线程组织、全局下标和边界检查这一小段，尚未覆盖原课同一组讲义中的矩阵乘法、内存复用、warp 和归约。
+首次 CPU 练习只记录线程组织、全局下标和边界检查。矩阵分块与归约接在[记录 07](/posts/cmu-15-779-matmul-tiling-tree-reduction/)中，warp 级优化没有新增独立实验。
 
 ## 代码与原始记录
 
-ZIP 包含 `25_cuda_indexing.py`、两份原始 JSON、依赖与说明，以及明确标记为未验证的 CUDA 源码和运行说明。
+历史 CPU ZIP 包含 `25_cuda_indexing.py`、两份原始 JSON、依赖与说明，以及明确标记为未验证的 CUDA 源码和运行说明。
 
 运行 CPU 演示时，将复跑结果另存，保留随附的原始记录：
 
@@ -189,4 +189,43 @@ python3.11 -m venv .venv
 
 原始记录分别保存于 2026 年 10 月 15 日 16:26 和 16:37（Asia/Shanghai），包含环境、脚本 SHA-256、完整映射和边界案例结果。
 
-[本篇 GitHub 代码](https://github.com/liangqianxing/cmu-15-779-labs/tree/2f21dd338cf2e6a1e129d951993d5f8e5dd56ba1) · [下载代码与结果 ZIP](/materials/cmu-15-779/experiments/cuda-thread-indexing-20261015.zip)
+[历史 CPU GitHub 代码](https://github.com/liangqianxing/cmu-15-779-labs/tree/2f21dd338cf2e6a1e129d951993d5f8e5dd56ba1) · [下载代码与结果 ZIP](/materials/cmu-15-779/experiments/cuda-thread-indexing-20261015.zip)
+
+
+## 2026-10-19：CUDA 编译、memcheck 与 Triton 续验
+
+学习聊天后来启用了一台获授权的单卡服务器，实际运行了相同的 `cuda/25_vector_add.cu`。设备名称报告为 NVIDIA GeForce RTX 4080 SUPER，compute capability 8.9，驱动 595.71.05，CUDA Toolkit 12.8。原生 runner 保存的源码 SHA-256 与本次公开文件一致。
+
+`nvcc -O2 -std=c++17 -lineinfo` 编译成功。六组输入中的空向量明确记录 `no launch required`；其余五组均为 PASS，包括 N=10 的尾部越界线程和 N=257 的多 block 配置。随后执行：
+
+```bash
+compute-sanitizer --tool memcheck --error-exitcode 1 ./build/cuda/25_vector_add
+```
+
+报告为 `ERROR SUMMARY: 0 errors`，退出码 0。编译器仍给出了旧架构离线编译支持将移除的提示；编译成功不等于完全没有 warning。Sanitizer 的结论限于本次输入与检查范围，原生向量程序没有计时。
+
+38 号脚本另用 Triton 写了相同的向量加法。输入为 float32，长度取 0、1、17、257、1048576，每种长度分别使用 BLOCK=256/1024，与 PyTorch `a+b` 的逐元素精确比较均通过。尾部仍靠 mask 保护：
+
+```python
+offsets = tl.program_id(0) * BLOCK + tl.arange(0, BLOCK)
+a = tl.load(A + offsets, offsets < N, other=0)
+b = tl.load(B + offsets, offsets < N, other=0)
+tl.store(C + offsets, a + b, offsets < N)
+```
+
+这里的 BLOCK 表示一个 Triton program 处理的元素数，不能直接当作 CUDA C++ 的 `blockDim.x`。N=1048576 时，两种 BLOCK 的 event 中位数约为 0.05315/0.05263 ms；两者接近，单次记录不能给出通用配置建议。
+
+GPU Python 环境为 Python 3.12.3、PyTorch 2.7.0+cu128、Triton 3.3.0，与前文 Mac CPU 环境分开。计时先 warmup 5 次，再收集 15 个样本，每个样本平均 10 次调用。它是 CUDA stream 上的提交区间，可能包含 Python 提交或分配造成的 GPU 空闲；排除初次 JIT 和主机/设备传输，不能解释为孤立 kernel 耗时或端到端服务延迟。
+
+发布整理时核对了原始输出、退出码、源码哈希和计时样本，没有在 Mac 上复跑 GPU。最新共享 ZIP 包含原生源码、runner、38 号脚本、两份原始报告及独立 GPU 依赖说明；前文 CPU ZIP 和历史代码链接继续保留。
+
+```bash
+python3.12 -m venv .venv-gpu
+.venv-gpu/bin/python -m pip install -r requirements-gpu.txt
+.venv-gpu/bin/python cuda/run_native_checks.py --output results/cuda-native-rerun.json
+.venv-gpu/bin/python 38_gpu_kernels.py --output results/38-gpu-rerun.json
+```
+
+原生 runner 还需要 NVIDIA 驱动、nvcc 和 Compute Sanitizer。CUDA 不可用会报错，不记为验证通过。
+
+[最新 GPU 代码版本](https://github.com/liangqianxing/cmu-15-779-labs/tree/200faf569eccf94fb125e65110bb5d14094d454a) · [下载 GPU 代码与原始结果 ZIP](/materials/cmu-15-779/experiments/cuda-triton-sdpa-20261019.zip)

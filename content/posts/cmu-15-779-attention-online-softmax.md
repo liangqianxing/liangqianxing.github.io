@@ -6,8 +6,8 @@ series: CMU 15-779
 seriesOrder: 8
 cover: /images/posts/cmu-15-779-attention-online-softmax/cmu-online-attention-cover-20261016.webp
 coverAlt: 浅紫色卡片分批进入绿色计算托盘，旁边三个状态容器保存累积量的浅色手绘插画
-codeUrl: https://github.com/liangqianxing/cmu-15-779-labs/tree/9261bea6aedf31cdccbbab2541ca693fc97b3743
-attachmentUrl: /materials/cmu-15-779/experiments/attention-online-softmax-kv-cache-20261019.zip
+codeUrl: https://github.com/liangqianxing/cmu-15-779-labs/tree/200faf569eccf94fb125e65110bb5d14094d454a
+attachmentUrl: /materials/cmu-15-779/experiments/cuda-triton-sdpa-20261019.zip
 categories:
   - 技术
 tags:
@@ -22,13 +22,13 @@ haloSync: false
 haloPublished: false
 ---
 
-> 第 5 讲 Transformers & Attention 的个人配套实验。代码只运行 CPU、单头、前向计算，包含在线归一化和 KV cache；没有实现 FlashAttention GPU kernel，也没有速度或内存峰值测量。
+> 第 5 讲 Transformers & Attention 的个人配套实验。28/29 号是 CPU 单头前向与 KV cache；2026 年 10 月 19 日补入 38 号 CUDA 多头合成张量的显式 SDPA MATH/FLASH 对照。没有手写 FlashAttention kernel，也没有总内存峰值测量。
 
 [上一节](/posts/cmu-15-779-matmul-tiling-tree-reduction/)通过分块共用矩阵输入。这次接到 Attention：能不能一块一块读取分数，同时得到与完整 Softmax 一致的输出？
 
 `28_attention_online_softmax.py` 已保存完整计算、分块计算和 PyTorch SDPA MATH 的 CPU 对照结果。原始记录来自 2026 年 10 月 16 日；整理时在冻结副本中复跑了默认配置和因果配置。2026 年 10 月 19 日补入 29 号 KV cache 实验，并在独立冻结副本中复验。
 
-[查看代码版本](https://github.com/liangqianxing/cmu-15-779-labs/tree/9261bea6aedf31cdccbbab2541ca693fc97b3743) · [下载代码与结果 ZIP](/materials/cmu-15-779/experiments/attention-online-softmax-kv-cache-20261019.zip)
+[历史 CPU 代码版本](https://github.com/liangqianxing/cmu-15-779-labs/tree/9261bea6aedf31cdccbbab2541ca693fc97b3743) · [下载代码与结果 ZIP](/materials/cmu-15-779/experiments/attention-online-softmax-kv-cache-20261019.zip)
 
 ## 完整 Attention 会生成什么
 
@@ -161,8 +161,39 @@ python3.11 -m venv .venv
 .venv/bin/python -m unittest discover -s tests -v
 ```
 
-本次验证只包含固定输入的一层单头前向，不包含训练、反向传播、dropout、padding mask、多头模型或完整 Transformer。真实 GPU 实验按学习安排跳过，不能把 CPU 对照写成 GPU prefill/decode 性能结果。
+本次验证只包含固定输入的一层单头前向，不包含训练、反向传播、dropout、padding mask、多头模型或完整 Transformer。这份 CPU 快照当时按学习安排跳过真实 GPU；后续 SDPA 实测另列如下，没有测量 GPU prefill/decode 服务性能。
 
 材料可对照[第 5 讲原课幻灯片](https://www.cs.cmu.edu/~zhihaoj2/15-779/slides/05-transformers-attention.pdf)、[Attention Is All You Need](https://papers.nips.cc/paper_files/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf)和站内[Transformer 中文学习资料](/learning/cmu-15-779/materials/transformer-paper-zh/)。这些是实验的阅读入口，不表示整篇论文评述或整门课程已经完成。
 
-[本篇 GitHub 代码](https://github.com/liangqianxing/cmu-15-779-labs/tree/9261bea6aedf31cdccbbab2541ca693fc97b3743) · [下载代码与结果 ZIP](/materials/cmu-15-779/experiments/attention-online-softmax-kv-cache-20261019.zip)
+[历史 CPU GitHub 代码](https://github.com/liangqianxing/cmu-15-779-labs/tree/9261bea6aedf31cdccbbab2541ca693fc97b3743) · [下载代码与结果 ZIP](/materials/cmu-15-779/experiments/attention-online-softmax-kv-cache-20261019.zip)
+
+
+## 2026-10-19：显式选择 CUDA MATH 与 FLASH 后端
+
+38 号脚本在学习聊天获授权的单卡环境运行，设备报告 RTX 4080 SUPER，PyTorch 2.7.0+cu128、CUDA Toolkit 12.8。输入改为 float16，形状为 `[B=2,H=4,N,D=64]`，N 取 64、129、512，分别验证因果与非因果前向。
+
+为了确定实际调用哪条路径，代码分别只启用一个后端：
+
+```python
+with sdpa_kernel(SDPBackend.MATH):
+    output = F.scaled_dot_product_attention(q, k, v, is_causal=causal)
+with sdpa_kernel(SDPBackend.FLASH_ATTENTION):
+    output = F.scaled_dot_product_attention(q, k, v, is_causal=causal)
+```
+
+没有让自动选择器在不支持 FLASH 时静默换成其他后端。两条路径分别与手工 float32 dense Attention 对照，全部通过 `atol=rtol=3e-3`；所有记录中的最大绝对误差约为 `8.24e-4`。
+
+N=512、因果模式的原始结果为：
+
+| 显式后端 | 相对 float32 dense 的最大绝对误差 | event 中位数（ms） |
+| --- | ---: | ---: |
+| MATH | 0.0008056164 | 0.272794 |
+| FLASH_ATTENTION | 0.0008056164 | 0.038816 |
+
+本组 FLASH 调用区间更短。这里调用的是 PyTorch 提供的 FLASH 后端，没有将前文 CPU 在线 Softmax 移植成手写 GPU kernel；也没有测量反向、dropout、模型训练或完整 LLM。
+
+计时先 warmup 5 次，再取 15 个样本，每个样本平均 10 次调用。CUDA event 区间排除初次 JIT 和主机/设备传输，但可能含 Python 提交和分配造成的 GPU 空闲，不能把表中数字直接视为隔离 kernel 延迟或服务加速比。原始报告保存所有样本及环境，未测量 Attention 的峰值内存或真实 HBM 流量。
+
+整理时核对了原始 GPU 报告、脚本 SHA-256 和逐次样本中位数，没有在 Mac 上复跑 GPU。最新共享 ZIP 包含 38 号脚本、原生 CUDA runner 与报告，GPU 依赖见 `requirements-gpu.txt`；28/29 号 CPU 代码及前文 ZIP 继续保留。具体命令见[记录 06 的续验](/posts/cmu-15-779-cuda-thread-indexing/)及包内 `GPU_REPRODUCE.md`。
+
+[最新 GPU 代码版本](https://github.com/liangqianxing/cmu-15-779-labs/tree/200faf569eccf94fb125e65110bb5d14094d454a) · [下载 GPU 代码与原始结果 ZIP](/materials/cmu-15-779/experiments/cuda-triton-sdpa-20261019.zip)

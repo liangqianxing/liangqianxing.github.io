@@ -702,5 +702,83 @@
         "mimeType": "image/webp"
       }
     ]
+  },
+  "/images/posts/cmu-15-779-kv-cache-granularity-study/cmu-kv-granularity-architecture-20261019.png": {
+    "width": 1565,
+    "height": 520,
+    "variants": [
+      {
+        "src": "/media/cmu-kv-granularity-architecture-20261019-640w-a538b521283a.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-kv-granularity-architecture-20261019-960w-52949a7683f0.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-kv-granularity-architecture-20261019-1440w-ae615ab157bd.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-kv-granularity-architecture-20261019-1565w-402f336cddeb.webp",
+        "width": 1565,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/images/posts/cmu-15-779-kv-cache-granularity-study/cmu-kv-granularity-storage-20261019.png": {
+    "width": 1979,
+    "height": 1098,
+    "variants": [
+      {
+        "src": "/media/cmu-kv-granularity-storage-20261019-640w-ce52f94b238f.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-kv-granularity-storage-20261019-960w-3639eb42d01e.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-kv-granularity-storage-20261019-1440w-ef68b4be6a16.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-kv-granularity-storage-20261019-1920w-af4f69a4e6f6.webp",
+        "width": 1920,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/images/posts/cmu-15-779-kv-cache-granularity-study/cmu-kv-granularity-latency-20261019.png": {
+    "width": 1600,
+    "height": 640,
+    "variants": [
+      {
+        "src": "/media/cmu-kv-granularity-latency-20261019-640w-26e77074103f.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-kv-granularity-latency-20261019-960w-122f7cd3bdb0.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-kv-granularity-latency-20261019-1440w-ca3460a98f38.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-kv-granularity-latency-20261019-1600w-70f97a9ea527.webp",
+        "width": 1600,
+        "mimeType": "image/webp"
+      }
+    ]
   }
 }

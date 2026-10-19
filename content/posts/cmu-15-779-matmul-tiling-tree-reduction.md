@@ -6,8 +6,8 @@ series: CMU 15-779
 seriesOrder: 7
 cover: /images/posts/cmu-15-779-matmul-tiling-tree-reduction/cmu-matmul-reduction-cover-20261016.webp
 coverAlt: 矩阵积木在共享托盘中复用，旁边的小珠沿树形管道逐层合并的浅色手绘插画
-codeUrl: https://github.com/liangqianxing/cmu-15-779-labs/tree/201587e7b00637567e969368d3085a6ce490154c
-attachmentUrl: /materials/cmu-15-779/experiments/matmul-tiling-tree-reduction-20261016.zip
+codeUrl: https://github.com/liangqianxing/cmu-15-779-labs/tree/200faf569eccf94fb125e65110bb5d14094d454a
+attachmentUrl: /materials/cmu-15-779/experiments/cuda-triton-sdpa-20261019.zip
 categories:
   - 技术
 tags:
@@ -22,13 +22,13 @@ haloSync: false
 haloPublished: false
 ---
 
-> 对应 GPU Architecture & CUDA Programming 的个人配套实验。矩阵分块和归约均在 CPU 上模拟；CUDA 矩阵乘法源码尚未编译、运行，也没有 GPU 性能结果。
+> GPU Architecture & CUDA Programming 的个人配套实验。首次记录用 CPU 模型检查数据复用与依赖深度；2026 年 10 月 19 日补入原生 CUDA 矩阵验证，以及 Triton 两阶段归约和矩阵乘法实测。
 
 [上一节](/posts/cmu-15-779-cuda-thread-indexing/)解决线程如何找到自己的元素。这次沿着[原课 GPU/CUDA 幻灯片](https://www.cs.cmu.edu/~zhihaoj2/15-779/slides/03-CUDA-programming.pdf)的矩阵乘法与归约部分，观察两件事：多个输出怎样共用输入，以及求和怎样缩短依赖链。
 
 对应脚本为 `26_matmul_tiling.py`、`27_tree_reduction.py`，原始结果保存于 2026 年 10 月 16 日。脚本编号是个人练习编号，不对应官方作业。
 
-[查看代码版本](https://github.com/liangqianxing/cmu-15-779-labs/tree/201587e7b00637567e969368d3085a6ce490154c) · [下载代码与结果 ZIP](/materials/cmu-15-779/experiments/matmul-tiling-tree-reduction-20261016.zip)
+[历史 CPU 代码版本](https://github.com/liangqianxing/cmu-15-779-labs/tree/201587e7b00637567e969368d3085a6ce490154c) · [下载代码与结果 ZIP](/materials/cmu-15-779/experiments/matmul-tiling-tree-reduction-20261016.zip)
 
 ## 相邻输出会反复读取同一份输入
 
@@ -78,7 +78,7 @@ $$
 
 附带的 CUDA 文件使用相同的阶段划分：所有线程协作加载，`__syncthreads()` 后使用共享块；用完再同步，下一轮才能覆盖它。边界线程不能因为不写 C 就提前离开整个同步流程。[NVIDIA 的共享内存说明](https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/index.html)可作为对照。
 
-CPU 循环按阶段执行，验证不了真实 GPU 的竞争和同步安全。`cuda/26_matmul_tiling.cu` 仍保留为未编译、未执行的参考源码。
+CPU 循环按阶段执行，验证不了真实 GPU 的竞争和同步安全。首次记录中的 `cuda/26_matmul_tiling.cu` 仅为未编译、未执行的参考源码；本次补入了下文的 GPU 续验。
 
 ## 树形归约缩短的是依赖链
 
@@ -132,6 +132,45 @@ python3.11 -m venv .venv
 .venv/bin/python -m unittest discover -s tests -v
 ```
 
-本篇完成的是数据复用、计数和归约依赖结构的 CPU 验证。GPU 时间、实际显存流量，以及 CUDA 内存和同步检查均未测量；原课寄存器分块也没有新增独立实验结果。
+本篇完成的是数据复用、计数和归约依赖结构的 CPU 验证。该 CPU 快照没有 GPU 时间、实际显存流量或 CUDA 内存/同步检查。后续 GPU 实测另列如下；原课寄存器分块没有新增独立实验结果。
 
-[本篇 GitHub 代码](https://github.com/liangqianxing/cmu-15-779-labs/tree/201587e7b00637567e969368d3085a6ce490154c) · [下载代码与结果 ZIP](/materials/cmu-15-779/experiments/matmul-tiling-tree-reduction-20261016.zip)
+[历史 CPU GitHub 代码](https://github.com/liangqianxing/cmu-15-779-labs/tree/201587e7b00637567e969368d3085a6ce490154c) · [下载代码与结果 ZIP](/materials/cmu-15-779/experiments/matmul-tiling-tree-reduction-20261016.zip)
+
+
+## 2026-10-19：原生 CUDA 与 Triton 实测
+
+学习聊天在单卡 CUDA 环境实际编译、运行了 `cuda/26_matmul_tiling.cu`，同时保留了前文 CPU 报告。设备报告 RTX 4080 SUPER、compute capability 8.9，CUDA Toolkit 12.8；GPU Python 环境为 Python 3.12.3、PyTorch 2.7.0+cu128、Triton 3.3.0。
+
+原生程序的 13 组配置包含非方阵、非整除边缘、K=0 和 T=1/2/4/8/16。两组空输出无需启动，其余配置的 naive/tiled 两个实现均通过逐元素对照。memcheck、synccheck 均报告 0 errors，racecheck 报告 0 hazards（0 errors、0 warnings），命令退出码均为 0。这比 CPU 按阶段执行的循环多了一份真实设备检查，但只覆盖给定案例与工具范围。
+
+原生矩阵程序没有计时，也没有测量显存事务。前文的 `2N³/T` 仍只是模型读取计数，不能换成真实带宽节省比例。
+
+### 两阶段归约：顺序变化留下数值误差
+
+38 号脚本先让每个 Triton program 归约一块，再用第二个 kernel 归约局部和。float32 输入长度覆盖 0、1、17、257、1048576，以 GPU 上 float64 求和作为正确性参考，均通过 `atol=1e-3, rtol=3e-5`。
+
+N=1048576 时，最大绝对误差为 `0.0002373360823`。CUDA event 中位数如下：
+
+| 调用 | 中位数（ms） |
+| --- | ---: |
+| Triton 两阶段 float32 sum | 0.128512 |
+| PyTorch float32 sum | 0.022426 |
+
+float64 结果用于误差对照，表中 PyTorch 计时则是 float32 `sum`。这份教学实现慢于库函数，缩短依赖结构本身并不保证更好的实现性能。
+
+### 分块矩阵乘法：保留慢于 PyTorch 的结果
+
+Triton 矩阵实现使用 float32 IEEE `tl.dot`，PyTorch 参考禁用 TF32。验证形状包括 `1×1`、`97×65 @ 65×129`、512 和 1024 阶方阵；分块配置为 `(32,32,32)` 和 `(64,64,32)`，数值对照全部通过 `atol=1e-3, rtol=1e-4`。
+
+1024 阶、`(64,64,32)` 配置的最大绝对误差为 `0.0002212524414`：
+
+| 调用 | event 中位数（ms） |
+| --- | ---: |
+| Triton 分块矩阵乘法 | 0.125338 |
+| 同组 PyTorch 矩阵乘法 | 0.088678 |
+
+这仍是一份较朴素的实现，没有据此完成参数调优或证明 Triton 自动加速。计时先 warmup 5 次，取 15 个样本的中位数；矩阵每个样本平均 5 次调用，归约为 10 次。区间排除初次 JIT 与主机/设备传输，但可能包含 Python 提交/分配造成的 GPU 空闲，不是单 kernel 的隔离测量。
+
+最新 ZIP 与[记录 06](/posts/cmu-15-779-cuda-thread-indexing/)共享，复跑命令及独立 GPU 依赖见 `GPU_REPRODUCE.md`。发布端核对了哈希、24 组计时的逐次样本和原生命令输出，没有在 Mac 上复跑 GPU；原 CPU ZIP 保留其原始版本。
+
+[最新 GPU 代码版本](https://github.com/liangqianxing/cmu-15-779-labs/tree/200faf569eccf94fb125e65110bb5d14094d454a) · [下载 GPU 代码与原始结果 ZIP](/materials/cmu-15-779/experiments/cuda-triton-sdpa-20261019.zip)
