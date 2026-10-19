@@ -598,5 +598,109 @@
         "mimeType": "image/webp"
       }
     ]
+  },
+  "/images/posts/cmu-15-779-cpu-parallelism-pipeline/cmu-parallel-cover-20261019.webp": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [
+      {
+        "src": "/media/cmu-parallel-cover-20261019-320w-12da50e31981.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-parallel-cover-20261019-640w-a63dd102f812.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-parallel-cover-20261019-960w-335b2335a50b.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-parallel-cover-20261019-1440w-ca1efb3c3937.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/images/posts/cmu-15-779-kv-serving-speculative-sampling/cmu-serving-cover-20261019.webp": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [
+      {
+        "src": "/media/cmu-serving-cover-20261019-320w-5cef4c770127.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-serving-cover-20261019-640w-61a851101ad5.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-serving-cover-20261019-960w-62ed503bc633.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-serving-cover-20261019-1440w-3a2debe16d9d.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/images/posts/cmu-15-779-lora-uniform-quantization/cmu-lora-cover-20261019.webp": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [
+      {
+        "src": "/media/cmu-lora-cover-20261019-320w-88d1f7181184.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-lora-cover-20261019-640w-515a15835aa1.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-lora-cover-20261019-960w-442f187a6be0.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-lora-cover-20261019-1440w-fca3262b0d45.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/images/posts/cmu-15-779-moe-routing-capacity/cmu-moe-cover-20261019.webp": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [
+      {
+        "src": "/media/cmu-moe-cover-20261019-320w-87b09a4da504.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-moe-cover-20261019-640w-bb8d779124e0.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-moe-cover-20261019-960w-90ac92312ce8.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-moe-cover-20261019-1440w-0a0063cf5529.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      }
+    ]
   }
 }
