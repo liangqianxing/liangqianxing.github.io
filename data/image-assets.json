@@ -572,5 +572,31 @@
     "width": 1000,
     "height": 640,
     "variants": []
+  },
+  "/images/posts/cmu-15-779-cpu-compiler-optimizations/cmu-cpu-compiler-cover-20261019.webp": {
+    "width": 1920,
+    "height": 1072,
+    "variants": [
+      {
+        "src": "/media/cmu-cpu-compiler-cover-20261019-320w-c264b4eb37ba.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-cpu-compiler-cover-20261019-640w-8add53ae1b25.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-cpu-compiler-cover-20261019-960w-39546eb7187e.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cmu-cpu-compiler-cover-20261019-1440w-0405d287f4ea.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      }
+    ]
   }
 }

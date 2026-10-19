@@ -1,13 +1,13 @@
 ---
-title: 'CMU 15-779 学习记录 08：分块 Attention 与在线 Softmax'
+title: 'CMU 15-779 学习记录 08：分块 Attention、在线 Softmax 与 KV cache'
 date: '2026-10-16'
 description: '在 CPU 上对照完整 Attention、在线 Softmax 分块实现与 PyTorch SDPA，检查因果掩码、浮点误差和分数块大小，理解 FlashAttention 的一部分算法基础。'
 series: CMU 15-779
 seriesOrder: 8
 cover: /images/posts/cmu-15-779-attention-online-softmax/cmu-online-attention-cover-20261016.webp
 coverAlt: 浅紫色卡片分批进入绿色计算托盘，旁边三个状态容器保存累积量的浅色手绘插画
-codeUrl: https://github.com/liangqianxing/cmu-15-779-labs/tree/201587e7b00637567e969368d3085a6ce490154c
-attachmentUrl: /materials/cmu-15-779/experiments/attention-online-softmax-20261016.zip
+codeUrl: https://github.com/liangqianxing/cmu-15-779-labs/tree/9261bea6aedf31cdccbbab2541ca693fc97b3743
+attachmentUrl: /materials/cmu-15-779/experiments/attention-online-softmax-kv-cache-20261019.zip
 categories:
   - 技术
 tags:
@@ -22,13 +22,13 @@ haloSync: false
 haloPublished: false
 ---
 
-> 第 5 讲 Transformers & Attention 的个人配套实验。代码只运行 CPU、单头、前向计算；没有实现 FlashAttention GPU kernel，也没有速度或内存峰值测量。
+> 第 5 讲 Transformers & Attention 的个人配套实验。代码只运行 CPU、单头、前向计算，包含在线归一化和 KV cache；没有实现 FlashAttention GPU kernel，也没有速度或内存峰值测量。
 
 [上一节](/posts/cmu-15-779-matmul-tiling-tree-reduction/)通过分块共用矩阵输入。这次接到 Attention：能不能一块一块读取分数，同时得到与完整 Softmax 一致的输出？
 
-`28_attention_online_softmax.py` 已保存完整计算、分块计算和 PyTorch SDPA MATH 的 CPU 对照结果。原始记录来自 2026 年 10 月 16 日；整理时在冻结副本中复跑了默认配置和因果配置。
+`28_attention_online_softmax.py` 已保存完整计算、分块计算和 PyTorch SDPA MATH 的 CPU 对照结果。原始记录来自 2026 年 10 月 16 日；整理时在冻结副本中复跑了默认配置和因果配置。2026 年 10 月 19 日补入 29 号 KV cache 实验，并在独立冻结副本中复验。
 
-[查看代码版本](https://github.com/liangqianxing/cmu-15-779-labs/tree/201587e7b00637567e969368d3085a6ce490154c) · [下载代码与结果 ZIP](/materials/cmu-15-779/experiments/attention-online-softmax-20261016.zip)
+[查看代码版本](https://github.com/liangqianxing/cmu-15-779-labs/tree/9261bea6aedf31cdccbbab2541ca693fc97b3743) · [下载代码与结果 ZIP](/materials/cmu-15-779/experiments/attention-online-softmax-kv-cache-20261019.zip)
 
 ## 完整 Attention 会生成什么
 
@@ -104,9 +104,50 @@ N=64 时，单张完整分数矩阵是 32768 字节，最大单块分数是 2048
 
 本次结果说明分块递推可以避免在较长序列配置中保存完整分数矩阵；它没有测量 GPU IO、运行速度或总内存峰值，也没有把 Attention 的算术复杂度降成线性。
 
+## KV cache 省下的是哪一部分重复工作
+
+Prefill 一次处理整段 prompt；decode 每步只有一个新 query，却仍要读取合法历史 K/V。`29_kv_cache.py` 对固定输入表示、固定投影权重的一层 Attention 做了两条路径：每个前缀重算全部 Q/K/V 和完整因果 Attention，再取最后一行；或者 prompt 做一次 prefill，之后只投影新增位置，把 K/V 追加到缓存。
+
+默认 prompt 为 8 个位置，再加入 4 个位置。长度 8、9、10、11、12 的最后一行输出均通过 float64 容差检查：
+
+| 观察项 | 前缀重算 | KV cache |
+| --- | ---: | ---: |
+| 每项投影行数 | 50 | 12 |
+| 分数对数 | 510 | 106 |
+| 最大绝对误差 | 基准 | 2.22×10⁻¹⁶ |
+
+缓存路径的分数对为 `8² + 9 + 10 + 11 + 12 = 106`，其中 prefill 计算完整分数矩阵，decode 每次只计算新 query 的一行。原始报告和本次复跑的数值、计数一致；另有无 decode、单位置和较长前缀等边界配置。
+
+这些计数依赖本实验选定的完整前缀基线。若基线保存了其他中间状态或只计算最后一行 Attention，工作量会不同。表中的比值不代表通用加速倍数，也没有测量 FLOPs、耗时或峰值内存。
+
+### 单 query 不能照搬左上三角掩码
+
+当前 query 位于最后一个位置，而缓存只含过去和当前位置的 key。因此这一行中的每个 key 都合法：
+
+```python
+query, key, value = project(x[position:position + 1], weights)
+cached_k = torch.cat((cached_k, key), dim=0)
+cached_v = torch.cat((cached_v, value), dim=0)
+output = torch.softmax(query @ cached_k.T / math.sqrt(query.shape[1]), dim=-1) @ cached_v
+```
+
+如果对 `1×prefix_length` 分数套用左上对齐的三角掩码，会只留下第 0 个 key。测试用零分数和 V 值 `[1,2,6]` 检查这一点：正确输出应为 3。另一项测试修改未来输入，较早位置的因果输出保持不变。
+
+### 缓存会随上下文增长
+
+本例 K、V 宽度均为 8，使用 float64，到第 12 个位置时保存的 K/V 数据为：
+
+$$
+12\times(8+8)\times8=1536\ \text{bytes}.
+$$
+
+这是最终缓存数据量，没有包含追加时的临时副本或整个程序内存。多层、多请求和多个 KV 头还需分别计入相应维度；GQA/MQA 中的 KV 头数也可能少于 query 头数。
+
+脚本用 `torch.cat` 便于逐步核对，增长时会复制旧内容。它不是优化后的推理服务，也不生成文字。KV cache 避免重投影历史位置，当前 query 的注意力仍要读取历史 K/V，开销不会变成与上下文长度无关。
+
 ## 复现与范围
 
-ZIP 包含 Attention 脚本、两份原始 JSON、依赖和 14 项归约/Attention 测试。测试文件也加载归约模块，因此同时附上 `27_tree_reduction.py`。代码仓库连同矩阵测试共 21 项，整理时全部通过。
+更新后的 ZIP 包含 28/29 号脚本、三份原始 JSON、依赖和 18 项归约/Attention/KV cache 测试。共享测试还加载归约模块，因此附上 `27_tree_reduction.py`。完整发布仓库连同矩阵和编译实验共 30 项测试，本次冻结副本中全部通过；ZIP 自带的测试为其中 18 项。
 
 ```bash
 python3.11 -m venv .venv
@@ -116,11 +157,12 @@ python3.11 -m venv .venv
 .venv/bin/python 28_attention_online_softmax.py \
   --n 17 --d 8 --value-dim 4 --query-block 8 --key-block 5 \
   --causal --dtype float32 --output results/causal-rerun.json
+.venv/bin/python 29_kv_cache.py --output results/kv-cache-rerun.json
 .venv/bin/python -m unittest discover -s tests -v
 ```
 
-本次验证只包含单头前向，不包含训练、反向传播、dropout、padding mask、多头投影或完整 Transformer；KV cache 也没有新增完成的实验结果。
+本次验证只包含固定输入的一层单头前向，不包含训练、反向传播、dropout、padding mask、多头模型或完整 Transformer。真实 GPU 实验按学习安排跳过，不能把 CPU 对照写成 GPU prefill/decode 性能结果。
 
 材料可对照[第 5 讲原课幻灯片](https://www.cs.cmu.edu/~zhihaoj2/15-779/slides/05-transformers-attention.pdf)、[Attention Is All You Need](https://papers.nips.cc/paper_files/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf)和站内[Transformer 中文学习资料](/learning/cmu-15-779/materials/transformer-paper-zh/)。这些是实验的阅读入口，不表示整篇论文评述或整门课程已经完成。
 
-[本篇 GitHub 代码](https://github.com/liangqianxing/cmu-15-779-labs/tree/201587e7b00637567e969368d3085a6ce490154c) · [下载代码与结果 ZIP](/materials/cmu-15-779/experiments/attention-online-softmax-20261016.zip)
+[本篇 GitHub 代码](https://github.com/liangqianxing/cmu-15-779-labs/tree/9261bea6aedf31cdccbbab2541ca693fc97b3743) · [下载代码与结果 ZIP](/materials/cmu-15-779/experiments/attention-online-softmax-kv-cache-20261019.zip)
