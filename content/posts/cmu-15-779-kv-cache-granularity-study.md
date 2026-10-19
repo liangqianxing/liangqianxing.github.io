@@ -141,6 +141,24 @@ python3.11 -m venv .venv
 
 分析脚本默认读取随附的 `results/project_kv_granularity.json`，生成原始测量的图表，不会自动切到上面另存的复跑文件。测试检查输出等价、不同页边界、完整页共享和部分页 COW 计数；ZIP 的 2 项项目测试及完整发布仓库的 54 项现有测试均通过。
 
-这部分对应原课[课程项目安排](https://www.cs.cmu.edu/~zhihaoj2/15-779/)下的个人实验探索，机制背景可对照 [PagedAttention 论文](https://arxiv.org/abs/2309.06180)。本篇只归档已经复现的代码实验，提案/报告/展示、本人掌握程度和正式提交各有独立验收边界。
+这部分对应原课[课程项目安排](https://www.cs.cmu.edu/~zhihaoj2/15-779/)下的个人实验探索，机制背景可对照 [PagedAttention 论文](https://arxiv.org/abs/2309.06180)。已经复现的代码实验与下方报告/展示分别归档；材料生成、本人的掌握程度和正式提交各有独立验收边界。
 
 [本篇 GitHub 代码](https://github.com/liangqianxing/cmu-15-779-labs/tree/200faf569eccf94fb125e65110bb5d14094d454a) · [下载项目实验 ZIP](/materials/cmu-15-779/experiments/kv-cache-granularity-20261019.zip)
+
+## 2026-10-19：项目报告与中文展示
+
+同一实验的文档和展示现已生成，补在本篇。英文报告沿用上面的 CPU 原始数据，展开四种存储路径、完整页共享与部分页 COW 的公式、实验设计和限制；没有加入新的 GPU KV 性能结论。一页项目规格在原型之后整理，不能视作此前已经提交的提案。
+
+- [一页项目规格 PDF](/materials/cmu-15-779/project/kv-cache-proposal-20261019.pdf)。
+- [英文实验报告 PDF](/materials/cmu-15-779/project/kv-cache-report-20261019.pdf)：正文 5 页 + 参考文献 1 页，使用 MLSys 2025 模板。
+- [播放或下载中文展示 MP4](/materials/cmu-15-779/project/kv-cache-presentation-20261019.mp4)：9 分 0.14 秒，1280×720、12 章。
+- [阅读或下载中文讲稿](/materials/cmu-15-779/project/kv-cache-transcript-20261019.md)：Markdown 格式，与视频制作脚本逐章一致。
+- [下载文档与制作源码 ZIP](/materials/cmu-15-779/project/kv-cache-deliverables-20261019.zip)：约 694 KiB，含两份 PDF、LaTeX/模板、讲稿、视频脚本、原始数据和项目测试；MP4 单独下载。
+
+报告、代码与展示由 Codex 辅助制作，视频使用 macOS Tingting 合成语音，**不是学习者本人录制**。视频依次讲解缓存增长、相关工作、页表与引用计数、210 组配置、正确性、共享/复制/池容量/时间结果，以及适用范围。报告采用的模板附有自学声明，不代表会议接收或正式课程提交。
+
+归档前检查了一页规格和六页报告的版式、公式与引用，核对了 12 章视频画面、讲稿和制作脚本，并完整解码 MP4。实验执行代码、原始 JSON 和数值汇总与前面的实验发布一致；这次没有重新计时。文件检查不能代替本人理解、课堂展示或课程验收。
+
+文档快照保留生成 PDF/视频时的图表与目录结构，和文章图表可能有排版差别。复做 PDF 需要 Tectonic；复做视频还需要 macOS 的 `say`、Tingting 语音和指定中文字体，具体命令见快照说明。
+
+[查看文档与展示的 GitHub 冻结版本](https://github.com/liangqianxing/cmu-15-779-labs/tree/e46f0fa79c485aa43c6d999f3b52a719691ce458/archives/kv-cache-deliverables-20261019) · [下载文档与制作源码 ZIP](/materials/cmu-15-779/project/kv-cache-deliverables-20261019.zip)
