@@ -1,86 +1,84 @@
 <template>
-  <div class="home-hub">
-    <section class="hub-intro" aria-labelledby="hub-name">
-      <div class="hub-intro-copy">
-        <p class="hub-eyebrow">研究 · 工程 · 记录</p>
-        <h1 id="hub-name">{{ profile.name }}<span>{{ profile.nameCN }}</span></h1>
-        <p class="hub-lead">关注大语言模型、智能体与 AI 系统，<br class="hub-desktop-break" />喜欢研究，也喜欢把想法做出来。</p>
-        <p class="hub-bio">{{ profile.bio[1] }}</p>
-        <div class="hub-personal-links" aria-label="个人链接">
-          <a :href="profile.github" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
-          <a v-if="profile.scholar" :href="profile.scholar" target="_blank" rel="noopener noreferrer">Google Scholar <span aria-hidden="true">↗</span></a>
-        </div>
-      </div>
-      <figure class="hub-portrait">
-        <SiteImage :src="profile.avatar" :alt="`${profile.nameCN}的头像`" width="156" height="156" priority />
-        <figcaption>Language, intelligence<br />&amp; systems.</figcaption>
-      </figure>
-    </section>
+  <div id="top" class="gateway-scene">
+    <a class="poster-skip" href="#gateway-choices">跳到主页入口</a>
+    <header class="poster-nav poster-container">
+      <a class="poster-brand" href="#top" aria-label="Enhao Gu，返回顶部">
+        <svg viewBox="0 0 42 34" fill="none" aria-hidden="true"><path d="M4 25 13 7h14L18 25H4Zm14 0L29 7h9L26 29H15" /><path d="m8 17 13 0" /></svg>
+        <span>{{ academicProfile.name }}<small>{{ academicProfile.nameCN }}</small></span>
+      </a>
+      <nav aria-label="主导航">
+        <NuxtLink to="/blog">Blog <span aria-hidden="true">↗</span></NuxtLink>
+        <NuxtLink to="/academic">Research <span aria-hidden="true">↗</span></NuxtLink>
+        <a v-if="academicProfile.github" :href="academicProfile.github" target="_blank" rel="noopener noreferrer" aria-label="GitHub（在新标签页打开）">GitHub <span aria-hidden="true">↗</span></a>
+      </nav>
+    </header>
 
-    <div class="hub-spaces">
-      <section class="hub-space hub-research" aria-labelledby="hub-research-title">
-        <header class="hub-space-head">
-          <span class="hub-space-kicker">ACADEMIC</span>
-          <h2 id="hub-research-title"><NuxtLink to="/academic">学术与研究<span aria-hidden="true">↗</span></NuxtLink></h2>
-          <p>研究兴趣、论文，以及一路走来的经历。</p>
-        </header>
-        <div class="hub-papers">
-          <NuxtLink v-for="paper in publications" :key="paper.title" to="/academic#publications" class="hub-paper" :aria-label="`在学术主页查看 ${paper.title}`">
-            <div v-if="paper.image" class="hub-paper-image"><SiteImage :src="paper.image" :alt="paper.imageAlt || `${paper.shortTitle} 的研究框架`" width="120" height="90" sizes="120px" /></div>
-            <div class="hub-paper-copy">
-              <span class="hub-paper-venue">{{ paper.badge || `${paper.venue} · ${paper.year}` }}</span>
-              <h3>{{ paper.shortTitle }}</h3>
-              <p>{{ paper.summary }}</p>
-            </div>
-          </NuxtLink>
-        </div>
-        <NuxtLink class="hub-space-link" to="/academic">查看学术主页 <span aria-hidden="true">→</span></NuxtLink>
+    <main>
+      <section class="poster-hero poster-container" aria-labelledby="opening-name">
+        <div class="poster-frame" aria-hidden="true"><span /><span /><span /><span /></div>
+        <div class="poster-meta poster-meta-left"><span>INDEPENDENT PERSONAL SPACE</span><span>RESEARCH &amp; ENGINEERING</span></div>
+        <div class="poster-meta poster-meta-right"><span>LLM · AGENT · SYSTEMS</span><span>EST. IN CURIOSITY</span></div>
+        <h1 id="opening-name" class="poster-name" :aria-label="`${academicProfile.name} · ${academicProfile.nameCN}`">ENHAO GU</h1>
+        <div class="poster-object" aria-hidden="true"><GatewaySculpture /></div>
+        <div class="poster-intro"><span class="poster-intro-cross" aria-hidden="true">✳</span><p>研究、工程，<br />以及沿途的记录。</p></div>
+        <NuxtLink to="/blog" class="poster-enter">进入博客 <span aria-hidden="true">↗</span></NuxtLink>
+        <div class="poster-hero-foot"><span>{{ academicProfile.nameCN }} / {{ year }}</span><a href="#gateway-choices">SCROLL TO EXPLORE <span aria-hidden="true">↓</span></a><span>ALWAYS A WORK IN PROGRESS</span></div>
       </section>
 
-      <section class="hub-space hub-notes" aria-labelledby="hub-notes-title">
-        <header class="hub-space-head">
-          <span class="hub-space-kicker">PERSONAL BLOG</span>
-          <h2 id="hub-notes-title"><NuxtLink to="/blog">笔记与日常<span aria-hidden="true">↗</span></NuxtLink></h2>
-          <p>读论文、写代码，也记下一些生活的片段。</p>
-        </header>
-        <div v-if="recentPosts.length" class="hub-posts">
-          <NuxtLink v-for="post in recentPosts" :key="post.path" :to="post.path" class="hub-post">
-            <div class="hub-post-meta"><time :datetime="post.date.slice(0, 10)">{{ post.date.slice(0, 10).replaceAll('-', '.') }}</time><span>{{ post.tags?.[0] || '随手记录' }}</span></div>
+      <section id="gateway-choices" class="poster-index poster-container" aria-labelledby="choices-title">
+        <header class="poster-section-head"><p class="poster-eyebrow">01 / THE INDEX</p><h2 id="choices-title">从好奇心出发<span>。</span></h2><p class="poster-section-note">向内探索，向外记录。</p></header>
+        <nav class="poster-destinations" aria-label="选择访问内容">
+          <NuxtLink v-for="item in destinations" :key="item.to" :to="item.to" class="poster-destination">
+            <span class="poster-row-number">{{ item.number }}</span>
+            <div class="poster-row-title"><span class="poster-row-kicker">{{ item.kicker }}</span><h3>{{ item.title }}<span>.</span></h3></div>
+            <p>{{ item.description }}</p>
+            <span class="poster-row-arrow" aria-hidden="true">↗</span>
+          </NuxtLink>
+        </nav>
+      </section>
+
+      <section v-if="recentPosts.length" class="poster-writing poster-container" aria-labelledby="writing-title">
+        <header class="poster-section-head"><p class="poster-eyebrow">02 / RECENT WRITING</p><h2 id="writing-title">最近写下的<span>。</span></h2><NuxtLink to="/posts" class="poster-section-note poster-text-link">全部文章 <span aria-hidden="true">↗</span></NuxtLink></header>
+        <div class="poster-articles">
+          <NuxtLink v-for="post in recentPosts" :key="post.path" :to="post.path" class="poster-article">
+            <time :datetime="post.date.slice(0, 10)">{{ post.date.slice(0, 10).replaceAll('-', '.') }}</time>
             <h3>{{ post.title }}</h3>
+            <span class="poster-article-tag">{{ post.tags?.[0] || 'NOTES' }}</span>
+            <span class="poster-article-arrow" aria-hidden="true">↗</span>
           </NuxtLink>
         </div>
-        <p v-else class="hub-empty">课程学习、源码阅读与工程实践，慢慢整理在博客里。</p>
-        <NuxtLink class="hub-space-link" to="/blog">走进我的博客 <span aria-hidden="true">→</span></NuxtLink>
       </section>
-    </div>
+    </main>
 
-    <aside class="hub-learning" aria-label="课程与学习">
-      <div><span class="hub-learning-label">继续探索</span><p>从论文到代码，从课程到实践。</p></div>
-      <NuxtLink to="/learning">课程与学习记录 <span aria-hidden="true">→</span></NuxtLink>
-    </aside>
+    <footer class="poster-footer poster-container">
+      <div class="poster-footer-top"><p>Keep asking.<br /><em>Stay curious.</em></p><a v-if="academicProfile.github" :href="academicProfile.github" target="_blank" rel="noopener noreferrer">FIND ME ON GITHUB <span aria-hidden="true">↗</span></a></div>
+      <div class="poster-footer-bottom"><span>© {{ year }} {{ academicProfile.name }}</span><span>研究、工程，以及沿途的记录。</span><a href="#top">BACK TO TOP <span aria-hidden="true">↑</span></a></div>
+    </footer>
   </div>
 </template>
 
 <script setup lang="ts">
-import { academicProfile as profile } from '~/data/academic'
-import '~/assets/css/home.css'
+import { academicProfile } from '~/data/academic'
 
-definePageMeta({ layout: 'profile' })
+definePageMeta({ layout: 'gateway' })
+const year = new Date().getFullYear()
 const appConfig = useAppConfig()
 const { data: posts } = await usePublicArchive()
 const recentPosts = computed(() => (posts.value ?? []).slice(0, 3))
-const publications = profile.publications.slice(0, 2).map(paper => ({ ...paper, shortTitle: paper.title.split(':')[0] }))
-const description = `${profile.nameCN}（${profile.name}）的个人主页，连接大语言模型、智能体与 AI 系统的学术研究、工程实践和个人笔记。`
-
+const destinations = [
+  { number: '01', title: 'Notebook', kicker: 'THOUGHTS, NOTES & LIFE', description: '技术实践、源码阅读，和一些生活的片段。', to: '/blog' },
+  { number: '02', title: 'Research', kicker: 'LANGUAGE, INTELLIGENCE & SYSTEMS', description: '研究兴趣、学术经历，以及正在探索的方向。', to: '/academic' },
+  { number: '03', title: 'Learning', kicker: 'UNDERSTANDING BY BUILDING', description: '从课程到代码，把学过的东西慢慢搭起来。', to: '/learning' },
+]
+const description = `${academicProfile.nameCN}（${academicProfile.name}）的个人主页，记录大语言模型、智能体与 AI 系统的研究和工程实践。`
 useHead({
   title: '个人主页',
   meta: [
     { name: 'description', content: description },
-    { property: 'og:title', content: `${profile.name} · ${profile.nameCN}` },
+    { property: 'og:title', content: `${academicProfile.name} · ${academicProfile.nameCN}` },
     { property: 'og:description', content: description },
     { property: 'og:url', content: `${appConfig.url}/` },
-    { property: 'og:image', content: `${appConfig.url}${profile.avatar}` },
+    { property: 'og:image', content: `${appConfig.url}${academicProfile.avatar}` },
   ],
-  link: [{ rel: 'canonical', href: `${appConfig.url}/` }],
 })
 </script>
