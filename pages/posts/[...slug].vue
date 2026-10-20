@@ -1,8 +1,25 @@
 <template>
   <div>
-    <aside v-if="page" class="author-sidebar" aria-label="关于作者">
-      <PostAuthorNote :reading-progress="readingProgress" :seekable="readingSeekable" @seek="seekReadingProgress" />
-    </aside>
+    <div v-if="page" class="author-sidebar">
+      <button
+        type="button"
+        class="author-sidebar-toggle"
+        aria-controls="post-author-card"
+        :aria-expanded="!authorCardHidden"
+        :aria-label="authorCardHidden ? '显示作者卡片' : '隐藏作者卡片'"
+        @click="toggleAuthorCard"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="4" width="18" height="16" rx="2" />
+          <path d="M9 4v16" />
+          <path :d="authorCardHidden ? 'm13 9 3 3-3 3' : 'm16 9-3 3 3 3'" />
+        </svg>
+        {{ authorCardHidden ? '显示卡片' : '隐藏卡片' }}
+      </button>
+      <aside id="post-author-card" v-show="!authorCardHidden" aria-label="关于作者">
+        <PostAuthorNote :reading-progress="readingProgress" :seekable="readingSeekable" @seek="seekReadingProgress" />
+      </aside>
+    </div>
 
     <!-- TOC Sidebar -->
     <aside
@@ -166,6 +183,14 @@ import { learningCourses } from '~/data/learning/courses'
 
 const route = useRoute()
 const appConfig = useAppConfig()
+const authorCardHidden = useState('post-author-card-hidden', () => false)
+
+function toggleAuthorCard() {
+  authorCardHidden.value = !authorCardHidden.value
+  try {
+    localStorage.setItem('post-author-card-hidden', String(authorCardHidden.value))
+  } catch { /* Keep the toggle usable when storage is unavailable. */ }
+}
 
 // Build path from slug
 const path = computed(() => {
@@ -323,6 +348,9 @@ function scrollToHeading(id: string) {
 }
 
 onMounted(() => {
+  try {
+    authorCardHidden.value = localStorage.getItem('post-author-card-hidden') === 'true'
+  } catch { /* Keep the current preference when storage is unavailable. */ }
   scheduleReadingProgress()
   window.addEventListener('scroll', scheduleReadingProgress, { passive: true })
   window.addEventListener('resize', scheduleReadingProgress)
@@ -419,6 +447,28 @@ useHead(() => ({
 </script>
 
 <style scoped>
+.author-sidebar-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 36px;
+  margin: 0 0 10px auto;
+  padding: 7px 12px;
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.author-sidebar-toggle:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
 .post-inline-toc {
   margin-bottom: 2rem;
   border-top: 1px solid var(--line);
