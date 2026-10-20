@@ -189,6 +189,8 @@ Softmax 里也出现过 `torch,exp`，应该表达的却是对 `torch.exp` 的�
 
 到这篇为止，已经验证的是若干基础组件和缩放点积注意力。多头注意力刚进入形状理解，RoPE、完整 Transformer、优化器及训练流程还不在本轮完成范围内。
 
+同日后续完成的多头自注意力另记在[学习记录 04：拆头、合头与因果 Mask](/posts/cs336-multihead-attention-shapes/)，保留这里对应的阶段性代码和验证结果。
+
 ## 发布时的复核
 
 2026 年 10 月 20 日，发布前对[独立代码快照](https://github.com/liangqianxing/cs336-labs/tree/a39eb684710817f7f389626423fcb26ca0f6d629)重新运行了 8 项官方组件测试，结果为 `8 passed`。完整清单和运行环境见[进度记录](https://github.com/liangqianxing/cs336-labs/blob/a39eb684710817f7f389626423fcb26ca0f6d629/docs/progress.md)。

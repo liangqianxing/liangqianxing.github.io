@@ -38,7 +38,7 @@ export const learningCourses: LearningCourse[] = [
     courseTitle: 'Language Modeling from Scratch',
     courseUrl: 'https://cs336.stanford.edu/',
     codeUrl: 'https://github.com/liangqianxing/cs336-labs',
-    description: '从张量形状和 PyTorch 基础层开始，记录从零搭建语言模型时的理解、踩坑与测试。当前学到支持 mask 的缩放点积注意力。',
+    description: '从张量形状和 PyTorch 基础层开始，记录从零搭建语言模型时的理解、踩坑与测试。已完成带因果 mask 的多头自注意力，下一步学习 RoPE。',
     topics: ['PyTorch', 'Transformer', '语言模型'],
     cover: {
       src: '/images/posts/cs336-softmax-attention-mask/cs336-softmax-attention-mask-cover.webp',

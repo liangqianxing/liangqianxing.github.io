@@ -6,9 +6,9 @@
 ## 内容与进度
 
 课程登记位于 `data/learning/courses.ts`，固定使用 `slug: cs336`、`series: Stanford CS336`。
-学习记录放在 `content/posts/cs336-*.md`，按 `seriesOrder` 从 1 递增。当前三篇整理自实际学习过程，依次覆盖 Linear / Embedding、RMSNorm / SwiGLU、Softmax / Scaled Dot-Product Attention。
+学习记录放在 `content/posts/cs336-*.md`，按 `seriesOrder` 从 1 递增。当前四篇整理自实际学习过程，依次覆盖 Linear / Embedding、RMSNorm / SwiGLU、Softmax / Scaled Dot-Product Attention，以及多头自注意力的拆头、合头与因果 mask。
 
-2026-10-20 的首次发布仅记录已完成组件。多头注意力、RoPE、完整 Transformer、训练循环等后续内容需要在学习并验证后另行补充。本轮跳过 BPE，不把其他项目中已学过 BPE 写成本仓库通过 tokenizer 测试。
+2026-10-20 的前三篇保留首次发布时的学习状态及代码提交；同日追加的第四篇记录已通过官方测试的无 RoPE 多头自注意力。当前已完成组件对应 9 项官方测试。RoPE、完整 Transformer、训练循环等后续内容需要在学习并验证后另行补充。本轮跳过 BPE，不把其他项目中已学过 BPE 写成本仓库通过 tokenizer 测试。
 
 课程学习记录使用 GitHub Pages 的可见性约定：`draft: false`、`hidden: false`、`haloSync: false`、`haloPublished: false`。这是当前公开学习专栏的发布配置，与普通 Halo 文章区分。
 
@@ -24,4 +24,4 @@
 
 ## 发布
 
-运行 `npm run build`，检查课程总览、CS336 专题、三篇记录及代码入口；确认图片和公式渲染后提交到 `main`。GitHub Actions 完成 Pages 部署后，再检查线上 URL。后续有新的学习内容时，追加记录并更新代码仓库与当前进度，不预先宣称未完成的模块通过测试。
+运行 `npm run build`，检查课程总览、CS336 专题、新增记录及代码入口；确认图片和公式渲染后提交到 `main`。GitHub Actions 完成 Pages 部署后，再检查线上 URL。后续有新的学习内容时，追加记录并更新代码仓库与当前进度，不预先宣称未完成的模块通过测试。

@@ -858,5 +858,31 @@
         "mimeType": "image/webp"
       }
     ]
+  },
+  "/images/posts/cs336-multihead-attention-shapes/cs336-multihead-attention-shapes-cover.webp": {
+    "width": 1600,
+    "height": 900,
+    "variants": [
+      {
+        "src": "/media/cs336-multihead-attention-shapes-cover-320w-cf292bb9fd4d.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cs336-multihead-attention-shapes-cover-640w-e165e6d2ecfa.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cs336-multihead-attention-shapes-cover-960w-b465969bc655.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cs336-multihead-attention-shapes-cover-1440w-cb93fb88a4ac.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      }
+    ]
   }
 }
