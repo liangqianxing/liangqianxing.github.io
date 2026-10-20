@@ -8,7 +8,10 @@
         <p class="learning-course-title" lang="en">{{ course.courseTitle }}</p>
         <p class="learning-intro">{{ course.description }}</p>
         <div v-if="course.topics.length" class="learning-topics"><span v-for="topic in course.topics" :key="topic">{{ topic }}</span></div>
-        <a :href="course.courseUrl" class="learning-course-link" target="_blank" rel="noopener noreferrer">课程官网 <span aria-hidden="true">↗</span></a>
+        <div class="learning-course-links">
+          <a :href="course.courseUrl" class="learning-course-link" target="_blank" rel="noopener noreferrer">课程官网 <span aria-hidden="true">↗</span></a>
+          <a v-if="course.codeUrl" :href="course.codeUrl" class="learning-course-link" target="_blank" rel="noopener noreferrer">学习代码 <span aria-hidden="true">↗</span></a>
+        </div>
       </div>
       <div class="learning-cover" aria-hidden="true">
         <span>{{ course.institution }}</span>
@@ -175,6 +178,7 @@ useHead(() => ({
 .learning-topics { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
 .learning-topics span { padding: 4px 10px; border: 1px solid var(--line); border-radius: 6px; color: var(--accent); font-size: 0.65rem; background: var(--surface); }
 .learning-course-link { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; margin-top: 12px; color: var(--accent); font-size: 0.76rem; }
+.learning-course-links { display: flex; flex-wrap: wrap; gap: 0 24px; }
 .learning-cover { display: flex; flex-direction: column; gap: 20px; align-items: start; padding: 28px 24px; border: 1px solid var(--line-strong); border-radius: 6px 18px 18px 6px; background: var(--topic-purple); transform: rotate(4deg); color: var(--ink); box-shadow: 5px 7px 0 var(--topic-orange); }
 .learning-cover > span { font: 0.65rem/1.6 var(--font-mono); color: var(--muted); }
 .learning-cover strong { font: 500 1.85rem/1.3 var(--font-mono); overflow-wrap: anywhere; }

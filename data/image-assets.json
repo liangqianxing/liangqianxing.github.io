@@ -780,5 +780,83 @@
         "mimeType": "image/webp"
       }
     ]
+  },
+  "/images/posts/cs336-linear-embedding-shapes/cs336-linear-embedding-shapes-cover.webp": {
+    "width": 1600,
+    "height": 900,
+    "variants": [
+      {
+        "src": "/media/cs336-linear-embedding-shapes-cover-320w-006569c3e86a.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cs336-linear-embedding-shapes-cover-640w-7811420ed276.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cs336-linear-embedding-shapes-cover-960w-214d97552779.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cs336-linear-embedding-shapes-cover-1440w-cbc942598933.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/images/posts/cs336-rmsnorm-swiglu/cs336-rmsnorm-swiglu-cover.webp": {
+    "width": 1600,
+    "height": 900,
+    "variants": [
+      {
+        "src": "/media/cs336-rmsnorm-swiglu-cover-320w-9450370ee3f8.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cs336-rmsnorm-swiglu-cover-640w-f07f74ca014d.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cs336-rmsnorm-swiglu-cover-960w-7150a90e2443.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cs336-rmsnorm-swiglu-cover-1440w-6bed53de38d6.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/images/posts/cs336-softmax-attention-mask/cs336-softmax-attention-mask-cover.webp": {
+    "width": 1600,
+    "height": 900,
+    "variants": [
+      {
+        "src": "/media/cs336-softmax-attention-mask-cover-320w-fc94d6573ea3.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cs336-softmax-attention-mask-cover-640w-2ab6220bd499.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cs336-softmax-attention-mask-cover-960w-e327cfc3c1e6.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cs336-softmax-attention-mask-cover-1440w-5a646b3c2cbe.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      }
+    ]
   }
 }

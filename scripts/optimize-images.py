@@ -63,6 +63,9 @@ RASTER_SOURCES: dict[str, tuple[int, ...]] = {
     "/images/posts/cmu-15-779-kv-cache-granularity-study/cmu-kv-granularity-architecture-20261019.png": (640, 960, 1440, 1920),
     "/images/posts/cmu-15-779-kv-cache-granularity-study/cmu-kv-granularity-storage-20261019.png": (640, 960, 1440, 1920),
     "/images/posts/cmu-15-779-kv-cache-granularity-study/cmu-kv-granularity-latency-20261019.png": (640, 960, 1440, 1920),
+    "/images/posts/cs336-linear-embedding-shapes/cs336-linear-embedding-shapes-cover.webp": (320, 640, 960, 1440),
+    "/images/posts/cs336-rmsnorm-swiglu/cs336-rmsnorm-swiglu-cover.webp": (320, 640, 960, 1440),
+    "/images/posts/cs336-softmax-attention-mask/cs336-softmax-attention-mask-cover.webp": (320, 640, 960, 1440),
 }
 
 # Remote friend sources are downloaded explicitly, never during site builds.

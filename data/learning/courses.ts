@@ -6,6 +6,7 @@ export interface LearningCourse {
   title: string
   courseTitle: string
   courseUrl: string
+  codeUrl?: string
   description: string
   topics: string[]
   cover?: { src: string, alt: string, caption?: string }
@@ -26,6 +27,23 @@ export const learningCourses: LearningCourse[] = [
       src: '/images/learning/cmu-15-779-flashattention-figure1.webp',
       alt: 'FlashAttention 论文图 1 的左、中子图：GPU 内存层次与注意力分块计算',
       caption: 'FlashAttention · 图 1（局部）',
+    },
+  },
+  {
+    slug: 'cs336',
+    code: 'CS336',
+    institution: 'Stanford',
+    series: 'Stanford CS336',
+    title: 'Stanford CS336',
+    courseTitle: 'Language Modeling from Scratch',
+    courseUrl: 'https://cs336.stanford.edu/',
+    codeUrl: 'https://github.com/liangqianxing/cs336-labs',
+    description: '从张量形状和 PyTorch 基础层开始，记录从零搭建语言模型时的理解、踩坑与测试。当前学到支持 mask 的缩放点积注意力。',
+    topics: ['PyTorch', 'Transformer', '语言模型'],
+    cover: {
+      src: '/images/posts/cs336-softmax-attention-mask/cs336-softmax-attention-mask-cover.webp',
+      alt: '注意力分数、权重与因果遮罩的 AI 辅助概念插画',
+      caption: '从基础层到 Attention · 自学记录',
     },
   },
 ]
