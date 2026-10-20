@@ -18,7 +18,7 @@ useHead({
   bodyAttrs: { class: 'gateway-body' },
   titleTemplate: title => title ? `${title} · ${academicProfile.name}` : academicProfile.name,
   meta: [
-    { name: 'theme-color', content: '#090a0d' },
+    { name: 'theme-color', content: '#080808' },
     { property: 'og:site_name', content: `${academicProfile.name} · ${academicProfile.nameCN}` },
     { property: 'og:type', content: 'website' },
     { name: 'twitter:card', content: 'summary' },
