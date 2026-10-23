@@ -1,6 +1,6 @@
 ---
 title: 'CMU 15-779 学习记录 10：加权梯度、状态分片与同步流水线'
-date: '2026-10-19'
+date: '2026-10-04'
 description: '用双 CPU 进程 Gloo 检查不等数据分片的梯度，推导持久状态字节数，再用依赖模型比较 GPipe 与同步 1F1B 的激活存活。'
 series: CMU 15-779
 seriesOrder: 10
@@ -23,7 +23,7 @@ haloPublished: false
 
 > 第 12 至 14 讲的个人配套实验，脚本编号 31、32 不对应官方作业。Gloo 实际运行两个 CPU 进程；张量切分、状态字节数和流水线分别按下文的数学或成本模型解释。真实 GPU 实测按学习安排跳过。
 
-[上一节](/posts/cmu-15-779-cpu-compiler-optimizations/)检查单个计算图的改写。这次把问题放到多个分片：梯度怎样汇总，状态怎样保存，前向和反向怎样排队。源码与原始结果冻结于 2026 年 10 月 19 日，整理时从独立副本复跑，完整仓库的 52 项测试通过。
+[上一节](/posts/cmu-15-779-cpu-compiler-optimizations/)检查单个计算图的改写。这次把问题放到多个分片：梯度怎样汇总，状态怎样保存，前向和反向怎样排队。源码与原始结果保存在实验快照中，整理时从独立副本复跑，完整仓库的 52 项测试通过。
 
 [查看代码版本](https://github.com/liangqianxing/cmu-15-779-labs/tree/c4851e0cedadf13af7c421867e83c8ff57244fa0) · [下载 31 至 37 号代码与结果 ZIP](/materials/cmu-15-779/experiments/cpu-parallel-serving-lora-moe-20261019.zip)
 

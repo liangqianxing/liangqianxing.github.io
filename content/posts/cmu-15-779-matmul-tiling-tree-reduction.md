@@ -1,6 +1,6 @@
 ---
 title: 'CMU 15-779 学习记录 07：矩阵分块、数据复用与树形归约'
-date: '2026-10-16'
+date: '2026-09-23'
 description: '用 CPU 模型统计矩阵分块的输入读取次数，再比较串行求和和树形归约的依赖深度，记录补零、同步与浮点加法顺序的边界。'
 series: CMU 15-779
 seriesOrder: 7
@@ -22,11 +22,11 @@ haloSync: false
 haloPublished: false
 ---
 
-> GPU Architecture & CUDA Programming 的个人配套实验。首次记录用 CPU 模型检查数据复用与依赖深度；2026 年 10 月 19 日补入原生 CUDA 矩阵验证，以及 Triton 两阶段归约和矩阵乘法实测。
+> GPU Architecture & CUDA Programming 的个人配套实验。首次记录用 CPU 模型检查数据复用与依赖深度；后续补入单卡 GPU 原生 CUDA 矩阵验证，以及 Triton 两阶段归约和矩阵乘法实测。
 
 [上一节](/posts/cmu-15-779-cuda-thread-indexing/)解决线程如何找到自己的元素。这次沿着[原课 GPU/CUDA 幻灯片](https://www.cs.cmu.edu/~zhihaoj2/15-779/slides/03-CUDA-programming.pdf)的矩阵乘法与归约部分，观察两件事：多个输出怎样共用输入，以及求和怎样缩短依赖链。
 
-对应脚本为 `26_matmul_tiling.py`、`27_tree_reduction.py`，原始结果保存于 2026 年 10 月 16 日。脚本编号是个人练习编号，不对应官方作业。
+对应脚本为 `26_matmul_tiling.py`、`27_tree_reduction.py`，原始结果保存在随附的实验归档中。脚本编号是个人练习编号，不对应官方作业。
 
 [历史 CPU 代码版本](https://github.com/liangqianxing/cmu-15-779-labs/tree/201587e7b00637567e969368d3085a6ce490154c) · [下载代码与结果 ZIP](/materials/cmu-15-779/experiments/matmul-tiling-tree-reduction-20261016.zip)
 
@@ -137,7 +137,7 @@ python3.11 -m venv .venv
 [历史 CPU GitHub 代码](https://github.com/liangqianxing/cmu-15-779-labs/tree/201587e7b00637567e969368d3085a6ce490154c) · [下载代码与结果 ZIP](/materials/cmu-15-779/experiments/matmul-tiling-tree-reduction-20261016.zip)
 
 
-## 2026-10-19：原生 CUDA 与 Triton 实测
+## 后续补充：原生 CUDA 与 Triton 实测
 
 学习聊天在单卡 CUDA 环境实际编译、运行了 `cuda/26_matmul_tiling.cu`，同时保留了前文 CPU 报告。设备报告 RTX 4080 SUPER、compute capability 8.9，CUDA Toolkit 12.8；GPU Python 环境为 Python 3.12.3、PyTorch 2.7.0+cu128、Triton 3.3.0。
 

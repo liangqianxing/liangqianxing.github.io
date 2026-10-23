@@ -1,6 +1,6 @@
 ---
 title: 'CMU 15-779 学习记录 01：PyTorch 自动求导与线性回归'
-date: '2026-10-13'
+date: '2026-09-03'
 description: '从自动求导和手动梯度下降开始，比较学习率，再用 SGD 训练线性回归。记录 w * 4 写错后停在 1.25 的原因和修正结果。'
 series: CMU 15-779
 seriesOrder: 1
@@ -25,7 +25,7 @@ haloPublished: false
 
 开始学习 CMU 15-779 时，我会 Python，但还没用过 PyTorch。这次先在 Mac 上用 CPU 做基础练习：计算导数、手动更新参数，再用 SGD 从一组数据里学出线性关系。
 
-这篇记录整理的是 2026 年 10 月 13 日的练习。我把运行结果和中间写错的地方一起留下，方便以后回看。
+这篇记录整理的是课程入门阶段的第一组练习。我把运行结果和中间写错的地方一起留下，方便以后回看。
 
 实验使用 Python 3.11.15、PyTorch 2.14.1，张量采用默认的 `float32`，运行设备是 CPU。三个脚本和依赖文件可以在 [GitHub 代码仓库](https://github.com/liangqianxing/cmu-15-779-labs)查看，也可以下载[实验代码 ZIP](/materials/cmu-15-779/experiments/pytorch-basics-20261013.zip)。参考阅读是 [PyTorch 中文译稿](/learning/cmu-15-779/materials/pytorch-paper-zh/)的第 4.3 节「自动微分」。
 

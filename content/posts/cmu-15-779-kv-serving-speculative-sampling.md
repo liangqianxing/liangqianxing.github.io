@@ -1,6 +1,6 @@
 ---
 title: 'CMU 15-779 学习记录 11：分页 KV、连续批处理与推测采样'
-date: '2026-10-19'
+date: '2026-10-08'
 description: '在 CPU 上验证 KV 页共享和写时复制，用单位成本模型检查连续批处理，再用条件概率小模型核对推测采样的接受与补采样。'
 series: CMU 15-779
 seriesOrder: 11
@@ -23,7 +23,7 @@ haloPublished: false
 
 > 第 15、16 讲的个人配套实验。33 号实现 CPU 分页 KV 存储，37 号模拟请求准入，34 号运行小概率模型的推测采样。它们分别验证存储、调度和分布问题，没有测量真实 LLM 服务吞吐或 GPU 延迟。
 
-[记录 08](/posts/cmu-15-779-attention-online-softmax/)已经对照过单个请求的 KV cache。这次继续检查：多个分支怎样共享前缀，短请求结束后怎样补入新请求，以及草稿 token 怎样在保持目标分布的条件下接受或拒绝。代码与原始结果冻结于 2026 年 10 月 19 日，整理时复跑结果一致。
+[记录 08](/posts/cmu-15-779-attention-online-softmax/)已经对照过单个请求的 KV cache。这次继续检查：多个分支怎样共享前缀，短请求结束后怎样补入新请求，以及草稿 token 怎样在保持目标分布的条件下接受或拒绝。代码与原始结果保存在实验快照中，整理时复跑结果一致。
 
 [查看代码版本](https://github.com/liangqianxing/cmu-15-779-labs/tree/c4851e0cedadf13af7c421867e83c8ff57244fa0) · [下载 31 至 37 号代码与结果 ZIP](/materials/cmu-15-779/experiments/cpu-parallel-serving-lora-moe-20261019.zip)
 

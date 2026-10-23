@@ -1,6 +1,6 @@
 ---
 title: 'CMU 15-779 学习记录 04：多输出线性层、ReLU 与绝对值网络'
-date: '2026-10-15'
+date: '2026-09-12'
 description: '把 nn.Linear 对应到矩阵乘法，弄清多个输出怎样计算，再逐层拆开一个绝对值网络，比较手动设置参数与训练得到的结果。'
 series: CMU 15-779
 seriesOrder: 4

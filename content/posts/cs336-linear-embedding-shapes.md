@@ -1,6 +1,6 @@
 ---
 title: 'Stanford CS336 学习记录 01：从 Linear、Embedding 搞清张量形状'
-date: '2026-10-20'
+date: '2026-10-18'
 description: '从 PyTorch 类、参数与 forward 的关系开始，理解 Linear 为什么保存两行三列的权重、计算时为什么要转置，再区分 Embedding 查表与线性变换。'
 series: Stanford CS336
 seriesOrder: 1
@@ -21,7 +21,7 @@ haloPublished: false
 codeUrl: https://github.com/liangqianxing/cs336-labs/tree/a39eb684710817f7f389626423fcb26ca0f6d629
 ---
 
-2026 年 10 月 20 日，开始沿着 Stanford CS336 的 Assignment 1 学习。BPE 之前已经接触过，这轮先跳过分词器，从 Transformer 的基础层开始。这里记录的是当时写代码时真正卡住的问题，以及对应测试能确认到的范围。
+开始沿着 Stanford CS336 的 Assignment 1 一步步实现。BPE 之前已经接触过，这轮先跳过分词器，从 Transformer 的基础层开始。这里记录的是当时写代码时真正卡住的问题，以及对应测试能确认到的范围。
 
 起步时，我连类的骨架都没完全写顺。`nn.Module`、`nn.Parameter`、`forward` 看起来都与“模型”有关，但分别负责什么并不清楚。与其急着拼一个完整网络，不如先把一个输入 3 维、输出 2 维的 Linear 看明白。
 
@@ -176,7 +176,7 @@ SyntaxError: positional argument follows keyword argument
 
 ## 发布时的复核
 
-2026 年 10 月 20 日，发布前对[独立代码快照](https://github.com/liangqianxing/cs336-labs/tree/a39eb684710817f7f389626423fcb26ca0f6d629)重新运行了 8 项官方组件测试，结果为 `8 passed`。完整清单和运行环境见[进度记录](https://github.com/liangqianxing/cs336-labs/blob/a39eb684710817f7f389626423fcb26ca0f6d629/docs/progress.md)。
+发布前对[独立代码快照](https://github.com/liangqianxing/cs336-labs/tree/a39eb684710817f7f389626423fcb26ca0f6d629)重新运行了 8 项官方组件测试，结果为 `8 passed`。完整清单和运行环境见[进度记录](https://github.com/liangqianxing/cs336-labs/blob/a39eb684710817f7f389626423fcb26ca0f6d629/docs/progress.md)。
 
 *封面使用 [aigc-image-generator](https://github.com/liangqianxing/aigc-image-generator) 辅助生成，属于概念插画；准确的形状、公式与运算关系以正文为准。*
 

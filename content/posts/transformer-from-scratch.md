@@ -1,6 +1,6 @@
 ---
 title: 从零实现 Transformer：用 NumPy 理解注意力、梯度与训练
-date: 2026-10-07
+date: '2026-08-06'
 description: 深入实践 - 使用纯 NumPy 从零实现 Transformer、BPE 分词器和训练流程，理解大语言模型的每一个细节
 series: LLM 从零实现
 seriesOrder: 2

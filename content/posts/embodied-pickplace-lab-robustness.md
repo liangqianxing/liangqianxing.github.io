@@ -1,6 +1,6 @@
 ---
 title: 'Pickplace Lab 项目复盘：抓取成功率之外的时延与失败分析'
-date: '2026-10-16'
+date: '2026-08-29'
 description: '从 MuJoCo 抓取搬运闭环出发，记录 22,100 个评测回合。动作平滑在自建任务的 50 ms 延迟下有效，换到 Panda Lift 却没有支持同样的收益。'
 cover: /images/posts/embodied-pickplace-lab-robustness/pickplace-grasp-cover-20261016.webp
 coverAlt: MuJoCo 实际渲染的笛卡尔夹爪抓取方块场景，桌面上标出放置目标
@@ -27,7 +27,7 @@ Pickplace Lab 从一个简单任务开始：让夹爪抓起方块，搬到指定
 
 前一个结果可以解释改进，后一个结果限制了结论。两者都保留在项目里。
 
-本文对应 **2026 年 10 月 16 日发布的 v0.1.0**。开发、实验执行和材料整理使用了 AI 辅助；数值来自保存的本地运行记录。项目已经公开，但尚无独立第三方复现或外部采用的证据。
+本文对应 **项目 v0.1.0 阶段性实验复盘**。开发、实验执行和材料整理使用了 AI 辅助；数值来自保存的本地运行记录。项目已经公开，但尚无独立第三方复现或外部采用的证据。
 
 [查看项目源码](https://github.com/liangqianxing/embodied-pickplace-lab/tree/v0.1.0) · [下载完整发布包与校验和](https://github.com/liangqianxing/embodied-pickplace-lab/releases/tag/v0.1.0)
 

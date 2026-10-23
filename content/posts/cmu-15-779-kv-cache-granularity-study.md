@@ -1,6 +1,6 @@
 ---
 title: 'CMU 15-779 学习记录 14：KV 页大小、共享边界与 CPU 实现成本'
-date: '2026-10-19'
+date: '2026-10-17'
 description: '用 210 组 CPU 配置比较连续与分页 KV cache，观察 31/32-token 共享前缀的页边界，分别记录活跃槽位、池容量、复制计数和完整调用耗时。'
 series: CMU 15-779
 seriesOrder: 14
@@ -25,7 +25,7 @@ haloPublished: false
 
 同样是共享 31 个 token，块长 4 时只占 29 KiB 活跃 K/V 槽位，块长 32 时却占 112 KiB。页变大后，共享前缀没有变短，但能完整保留给多个请求共用的页消失了。这次把这个边界与实际分配容量、复制和 CPU 耗时放在一起看。
 
-源码和原始报告冻结于 2026 年 10 月 19 日。发布整理时从独立副本重跑完整扫描，210 行的输出误差、槽位、页数与复制计数均复现，复跑时间另存，没有覆盖原始测量。
+源码和原始报告保存在项目实验快照中。发布整理时从独立副本重跑完整扫描，210 行的输出误差、槽位、页数与复制计数均复现，复跑时间另存，没有覆盖原始测量。
 
 [查看代码版本](https://github.com/liangqianxing/cmu-15-779-labs/tree/200faf569eccf94fb125e65110bb5d14094d454a) · [下载项目实验代码、原始数据与图表 ZIP](/materials/cmu-15-779/experiments/kv-cache-granularity-20261019.zip)
 
@@ -145,7 +145,7 @@ python3.11 -m venv .venv
 
 [本篇 GitHub 代码](https://github.com/liangqianxing/cmu-15-779-labs/tree/200faf569eccf94fb125e65110bb5d14094d454a) · [下载项目实验 ZIP](/materials/cmu-15-779/experiments/kv-cache-granularity-20261019.zip)
 
-## 2026-10-19：项目报告与中文展示
+## 项目报告与中文展示
 
 同一实验的文档和展示现已生成，补在本篇。英文报告沿用上面的 CPU 原始数据，展开四种存储路径、完整页共享与部分页 COW 的公式、实验设计和限制；没有加入新的 GPU KV 性能结论。一页项目规格在原型之后整理，不能视作此前已经提交的提案。
 

@@ -1,6 +1,6 @@
 ---
 title: 从零实现 BPE Tokenizer：现代大语言模型分词器的核心原理
-date: 2026-10-07
+date: '2026-08-02'
 description: 深入理解并手写实现 GPT、LLaMA 等大语言模型使用的 Byte Pair Encoding (BPE) 分词算法，包含完整代码和可视化讲解
 cover: /images/posts/bpe-tokenizer-from-scratch/bpe-cover.webp
 coverAlt: 字节积木逐步组合成更长的子词 Token 的示意插画
@@ -610,7 +610,7 @@ assert loaded.model == model
 
 71 项分词器测试是原稿写作时的阶段性记录，不代表当前仓库的运行结果。复现时应以对应版本实际运行的测试为准。
 
-2026 年 10 月 10 日核对的 [代码版本 `bf854b1`](https://github.com/liangqianxing/lm-lab/tree/bf854b11027bb430843c0d5b72e0a94cf95232dd)仍有两个需要处理的边界：包入口的导出与 `bpe.py` 定义不一致，会阻止普通导入；`simple` 训练分支需要先识别完整特殊标记，再做预分词。前面的使用示例展示 API 组合，运行前应检查这两点。
+后续复查 [代码版本 `bf854b1`](https://github.com/liangqianxing/lm-lab/tree/bf854b11027bb430843c0d5b72e0a94cf95232dd)仍有两个需要处理的边界：包入口的导出与 `bpe.py` 定义不一致，会阻止普通导入；`simple` 训练分支需要先识别完整特殊标记，再做预分词。前面的使用示例展示 API 组合，运行前应检查这两点。
 
 核心测试应覆盖这些行为：
 

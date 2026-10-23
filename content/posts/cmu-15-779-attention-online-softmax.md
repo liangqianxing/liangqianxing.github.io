@@ -1,6 +1,6 @@
 ---
 title: 'CMU 15-779 学习记录 08：分块 Attention、在线 Softmax 与 KV cache'
-date: '2026-10-16'
+date: '2026-09-27'
 description: '在 CPU 上对照完整 Attention、在线 Softmax 分块实现与 PyTorch SDPA，检查因果掩码、浮点误差和分数块大小，理解 FlashAttention 的一部分算法基础。'
 series: CMU 15-779
 seriesOrder: 8
@@ -22,11 +22,11 @@ haloSync: false
 haloPublished: false
 ---
 
-> 第 5 讲 Transformers & Attention 的个人配套实验。28/29 号是 CPU 单头前向与 KV cache；2026 年 10 月 19 日补入 38 号 CUDA 多头合成张量的显式 SDPA MATH/FLASH 对照。没有手写 FlashAttention kernel，也没有总内存峰值测量。
+> 第 5 讲 Transformers & Attention 的个人配套实验。28/29 号是 CPU 单头前向与 KV cache；后续补入 38 号 CUDA 多头合成张量的显式 SDPA MATH/FLASH 对照。没有手写 FlashAttention kernel，也没有总内存峰值测量。
 
 [上一节](/posts/cmu-15-779-matmul-tiling-tree-reduction/)通过分块共用矩阵输入。这次接到 Attention：能不能一块一块读取分数，同时得到与完整 Softmax 一致的输出？
 
-`28_attention_online_softmax.py` 已保存完整计算、分块计算和 PyTorch SDPA MATH 的 CPU 对照结果。原始记录来自 2026 年 10 月 16 日；整理时在冻结副本中复跑了默认配置和因果配置。2026 年 10 月 19 日补入 29 号 KV cache 实验，并在独立冻结副本中复验。
+`28_attention_online_softmax.py` 已保存完整计算、分块计算和 PyTorch SDPA MATH 的 CPU 对照结果。整理时在冻结副本中复跑了默认配置和因果配置，并补入 29 号 KV cache 实验在独立冻结副本中复验。
 
 [历史 CPU 代码版本](https://github.com/liangqianxing/cmu-15-779-labs/tree/9261bea6aedf31cdccbbab2541ca693fc97b3743) · [下载代码与结果 ZIP](/materials/cmu-15-779/experiments/attention-online-softmax-kv-cache-20261019.zip)
 
@@ -168,7 +168,7 @@ python3.11 -m venv .venv
 [历史 CPU GitHub 代码](https://github.com/liangqianxing/cmu-15-779-labs/tree/9261bea6aedf31cdccbbab2541ca693fc97b3743) · [下载代码与结果 ZIP](/materials/cmu-15-779/experiments/attention-online-softmax-kv-cache-20261019.zip)
 
 
-## 2026-10-19：显式选择 CUDA MATH 与 FLASH 后端
+## 后续补充：显式选择 CUDA MATH 与 FLASH 后端
 
 38 号脚本在学习聊天获授权的单卡环境运行，设备报告 RTX 4080 SUPER，PyTorch 2.7.0+cu128、CUDA Toolkit 12.8。输入改为 float16，形状为 `[B=2,H=4,N,D=64]`，N 取 64、129、512，分别验证因果与非因果前向。
 

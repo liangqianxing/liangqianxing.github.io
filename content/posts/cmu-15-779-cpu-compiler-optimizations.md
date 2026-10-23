@@ -1,6 +1,6 @@
 ---
 title: 'CMU 15-779 学习记录 09：CPU 编译优化、合法重写与候选搜索'
-date: '2026-10-19'
+date: '2026-10-01'
 description: '用 CPU 实验验证 BatchNorm 折叠、RMSNorm 重排与非线性反例，测量分块候选，并运行 TorchInductor，分别记录首调用与预热后的时间。'
 series: CMU 15-779
 seriesOrder: 9
@@ -23,7 +23,7 @@ haloPublished: false
 
 > 编译章节的个人配套实验，编号 30 不对应官方作业。图重写、分块候选和 TorchInductor 均在 CPU 上运行；真实 GPU 实验按学习安排跳过。
 
-[上一节](/posts/cmu-15-779-attention-online-softmax/)记录了分块 Attention 和 KV cache。这次转到编译优化：先检查计算改写是否成立，再测量不同执行方式。源码和原始报告冻结于 2026 年 10 月 19 日，整理时从独立副本复跑。
+[上一节](/posts/cmu-15-779-attention-online-softmax/)记录了分块 Attention 和 KV cache。这次转到编译优化：先检查计算改写是否成立，再测量不同执行方式。源码和原始报告保存在实验快照中，整理时从独立副本复跑。
 
 [查看代码版本](https://github.com/liangqianxing/cmu-15-779-labs/tree/9261bea6aedf31cdccbbab2541ca693fc97b3743) · [下载代码与结果 ZIP](/materials/cmu-15-779/experiments/cpu-compiler-optimizations-20261019.zip)
 

@@ -1,6 +1,6 @@
 ---
 title: 'CMU 15-779 学习记录 12：LoRA 首步梯度、权重合并与均匀 4-bit 打包'
-date: '2026-10-19'
+date: '2026-10-11'
 description: '用一次 CPU SGD 更新检查 LoRA 初始化、冻结基座与合并等价，再分别记录均匀 4-bit 存储字节数和量化误差。'
 series: CMU 15-779
 seriesOrder: 12
@@ -22,7 +22,7 @@ haloPublished: false
 
 > 第 17 讲的个人配套实验，35 号脚本实际执行一次 CPU LoRA 更新，并实现均匀 4-bit 打包。实验检查机制与数值误差，不评估微调任务效果，也没有实现完整 QLoRA。
 
-这次把两个问题分开记录：低秩分支是否能合并进原权重，低比特保存又会引入多少误差。源码与原始结果冻结于 2026 年 10 月 19 日；整理时复跑，两部分结果均与原报告一致。
+这次把两个问题分开记录：低秩分支是否能合并进原权重，低比特保存又会引入多少误差。源码与原始结果保存在实验快照中；整理时复跑，两部分结果均与原报告一致。
 
 [查看代码版本](https://github.com/liangqianxing/cmu-15-779-labs/tree/c4851e0cedadf13af7c421867e83c8ff57244fa0) · [下载 31 至 37 号代码与结果 ZIP](/materials/cmu-15-779/experiments/cpu-parallel-serving-lora-moe-20261019.zip)
 

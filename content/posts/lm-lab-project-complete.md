@@ -1,6 +1,6 @@
 ---
 title: "LM Lab 项目复盘：从分词器到 Transformer 的实现与验证"
-date: 2026-10-07
+date: '2026-08-10'
 description: "使用纯 NumPy 实现 Transformer 语言模型的完整历程，包含 BPE 分词器、注意力机制、优化器和训练流程。10,000+ 行代码，71 个测试全部通过。"
 series: "LLM 从零实现"
 seriesOrder: 3

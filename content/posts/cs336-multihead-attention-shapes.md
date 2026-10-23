@@ -1,6 +1,6 @@
 ---
 title: 'Stanford CS336 学习记录 04：多头注意力怎样拆头、计算和合头'
-date: '2026-10-20'
+date: '2026-10-22'
 description: '沿着 (2, 5, 64) 的输入追踪 QKV 投影、reshape、transpose、共享因果 mask 和合头，理解每个头仍处理完整序列，以及最后为什么还需要输出 Linear。'
 series: Stanford CS336
 seriesOrder: 4

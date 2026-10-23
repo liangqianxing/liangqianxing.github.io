@@ -1,6 +1,6 @@
 ---
 title: 'CMU 15-779 学习记录 13：MoE 路由、稀疏分发与容量溢出'
-date: '2026-10-19'
+date: '2026-10-14'
 description: '用 CPU top-2 MoE 检查稀疏分发的输出与梯度，统计 expert-token 行数，并保留容量丢弃会改变输出的反例。'
 series: CMU 15-779
 seriesOrder: 13
@@ -22,7 +22,7 @@ haloPublished: false
 
 > 第 18 讲的个人配套实验。36 号脚本串行运行 CPU 专家，检查 top-k 路由后的分发与合并；没有训练 router，也没有执行 GPU grouped GEMM 或跨设备 all-to-all。
 
-[上一节](/posts/cmu-15-779-lora-uniform-quantization/)记录低秩适配，这次转向每个 token 只激活部分专家的计算。源码与原始报告冻结于 2026 年 10 月 19 日，整理时从独立副本复跑，结果一致。
+[上一节](/posts/cmu-15-779-lora-uniform-quantization/)记录低秩适配，这次转向每个 token 只激活部分专家的计算。源码与原始报告保存在实验快照中，整理时从独立副本复跑，结果一致。
 
 [查看代码版本](https://github.com/liangqianxing/cmu-15-779-labs/tree/c4851e0cedadf13af7c421867e83c8ff57244fa0) · [下载 31 至 37 号代码与结果 ZIP](/materials/cmu-15-779/experiments/cpu-parallel-serving-lora-moe-20261019.zip)
 

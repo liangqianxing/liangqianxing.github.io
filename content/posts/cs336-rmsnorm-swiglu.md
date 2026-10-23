@@ -1,6 +1,6 @@
 ---
 title: 'Stanford CS336 学习记录 02：RMSNorm 的广播与 SwiGLU 的门控'
-date: '2026-10-20'
+date: '2026-10-19'
 description: '用一个 token 向量理解均方根归一化，拆开 dim=-1 与 keepdim=True 的作用，再沿着两条分支读懂 SiLU、逐元素乘法和 SwiGLU。'
 series: Stanford CS336
 seriesOrder: 2
@@ -176,7 +176,7 @@ ModuleNotFoundError: No module named 'cs336_basics.RMSNorm'
 
 ## 发布时的复核
 
-2026 年 10 月 20 日，发布前对[独立代码快照](https://github.com/liangqianxing/cs336-labs/tree/a39eb684710817f7f389626423fcb26ca0f6d629)重新运行了 8 项官方组件测试，结果为 `8 passed`。完整清单和运行环境见[进度记录](https://github.com/liangqianxing/cs336-labs/blob/a39eb684710817f7f389626423fcb26ca0f6d629/docs/progress.md)。
+发布前对[独立代码快照](https://github.com/liangqianxing/cs336-labs/tree/a39eb684710817f7f389626423fcb26ca0f6d629)重新运行了 8 项官方组件测试，结果为 `8 passed`。完整清单和运行环境见[进度记录](https://github.com/liangqianxing/cs336-labs/blob/a39eb684710817f7f389626423fcb26ca0f6d629/docs/progress.md)。
 
 *封面使用 [aigc-image-generator](https://github.com/liangqianxing/aigc-image-generator) 辅助生成，属于概念插画；准确的形状、公式与运算关系以正文为准。*
 

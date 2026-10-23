@@ -1,6 +1,6 @@
 ---
 title: 'CMU 15-779 学习记录 05：Profiler、算子调用与批量推理'
-date: '2026-10-15'
+date: '2026-09-15'
 description: '对照 ML Systems 基础，用 Profiler 拆开两层网络的执行过程，再固定 1000 个样本扫描 batch size，观察算子调用次数、尾批和 CPU 耗时。'
 series: CMU 15-779
 seriesOrder: 5
@@ -28,7 +28,7 @@ haloPublished: false
 
 [课程安排](https://www.cs.cmu.edu/~zhihaoj2/15-779/schedule.html)中的 Introduction to ML Systems 配有[第 2 讲课件](https://www.cs.cmu.edu/~zhihaoj2/15-779/slides/02-MLSys-basics.pdf)，阅读材料包括 TensorFlow 和 PyTorch 两篇系统论文。本篇先围绕已经熟悉的两层网络做三个小实验：`22_profile_forward.py`、`23_profile_batching.py`、`24_batch_size_sweep.py`。
 
-这些脚本在本机执行，并在整理时独立复跑。本文的 batch size 数据来自附件中保存的原始 JSON，记录时间为 **2026 年 10 月 15 日 16:00，Asia/Shanghai**。
+这些脚本在本机执行，并在整理时独立复跑。本文的 batch size 数据来自附件中保存的原始 JSON，对应本机固定环境下的实测快照。
 
 [查看本篇代码](https://github.com/liangqianxing/cmu-15-779-labs/tree/cecf5110d8a95161bb5763eadfca94cd7a0cc50f) · [下载代码与结果 ZIP](/materials/cmu-15-779/experiments/pytorch-profiler-batching-20261015.zip)
 

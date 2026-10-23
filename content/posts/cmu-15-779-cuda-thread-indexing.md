@@ -1,6 +1,6 @@
 ---
 title: 'CMU 15-779 学习记录 06：CUDA 线程索引与边界检查'
-date: '2026-10-15'
+date: '2026-09-19'
 description: '用 CPU 演示 CUDA 的 block、thread 与全局下标：10 个元素如何分给 3 个线程块，为什么要跳过越界线程，以及这些验证能说明什么。'
 series: CMU 15-779
 seriesOrder: 6
@@ -22,7 +22,7 @@ haloSync: false
 haloPublished: false
 ---
 
-> GPU Architecture & CUDA Programming 的个人配套练习。首次记录为 CPU 索引演示；2026 年 10 月 19 日补入原生 CUDA 编译、运行与 memcheck，以及 Triton 向量加法实测。
+> GPU Architecture & CUDA Programming 的个人配套练习。首次记录为 CPU 索引演示；后续在单卡 GPU 环境补入原生 CUDA 编译、运行与 memcheck，以及 Triton 向量加法实测。
 
 [上一节](/posts/cmu-15-779-profiler-operator-batching/)从算子调用次数解释批量推理。这次把视角往下移一层：一个 CUDA kernel 中，线程怎样知道自己应该处理哪个元素？
 
@@ -158,7 +158,7 @@ check_cuda(cudaDeviceSynchronize(), "execute vector_add");
 
 第一项检查启动错误；第二项等待先前提交到设备的工作完成，并检查执行错误。普通 kernel 启动相对主机通常是异步的，“启动调用返回”与“计算已经完成”需要分开理解，具体行为以 [NVIDIA 的异步执行说明](https://docs.nvidia.com/cuda/cuda-programming-guide/02-basics/asynchronous-execution.html)为准。
 
-**首次记录时，这份 CUDA 文件尚未编译、尚未执行。** 2026 年 10 月 15 日的本机检查结果是：`torch.cuda.is_available()` 为 `False`，没有 `nvcc` 和 `nvidia-smi`，MPS 可用。MPS 可用不提供这份 CUDA C++ 程序的执行证据。
+**首次记录时，这份 CUDA 文件尚未编译、尚未执行。** 首次在 Mac 本机记录时的检查结果是：`torch.cuda.is_available()` 为 `False`，没有 `nvcc` 和 `nvidia-smi`，MPS 可用。MPS 可用不提供这份 CUDA C++ 程序的执行证据。
 
 CPU 演示验证了索引计算和数值覆盖；它没有验证设备内存访问、实际线程调度、GPU 上的运行结果或速度。CUDA 目录中的运行说明保留了编译、执行与 Compute Sanitizer 检查命令，首次记录没有用预期结果代替实测输出；后续实际运行见下文续验。
 
@@ -187,12 +187,12 @@ python3.11 -m venv .venv
   --output results/25_indexing_17_8-rerun.json
 ```
 
-原始记录分别保存于 2026 年 10 月 15 日 16:26 和 16:37（Asia/Shanghai），包含环境、脚本 SHA-256、完整映射和边界案例结果。
+原始记录保存在随附的实验结果 JSON 中，包含环境、脚本 SHA-256、完整映射和边界案例结果。
 
 [历史 CPU GitHub 代码](https://github.com/liangqianxing/cmu-15-779-labs/tree/2f21dd338cf2e6a1e129d951993d5f8e5dd56ba1) · [下载代码与结果 ZIP](/materials/cmu-15-779/experiments/cuda-thread-indexing-20261015.zip)
 
 
-## 2026-10-19：CUDA 编译、memcheck 与 Triton 续验
+## 后续补充：CUDA 编译、memcheck 与 Triton 实测
 
 学习聊天后来启用了一台获授权的单卡服务器，实际运行了相同的 `cuda/25_vector_add.cu`。设备名称报告为 NVIDIA GeForce RTX 4080 SUPER，compute capability 8.9，驱动 595.71.05，CUDA Toolkit 12.8。原生 runner 保存的源码 SHA-256 与本次公开文件一致。
 

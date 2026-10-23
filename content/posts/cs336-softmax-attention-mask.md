@@ -1,6 +1,6 @@
 ---
 title: 'Stanford CS336 学习记录 03：Softmax 的数值稳定与 Attention Mask'
-date: '2026-10-20'
+date: '2026-10-21'
 description: '从减去最大值为何不改变 Softmax 开始，理清函数与有参数层的区别，再沿着 Q、K、V 的形状理解缩放点积注意力，以及 mask 为什么必须填负无穷。'
 series: Stanford CS336
 seriesOrder: 3
@@ -193,7 +193,7 @@ Softmax 里也出现过 `torch,exp`，应该表达的却是对 `torch.exp` 的�
 
 ## 发布时的复核
 
-2026 年 10 月 20 日，发布前对[独立代码快照](https://github.com/liangqianxing/cs336-labs/tree/a39eb684710817f7f389626423fcb26ca0f6d629)重新运行了 8 项官方组件测试，结果为 `8 passed`。完整清单和运行环境见[进度记录](https://github.com/liangqianxing/cs336-labs/blob/a39eb684710817f7f389626423fcb26ca0f6d629/docs/progress.md)。
+发布前对[独立代码快照](https://github.com/liangqianxing/cs336-labs/tree/a39eb684710817f7f389626423fcb26ca0f6d629)重新运行了 8 项官方组件测试，结果为 `8 passed`。完整清单和运行环境见[进度记录](https://github.com/liangqianxing/cs336-labs/blob/a39eb684710817f7f389626423fcb26ca0f6d629/docs/progress.md)。
 
 *封面使用 [aigc-image-generator](https://github.com/liangqianxing/aigc-image-generator) 辅助生成，属于概念插画；准确的形状、公式与运算关系以正文为准。*
 
