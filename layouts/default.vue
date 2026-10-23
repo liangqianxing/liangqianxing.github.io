@@ -2,12 +2,18 @@
   <div id="app-root" class="blog-site">
     <a class="blog-skip" href="#blog-main">跳到主要内容</a>
     <div id="reading-bar" aria-hidden="true" />
-    <AppNav />
+    <SiteEffects />
+    <div class="theme-transition-layer" aria-hidden="true">
+      <span class="theme-transition-orb" />
+      <span class="theme-transition-sheen" />
+    </div>
+    <AppNav @open-search="commandOpen = true" />
     <main id="blog-main" tabindex="-1">
       <slot />
     </main>
     <AppFooter />
     <BackToTop />
+    <CommandPalette v-model:open="commandOpen" />
   </div>
 </template>
 
@@ -18,15 +24,31 @@ const isDark = ref(false)
 const isThemeReady = ref(false)
 const themeMode = ref<ThemeMode>('light')
 const themeModes: ThemeMode[] = ['light', 'dark', 'cyber']
+const commandOpen = ref(false)
 let progressFrame = 0
+let themeSwitchTimer: ReturnType<typeof setTimeout> | undefined
 
 function normalizeTheme(value: string | null): ThemeMode {
   return value === 'dark' || value === 'cyber' ? value : 'light'
 }
 
-function setTheme(mode: ThemeMode, persist = true) {
+function setTheme(mode: ThemeMode, persist = true, event?: MouseEvent) {
   if (persist && themeMode.value === mode) return
   const root = document.documentElement
+  if (persist && typeof window !== 'undefined') {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (!reduced) {
+      if (event) {
+        root.style.setProperty('--theme-x', `${event.clientX}px`)
+        root.style.setProperty('--theme-y', `${event.clientY}px`)
+      }
+      root.classList.remove('theme-switching')
+      void root.offsetWidth
+      root.classList.add('theme-switching')
+      if (themeSwitchTimer) clearTimeout(themeSwitchTimer)
+      themeSwitchTimer = setTimeout(() => root.classList.remove('theme-switching'), 480)
+    }
+  }
   themeMode.value = mode
   isDark.value = mode !== 'light'
   root.classList.toggle('light', mode === 'light')
@@ -44,6 +66,10 @@ function toggleTheme() {
   setTheme(themeModes[(themeModes.indexOf(themeMode.value) + 1) % themeModes.length])
 }
 
+function openCommandPalette() {
+  commandOpen.value = true
+}
+
 function updateProgress() {
   progressFrame = 0
   const bar = document.getElementById('reading-bar')
@@ -56,8 +82,18 @@ function onScroll() {
 }
 
 function onKeydown(event: KeyboardEvent) {
+  if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+    event.preventDefault()
+    commandOpen.value = !commandOpen.value
+    return
+  }
   const target = event.target as HTMLElement | null
   if (target?.closest('input, textarea, select, [contenteditable="true"]')) return
+  if (event.key === '/' && !event.repeat && !event.ctrlKey && !event.metaKey && !event.altKey) {
+    event.preventDefault()
+    commandOpen.value = true
+    return
+  }
   if (event.key === 't' && !event.repeat && !event.ctrlKey && !event.metaKey && !event.altKey) toggleTheme()
 }
 
@@ -77,6 +113,7 @@ onUnmounted(() => {
   window.removeEventListener('resize', onScroll)
   window.removeEventListener('keydown', onKeydown)
   cancelAnimationFrame(progressFrame)
+  if (themeSwitchTimer) clearTimeout(themeSwitchTimer)
 })
 
 provide('isDark', isDark)
@@ -84,6 +121,7 @@ provide('isThemeReady', isThemeReady)
 provide('themeMode', themeMode)
 provide('setTheme', setTheme)
 provide('toggleTheme', toggleTheme)
+provide('openCommandPalette', openCommandPalette)
 
 useHead(() => ({
   titleTemplate: title => title ? `${title} · ${appConfig.title}` : appConfig.title,

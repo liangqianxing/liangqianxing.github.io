@@ -3,8 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "nuxt dev",
-    "build": "nuxt generate",
+    "ensure:sqlite": "node -e \"try{const D=require('better-sqlite3');new D(':memory:').close()}catch{process.exit(1)}\" || npm rebuild better-sqlite3",
+    "dev": "npm run -s ensure:sqlite && nuxt dev",
+    "build": "npm run -s ensure:sqlite && nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "sync:halo": "node scripts/sync-halo.mjs"
