@@ -91,9 +91,9 @@ const { data } = await useAsyncData<PostMeta[]>('home-posts', () =>
 const posts = computed(() => data.value ?? [])
 const featured = computed(() => posts.value[0] ?? null)
 const selectedSlugs = [
-  'ai-infra-roadmap',
-  'mini-llm-engine-from-scratch',
-  'multimodal-rag-from-scratch',
+  'multi-constraint-agent-routing-dag-eval',
+  'llm-mrd-distillation-auditable-review-agents',
+  'qwen25-vl-sglang-verl-single-gpu-lab',
 ]
 const selectedPosts = computed(() =>
   selectedSlugs
