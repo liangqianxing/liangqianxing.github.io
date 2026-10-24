@@ -1,9 +1,115 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
   <title id="title">gu.log</title>
-  <desc id="desc">A personal research and code notebook combining a page fold, code chevron, and the letter G</desc>
-  <rect width="64" height="64" rx="16" fill="#F2EEE2"/>
-  <path d="M20 14c-3.3 0-6 2.7-6 6v24c0 3.3 2.7 6 6 6h24c3.3 0 6-2.7 6-6V20c0-3.3-2.7-6-6-6H20Z" fill="#1B4941"/>
-  <path d="M44 14v16L32 42l-4-4V14h16Z" fill="#F2EEE2" opacity="0.15"/>
-  <path d="M26 24l6 6-6 6m8 0h8" fill="none" stroke="#F2EEE2" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="50" cy="18" r="3.5" fill="#D37957"/>
+  <desc id="desc">Tactile hardcover engineering journal with a dog-eared cream manuscript page, woven terracotta ribbon, terminal prompt, and four-point curiosity spark</desc>
+  <defs>
+    <!-- Hardcover deep plum-obsidian cloth surface -->
+    <linearGradient id="gu-cover" x1="6" y1="2" x2="58" y2="62" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#383047"/>
+      <stop offset="52%" stop-color="#262034"/>
+      <stop offset="100%" stop-color="#171320"/>
+    </linearGradient>
+
+    <!-- Multi-theme ambient studio glow (lilac + subtle cyber-cyan bridge) -->
+    <radialGradient id="gu-glow" cx="48" cy="14" r="44" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#9A7EC2" stop-opacity="0.34"/>
+      <stop offset="52%" stop-color="#7CD4FF" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#171320" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Bookbinder's cloth spine on the left -->
+    <linearGradient id="gu-spine" x1="0" y1="0" x2="13" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1E1929"/>
+      <stop offset="80%" stop-color="#130F1B"/>
+      <stop offset="100%" stop-color="#0C0912"/>
+    </linearGradient>
+
+    <!-- Primary warm ivory manuscript sheet (#fffdf9 -> #efe5d8) -->
+    <linearGradient id="gu-paper" x1="17" y1="9" x2="53" y2="55" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFDF9"/>
+      <stop offset="65%" stop-color="#FAF4EC"/>
+      <stop offset="100%" stop-color="#EFE5D8"/>
+    </linearGradient>
+
+    <!-- Folded dog-ear corner gradient (soft lilac-tinted paper underside) -->
+    <linearGradient id="gu-fold" x1="40" y1="9" x2="53" y2="22" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#EFE7FA"/>
+      <stop offset="55%" stop-color="#DDD0F0"/>
+      <stop offset="100%" stop-color="#C6B4DF"/>
+    </linearGradient>
+
+    <!-- Woven terracotta-rose bookmark ribbon -->
+    <linearGradient id="gu-ribbon" x1="25" y1="0" x2="25" y2="12" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#E58D7B"/>
+      <stop offset="100%" stop-color="#C16459"/>
+    </linearGradient>
+
+    <!-- Terminal prompt chevron ink (deep plum-charcoal) -->
+    <linearGradient id="gu-ink" x1="23" y1="25" x2="33" y2="41" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#362D49"/>
+      <stop offset="100%" stop-color="#1E182B"/>
+    </linearGradient>
+
+    <!-- High-contrast editorial lilac-plum underscore cursor (>5:1 contrast on cream) -->
+    <linearGradient id="gu-cursor" x1="35" y1="39" x2="46" y2="43" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#7B619E"/>
+      <stop offset="100%" stop-color="#59437A"/>
+    </linearGradient>
+
+    <!-- Warm highlighter-gold core & 4-point curiosity spark (✦) -->
+    <linearGradient id="gu-gold" x1="45" y1="7" x2="54" y2="16" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFF8E6"/>
+      <stop offset="52%" stop-color="#F2CE86"/>
+      <stop offset="100%" stop-color="#E59872"/>
+    </linearGradient>
+
+    <!-- Outer squircle clip -->
+    <clipPath id="gu-squircle">
+      <rect width="64" height="64" rx="15"/>
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#gu-squircle)">
+    <!-- 1. Full-bleed Hardcover Base & Multi-Theme Studio Glow -->
+    <rect width="64" height="64" fill="url(#gu-cover)"/>
+    <rect width="64" height="64" fill="url(#gu-glow)"/>
+
+    <!-- 2. Tactile Bookbinder Spine & Crimp Groove -->
+    <rect x="0" y="0" width="13" height="64" fill="url(#gu-spine)"/>
+    <path d="M5 14H8.5M5 50H8.5" stroke="#9A7EC2" stroke-opacity="0.42" stroke-width="1.6" stroke-linecap="round"/>
+    <line x1="13" y1="0" x2="13" y2="64" stroke="#09070D" stroke-opacity="0.72" stroke-width="1.2"/>
+    <line x1="14" y1="0" x2="14" y2="64" stroke="#C8B4E3" stroke-opacity="0.20" stroke-width="1"/>
+
+    <!-- 3. Stacked Secondary Lilac Notebook Sheet (bottom-right page deck edge for clean top & dog-ear silhouette) -->
+    <path d="M21 13H40L54.5 25V52.5C54.5 54.9853 52.4853 57 50 57H21C19.3431 57 18 55.6569 18 54V16C18 14.3431 19.3431 13 21 13Z" fill="#DFD4EC" fill-opacity="0.34"/>
+
+    <!-- 4. Primary Manuscript Sheet Cast Shadow -->
+    <path d="M20 11H40L53 24V52.5C53 54.7091 51.2091 56.5 49 56.5H20C18.3431 56.5 17 55.1569 17 53.5V14C17 12.3431 18.3431 11 20 11Z" fill="#09070F" fill-opacity="0.42"/>
+
+    <!-- 5. Primary Warm Cream Manuscript Sheet with True 45° Dog-Ear Cut -->
+    <path d="M20 9H40L53 22V51C53 53.2091 51.2091 55 49 55H20C18.3431 55 17 53.6569 17 52V12C17 10.3431 18.3431 9 20 9Z" fill="url(#gu-paper)"/>
+
+    <!-- 6. Woven Terracotta Bookmark Ribbon (wrapping over top page edge with classic swallowtail notch) -->
+    <path d="M22.5 9H28.5V15.6L25.5 13.4L22.5 15.6V9Z" fill="#2A213B" fill-opacity="0.16"/>
+    <path d="M22.5 0H28.5V14.5L25.5 12.3L22.5 14.5V0Z" fill="url(#gu-ribbon)"/>
+    <line x1="22.5" y1="9" x2="28.5" y2="9" stroke="#FFFDF8" stroke-opacity="0.32" stroke-width="0.75"/>
+
+    <!-- 7. Dog-Ear Page Fold Shadow & Crisp Lilac Corner Flap (exact r=4 cubic Bezier fillet) -->
+    <path d="M40 9.8V18.8C40 21.1 41.9 23 44.2 23H53L40 9.8Z" fill="#261D36" fill-opacity="0.16"/>
+    <path d="M40 9V18C40 20.2091 41.7909 22 44 22H53L40 9Z" fill="url(#gu-fold)"/>
+    <path d="M40 9V18C40 20.2091 41.7909 22 44 22H53" fill="none" stroke="#FFFFFF" stroke-opacity="0.72" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- 8. High-Contrast Terminal Prompt (`>_`) Optically Centered on the Manuscript Sheet -->
+    <!-- Code chevron `>` in deep plum ink -->
+    <path d="M23.5 25L32 33L23.5 41" fill="none" stroke="url(#gu-ink)" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Terminal underscore `_` in rich editorial lilac-plum with warm highlighter-gold core -->
+    <path d="M35 41H45.5" fill="none" stroke="url(#gu-cursor)" stroke-width="4.2" stroke-linecap="round"/>
+    <path d="M36.2 41H44.3" fill="none" stroke="#F6D58E" stroke-width="1.5" stroke-linecap="round" stroke-opacity="0.88"/>
+
+    <!-- 9. Signature 4-Point Curiosity Spark (`✦`) in Top-Right Negative Space -->
+    <path d="M49.5 7C49.9 10.1 50.4 10.6 53.5 11C50.4 11.4 49.9 11.9 49.5 15C49.1 11.9 48.6 11.4 45.5 11C48.6 10.6 49.1 10.1 49.5 7Z" fill="url(#gu-gold)"/>
+  </g>
+
+  <!-- 10. Apple/Linear-grade 1.5px Inner Specular Rim Bevel -->
+  <rect x="0.75" y="0.75" width="62.5" height="62.5" rx="14.25" fill="none" stroke="#FFFDF8" stroke-opacity="0.16" stroke-width="1.5"/>
 </svg>

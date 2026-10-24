@@ -1,6 +1,6 @@
 ---
 title: 'Stanford CS336 学习记录 02：RMSNorm 的广播与 SwiGLU 的门控'
-date: '2026-10-19'
+date: '2026-10-16'
 description: '用一个 token 向量理解均方根归一化，拆开 dim=-1 与 keepdim=True 的作用，再沿着两条分支读懂 SiLU、逐元素乘法和 SwiGLU。'
 series: Stanford CS336
 seriesOrder: 2

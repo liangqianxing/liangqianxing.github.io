@@ -1,6 +1,6 @@
 ---
 title: 'CMU 15-779 学习记录 12：LoRA 首步梯度、权重合并与均匀 4-bit 打包'
-date: '2026-10-11'
+date: '2026-10-06'
 description: '用一次 CPU SGD 更新检查 LoRA 初始化、冻结基座与合并等价，再分别记录均匀 4-bit 存储字节数和量化误差。'
 series: CMU 15-779
 seriesOrder: 12

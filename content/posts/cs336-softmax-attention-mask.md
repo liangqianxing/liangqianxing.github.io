@@ -1,6 +1,6 @@
 ---
 title: 'Stanford CS336 学习记录 03：Softmax 的数值稳定与 Attention Mask'
-date: '2026-10-21'
+date: '2026-10-18'
 description: '从减去最大值为何不改变 Softmax 开始，理清函数与有参数层的区别，再沿着 Q、K、V 的形状理解缩放点积注意力，以及 mask 为什么必须填负无穷。'
 series: Stanford CS336
 seriesOrder: 3

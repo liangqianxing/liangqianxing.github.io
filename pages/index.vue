@@ -4,7 +4,14 @@
     <a class="poster-skip" href="#gateway-choices">跳到主页入口</a>
     <header class="poster-nav poster-container">
       <a class="poster-brand" href="#top" aria-label="Enhao Gu，返回顶部">
-        <svg viewBox="0 0 42 34" fill="none" aria-hidden="true"><path d="M4 25 13 7h14L18 25H4Zm14 0L29 7h9L26 29H15" /><path d="m8 17 13 0" /></svg>
+        <svg viewBox="0 0 36 36" fill="none" aria-hidden="true">
+          <rect x="4" y="4" width="28" height="28" rx="6.5" stroke-opacity="0.32" />
+          <line x1="10" y1="4" x2="10" y2="32" stroke-opacity="0.45" />
+          <path d="M14 9h10.5L29 13.5V26a2 2 0 0 1-2 2H14a1.5 1.5 0 0 1-1.5-1.5v-16A1.5 1.5 0 0 1 14 9Z" />
+          <path d="M24.5 9v3a1.5 1.5 0 0 0 1.5 1.5H29" stroke-opacity="0.65" />
+          <path d="m16.5 16.5 3.8 3.5-3.8 3.5M22 23.5h4.2" stroke-width="1.5" stroke-linecap="round" />
+          <path d="M28.5 6.2 29 7.7l1.5.5-1.5.5-.5 1.5-.5-1.5-1.5-.5 1.5-.5.5-1.5Z" fill="currentColor" stroke="none" />
+        </svg>
         <span>{{ academicProfile.name }}<small>{{ academicProfile.nameCN }}</small></span>
       </a>
       <nav aria-label="主导航">

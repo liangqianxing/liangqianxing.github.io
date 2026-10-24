@@ -18,6 +18,7 @@
   --spot-y: 0%;
   --theme-x: calc(100vw - 74px);
   --theme-y: 42px;
+  --theme-r: 140vmax;
 }
 
 :root,
@@ -202,10 +203,16 @@ main {
   box-shadow: 0 0 18px color-mix(in srgb, var(--accent) 42%, transparent);
 }
 
+::view-transition-group(root) {
+  animation-duration: 520ms;
+  animation-timing-function: var(--ease-out);
+}
+
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
+  display: block;
 }
 
 ::view-transition-old(root) {
@@ -214,6 +221,16 @@ main {
 
 ::view-transition-new(root) {
   z-index: 2;
+  animation: theme-vt-reveal 520ms var(--ease-out) both;
+}
+
+@keyframes theme-vt-reveal {
+  from {
+    clip-path: circle(0px at var(--theme-x) var(--theme-y));
+  }
+  to {
+    clip-path: circle(var(--theme-r) at var(--theme-x) var(--theme-y));
+  }
 }
 
 .theme-transition-layer {
@@ -230,38 +247,47 @@ main {
   position: absolute;
   left: var(--theme-x);
   top: var(--theme-y);
-  width: 24vmax;
+  width: calc(var(--theme-r, 140vmax) * 2);
   aspect-ratio: 1;
-  border: 1px solid color-mix(in srgb, var(--accent) 42%, transparent);
   border-radius: 50%;
-  background:
-    radial-gradient(
-      circle,
-      color-mix(in srgb, var(--surface) 96%, var(--accent) 4%) 0 42%,
-      color-mix(in srgb, var(--surface) 74%, transparent) 62%,
-      transparent 72%
-    );
+  border: 1px solid color-mix(in srgb, var(--accent) 34%, transparent);
+  background: radial-gradient(
+    circle,
+    transparent 0%,
+    transparent 94%,
+    color-mix(in srgb, var(--accent) 10%, transparent) 98.2%,
+    color-mix(in srgb, var(--accent-2) 22%, transparent) 99.6%,
+    transparent 100%
+  );
   box-shadow:
-    0 0 0 1px color-mix(in srgb, white 7%, transparent) inset,
-    0 0 36px color-mix(in srgb, var(--accent) 14%, transparent);
+    inset 0 0 28px color-mix(in srgb, var(--accent) 10%, transparent),
+    0 0 24px color-mix(in srgb, var(--accent) 12%, transparent);
   opacity: 0;
-  transform: translate(-50%, -50%) scale(0.05);
-  will-change: transform, opacity;
+  transform: translate3d(-50%, -50%, 0) scale(0);
+}
+
+html.theme-fallback-switching .theme-transition-orb {
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--bg) 82%, var(--accent) 6%) 0%,
+    color-mix(in srgb, var(--bg) 54%, transparent) 64%,
+    color-mix(in srgb, var(--accent) 14%, transparent) 96%,
+    transparent 100%
+  );
 }
 
 .theme-transition-sheen {
   position: absolute;
-  inset: -30%;
+  inset: -25%;
   background: linear-gradient(
-    108deg,
-    transparent 32%,
-    color-mix(in srgb, white 10%, transparent) 45%,
-    color-mix(in srgb, var(--accent-2) 8%, transparent) 50%,
+    112deg,
+    transparent 38%,
+    color-mix(in srgb, var(--accent) 6%, transparent) 48%,
+    color-mix(in srgb, var(--accent-2) 5%, transparent) 52%,
     transparent 62%
   );
   opacity: 0;
-  transform: translateX(-48%) rotate(-7deg);
-  will-change: transform, opacity;
+  transform: translate3d(-36%, 0, 0) rotate(-6deg);
 }
 
 html.theme-switching .theme-transition-layer {
@@ -269,11 +295,13 @@ html.theme-switching .theme-transition-layer {
 }
 
 html.theme-switching .theme-transition-orb {
-  animation: theme-bloom 400ms var(--ease-out) both;
+  will-change: transform, opacity;
+  animation: theme-bloom 520ms var(--ease-out) both;
 }
 
 html.theme-switching .theme-transition-sheen {
-  animation: theme-sheen 340ms 30ms var(--ease-out) both;
+  will-change: transform, opacity;
+  animation: theme-sheen 460ms var(--ease-out) both;
 }
 
 .effect-stage {
@@ -333,13 +361,12 @@ html.theme-switching .theme-transition-sheen {
 .grain-layer {
   position: absolute;
   inset: -40px;
-  opacity: 0.095;
+  opacity: 0.08;
   background-image:
     linear-gradient(color-mix(in srgb, var(--text) 7%, transparent) 1px, transparent 1px),
     linear-gradient(90deg, color-mix(in srgb, var(--text) 5%, transparent) 1px, transparent 1px);
   background-size: 46px 46px;
   mask-image: linear-gradient(180deg, black, transparent 78%);
-  animation: grain-drift 28s linear infinite;
 }
 
 .site-nav {
@@ -1110,7 +1137,6 @@ html.theme-switching .theme-transition-sheen {
 .link-callout {
   position: relative;
   overflow: hidden;
-  transform-style: preserve-3d;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: color-mix(in srgb, var(--surface) 90%, transparent);
@@ -1120,7 +1146,6 @@ html.theme-switching .theme-transition-sheen {
     border-color 220ms var(--ease),
     background 220ms var(--ease),
     box-shadow 220ms var(--ease);
-  will-change: transform;
 }
 
 .knowledge-card::before,
@@ -1173,11 +1198,7 @@ html.theme-switching .theme-transition-sheen {
 .focus-card:hover,
 .now-card:hover,
 .stack-panel:hover {
-  transform:
-    perspective(900px)
-    rotateX(var(--tilt-x))
-    rotateY(var(--tilt-y))
-    translateY(-5px);
+  transform: translateY(-3px);
   border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
   background: color-mix(in srgb, var(--surface) 72%, var(--accent) 8%);
   box-shadow:
@@ -2371,6 +2392,8 @@ html.theme-switching .theme-transition-sheen {
   background: var(--code-bg) !important;
   color: var(--code-text);
   line-height: 1.65;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
 }
 
 .prose pre code {
@@ -2446,6 +2469,8 @@ html.theme-switching .theme-transition-sheen {
   overflow-x: auto;
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
 }
 
 .prose table {
@@ -2462,11 +2487,18 @@ html.theme-switching .theme-transition-sheen {
   padding: 0.72rem 0.9rem;
   border-bottom: 1px solid var(--line);
   text-align: left;
-  white-space: nowrap;
 }
 
 .prose th {
+  white-space: nowrap;
   background: var(--surface-2);
+  font-weight: 600;
+}
+
+.prose td {
+  white-space: normal;
+  overflow-wrap: break-word;
+  vertical-align: top;
 }
 
 .prose tbody tr:last-child td {
@@ -2492,7 +2524,12 @@ html.theme-switching .theme-transition-sheen {
   overflow-x: auto;
   overflow-y: hidden;
   margin: 1.5em 0;
-  padding: 0.35rem 0;
+  padding: 0.75rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--line) 75%, transparent);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--surface-2) 38%, var(--surface));
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
 }
 
 .prose .katex-display > .katex {
@@ -2994,10 +3031,10 @@ html.cyber .shiki code .line span {
 
 .reveal-item {
   opacity: 0;
-  transform: translate3d(0, 22px, 0);
+  transform: translate3d(0, 12px, 0);
   transition:
-    opacity 620ms var(--ease-out),
-    transform 620ms var(--ease-out);
+    opacity 480ms var(--ease-out),
+    transform 480ms var(--ease-out);
   transition-delay: var(--reveal-delay, 0ms);
 }
 
@@ -3008,11 +3045,11 @@ html.cyber .shiki code .line span {
 }
 
 .hero-main > .reveal-item:nth-child(2) {
-  transition-duration: 760ms;
+  transition-duration: 580ms;
 }
 
 .site-block.reveal-item {
-  transform: translate3d(0, 30px, 0);
+  transform: translate3d(0, 16px, 0);
 }
 
 .site-block.reveal-item.is-visible {
@@ -3030,48 +3067,37 @@ html.cyber .shiki code .line span {
   }
 }
 
-@keyframes grain-drift {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-  100% {
-    transform: translate3d(46px, 46px, 0);
-  }
-}
-
 @keyframes theme-bloom {
   0% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.05);
+    opacity: 0.95;
+    transform: translate3d(-50%, -50%, 0) scale(0);
   }
-  20% {
-    opacity: 0.92;
-  }
-  72% {
-    opacity: 0.72;
+  70% {
+    opacity: 0.85;
   }
   100% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(5);
+    transform: translate3d(-50%, -50%, 0) scale(1.02);
   }
 }
 
 @keyframes theme-sheen {
   0% {
     opacity: 0;
-    transform: translateX(-48%) rotate(-7deg);
+    transform: translate3d(-36%, 0, 0) rotate(-6deg);
   }
-  38% {
-    opacity: 0.54;
+  35% {
+    opacity: 0.42;
   }
   100% {
     opacity: 0;
-    transform: translateX(48%) rotate(-7deg);
+    transform: translate3d(36%, 0, 0) rotate(-6deg);
   }
 }
 
 pre[class*="language-"]::before,
-.shiki[data-language]::before {
+.shiki[data-language]::before,
+.prose .code-block-wrapper pre[data-language]::before {
   content: attr(data-language);
   position: absolute;
   top: 11px;
@@ -3079,7 +3105,7 @@ pre[class*="language-"]::before,
   color: var(--code-label);
   font-family: var(--font-mono);
   font-size: 0.68rem;
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -3346,7 +3372,18 @@ pre[class*="language-"]::before,
     transition-duration: 0.01ms !important;
   }
 
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+
+  .reveal-item {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
   .theme-transition-layer {
-    display: none;
+    display: none !important;
   }
 }

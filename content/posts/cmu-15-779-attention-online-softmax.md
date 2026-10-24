@@ -1,6 +1,6 @@
 ---
 title: 'CMU 15-779 学习记录 08：分块 Attention、在线 Softmax 与 KV cache'
-date: '2026-09-27'
+date: '2026-09-24'
 description: '在 CPU 上对照完整 Attention、在线 Softmax 分块实现与 PyTorch SDPA，检查因果掩码、浮点误差和分数块大小，理解 FlashAttention 的一部分算法基础。'
 series: CMU 15-779
 seriesOrder: 8

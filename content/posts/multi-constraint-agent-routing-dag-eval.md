@@ -1,6 +1,6 @@
 ---
 title: "多约束生产级 Agent 系统实践：两阶段工具路由、DAG 局部重规划与轨迹级评测闭环"
-date: '2026-10-20'
+date: '2026-10-22'
 description: "围绕跨境酒旅等强耦合多约束业务场景，拆解向量 Top-K 召回 + LLM 精排 + 跨语言实体链接与 Schema 门控（96%+ 调用合法率）、基于状态机的 DAG 局部子图重规划、Observation 冗余裁剪（节省 40% Token），以及从线上失败恢复轨迹构造 SFT/DPO 偏好对的评测与训练闭环。"
 cover: /images/posts/multi-constraint-agent-routing-dag-eval/agent-dag-routing-cover-20261020.webp
 coverAlt: 候选模块经漏斗滤网进入双分支有向无环图轨道并在受阻节点触发暖橙色局部旁路重连的等距技术插画

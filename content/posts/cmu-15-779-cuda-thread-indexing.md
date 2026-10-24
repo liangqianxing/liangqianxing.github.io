@@ -1,6 +1,6 @@
 ---
 title: 'CMU 15-779 学习记录 06：CUDA 线程索引与边界检查'
-date: '2026-09-19'
+date: '2026-09-18'
 description: '用 CPU 演示 CUDA 的 block、thread 与全局下标：10 个元素如何分给 3 个线程块，为什么要跳过越界线程，以及这些验证能说明什么。'
 series: CMU 15-779
 seriesOrder: 6

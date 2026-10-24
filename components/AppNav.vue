@@ -3,7 +3,7 @@
     <div class="blog-header-row">
       <NuxtLink to="/blog" class="blog-identity" aria-label="gu.log 博客首页">
         <span class="blog-identity-logo">
-          <img src="/logo.svg?v=3" alt="" width="32" height="32" />
+          <img src="/logo.svg?v=4" alt="" width="32" height="32" />
         </span>
         <span class="blog-identity-copy">
           <span class="blog-identity-name">{{ appConfig.authorEN }}</span>
@@ -13,18 +13,33 @@
       <nav class="blog-site-links" aria-label="个人主页导航">
         <NuxtLink to="/">主页</NuxtLink>
         <NuxtLink to="/academic">学术</NuxtLink>
-        <NuxtLink to="/blog" aria-current="page">博客</NuxtLink>
+        <NuxtLink to="/blog" :aria-current="route.path === '/blog' ? 'page' : 'location'">博客</NuxtLink>
       </nav>
     </div>
     <div class="blog-toolbar">
-      <nav ref="sectionNavRef" class="blog-section-links" aria-label="博客导航">
-        <span v-if="pillReady" class="blog-nav-pill" :style="pillStyle" aria-hidden="true" />
+      <nav
+        ref="sectionNavRef"
+        class="blog-section-links"
+        :class="{ 'has-pill': pillReady }"
+        aria-label="博客导航"
+        @pointerleave="onNavLeave"
+      >
+        <span
+          v-if="pillReady"
+          class="blog-nav-pill"
+          :class="{ 'is-hover-preview': hoveredPath !== null && !isActive(hoveredPath) }"
+          :style="pillStyle"
+          aria-hidden="true"
+        />
         <NuxtLink
           v-for="item in navItems"
           :key="item.path"
           :to="item.path"
           :data-nav-path="item.path"
           :aria-current="isActive(item.path) ? 'page' : undefined"
+          @pointerenter="onLinkEnter(item.path)"
+          @focus="onLinkEnter(item.path)"
+          @blur="onNavLeave"
         >{{ item.label }}</NuxtLink>
       </nav>
       <div class="blog-toolbar-actions">
@@ -42,7 +57,15 @@
           <span class="blog-search-trigger-text">搜索</span>
           <kbd class="blog-search-trigger-kbd">⌘K</kbd>
         </button>
-        <div class="blog-theme-control" :class="{ 'is-ready': isThemeReady }" role="group" aria-label="阅读主题" :data-theme="themeMode">
+        <div
+          ref="themeControlRef"
+          class="blog-theme-control"
+          :class="{ 'is-ready': isThemeReady }"
+          role="group"
+          aria-label="阅读主题"
+          :data-theme="themeMode"
+          @keydown="onThemeKeydown"
+        >
           <span class="blog-theme-thumb" aria-hidden="true" />
           <button
             v-for="option in themeOptions"
@@ -72,6 +95,8 @@
 
 <script setup lang="ts">
 type ThemeMode = 'dark' | 'light' | 'cyber'
+type ThemeOriginEvent = MouseEvent | { clientX?: number; clientY?: number } | undefined
+
 const emit = defineEmits<{
   'open-search': []
 }>()
@@ -79,6 +104,8 @@ const appConfig = useAppConfig()
 const route = useRoute()
 const headerRef = ref<HTMLElement | null>(null)
 const sectionNavRef = ref<HTMLElement | null>(null)
+const themeControlRef = ref<HTMLElement | null>(null)
+const hoveredPath = ref<string | null>(null)
 const pillReady = ref(false)
 const pillStyle = ref<{ transform: string; width: string; height: string }>({
   transform: 'translate3d(0, 0, 0)',
@@ -87,7 +114,7 @@ const pillStyle = ref<{ transform: string; width: string; height: string }>({
 })
 const isThemeReady = inject<Ref<boolean>>('isThemeReady', ref(false))
 const themeMode = inject<Ref<ThemeMode>>('themeMode', ref('light'))
-const setTheme = inject<(mode: ThemeMode, persist?: boolean, event?: MouseEvent) => void>('setTheme', () => {})
+const setTheme = inject<(mode: ThemeMode, persist?: boolean, event?: ThemeOriginEvent) => void>('setTheme', () => {})
 const navItems = computed(() => appConfig.nav.filter(item => item.path !== '/'))
 const themeOptions: { mode: ThemeMode; label: string }[] = [
   { mode: 'light', label: '浅色主题' },
@@ -95,6 +122,7 @@ const themeOptions: { mode: ThemeMode; label: string }[] = [
   { mode: 'cyber', label: '终端主题' },
 ]
 let headerObserver: ResizeObserver | undefined
+let isMounted = false
 
 function isActive(path: string): boolean {
   const currentPath = route.path.replace(/\/$/, '') || '/'
@@ -105,12 +133,12 @@ function isActive(path: string): boolean {
 function syncNavPill() {
   const container = sectionNavRef.value
   if (!container) return
-  const activeItem = navItems.value.find(item => isActive(item.path))
-  if (!activeItem) {
+  const targetPath = hoveredPath.value ?? navItems.value.find(item => isActive(item.path))?.path
+  if (!targetPath) {
     pillReady.value = false
     return
   }
-  const link = container.querySelector<HTMLElement>(`[data-nav-path="${activeItem.path}"]`)
+  const link = container.querySelector<HTMLElement>(`[data-nav-path="${targetPath}"]`)
   if (!link) {
     pillReady.value = false
     return
@@ -123,12 +151,56 @@ function syncNavPill() {
   pillReady.value = true
 }
 
+function onLinkEnter(path: string) {
+  hoveredPath.value = path
+  syncNavPill()
+}
+
+function onNavLeave() {
+  if (hoveredPath.value === null) return
+  hoveredPath.value = null
+  syncNavPill()
+}
+
+function onThemeKeydown(event: KeyboardEvent) {
+  const keys = ['ArrowRight', 'ArrowDown', 'ArrowLeft', 'ArrowUp', 'Home', 'End']
+  if (!keys.includes(event.key)) return
+  event.preventDefault()
+
+  const currentIdx = themeOptions.findIndex(o => o.mode === themeMode.value)
+  const len = themeOptions.length
+  let nextIdx = currentIdx >= 0 ? currentIdx : 0
+
+  if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+    nextIdx = (nextIdx + 1) % len
+  } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+    nextIdx = (nextIdx - 1 + len) % len
+  } else if (event.key === 'Home') {
+    nextIdx = 0
+  } else if (event.key === 'End') {
+    nextIdx = len - 1
+  }
+
+  const nextOption = themeOptions[nextIdx]
+  if (!nextOption) return
+  const btn = themeControlRef.value?.querySelector<HTMLElement>(`.blog-theme-option[data-mode="${nextOption.mode}"]`)
+  btn?.focus()
+  const rect = btn?.getBoundingClientRect()
+  const origin = rect && rect.width > 0
+    ? { clientX: Math.round(rect.left + rect.width / 2), clientY: Math.round(rect.top + rect.height / 2) }
+    : undefined
+  setTheme(nextOption.mode, true, origin)
+}
+
 watch(() => route.path, () => {
+  hoveredPath.value = null
   nextTick(syncNavPill)
 })
 
 onMounted(() => {
+  isMounted = true
   const updateHeaderHeight = () => {
+    if (!isMounted) return
     if (headerRef.value) {
       document.documentElement.style.setProperty('--nav-h', `${headerRef.value.offsetHeight}px`)
     }
@@ -137,9 +209,14 @@ onMounted(() => {
   updateHeaderHeight()
   headerObserver = new ResizeObserver(updateHeaderHeight)
   if (headerRef.value) headerObserver.observe(headerRef.value)
+  if (sectionNavRef.value) headerObserver.observe(sectionNavRef.value)
+  document.fonts?.ready?.then(() => {
+    if (isMounted) updateHeaderHeight()
+  }).catch(() => {})
 })
 
 onUnmounted(() => {
+  isMounted = false
   headerObserver?.disconnect()
   document.documentElement.style.removeProperty('--nav-h')
 })

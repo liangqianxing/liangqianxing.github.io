@@ -1,6 +1,6 @@
 ---
 title: "多视角推理蒸馏（LLM-MRD）与可审计生成式评审系统（DeepReviewer 2.0）深度拆解"
-date: '2026-10-16'
+date: '2026-10-21'
 description: "对比大模型落地的两条互补路径：如何用 Qwen2.5-VL 离线多视角分析结合 MLP 残差校准与温度缩放 KL 蒸馏，将推理能力压入 358M 学生模型实现 17.2 ms 独立推理（LLM-MRD，DASFAA 2026 Oral）；以及如何通过主张-证据-风险台账、PASA 可比性门控与导出预算校验构建可审计的同行评审 Agent（DeepReviewer 2.0）。"
 cover: /images/posts/llm-mrd-distillation-auditable-review-agents/mrd-review-distill-cover-20261016.webp
 coverAlt: 三块半透明几何棱镜发出平行光束穿过中央校准环汇聚至右侧高密度晶体模块的等距技术插画

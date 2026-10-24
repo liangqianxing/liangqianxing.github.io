@@ -9,7 +9,7 @@
         aria-label="全局搜索与快捷面板"
         @mousedown.self="close"
       >
-        <div class="cmdk-modal" @keydown="onModalKeydown">
+        <div ref="modalRef" class="cmdk-modal" @keydown="onModalKeydown">
           <div class="cmdk-header">
             <svg class="cmdk-search-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <circle cx="11" cy="11" r="7" />
@@ -42,7 +42,7 @@
                   :aria-selected="item.flatIndex === activeIndex"
                   :data-index="item.flatIndex"
                   @mouseenter="activeIndex = item.flatIndex"
-                  @click="execute(item)"
+                  @click="execute(item, $event)"
                 >
                   <span class="cmdk-item-icon" :data-kind="item.kind" aria-hidden="true">{{ item.icon }}</span>
                   <span class="cmdk-item-main">
@@ -65,7 +65,7 @@
             <div class="cmdk-hints">
               <span><kbd>↑</kbd><kbd>↓</kbd> 导航</span>
               <span><kbd>↵</kbd> 跳转 / 执行</span>
-              <span><kbd>T</kbd> 切换主题</span>
+              <span><kbd>⌃T</kbd> 切换主题</span>
             </div>
             <span class="cmdk-brand">{{ appConfig.title }} · Command</span>
           </footer>
@@ -81,6 +81,7 @@ import { collectArchiveTags, tagPath } from '~/utils/archive'
 import { formatDate } from '~/utils/blog'
 
 type ThemeMode = 'dark' | 'light' | 'cyber'
+type ThemePoint = { clientX: number; clientY: number }
 
 interface CommandItem {
   id: string
@@ -91,7 +92,7 @@ interface CommandItem {
   subtitle?: string
   badge?: string
   keywords?: string
-  action: () => void
+  action: (origin?: MouseEvent | ThemePoint) => void
 }
 
 const props = defineProps<{
@@ -105,13 +106,30 @@ const emit = defineEmits<{
 const appConfig = useAppConfig()
 const router = useRouter()
 const { data: postsData } = await usePublicArchive()
-const setTheme = inject<(mode: ThemeMode) => void>('setTheme', () => {})
+const setTheme = inject<(mode: ThemeMode, persist?: boolean, event?: MouseEvent | ThemePoint) => void>('setTheme', () => {})
 const themeMode = inject<Ref<ThemeMode>>('themeMode', ref('light'))
 
 const query = ref('')
 const activeIndex = ref(0)
+const modalRef = ref<HTMLElement | null>(null)
 const inputRef = ref<HTMLInputElement | null>(null)
 const listRef = ref<HTMLElement | null>(null)
+
+function resolveOrigin(event?: MouseEvent): MouseEvent | ThemePoint | undefined {
+  if (event && (event.clientX !== 0 || event.clientY !== 0)) {
+    return event
+  }
+  const activeEl = listRef.value?.querySelector<HTMLElement>(`[data-index="${activeIndex.value}"]`)
+  const targetEl = activeEl ?? modalRef.value
+  if (targetEl) {
+    const rect = targetEl.getBoundingClientRect()
+    return {
+      clientX: Math.round(rect.left + rect.width / 2),
+      clientY: Math.round(rect.top + rect.height / 2),
+    }
+  }
+  return undefined
+}
 
 function close() {
   emit('update:open', false)
@@ -252,7 +270,7 @@ const allItems = computed<CommandItem[]>(() => {
       subtitle: '柔和米白手账风格',
       badge: themeMode.value === 'light' ? '当前' : 'Light',
       keywords: 'theme light 浅色 亮色 主题 日间',
-      action: () => { setTheme('light'); close() },
+      action: (origin) => { close(); setTheme('light', true, origin) },
     },
     {
       id: 'theme-dark',
@@ -263,7 +281,7 @@ const allItems = computed<CommandItem[]>(() => {
       subtitle: '静谧深蓝低眩光暗色模式',
       badge: themeMode.value === 'dark' ? '当前' : 'Dark',
       keywords: 'theme dark 深色 暗黑 夜间 主题',
-      action: () => { setTheme('dark'); close() },
+      action: (origin) => { close(); setTheme('dark', true, origin) },
     },
     {
       id: 'theme-cyber',
@@ -274,7 +292,7 @@ const allItems = computed<CommandItem[]>(() => {
       subtitle: '荧光绿矩阵极客风格',
       badge: themeMode.value === 'cyber' ? '当前' : 'Cyber',
       keywords: 'theme cyber terminal 终端 极客 赛博 主题',
-      action: () => { setTheme('cyber'); close() },
+      action: (origin) => { close(); setTheme('cyber', true, origin) },
     },
   ]
 
@@ -333,8 +351,8 @@ function scrollActiveIntoView() {
   })
 }
 
-function execute(item: CommandItem) {
-  item.action()
+function execute(item: CommandItem, event?: MouseEvent) {
+  item.action(resolveOrigin(event))
 }
 
 function onModalKeydown(event: KeyboardEvent) {
@@ -342,6 +360,13 @@ function onModalKeydown(event: KeyboardEvent) {
   if (event.key === 'Escape') {
     event.preventDefault()
     close()
+    return
+  }
+  if ((event.ctrlKey || event.altKey) && !event.metaKey && event.key.toLowerCase() === 't') {
+    event.preventDefault()
+    const modes: ThemeMode[] = ['light', 'dark', 'cyber']
+    const nextMode = modes[(modes.indexOf(themeMode.value) + 1) % modes.length]
+    setTheme(nextMode, true, resolveOrigin())
     return
   }
   if (!total) return

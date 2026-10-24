@@ -168,9 +168,10 @@
 
       <!-- 404 state -->
       <template v-else>
-        <div style="text-align: center; padding: 4rem 0; color: var(--text-muted)">
-          <p style="font-size: 1.25rem; margin-bottom: 1rem">文章不存在</p>
-          <NuxtLink to="/posts" class="pill" style="display: inline-flex">返回文章列表</NuxtLink>
+        <div class="post-empty" role="status">
+          <p class="post-empty-title">这篇手记不在这里</p>
+          <p class="post-empty-desc">链接可能已经变更，或者文章尚未公开。</p>
+          <NuxtLink to="/posts" class="secondary-action">返回文章列表 <span aria-hidden="true">→</span></NuxtLink>
         </div>
       </template>
     </div>
@@ -201,8 +202,10 @@ const path = computed(() => {
 })
 
 // Fetch current post
-const { data: page } = await useAsyncData(`post-${path.value}`, () =>
-  queryCollection('posts').path(path.value).first()
+const { data: page } = await useAsyncData(
+  () => `post-${path.value}`,
+  () => queryCollection('posts').path(path.value).first(),
+  { watch: [path] },
 )
 
 // 用轻量 API 获取导航用的文章列表（只含 metadata，无 body AST）
@@ -366,42 +369,18 @@ onBeforeUnmount(() => {
   navResizeObserver?.disconnect()
 })
 
+watch(
+  [() => page.value?.path, articleRef],
+  async () => {
+    await nextTick()
+    activeId.value = ''
+    observeHeadings()
+    scheduleReadingProgress()
+  },
+  { flush: 'post' },
+)
+
 onMounted(() => {
-  // Add copy buttons to code blocks
-  const addCopyButtons = () => {
-    const pres = document.querySelectorAll('.prose pre')
-    pres.forEach(pre => {
-      if (pre.querySelector('.code-copy-btn')) return
-      const wrapper = document.createElement('div')
-      wrapper.className = 'code-block-wrapper'
-      wrapper.style.position = 'relative'
-      pre.parentNode?.insertBefore(wrapper, pre)
-      wrapper.appendChild(pre)
-
-      const btn = document.createElement('button')
-      btn.className = 'code-copy-btn'
-      btn.textContent = 'copy'
-      btn.addEventListener('click', async () => {
-        const code = pre.querySelector('code')?.textContent ?? ''
-        try {
-          await navigator.clipboard.writeText(code)
-          btn.textContent = 'copied!'
-          btn.classList.add('copied')
-          setTimeout(() => {
-            btn.textContent = 'copy'
-            btn.classList.remove('copied')
-          }, 2000)
-        } catch {
-          btn.textContent = 'error'
-          setTimeout(() => { btn.textContent = 'copy' }, 2000)
-        }
-      })
-      wrapper.appendChild(btn)
-    })
-  }
-
-  addCopyButtons()
-
   observeHeadings()
   const nav = document.querySelector('.site-nav')
   if (nav) {
@@ -507,5 +486,28 @@ useHead(() => ({
   .post-inline-toc {
     display: none;
   }
+}
+
+.post-empty {
+  padding: 56px 24px 64px;
+  border: 1px dashed var(--line-strong);
+  border-radius: 20px;
+  background: var(--bg-2);
+  color: var(--muted);
+  text-align: center;
+}
+
+.post-empty-title {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.15rem;
+  font-weight: 500;
+}
+
+.post-empty-desc {
+  margin: 10px 0 22px;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.85;
 }
 </style>

@@ -80,7 +80,7 @@ onMounted(() => {
   const resetCard = () => {
     if (!activeCard) return
     activeCard.classList.remove('notebook-motion-hover')
-    for (const property of ['--motion-tilt-x', '--motion-tilt-y', '--motion-spot-x', '--motion-spot-y']) activeCard.style.removeProperty(property)
+    for (const property of ['--motion-spot-x', '--motion-spot-y']) activeCard.style.removeProperty(property)
     activeCard = null
   }
 
@@ -153,8 +153,6 @@ onMounted(() => {
       activeCard.classList.add('notebook-motion-hover')
       activeCard.style.setProperty('--motion-spot-x', `${localX}px`)
       activeCard.style.setProperty('--motion-spot-y', `${localY}px`)
-      activeCard.style.setProperty('--motion-tilt-x', `${((.5 - localY / Math.max(rect.height, 1)) * 8).toFixed(2)}deg`)
-      activeCard.style.setProperty('--motion-tilt-y', `${((localX / Math.max(rect.width, 1) - .5) * 8).toFixed(2)}deg`)
     }
     if (hero) {
       const rect = hero.getBoundingClientRect()
@@ -300,9 +298,9 @@ onUnmounted(() => cleanup())
 :global(.journal-home .notebook-motion-reveal) { transition: opacity 700ms cubic-bezier(.16, 1, .3, 1), translate 700ms cubic-bezier(.16, 1, .3, 1); transition-delay: var(--motion-reveal-delay, 0ms); }
 :global(.journal-home .notebook-motion-pending) { opacity: 0; translate: 0 20px; }
 :global(.journal-home .notebook-motion-visible) { opacity: 1; translate: 0 0; }
-:global(.journal-home .knowledge-card.notebook-motion-card) { transform-style: preserve-3d; transition: transform 180ms ease, box-shadow 180ms ease, opacity 700ms cubic-bezier(.16, 1, .3, 1), translate 700ms cubic-bezier(.16, 1, .3, 1); transition-delay: 0ms, 0ms, var(--motion-reveal-delay, 0ms), var(--motion-reveal-delay, 0ms); }
+:global(.journal-home .knowledge-card.notebook-motion-card) { transition: transform 180ms ease, box-shadow 180ms ease, opacity 700ms cubic-bezier(.16, 1, .3, 1), translate 700ms cubic-bezier(.16, 1, .3, 1); transition-delay: 0ms, 0ms, var(--motion-reveal-delay, 0ms), var(--motion-reveal-delay, 0ms); }
 :global(.journal-home .knowledge-card.notebook-motion-card::before) { display: block; content: ''; position: absolute; inset: 0; z-index: 0; opacity: 0; pointer-events: none; background: radial-gradient(circle 150px at var(--motion-spot-x, 50%) var(--motion-spot-y, 50%), color-mix(in srgb, var(--topic-ink) 18%, transparent), transparent 75%); transition: opacity 180ms ease; }
-:global(.journal-home.notebook-motion-fine .knowledge-card.notebook-motion-card.notebook-motion-hover) { transform: perspective(800px) rotateX(var(--motion-tilt-x, 0deg)) rotateY(var(--motion-tilt-y, 0deg)) translateY(-5px); box-shadow: 0 14px 30px color-mix(in srgb, var(--topic-ink) 13%, transparent); }
+:global(.journal-home.notebook-motion-fine .knowledge-card.notebook-motion-card.notebook-motion-hover) { transform: translateY(-3px); box-shadow: 0 14px 30px color-mix(in srgb, var(--topic-ink) 13%, transparent); }
 :global(.journal-home.notebook-motion-fine .knowledge-card.notebook-motion-card.notebook-motion-hover::before) { opacity: 1; }
 :global(.journal-home.notebook-motion-paused *),
 :global(.journal-home.notebook-motion-paused *::before),

@@ -58,7 +58,7 @@
         </section>
       </div>
     </div>
-    <span class="notebook-code-logo" aria-hidden="true"><img src="/logo.svg?v=3" alt="" width="48" height="48" /></span>
+    <span class="notebook-code-logo" aria-hidden="true"><img src="/logo.svg?v=4" alt="" width="48" height="48" /></span>
     <svg class="notebook-code-star" width="38" height="38" viewBox="0 0 38 38" fill="none" aria-hidden="true">
       <path d="M19 4C22 4 24 8 22 12C26 9 30 10 31 13C32 16 30 19 26 19C30 21 31 25 29 27C27 30 23 29 21 25C21 30 18 33 15 31C12 30 12 26 15 23C10 25 6 23 7 20C7 17 11 15 15 17C12 13 13 8 16 9C18 9 19 11 19 14C17 10 16 5 19 4Z" fill="currentColor" />
       <circle cx="19" cy="19" r="3.2" fill="var(--paper)" />
@@ -172,6 +172,9 @@ onUnmounted(() => {
   --paper-sky: #e6f2fb;
   --paper-shadow: #6d598814;
   --paper-control: #785997;
+  --paper-glow-a: #dbc6f84a;
+  --paper-glow-b: #ffe5d856;
+  --paper-star: #eab89f;
   position: relative;
   width: 100%;
   max-width: 420px;
@@ -186,7 +189,7 @@ onUnmounted(() => {
   position: absolute;
   inset: 10% -3% 18%;
   border-radius: 50%;
-  background: radial-gradient(ellipse at 65% 35%, #dbc6f84a, transparent 70%), radial-gradient(ellipse at 22% 78%, #ffe5d856, transparent 72%);
+  background: radial-gradient(ellipse at 65% 35%, var(--paper-glow-a), transparent 70%), radial-gradient(ellipse at 22% 78%, var(--paper-glow-b), transparent 72%);
   filter: blur(24px);
 }
 .notebook-code-doodle { position: absolute; top: -12px; left: -20px; z-index: 2; color: var(--paper-control); opacity: .32; transform: rotate(-9deg); }
@@ -238,9 +241,9 @@ onUnmounted(() => {
 .notebook-paper-mark-lilac { background: var(--paper-lilac); }
 .notebook-paper-mark-peach { background: var(--paper-peach); }
 .notebook-paper-signature { display: flex; align-items: center; gap: 10px; margin: auto 0 0; padding-top: 18px; color: var(--paper-muted); font: italic 13px / 1.4 Georgia, 'Times New Roman', serif; }
-.notebook-code-logo { position: absolute; right: 1px; bottom: 52px; z-index: 7; width: 54px; height: 54px; padding: 7px; border: 1px solid color-mix(in srgb, var(--paper-muted) 12%, var(--paper)); border-radius: 16px 20px 15px 18px; background: var(--paper); box-shadow: 0 5px 16px var(--paper-shadow); transform: rotate(7deg); animation: notebook-code-float 8s ease-in-out infinite reverse; }
-.notebook-code-logo img { width: 100%; height: 100%; }
-.notebook-code-star { position: absolute; top: 2px; right: -2px; z-index: 6; color: #eab89f; transform: rotate(8deg); animation: notebook-code-float 7s ease-in-out infinite; }
+.notebook-code-logo { position: absolute; right: 1px; bottom: 52px; z-index: 7; width: 54px; height: 54px; padding: 5px; border: 1px solid color-mix(in srgb, var(--paper-muted) 12%, var(--paper)); border-radius: 16px 20px 15px 18px; background: var(--paper); box-shadow: 0 5px 16px var(--paper-shadow); transform: rotate(7deg); animation: notebook-code-float 8s ease-in-out infinite reverse; }
+.notebook-code-logo img { display: block; width: 100%; height: 100%; border-radius: 10px; }
+.notebook-code-star { position: absolute; top: 2px; right: -2px; z-index: 6; color: var(--paper-star); transform: rotate(8deg); animation: notebook-code-float 7s ease-in-out infinite; }
 .notebook-code-controls { position: relative; z-index: 8; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 12px; }
 .notebook-code-pages { display: flex; align-items: center; gap: 4px; padding: 3px; border-radius: 50px; background: color-mix(in srgb, var(--paper) 65%, transparent); }
 .notebook-code-page,
@@ -269,8 +272,8 @@ onUnmounted(() => {
   0%, 100% { translate: 0 0; }
   50% { translate: 0 -4px; }
 }
-:global(html.dark .notebook-code-canvas) { --paper: #2b2935; --paper-behind: #373042; --paper-ink: #ede4f1; --paper-muted: #b9abc8; --paper-line: #a28aae12; --paper-lilac: #443550; --paper-peach: #4b3736; --paper-sky: #2f4251; --paper-shadow: #07030f2b; --paper-control: #d5bde8; }
-:global(html.cyber .notebook-code-canvas) { --paper: #20362f; --paper-behind: #2e423a; --paper-ink: #e6eee5; --paper-muted: #adbfad; --paper-line: #abbe9f10; --paper-lilac: #3d4b42; --paper-peach: #49433a; --paper-sky: #2c4649; --paper-shadow: #03170e2b; --paper-control: #c1d9b8; }
+:global(html.dark .notebook-code-canvas) { --paper: #2b2935; --paper-behind: #373042; --paper-ink: #ede4f1; --paper-muted: #b9abc8; --paper-line: #a28aae12; --paper-lilac: #443550; --paper-peach: #4b3736; --paper-sky: #2f4251; --paper-shadow: #07030f2b; --paper-control: #d5bde8; --paper-glow-a: #7b609e2e; --paper-glow-b: #4e638c26; --paper-star: #c6a58e; }
+:global(html.cyber .notebook-code-canvas) { --paper: #20362f; --paper-behind: #2e423a; --paper-ink: #e6eee5; --paper-muted: #adbfad; --paper-line: #abbe9f10; --paper-lilac: #3d4b42; --paper-peach: #49433a; --paper-sky: #2c4649; --paper-shadow: #03170e2b; --paper-control: #c1d9b8; --paper-glow-a: #4c8c7029; --paper-glow-b: #38757a24; --paper-star: #a5c49b; }
 @media (min-width: 769px) and (max-width: 1020px) {
   .notebook-code-window { padding: 25px 22px 20px; }
   .notebook-paper-heading { font-size: 25px; }

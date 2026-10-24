@@ -69,7 +69,7 @@ const groupedPosts = computed(() => groupArchiveByYear(props.posts))
 .archive-entry-cover { display: block; overflow: hidden; aspect-ratio: 16 / 10; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
 .archive-entry-cover img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .archive-entry-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin-bottom: 12px; font-size: 0.7rem; color: var(--muted); }
-.archive-entry-series { padding: 3px 10px; border-radius: 6px; background: var(--entry-paper); color: var(--text); }
+.archive-entry-series { padding: 3px 10px; border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent); border-radius: 6px; background: var(--entry-paper); color: var(--ink); }
 .archive-entry-time { display: inline-flex; align-items: center; gap: 5px; }
 .archive-entry-time svg { width: 13px; height: 13px; stroke: currentColor; stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
 .archive-entry-title { display: flex; align-items: flex-start; gap: 16px; color: var(--ink); font-size: 1.22rem; font-weight: 500; line-height: 1.65; letter-spacing: -0.025em; text-decoration: none; overflow-wrap: anywhere; }
@@ -82,8 +82,8 @@ const groupedPosts = computed(() => groupArchiveByYear(props.posts))
 .archive-entry-tags a:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 4px; }
 .archive-entry:focus-within { border-color: var(--line-strong); background: var(--surface); }
 @media (hover: hover) and (pointer: fine) {
-  .archive-entry { transition: transform 180ms ease, box-shadow 180ms ease; }
-  .archive-entry:hover { transform: translateY(-2px); border-color: var(--line); background: var(--surface); box-shadow: 0 8px 24px #33264004; }
+  .archive-entry { transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background-color 180ms ease; }
+  .archive-entry:hover { transform: translateY(-2px); border-color: var(--line); background: var(--surface); box-shadow: 0 8px 24px color-mix(in srgb, var(--ink) 4%, transparent); }
   .archive-entry-title:hover .archive-entry-arrow { transform: translate(2px, -2px); }
 }
 @media (max-width: 700px) {

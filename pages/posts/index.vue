@@ -155,10 +155,11 @@ useHead({
 .writing-tag-link { flex: 0 0 auto; font-size: 0.75rem; color: var(--accent); white-space: nowrap; }
 .writing-tag-link > span { margin-left: 6px; }
 .writing-filters { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 16px; }
-.writing-filters button { display: inline-flex; align-items: center; gap: 7px; min-height: 34px; padding: 5px 11px; border: 1px solid transparent; border-radius: 100px; background: transparent; color: var(--text); font-size: 0.72rem; cursor: pointer; overflow-wrap: anywhere; }
-.writing-filters button > span { color: var(--muted); font-size: 0.64rem; }
-.writing-filters button:hover { background: var(--surface); }
-.writing-filters button[aria-pressed="true"] { background: var(--surface); border-color: var(--accent); color: var(--accent); }
+.writing-filters button { display: inline-flex; align-items: center; gap: 7px; min-height: 34px; padding: 5px 11px; border: 1px solid transparent; border-radius: 100px; background: transparent; color: var(--text); font-size: 0.72rem; cursor: pointer; overflow-wrap: anywhere; transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease; }
+.writing-filters button > span { color: var(--muted); font-size: 0.64rem; transition: color 160ms ease; }
+.writing-filters button:hover { background: var(--surface); border-color: var(--line); }
+.writing-filters button[aria-pressed="true"] { background: var(--surface); border-color: color-mix(in srgb, var(--accent) 55%, var(--line-strong)); color: var(--ink); font-weight: 500; }
+.writing-filters button[aria-pressed="true"] > span { color: var(--accent); }
 .writing-filters button[data-tone="purple"][aria-pressed="true"] { background: var(--topic-purple); }
 .writing-filters button[data-tone="green"][aria-pressed="true"] { background: var(--topic-green); }
 .writing-filters button[data-tone="blue"][aria-pressed="true"] { background: var(--topic-blue); }
@@ -205,7 +206,7 @@ useHead({
   .writing-signoff { font-size: 0.7rem; gap: 9px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .writing-doodle { transition: none; }
+  .writing-doodle, .writing-filters button, .writing-filters button > span { transition: none; }
   .writing-doodle:hover { transform: rotate(3deg); }
 }
 </style>

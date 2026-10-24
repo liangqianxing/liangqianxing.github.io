@@ -1,6 +1,6 @@
 ---
 title: 'CMU 15-779 学习记录 14：KV 页大小、共享边界与 CPU 实现成本'
-date: '2026-10-17'
+date: '2026-10-12'
 description: '用 210 组 CPU 配置比较连续与分页 KV cache，观察 31/32-token 共享前缀的页边界，分别记录活跃槽位、池容量、复制计数和完整调用耗时。'
 series: CMU 15-779
 seriesOrder: 14

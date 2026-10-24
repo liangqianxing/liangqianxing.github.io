@@ -1,28 +1,29 @@
 # Blog maintenance rules
 
-This repository is the source of truth for both the legacy GitHub Pages profile and the Halo blog at `https://diycv.top`.
+This repository is the source of truth for Enhao Gu's personal homepage, academic profile, and technical blog at `https://liangqianxing.github.io`.
 
 ## Posts
 
 - Store posts in `content/posts/<slug>.md`.
-- Keep `hidden: true` so posts do not appear on the legacy GitHub Pages frontend.
-- Use `haloPublished: false` for drafts and `haloPublished: true` for published Halo posts.
-- Keep the original `date`, `categories`, `tags`, and `description` fields.
-- Never delete a post to unpublish it. Set `haloPublished: false` instead.
+- Set `hidden: false` and `draft: false` for public posts on the blog.
+- Keep `date`, `categories`, `tags`, `description`, `cover`, and `coverAlt` fields accurate.
+- Never delete a post to unpublish it. Set `hidden: true` or `draft: true` instead.
 
 Example front matter:
 
 ```yaml
 ---
 title: Article title
-date: 2026-07-22 14:00:00
+date: '2026-10-23'
 description: Short summary.
+cover: /images/posts/<slug>/<cover-filename>.webp
+coverAlt: Concise description of the cover illustration
 categories:
-  - Technology
-tags:
   - AI
-hidden: true
-haloPublished: false
+tags:
+  - LLM
+  - Agent
+hidden: false
 ---
 ```
 
@@ -30,14 +31,9 @@ haloPublished: false
 
 - Store article images below `public/images/posts/<slug>/`.
 - Reference them as `/images/posts/<slug>/<filename>` in Markdown.
-- Keep image filenames unique across the repository because Halo attachments use the filename as their identity.
-- The Halo sync uploads referenced images to Halo storage and rewrites their URLs.
 
 ## Publishing
 
-1. Create or edit the Markdown source.
-2. Run `npm run build` to validate the legacy site.
-3. Set `haloPublished: true` only when the article is ready.
-4. Commit and push to `main`. GitHub Actions synchronizes the change to Halo.
-
-Do not store the Halo token, server password, or other credentials in tracked files. The Halo token belongs only in the `HALO_PAT` GitHub Actions secret.
+1. Create or edit the Markdown source in `content/posts/`.
+2. Run `npm run build` to validate static site generation.
+3. Commit and push to `main`. GitHub Actions builds and deploys `.output/public` to GitHub Pages.

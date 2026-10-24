@@ -1,6 +1,6 @@
 ---
 title: 'CMU 15-779 学习记录 13：MoE 路由、稀疏分发与容量溢出'
-date: '2026-10-14'
+date: '2026-10-09'
 description: '用 CPU top-2 MoE 检查稀疏分发的输出与梯度，统计 expert-token 行数，并保留容量丢弃会改变输出的反例。'
 series: CMU 15-779
 seriesOrder: 13

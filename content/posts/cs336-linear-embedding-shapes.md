@@ -1,6 +1,6 @@
 ---
 title: 'Stanford CS336 学习记录 01：从 Linear、Embedding 搞清张量形状'
-date: '2026-10-18'
+date: '2026-10-14'
 description: '从 PyTorch 类、参数与 forward 的关系开始，理解 Linear 为什么保存两行三列的权重、计算时为什么要转置，再区分 Embedding 查表与线性变换。'
 series: Stanford CS336
 seriesOrder: 1

@@ -20,6 +20,8 @@
 <script setup lang="ts">
 const appConfig = useAppConfig()
 type ThemeMode = 'dark' | 'light' | 'cyber'
+type ThemeOriginEvent = MouseEvent | { clientX?: number; clientY?: number } | undefined
+
 const isDark = ref(false)
 const isThemeReady = ref(false)
 const themeMode = ref<ThemeMode>('light')
@@ -27,28 +29,39 @@ const themeModes: ThemeMode[] = ['light', 'dark', 'cyber']
 const commandOpen = ref(false)
 let progressFrame = 0
 let themeSwitchTimer: ReturnType<typeof setTimeout> | undefined
+let fallbackSwitchTimer: ReturnType<typeof setTimeout> | undefined
 
 function normalizeTheme(value: string | null): ThemeMode {
   return value === 'dark' || value === 'cyber' ? value : 'light'
 }
 
-function setTheme(mode: ThemeMode, persist = true, event?: MouseEvent) {
-  if (persist && themeMode.value === mode) return
-  const root = document.documentElement
-  if (persist && typeof window !== 'undefined') {
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (!reduced) {
-      if (event) {
-        root.style.setProperty('--theme-x', `${event.clientX}px`)
-        root.style.setProperty('--theme-y', `${event.clientY}px`)
+function resolveThemeOrigin(mode: ThemeMode, event?: ThemeOriginEvent): { x: number; y: number } {
+  if (
+    event &&
+    typeof event.clientX === 'number' &&
+    typeof event.clientY === 'number' &&
+    (event.clientX > 0 || event.clientY > 0)
+  ) {
+    return { x: event.clientX, y: event.clientY }
+  }
+  const target =
+    document.querySelector<HTMLElement>(`.blog-theme-control .blog-theme-option[data-mode="${mode}"]`) ??
+    document.querySelector<HTMLElement>(`.blog-theme-control .blog-theme-option[data-mode="${themeMode.value}"]`) ??
+    document.querySelector<HTMLElement>('.blog-theme-control')
+  if (target) {
+    const rect = target.getBoundingClientRect()
+    if (rect.width > 0 && rect.height > 0) {
+      return {
+        x: Math.round(rect.left + rect.width / 2),
+        y: Math.round(rect.top + rect.height / 2),
       }
-      root.classList.remove('theme-switching')
-      void root.offsetWidth
-      root.classList.add('theme-switching')
-      if (themeSwitchTimer) clearTimeout(themeSwitchTimer)
-      themeSwitchTimer = setTimeout(() => root.classList.remove('theme-switching'), 480)
     }
   }
+  return { x: Math.max(window.innerWidth - 74, 24), y: 42 }
+}
+
+function applyThemeDom(mode: ThemeMode, persist: boolean) {
+  const root = document.documentElement
   themeMode.value = mode
   isDark.value = mode !== 'light'
   root.classList.toggle('light', mode === 'light')
@@ -62,8 +75,89 @@ function setTheme(mode: ThemeMode, persist = true, event?: MouseEvent) {
   }
 }
 
-function toggleTheme() {
-  setTheme(themeModes[(themeModes.indexOf(themeMode.value) + 1) % themeModes.length])
+function setTheme(mode: ThemeMode, persist = true, event?: ThemeOriginEvent) {
+  if (persist && themeMode.value === mode) return
+  if (!persist || typeof window === 'undefined') {
+    applyThemeDom(mode, persist)
+    return
+  }
+
+  const root = document.documentElement
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  if (reduced || document.visibilityState !== 'visible') {
+    applyThemeDom(mode, persist)
+    return
+  }
+
+  const { x, y } = resolveThemeOrigin(mode, event)
+  const endRadius = Math.ceil(
+    Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y),
+    ),
+  )
+  root.style.setProperty('--theme-x', `${x}px`)
+  root.style.setProperty('--theme-y', `${y}px`)
+  root.style.setProperty('--theme-r', `${endRadius}px`)
+
+  const triggerOverlayWave = () => {
+    root.classList.remove('theme-switching')
+    void root.offsetWidth
+    root.classList.add('theme-switching')
+    if (themeSwitchTimer) clearTimeout(themeSwitchTimer)
+    themeSwitchTimer = setTimeout(() => {
+      root.classList.remove('theme-switching')
+    }, 540)
+  }
+
+  const docWithVT = document as Document & {
+    startViewTransition?: (cb: () => void) => { ready: Promise<void>; finished: Promise<void> }
+  }
+
+  if (typeof docWithVT.startViewTransition === 'function') {
+    try {
+      root.classList.add('theme-vt-active')
+      const transition = docWithVT.startViewTransition(() => {
+        applyThemeDom(mode, persist)
+      })
+      triggerOverlayWave()
+      transition.ready
+        .then(() => {
+          document.documentElement.animate(
+            {
+              clipPath: [
+                `circle(0px at ${x}px ${y}px)`,
+                `circle(${endRadius}px at ${x}px ${y}px)`,
+              ],
+            },
+            {
+              duration: 520,
+              easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+              pseudoElement: '::view-transition-new(root)',
+            },
+          )
+        })
+        .catch(() => {})
+      transition.finished.finally(() => {
+        root.classList.remove('theme-vt-active')
+      })
+      return
+    } catch {
+      root.classList.remove('theme-vt-active')
+    }
+  }
+
+  root.classList.add('theme-fallback-switching')
+  if (fallbackSwitchTimer) clearTimeout(fallbackSwitchTimer)
+  fallbackSwitchTimer = setTimeout(() => {
+    root.classList.remove('theme-fallback-switching')
+  }, 420)
+  triggerOverlayWave()
+  applyThemeDom(mode, persist)
+}
+
+function toggleTheme(event?: ThemeOriginEvent) {
+  setTheme(themeModes[(themeModes.indexOf(themeMode.value) + 1) % themeModes.length], true, event)
 }
 
 function openCommandPalette() {
@@ -114,6 +208,7 @@ onUnmounted(() => {
   window.removeEventListener('keydown', onKeydown)
   cancelAnimationFrame(progressFrame)
   if (themeSwitchTimer) clearTimeout(themeSwitchTimer)
+  if (fallbackSwitchTimer) clearTimeout(fallbackSwitchTimer)
 })
 
 provide('isDark', isDark)

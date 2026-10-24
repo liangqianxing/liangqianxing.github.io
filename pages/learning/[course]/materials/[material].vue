@@ -54,6 +54,7 @@
 import { getLearningCourse } from '~/data/learning/courses'
 import { getLearningMaterialArticle } from '~/data/learning/materials'
 import MaterialImage from '~/components/MaterialImage.vue'
+import ProsePre from '~/components/content/ProsePre.vue'
 import ProseTable from '~/components/content/ProseTable.vue'
 
 const route = useRoute()
@@ -66,7 +67,7 @@ const course = computed(() => {
 const materialSlug = computed(() => String(route.params.material))
 const article = computed(() => getLearningMaterialArticle(materialSlug.value, course.value.slug))
 const pdfOpen = ref(false)
-const readerComponents = { img: MaterialImage, table: ProseTable, h1: 'h1', h2: 'h2', h3: 'h3', h4: 'h4', h5: 'h5', h6: 'h6' }
+const readerComponents = { img: MaterialImage, pre: ProsePre, table: ProseTable, h1: 'h1', h2: 'h2', h3: 'h3', h4: 'h4', h5: 'h5', h6: 'h6' }
 
 definePageMeta({
   scrollToTop: true,

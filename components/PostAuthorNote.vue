@@ -87,16 +87,30 @@ function onSeek(event: Event) {
   --note-purple-ink: #755b92;
   --note-green-ink: #557867;
   --note-peach-ink: #986b50;
+  --note-shadow: 0 5px 14px #33264008;
+  --note-photo-shadow: 0 3px 7px #33264012;
   position: relative;
   padding: 18px 18px 8px;
   border: 1px solid color-mix(in srgb, var(--line) 78%, transparent);
   border-radius: 8px 20px 18px 22px;
   background: radial-gradient(ellipse at 0 0, color-mix(in srgb, var(--topic-orange) 40%, transparent), transparent 70%), var(--surface);
-  box-shadow: 0 5px 14px #33264008;
+  box-shadow: var(--note-shadow);
   animation: author-note-arrive 420ms ease-out both;
 }
-html.dark .author-note { --note-purple-ink: #d3c3ec; --note-green-ink: #afcdbf; --note-peach-ink: #e3b79c; }
-html.cyber .author-note { --note-purple-ink: #bddbc8; --note-green-ink: #abe3c5; --note-peach-ink: #dfd7a8; }
+:global(html.dark .author-note) {
+  --note-purple-ink: #d3c3ec;
+  --note-green-ink: #afcdbf;
+  --note-peach-ink: #e3b79c;
+  --note-shadow: 0 8px 22px #07030f2e;
+  --note-photo-shadow: 0 4px 10px #07030f3d;
+}
+:global(html.cyber .author-note) {
+  --note-purple-ink: #bddbc8;
+  --note-green-ink: #abe3c5;
+  --note-peach-ink: #dfd7a8;
+  --note-shadow: 0 8px 22px #03170e33;
+  --note-photo-shadow: 0 4px 10px #03170e42;
+}
 .author-note-kicker {
   display: flex; align-items: center; justify-content: space-between;
   margin: 0 0 18px; color: var(--muted); font-size: 12px; letter-spacing: .08em;
@@ -105,7 +119,7 @@ html.cyber .author-note { --note-purple-ink: #bddbc8; --note-green-ink: #abe3c5;
 .author-note-identity { display: grid; grid-template-columns: 64px minmax(0, 1fr); align-items: center; gap: 12px; min-height: 68px; }
 .author-note-photo {
   position: relative; display: block; width: 64px; padding: 3px 3px 7px;
-  border-radius: 3px; background: var(--bg); box-shadow: 0 3px 7px #33264012;
+  border-radius: 3px; background: var(--bg); box-shadow: var(--note-photo-shadow);
   transform: rotate(-6deg); transition: transform 250ms ease;
 }
 .author-note-photo::before {

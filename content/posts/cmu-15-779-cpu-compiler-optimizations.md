@@ -1,6 +1,6 @@
 ---
 title: 'CMU 15-779 学习记录 09：CPU 编译优化、合法重写与候选搜索'
-date: '2026-10-01'
+date: '2026-09-27'
 description: '用 CPU 实验验证 BatchNorm 折叠、RMSNorm 重排与非线性反例，测量分块候选，并运行 TorchInductor，分别记录首调用与预热后的时间。'
 series: CMU 15-779
 seriesOrder: 9

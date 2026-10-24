@@ -1,6 +1,6 @@
 ---
 title: 'CMU 15-779 学习记录 10：加权梯度、状态分片与同步流水线'
-date: '2026-10-04'
+date: '2026-09-30'
 description: '用双 CPU 进程 Gloo 检查不等数据分片的梯度，推导持久状态字节数，再用依赖模型比较 GPipe 与同步 1F1B 的激活存活。'
 series: CMU 15-779
 seriesOrder: 10
