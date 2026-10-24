@@ -24,6 +24,7 @@
     <!-- TOC Sidebar -->
     <aside
       v-if="hasToc"
+      ref="tocSidebarRef"
       class="toc-sidebar"
       aria-label="目录"
     >
@@ -254,6 +255,7 @@ const postReadingTime = computed(() => {
 // TOC active heading tracking
 const activeId = ref('')
 const articleRef = ref<HTMLElement | null>(null)
+const tocSidebarRef = ref<HTMLElement | null>(null)
 const readingProgress = ref(0)
 const readingSeekable = ref(false)
 let progressFrame = 0
@@ -261,6 +263,14 @@ let seekFrame = 0
 let pendingSeek: number | null = null
 let headingObserver: IntersectionObserver | null = null
 let navResizeObserver: ResizeObserver | null = null
+
+watch(activeId, (id) => {
+  if (!id || !tocSidebarRef.value) return
+  nextTick(() => {
+    const activeLink = tocSidebarRef.value?.querySelector<HTMLElement>('.toc-link-active')
+    activeLink?.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+  })
+})
 
 function headingOffset() {
   return (document.querySelector('.site-nav')?.getBoundingClientRect().height ?? 0) + 16

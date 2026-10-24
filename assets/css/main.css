@@ -2349,6 +2349,38 @@ html.theme-switching .theme-transition-sheen {
 .prose h3 { font-size: 1.24rem; }
 .prose h4 { font-size: 1.05rem; color: var(--muted); }
 
+.prose-heading {
+  position: relative;
+}
+
+.prose .prose-heading-anchor {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 0.38em;
+  border-bottom: 0;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.78em;
+  font-weight: 500;
+  text-decoration: none;
+  opacity: 0;
+  transform: translateX(-3px);
+  transition: opacity 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.prose-heading:hover .prose-heading-anchor,
+.prose .prose-heading-anchor:focus-visible {
+  opacity: 0.75;
+  transform: translateX(0);
+}
+
+.prose .prose-heading-anchor:hover,
+.prose .prose-heading-anchor:focus-visible {
+  opacity: 1;
+  color: var(--accent);
+  border-bottom: 0;
+}
+
 .prose p,
 .prose ul,
 .prose ol,
@@ -2407,35 +2439,125 @@ html.theme-switching .theme-transition-sheen {
 
 .prose .code-block-wrapper {
   position: relative;
-  margin-bottom: 1.35em;
+  margin-bottom: 1.45em;
+  overflow: hidden;
+  border: 1px solid var(--code-border);
+  border-radius: 14px;
+  background: var(--code-bg);
+  box-shadow: 0 8px 28px rgba(15, 14, 24, 0.05);
+}
+
+.code-block-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 40px;
+  padding: 6px 12px 6px 14px;
+  border-bottom: 1px solid var(--code-border);
+  background: color-mix(in srgb, var(--surface-2) 48%, var(--code-bg));
+}
+
+.code-block-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.code-block-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.code-block-dots i {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--code-label) 42%, transparent);
+}
+
+.code-block-dots i:nth-child(1) {
+  background: color-mix(in srgb, #f87171 58%, var(--code-label));
+}
+
+.code-block-dots i:nth-child(2) {
+  background: color-mix(in srgb, #fbbf24 58%, var(--code-label));
+}
+
+.code-block-dots i:nth-child(3) {
+  background: color-mix(in srgb, #34d399 58%, var(--code-label));
+}
+
+.code-block-lang {
+  color: var(--code-label);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.code-block-file {
+  overflow: hidden;
+  padding-left: 8px;
+  border-left: 1px solid var(--code-border);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .prose .code-block-wrapper pre {
-  margin-bottom: 0;
-  padding-top: 2.7rem;
+  margin: 0;
+  padding: 1.15rem 1.35rem;
+  border: 0;
+  border-radius: 0;
 }
 
 .code-copy-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
   min-height: 28px;
   padding: 0 10px;
-  border: 1px solid var(--line);
+  border: 1px solid color-mix(in srgb, var(--code-border) 85%, transparent);
   border-radius: 999px;
-  background: var(--surface-2);
-  color: var(--muted);
+  background: color-mix(in srgb, var(--surface) 78%, var(--code-bg));
+  color: var(--code-label);
   font-family: var(--font-mono);
   font-size: 0.68rem;
-  font-weight: 850;
+  font-weight: 600;
   cursor: pointer;
+  transition: color 160ms ease, border-color 160ms ease, background-color 160ms ease;
+}
+
+.code-copy-btn svg {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .code-copy-btn:hover,
 .code-copy-btn.copied {
   color: var(--accent);
-  border-color: color-mix(in srgb, var(--accent) 50%, var(--line));
+  border-color: color-mix(in srgb, var(--accent) 46%, var(--code-border));
+  background: var(--surface);
+}
+
+.code-copy-btn.failed {
+  color: var(--danger);
+  border-color: color-mix(in srgb, var(--danger) 46%, var(--code-border));
 }
 
 .prose blockquote {
@@ -3095,9 +3217,8 @@ html.cyber .shiki code .line span {
   }
 }
 
-pre[class*="language-"]::before,
-.shiki[data-language]::before,
-.prose .code-block-wrapper pre[data-language]::before {
+.prose :not(.code-block-wrapper) > pre[class*="language-"]::before,
+.prose :not(.code-block-wrapper) > .shiki[data-language]::before {
   content: attr(data-language);
   position: absolute;
   top: 11px;

@@ -287,13 +287,10 @@
 </template>
 
 <script setup lang="ts">
-import type { PostMeta } from '~/server/api/posts.get'
 import { formatDate } from '~/utils/blog'
 
 const appConfig = useAppConfig()
-const { data } = await useAsyncData<PostMeta[]>('about-posts', () =>
-  $fetch('/api/posts'),
-)
+const { data } = await usePublicArchive()
 const posts = computed(() => data.value ?? [])
 const recentPosts = computed(() => posts.value.slice(0, 3))
 const topicCount = computed(

@@ -94,8 +94,7 @@
 </template>
 
 <script setup lang="ts">
-type ThemeMode = 'dark' | 'light' | 'cyber'
-type ThemeOriginEvent = MouseEvent | { clientX?: number; clientY?: number } | undefined
+import type { ThemeMode } from '~/composables/useTheme'
 
 const emit = defineEmits<{
   'open-search': []
@@ -112,9 +111,7 @@ const pillStyle = ref<{ transform: string; width: string; height: string }>({
   width: '0px',
   height: '0px',
 })
-const isThemeReady = inject<Ref<boolean>>('isThemeReady', ref(false))
-const themeMode = inject<Ref<ThemeMode>>('themeMode', ref('light'))
-const setTheme = inject<(mode: ThemeMode, persist?: boolean, event?: ThemeOriginEvent) => void>('setTheme', () => {})
+const { isThemeReady, themeMode, setTheme } = useTheme()
 const navItems = computed(() => appConfig.nav.filter(item => item.path !== '/'))
 const themeOptions: { mode: ThemeMode; label: string }[] = [
   { mode: 'light', label: '浅色主题' },

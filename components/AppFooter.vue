@@ -39,7 +39,7 @@
 <script setup lang="ts">
 const appConfig = useAppConfig()
 const route = useRoute()
-const openCommandPalette = inject<() => void>('openCommandPalette', () => {})
+const { openCommandPalette } = useCommandPalette()
 const navItems = computed(() => appConfig.nav.filter(item => item.path !== '/'))
 const year = new Date().getFullYear()
 </script>

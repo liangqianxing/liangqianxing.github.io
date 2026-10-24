@@ -22,6 +22,14 @@ function parsePostFrontmatter(source: string): Record<string, unknown> {
     if (val) data[key] = val.replace(/^['"]|['"]$/g, '')
   }
 
+  const arrayInline = yaml.match(/([\w-]+):\s*\[([^\]]+)\]/g)
+  if (arrayInline) {
+    for (const m of arrayInline) {
+      const [, k, v] = m.match(/([\w-]+):\s*\[([^\]]+)\]/) ?? []
+      if (k && v) data[k] = v.split(',').map((s: string) => s.trim().replace(/^['"]|['"]$/g, ''))
+    }
+  }
+
   const mlArray = yaml.matchAll(/^(\w+):\s*\n((?:\s+-\s+.+\n?)*)/gm)
   for (const m of mlArray) {
     const [, k, block] = m
@@ -128,7 +136,7 @@ export default defineNuxtConfig({
       // 直接从文件系统注入所有 post 和 tag 路由，
       // 绕过 Content v3 SQLite WASM 在 SSR 阶段未初始化的问题
       routes: [
-        '/', '/academic', '/blog', '/learning', '/api/posts', '/posts', '/tags', '/about', '/friends',
+        '/', '/academic', '/blog', '/learning', '/api/posts', '/posts', '/tags', '/about', '/friends', '/rss.xml', '/sitemap.xml',
         ...learningCourses.flatMap((course) => [
           `/learning/${encodeURIComponent(course.slug)}`,
           `/api/learning/${encodeURIComponent(course.slug)}/materials`,

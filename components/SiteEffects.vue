@@ -49,11 +49,9 @@ const REVEAL_SELECTOR = [
   '.link-callout',
   '.material-reader-head',
   '.material-mobile-toc',
-  '.material-reader-layout',
   '.post-header',
   '.post-cover',
   '.post-inline-toc',
-  '.prose',
   '.post-series',
   '.post-nav',
 ].join(',')
@@ -114,8 +112,8 @@ onMounted(() => {
         observer?.unobserve(entry.target)
       }
     }, {
-      rootMargin: '0px 0px -7% 0px',
-      threshold: 0.06,
+      rootMargin: '0px 0px -6% 0px',
+      threshold: 0,
     })
 
     let staggerIndex = 0

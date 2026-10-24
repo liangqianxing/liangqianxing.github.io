@@ -8,7 +8,7 @@ import '~/assets/css/gateway.css'
 
 onMounted(() => {
   const root = document.documentElement
-  root.classList.remove('dark', 'cyber')
+  root.classList.remove('dark', 'cyber', 'theme-switching', 'theme-vt-active', 'theme-fallback-switching')
   root.classList.add('light')
   root.dataset.theme = 'light'
 })

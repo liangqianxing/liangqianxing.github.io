@@ -84,9 +84,7 @@ import NotebookTypewriter from '~/components/NotebookTypewriter.vue'
 
 const appConfig = useAppConfig()
 
-const { data } = await useAsyncData<PostMeta[]>('home-posts', () =>
-  $fetch('/api/posts')
-)
+const { data } = await usePublicArchive()
 
 const posts = computed(() => data.value ?? [])
 const featured = computed(() => posts.value[0] ?? null)

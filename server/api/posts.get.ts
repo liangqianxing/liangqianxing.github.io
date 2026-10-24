@@ -7,6 +7,7 @@
  */
 import { readdirSync, readFileSync } from 'node:fs'
 import { join, basename } from 'node:path'
+import { isVisible, readingTime } from '~/utils/blog'
 
 export interface PostMeta {
   slug: string
@@ -48,8 +49,6 @@ function parseFrontmatter(source: string): { data: Record<string, unknown>; body
     if (val === '' || val === null || val === 'null') { data[key] = null; continue }
     // numeric
     if (/^\d+$/.test(val)) { data[key] = parseInt(val, 10); continue }
-    // array start (next lines are - items)
-    if (val === '') { data[key] = []; continue }
     data[key] = val.replace(/^['"]|['"]$/g, '')
   }
 
@@ -72,13 +71,6 @@ function parseFrontmatter(source: string): { data: Record<string, unknown>; body
   }
 
   return { data, body }
-}
-
-/** 估算阅读时间 */
-function readingTime(body: string): number {
-  const zh = body.match(/[一-鿿]/g)?.length ?? 0
-  const en = body.replace(/[一-鿿]/g, ' ').match(/[A-Za-z0-9]+/g)?.length ?? 0
-  return Math.max(1, Math.ceil(zh / 300 + en / 200))
 }
 
 function excerptFromBody(body: string): string {
@@ -106,9 +98,7 @@ export default defineEventHandler((_event): PostMeta[] => {
     const slug = basename(file, '.md')
 
     // 过滤隐藏 / 草稿
-    if (data.draft === true) continue
-    if (data.hidden === true) continue
-    if (data.published === false) continue
+    if (!isVisible(data)) continue
 
     posts.push({
       slug,

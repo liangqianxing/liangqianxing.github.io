@@ -263,7 +263,6 @@ html[data-theme="cyber"] .blog-theme-option[data-mode="cyber"] { color: var(--ac
 .blog-site .block-eyebrow { color: var(--accent); }
 .blog-site .text-link { padding: 0; border: 0; border-radius: 0; background: transparent; font-size: 0.78rem; font-weight: 500; box-shadow: none; }
 .blog-site .text-link:hover { background: transparent; transform: none; color: var(--accent); }
-.journal-content { scroll-margin-top: calc(var(--nav-h) + 20px); }
 
 /* Soft paper surfaces across the blog; reading pages retain their measure. */
 .blog-site :is(.knowledge-card, .article-card, .friend-card, .timeline-card, .focus-card, .about-profile, .about-snapshot, .now-card, .stack-panel, .link-callout, .post-nav-item) {

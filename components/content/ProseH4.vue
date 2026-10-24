@@ -1,5 +1,13 @@
 <template>
-  <h4 :id="id"><slot /></h4>
+  <h4 :id="id" class="prose-heading">
+    <slot />
+    <a
+      v-if="id"
+      :href="`#${id}`"
+      class="prose-heading-anchor"
+      aria-label="定位到此小节"
+    >#</a>
+  </h4>
 </template>
 
 <script setup lang="ts">

@@ -76,11 +76,36 @@
 import { archiveTone, collectArchiveTags } from '~/utils/archive'
 import { tagSlug } from '~/utils/blog'
 
+const route = useRoute()
+const router = useRouter()
 const { data, error, status } = await usePublicArchive()
 const posts = computed(() => data.value ?? [])
 const tags = computed(() => collectArchiveTags(posts.value))
-const query = ref('')
-const activeTag = ref('')
+const query = ref(typeof route.query.q === 'string' ? route.query.q : '')
+const activeTag = ref(typeof route.query.tag === 'string' ? route.query.tag : '')
+
+watch(
+  () => [route.query.q, route.query.tag],
+  ([q, tag]) => {
+    const nextQ = typeof q === 'string' ? q : ''
+    const nextTag = typeof tag === 'string' ? tag : ''
+    if (query.value !== nextQ) query.value = nextQ
+    if (activeTag.value !== nextTag) activeTag.value = nextTag
+  },
+)
+
+watch([query, activeTag], ([q, tag]) => {
+  if (import.meta.server) return
+  const nextQuery: Record<string, string> = {}
+  const trimmedQ = q.trim()
+  if (trimmedQ) nextQuery.q = trimmedQ
+  if (tag) nextQuery.tag = tag
+  const currQ = typeof route.query.q === 'string' ? route.query.q : ''
+  const currTag = typeof route.query.tag === 'string' ? route.query.tag : ''
+  if (trimmedQ === currQ && tag === currTag) return
+  router.replace({ query: nextQuery })
+})
+
 const activeTagName = computed(() => tags.value.find(tag => tag.slug === activeTag.value)?.tag ?? '')
 const hasFilters = computed(() => Boolean(query.value.trim() || activeTag.value))
 const readingLabels: Record<string, string> = {

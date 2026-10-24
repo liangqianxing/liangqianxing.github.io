@@ -76,12 +76,10 @@
 </template>
 
 <script setup lang="ts">
+import type { ThemeOriginEvent } from '~/composables/useTheme'
 import { learningCourses } from '~/data/learning/courses'
 import { collectArchiveTags, tagPath } from '~/utils/archive'
 import { formatDate } from '~/utils/blog'
-
-type ThemeMode = 'dark' | 'light' | 'cyber'
-type ThemePoint = { clientX: number; clientY: number }
 
 interface CommandItem {
   id: string
@@ -92,7 +90,7 @@ interface CommandItem {
   subtitle?: string
   badge?: string
   keywords?: string
-  action: (origin?: MouseEvent | ThemePoint) => void
+  action: (origin?: ThemeOriginEvent) => void
 }
 
 const props = defineProps<{
@@ -105,9 +103,8 @@ const emit = defineEmits<{
 
 const appConfig = useAppConfig()
 const router = useRouter()
-const { data: postsData } = await usePublicArchive()
-const setTheme = inject<(mode: ThemeMode, persist?: boolean, event?: MouseEvent | ThemePoint) => void>('setTheme', () => {})
-const themeMode = inject<Ref<ThemeMode>>('themeMode', ref('light'))
+const { data: postsData, status: postsStatus, refresh: refreshPosts } = usePublicArchive({ lazy: true, immediate: false })
+const { themeMode, setTheme, toggleTheme } = useTheme()
 
 const query = ref('')
 const activeIndex = ref(0)
@@ -115,7 +112,7 @@ const modalRef = ref<HTMLElement | null>(null)
 const inputRef = ref<HTMLInputElement | null>(null)
 const listRef = ref<HTMLElement | null>(null)
 
-function resolveOrigin(event?: MouseEvent): MouseEvent | ThemePoint | undefined {
+function resolveOrigin(event?: MouseEvent): ThemeOriginEvent {
   if (event && (event.clientX !== 0 || event.clientY !== 0)) {
     return event
   }
@@ -335,6 +332,9 @@ watch(() => props.open, async (isOpen) => {
   if (isOpen) {
     query.value = ''
     activeIndex.value = 0
+    if (!postsData.value?.length && postsStatus.value !== 'pending') {
+      void refreshPosts()
+    }
     await nextTick()
     inputRef.value?.focus()
   }
@@ -364,9 +364,7 @@ function onModalKeydown(event: KeyboardEvent) {
   }
   if ((event.ctrlKey || event.altKey) && !event.metaKey && event.key.toLowerCase() === 't') {
     event.preventDefault()
-    const modes: ThemeMode[] = ['light', 'dark', 'cyber']
-    const nextMode = modes[(modes.indexOf(themeMode.value) + 1) % modes.length]
-    setTheme(nextMode, true, resolveOrigin())
+    toggleTheme(resolveOrigin())
     return
   }
   if (!total) return
