@@ -89,9 +89,9 @@ const { data } = await usePublicArchive()
 const posts = computed(() => data.value ?? [])
 const featured = computed(() => posts.value[0] ?? null)
 const selectedSlugs = [
-  'multi-constraint-agent-routing-dag-eval',
-  'llm-mrd-distillation-auditable-review-agents',
   'qwen25-vl-sglang-verl-single-gpu-lab',
+  'mini-llm-engine-from-scratch',
+  'multimodal-rag-from-scratch',
 ]
 const selectedPosts = computed(() =>
   selectedSlugs
@@ -99,7 +99,7 @@ const selectedPosts = computed(() =>
     .filter((post): post is PostMeta => Boolean(post))
 )
 const recentPosts = computed(() => {
-  const excluded = new Set([featured.value?.slug, ...selectedSlugs])
+  const excluded = new Set([featured.value?.slug])
   return posts.value.filter(post => !excluded.has(post.slug)).slice(0, 6)
 })
 const topicCounts = computed(() => {
@@ -110,13 +110,23 @@ const topicCounts = computed(() => {
   return [...counts.entries()].sort((a, b) => b[1] - a[1])
 })
 
-const knowledgeMap = [
+function countByTagSlug(slug: string): number {
+  const normalized = slug.toLowerCase()
+  return posts.value.filter(post =>
+    (post.tags ?? []).some(t =>
+      t.trim().replace(/\s*\/\s*/g, '-').replace(/\s+/g, '-').toLowerCase() === normalized
+    )
+  ).length
+}
+
+const knowledgeMap = computed(() => [
   {
     key: 'AI',
     eyebrow: '和智能一起折腾',
     title: 'AI Infra / Agent',
     desc: '从模型基础到 RAG、上下文工程、推理服务和 Agent 平台。',
     label: '看 AI Infra',
+    count: countByTagSlug('ai-infra'),
     to: '/tags/ai-infra',
   },
   {
@@ -125,6 +135,7 @@ const knowledgeMap = [
     title: '后端与分布式',
     desc: '数据库、缓存、高并发、分布式系统与 Go 后端项目。',
     label: '看后端系统',
+    count: countByTagSlug('分布式系统'),
     to: '/tags/分布式系统',
   },
   {
@@ -133,6 +144,7 @@ const knowledgeMap = [
     title: '源码阅读',
     desc: '从入口、数据流和关键抽象读懂开源项目。',
     label: '看源码分析',
+    count: countByTagSlug('源码分析'),
     to: '/tags/源码分析',
   },
   {
@@ -141,9 +153,10 @@ const knowledgeMap = [
     title: '面试与实践',
     desc: '按岗位组织的准备清单、项目表达和高频追问。',
     label: '看面试',
+    count: countByTagSlug('面试'),
     to: '/tags/面试',
   },
-]
+])
 
 useHead({
   title: appConfig.title,

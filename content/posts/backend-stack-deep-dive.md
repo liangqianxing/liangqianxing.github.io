@@ -8,11 +8,12 @@ categories:
   - 技术
 tags:
   - 后端
+  - 分布式系统
   - FastAPI
   - PostgreSQL
   - Docker
   - 面试
-hidden: true
+hidden: false
 haloPublished: true
 ---
 

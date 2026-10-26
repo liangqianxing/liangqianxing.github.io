@@ -8,7 +8,7 @@ tags:
   - Writing
 categories:
   - 学习笔记
-hidden: true
+hidden: false
 haloPublished: true
 ---
 

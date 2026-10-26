@@ -13,7 +13,7 @@ tags:
   - Q-Former
   - 参数高效训练
   - ICML
-hidden: true
+hidden: false
 haloPublished: true
 ---
 

@@ -13,7 +13,7 @@ tags:
   - 偏好对齐
   - 模型后训练
   - NeurIPS
-hidden: true
+hidden: false
 haloPublished: true
 ---
 

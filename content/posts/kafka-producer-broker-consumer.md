@@ -6,11 +6,12 @@ categories:
   - 技术
 tags:
   - Kafka
+  - 分布式系统
   - 消息队列
   - 后端
   - 面试
   - 推荐系统
-hidden: true
+hidden: false
 haloPublished: true
 ---
 

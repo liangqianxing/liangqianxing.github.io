@@ -17,9 +17,14 @@
           </svg>
         </div>
         <span class="knowledge-index">{{ item.eyebrow ?? item.key }}</span>
+        <span v-if="typeof item.count === 'number'" class="knowledge-count">{{ item.count }} 篇</span>
       </div>
       <h3>{{ item.title }} <span class="knowledge-arrow" aria-hidden="true">→</span></h3>
       <p>{{ item.desc }}</p>
+      <div class="knowledge-foot">
+        <span class="knowledge-label">{{ item.label }}</span>
+        <span class="knowledge-foot-arrow" aria-hidden="true">↗</span>
+      </div>
     </NuxtLink>
   </div>
 </template>
@@ -32,6 +37,7 @@ defineProps<{
     title: string
     desc: string
     label: string
+    count?: number
     to: string
   }>
 }>()

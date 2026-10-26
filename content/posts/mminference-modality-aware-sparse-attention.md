@@ -14,7 +14,7 @@ tags:
   - GPU Kernel
   - MMInference
   - ICML
-hidden: true
+hidden: false
 haloPublished: true
 draft: false
 ---

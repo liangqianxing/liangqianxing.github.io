@@ -14,7 +14,7 @@ tags:
   - KV Store
   - Ray
   - Agent
-hidden: true
+hidden: false
 haloPublished: true
 ---
 

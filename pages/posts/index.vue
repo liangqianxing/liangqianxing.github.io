@@ -49,7 +49,16 @@
       </div>
       <div v-if="tags.length" class="writing-filters" role="group" aria-label="按标签筛选文章">
         <button type="button" :aria-pressed="!activeTag" @click="activeTag = ''">全部 <span>{{ posts.length }}</span></button>
-        <button v-for="entry in tags" :key="entry.slug" type="button" :aria-pressed="activeTag === entry.slug" :data-tone="archiveTone(entry.slug)" @click="activeTag = activeTag === entry.slug ? '' : entry.slug">{{ entry.tag }} <span>{{ entry.count }}</span></button>
+        <button v-for="entry in visibleFilterTags" :key="entry.slug" type="button" :aria-pressed="activeTag === entry.slug" :data-tone="archiveTone(entry.slug)" @click="activeTag = activeTag === entry.slug ? '' : entry.slug">{{ entry.tag }} <span>{{ entry.count }}</span></button>
+        <button
+          v-if="tags.length > FILTER_TAG_LIMIT"
+          type="button"
+          class="writing-filters-more"
+          :aria-expanded="showAllTags"
+          @click="showAllTags = !showAllTags"
+        >
+          {{ showAllTags ? '收起标签 ↑' : `展开全部 ${tags.length} 个标签 ↓` }}
+        </button>
       </div>
     </section>
 
@@ -107,6 +116,17 @@ watch([query, activeTag], ([q, tag]) => {
 })
 
 const activeTagName = computed(() => tags.value.find(tag => tag.slug === activeTag.value)?.tag ?? '')
+const FILTER_TAG_LIMIT = 24
+const showAllTags = ref(false)
+const visibleFilterTags = computed(() => {
+  if (showAllTags.value || tags.value.length <= FILTER_TAG_LIMIT) return tags.value
+  const top = tags.value.slice(0, FILTER_TAG_LIMIT)
+  if (activeTag.value && !top.some(entry => entry.slug === activeTag.value)) {
+    const selected = tags.value.find(entry => entry.slug === activeTag.value)
+    if (selected) return [...top, selected]
+  }
+  return top
+})
 const hasFilters = computed(() => Boolean(query.value.trim() || activeTag.value))
 const readingLabels: Record<string, string> = {
   'bpe-tokenizer-from-scratch': 'BPE 分词',
@@ -189,6 +209,8 @@ useHead({
 .writing-filters button[data-tone="green"][aria-pressed="true"] { background: var(--topic-green); }
 .writing-filters button[data-tone="blue"][aria-pressed="true"] { background: var(--topic-blue); }
 .writing-filters button[data-tone="orange"][aria-pressed="true"] { background: var(--topic-orange); }
+.writing-filters button.writing-filters-more { border-style: dashed; border-color: var(--line-strong); color: var(--accent); font-weight: 500; }
+.writing-filters button.writing-filters-more:hover { background: var(--surface); border-color: var(--accent); }
 .writing-results { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-block: 22px 16px; color: var(--muted); font-size: 0.74rem; }
 .writing-results p { min-width: 0; overflow-wrap: anywhere; }
 .writing-results button { flex: 0 0 auto; padding: 6px 0; border: 0; background: transparent; color: var(--accent); font-size: 0.73rem; cursor: pointer; }

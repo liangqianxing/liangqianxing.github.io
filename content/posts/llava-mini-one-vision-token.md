@@ -14,7 +14,7 @@ tags:
   - 长视频理解
   - LLaVA-Mini
   - ICLR
-hidden: true
+hidden: false
 haloPublished: true
 draft: false
 ---

@@ -1,9 +1,18 @@
 <template>
-  <NuxtLink :to="post.path" class="article-card" :class="{ 'article-card-large': large }">
-    <span class="article-category">{{ post.tags?.[0] || 'NOTE' }}</span>
-    <div class="article-meta">
-      <span>{{ formatDate(post.date) }}</span>
-      <span>{{ post.readingTime ?? 1 }} min</span>
+  <NuxtLink :to="post.path" class="article-card" :class="{ 'article-card-large': large, 'article-card-illustrated': post.cover }">
+    <div v-if="post.cover" class="article-card-cover">
+      <SiteImage
+        :src="post.cover"
+        :alt="post.coverAlt || post.title"
+        :sizes="large ? '(max-width: 760px) calc(100vw - 48px), 520px' : '(max-width: 760px) calc(100vw - 48px), 320px'"
+      />
+    </div>
+    <div class="article-card-top">
+      <span class="article-category">{{ post.tags?.[0] || 'NOTE' }}</span>
+      <div class="article-meta">
+        <span>{{ formatDate(post.date) }}</span>
+        <span>{{ post.readingTime ?? 1 }} min</span>
+      </div>
     </div>
     <h3 class="article-title">{{ post.title }}</h3>
     <p class="article-desc">{{ post.description || post.excerpt || '继续阅读这篇技术笔记。' }}</p>

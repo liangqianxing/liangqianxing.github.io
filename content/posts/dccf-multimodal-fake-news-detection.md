@@ -12,7 +12,7 @@ tags:
   - 表征学习
   - 多任务学习
   - 论文精读
-hidden: true
+hidden: false
 haloPublished: true
 ---
 

@@ -12,7 +12,7 @@ tags:
   - verl
   - 模型后训练
 mathjax: true
-hidden: true
+hidden: false
 haloPublished: true
 ---
 

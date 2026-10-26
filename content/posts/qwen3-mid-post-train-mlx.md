@@ -12,7 +12,7 @@ tags:
   - 持续预训练
   - SFT
   - Apple Silicon
-hidden: true
+hidden: false
 haloPublished: true
 ---
 

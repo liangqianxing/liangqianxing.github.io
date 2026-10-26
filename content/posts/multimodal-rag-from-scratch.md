@@ -14,7 +14,7 @@ tags:
   - 实习求职
 categories:
   - AI
-hidden: true
+hidden: false
 haloPublished: true
 ---
 

@@ -10,7 +10,7 @@ tags:
 categories:
   - AI
 mathjax: true
-hidden: true
+hidden: false
 haloPublished: true
 ---
 

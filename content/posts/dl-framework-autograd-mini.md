@@ -12,7 +12,7 @@ tags:
   - PyTorch
   - CMU 10-414
   - Mini Framework
-hidden: true
+hidden: false
 haloPublished: true
 ---
 

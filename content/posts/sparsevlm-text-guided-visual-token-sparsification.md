@@ -14,7 +14,7 @@ tags:
   - SparseVLM
   - LLaVA
   - ICML
-hidden: true
+hidden: false
 haloPublished: true
 ---
 

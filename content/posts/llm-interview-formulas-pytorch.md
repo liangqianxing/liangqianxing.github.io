@@ -12,7 +12,7 @@ tags:
   - RLHF
   - GRPO
   - 面试
-hidden: true
+hidden: false
 haloPublished: true
 ---
 
@@ -1029,7 +1029,7 @@ def train_sft_step(model, optimizer, input_ids, response_mask, max_grad_norm=1.0
 
 本文的 16 个代码块在 Python 3.14、PyTorch 2.14.0 的 CPU 环境下执行，21 组检查通过。核对范围包括：Attention 与 PyTorch SDPA 的输出和梯度、causal mask 的隔离效果、RoPE 的范数与相对位置性质、LayerNorm 与官方实现的一致性、SFT 标签对齐、AdamW 参数更新、LoRA 冻结、PPO/GRPO clip 与梯度隔离、DPO margin、KV Cache 等价性、采样约束以及最小训练和生成循环。它们验证这些教学实现的局部行为，不代表完成了大模型训练效果或性能评测。
 
-想继续复习概念，可以配合站内的 [Transformer、ViT 与 CLIP 基础](https://diycv.top/archives/transformer-vit-clip-interview-guide) 和 [DPO 精读](https://diycv.top/archives/dpo-direct-preference-optimization)。练习时先从白纸写公式，再标出 shape，最后写 forward 和 loss；遇到边界情况时，解释清楚自己的约定。
+想继续复习概念，可以配合站内的 [Transformer、ViT 与 CLIP 基础](/posts/transformer-vit-clip-interview-guide) 和 [DPO 精读](/posts/dpo-direct-preference-optimization)。练习时先从白纸写公式，再标出 shape，最后写 forward 和 loss；遇到边界情况时，解释清楚自己的约定。
 
 ## 参考资料
 

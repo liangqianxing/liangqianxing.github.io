@@ -14,7 +14,7 @@ tags:
   - 视觉语言模型
   - MM-FSS
   - ICLR
-hidden: true
+hidden: false
 haloPublished: true
 ---
 

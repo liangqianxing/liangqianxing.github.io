@@ -6,6 +6,7 @@ series: Go 后端项目
 seriesOrder: 1
 tags:
   - Go
+  - 分布式系统
   - 后端框架
   - ORM
   - 分布式缓存
@@ -14,7 +15,7 @@ tags:
   - 项目架构
 categories:
   - 技术
-hidden: true
+hidden: false
 haloPublished: true
 ---
 

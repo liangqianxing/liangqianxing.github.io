@@ -8,7 +8,7 @@ tags:
   - Hexo
   - 前端
   - 开源
-hidden: true
+hidden: false
 haloPublished: true
 ---
 
