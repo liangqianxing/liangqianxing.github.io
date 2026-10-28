@@ -15,7 +15,7 @@ tags:
   - 个性化图像描述
   - RePIC
   - NeurIPS
-hidden: false
+hidden: true
 haloPublished: true
 draft: false
 ---

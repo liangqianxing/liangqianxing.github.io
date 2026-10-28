@@ -13,7 +13,7 @@ tags:
   - 软提示
   - YoLLaVA
   - NeurIPS
-hidden: false
+hidden: true
 haloPublished: true
 ---
 

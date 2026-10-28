@@ -14,6 +14,7 @@ tags:
   - Tokenizer
   - Python
   - 深度学习
+hidden: true
 ---
 
 在学习斯坦福 CS336 课程时，我从零实现了一个字节级 BPE（Byte Pair Encoding）分词器。最容易写错的地方不是频率统计，而是训练与编码使用不同的选择规则，以及中文、空格和特殊 token 的边界处理。

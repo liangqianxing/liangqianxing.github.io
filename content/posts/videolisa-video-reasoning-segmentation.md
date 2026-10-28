@@ -14,7 +14,7 @@ tags:
   - 视频分割
   - VideoLISA
   - NeurIPS
-hidden: false
+hidden: true
 haloPublished: true
 ---
 

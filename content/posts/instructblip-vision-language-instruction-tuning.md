@@ -14,7 +14,7 @@ tags:
   - Q-Former
   - Zero-shot
   - NeurIPS
-hidden: false
+hidden: true
 haloPublished: true
 ---
 

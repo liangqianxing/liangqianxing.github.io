@@ -14,7 +14,7 @@ tags:
   - CMU 10-414
   - vLLM
   - TensorRT
-hidden: false
+hidden: true
 haloPublished: true
 ---
 

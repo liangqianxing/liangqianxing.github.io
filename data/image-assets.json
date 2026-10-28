@@ -209,6 +209,412 @@
       }
     ]
   },
+  "/images/posts/llm-mrd-distillation-auditable-review-agents/mrd-review-distill-cover-20261016.webp": {
+    "width": 1600,
+    "height": 900,
+    "variants": [
+      {
+        "src": "/media/mrd-review-distill-cover-20261016-320w-a3be8b46846e.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/mrd-review-distill-cover-20261016-640w-40faef8113dc.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/mrd-review-distill-cover-20261016-960w-64e5d33600eb.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/mrd-review-distill-cover-20261016-1440w-c6a9ae199a6b.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/images/posts/xgrammar-concurrent-cache-generation-fix/xgrammar-cache-fix-cover-20261022.webp": {
+    "width": 1600,
+    "height": 900,
+    "variants": [
+      {
+        "src": "/media/xgrammar-cache-fix-cover-20261022-320w-ff3d5db67f8f.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/xgrammar-cache-fix-cover-20261022-640w-8c0803d49fd0.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/xgrammar-cache-fix-cover-20261022-960w-fe2eace635c7.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/xgrammar-cache-fix-cover-20261022-1440w-b613c91bf717.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/images/posts/multi-constraint-agent-routing-dag-eval/agent-dag-routing-cover-20261020.webp": {
+    "width": 1600,
+    "height": 900,
+    "variants": [
+      {
+        "src": "/media/agent-dag-routing-cover-20261020-320w-c44e45b9f2e3.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/agent-dag-routing-cover-20261020-640w-d8571bd220e3.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/agent-dag-routing-cover-20261020-960w-61af9451e1d0.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/agent-dag-routing-cover-20261020-1440w-feb95a13c064.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/images/posts/qwen25-vl-sglang-verl-single-gpu-lab/qvl-lab-cover-20261010.webp": {
+    "width": 1600,
+    "height": 900,
+    "variants": [
+      {
+        "src": "/media/qvl-lab-cover-20261010-320w-9e350ce55b3f.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/qvl-lab-cover-20261010-640w-ae393ad4a6fb.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/qvl-lab-cover-20261010-960w-a6ae72a6a777.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/qvl-lab-cover-20261010-1440w-461c225e5e3a.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/images/posts/embodied-pickplace-lab-robustness/pickplace-grasp-cover-20261016.webp": {
+    "width": 640,
+    "height": 480,
+    "variants": [
+      {
+        "src": "/media/pickplace-grasp-cover-20261016-320w-5d79fe03e198.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/pickplace-grasp-cover-20261016-640w-0ce4b55c5162.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/images/posts/editcache-video-dit-inference-acceleration/editcache-dit-cover-20261025.webp": {
+    "width": 2752,
+    "height": 1536,
+    "variants": [
+      {
+        "src": "/media/editcache-dit-cover-20261025-320w-03f36dfbd46e.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/editcache-dit-cover-20261025-640w-af02b20c5f0b.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/editcache-dit-cover-20261025-960w-e4db319b1f2f.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/editcache-dit-cover-20261025-1440w-64a4d76744d3.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/images/posts/in-situ-autoguidance-editable-scientific-illustration/autoguidance-autofigure-cover-20261024.webp": {
+    "width": 2752,
+    "height": 1536,
+    "variants": [
+      {
+        "src": "/media/autoguidance-autofigure-cover-20261024-320w-9e44c77a13ed.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/autoguidance-autofigure-cover-20261024-640w-4b5f18ace837.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/autoguidance-autofigure-cover-20261024-960w-34ec227acbeb.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/autoguidance-autofigure-cover-20261024-1440w-c1a960625418.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/images/posts/qwen25-sft-dpo-alignment-tax-ablation/qwen25-sft-dpo-cover-20261018.webp": {
+    "width": 2752,
+    "height": 1536,
+    "variants": [
+      {
+        "src": "/media/qwen25-sft-dpo-cover-20261018-320w-b3e40e6e2afe.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/qwen25-sft-dpo-cover-20261018-640w-503ac5ea520e.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/qwen25-sft-dpo-cover-20261018-960w-21167b10c885.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/qwen25-sft-dpo-cover-20261018-1440w-9d265e162968.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/images/posts/llm-gateway-semantic-cache-dynamic-batching/llm-gateway-cover-20261019.webp": {
+    "width": 2752,
+    "height": 1536,
+    "variants": [
+      {
+        "src": "/media/llm-gateway-cover-20261019-320w-c87cb6cdd6f7.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/llm-gateway-cover-20261019-640w-5afc43c7d264.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/llm-gateway-cover-20261019-960w-b9a2af2421ad.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/llm-gateway-cover-20261019-1440w-4ba3d40764e6.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/images/posts/cuda-fused-rmsnorm-kernel/cuda-rmsnorm-cover-20261018.webp": {
+    "width": 2752,
+    "height": 1536,
+    "variants": [
+      {
+        "src": "/media/cuda-rmsnorm-cover-20261018-320w-36956ab52a46.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cuda-rmsnorm-cover-20261018-640w-7bd133877389.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cuda-rmsnorm-cover-20261018-960w-67d338575582.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cuda-rmsnorm-cover-20261018-1440w-6f52fa37b94d.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/images/posts/deepscientist-tech-stack/deepscientist-cover-20261018.webp": {
+    "width": 2752,
+    "height": 1536,
+    "variants": [
+      {
+        "src": "/media/deepscientist-cover-20261018-320w-fc14e45566d2.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/deepscientist-cover-20261018-640w-719bb2043199.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/deepscientist-cover-20261018-960w-62a99ca600d3.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/deepscientist-cover-20261018-1440w-15d1fd9d9bf2.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/images/posts/minicode-source-analysis/minicode-cover-20261018.webp": {
+    "width": 2752,
+    "height": 1536,
+    "variants": [
+      {
+        "src": "/media/minicode-cover-20261018-320w-03d42b4e94ba.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/minicode-cover-20261018-640w-35e7410c5e8a.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/minicode-cover-20261018-960w-76a6e3c8659b.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/minicode-cover-20261018-1440w-013e40bf8d53.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/images/posts/agent-memory/agent-memory-cover-20261018.webp": {
+    "width": 2752,
+    "height": 1536,
+    "variants": [
+      {
+        "src": "/media/agent-memory-cover-20261018-320w-e8a310e4f816.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/agent-memory-cover-20261018-640w-e34b12090b02.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/agent-memory-cover-20261018-960w-6f86c90f812b.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/agent-memory-cover-20261018-1440w-dd2635f01ea1.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/images/posts/cycleresearcher-post-training/cycleresearcher-cover-20261018.webp": {
+    "width": 2752,
+    "height": 1536,
+    "variants": [
+      {
+        "src": "/media/cycleresearcher-cover-20261018-320w-585074fdf845.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cycleresearcher-cover-20261018-640w-71f835056d7b.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cycleresearcher-cover-20261018-960w-7f6e7f131f72.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cycleresearcher-cover-20261018-1440w-394eaeafb4f3.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/images/posts/backend-stack-deep-dive/backend-stack-cover-20261018.webp": {
+    "width": 2752,
+    "height": 1536,
+    "variants": [
+      {
+        "src": "/media/backend-stack-cover-20261018-320w-824b19be7e9b.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/backend-stack-cover-20261018-640w-42d96b4c58fd.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/backend-stack-cover-20261018-960w-2e6dac2f2752.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/backend-stack-cover-20261018-1440w-95fe53b52f8b.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/images/posts/qwen3-mid-post-train-mlx/qwen3-mlx-cover-20261018.webp": {
+    "width": 2752,
+    "height": 1536,
+    "variants": [
+      {
+        "src": "/media/qwen3-mlx-cover-20261018-320w-802c044a9c15.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/qwen3-mlx-cover-20261018-640w-fc470a8365bd.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/qwen3-mlx-cover-20261018-960w-16a2965c605a.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/qwen3-mlx-cover-20261018-1440w-6c55655b064e.webp",
+        "width": 1440,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
   "/images/posts/bpe-tokenizer-from-scratch/bpe-cover.webp": {
     "width": 1600,
     "height": 900,

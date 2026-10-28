@@ -2,6 +2,8 @@
 title: DeepScientist 架构与运行时全解析：超 100K 上下文科研智能体、MCP 沙箱与高并发流式系统
 date: 2026-04-06
 description: 深度拆解服务 7,000+ 用户的科研自主智能体平台 DeepScientist：从一题一仓库（Quest）持久化状态机、MCP 工具栈（memory / artifact / bash_exec）、Docker SDK 动态容器编排，到 SSE + WebSocket 双流通信与 PostgreSQL / Redis / Prometheus 生产级基础设施。
+cover: /images/posts/deepscientist-tech-stack/deepscientist-cover-20261018.webp
+coverAlt: 科研智能体编排核心通过 memory、artifact 与隔离容器沙箱三座协议桥连接双流工作台的等距架构插画
 series: DeepScientist 工程复盘
 seriesOrder: 1
 categories:

@@ -15,7 +15,7 @@ tags:
   - LLM Memory
   - Query Optimization
   - Caching
-hidden: false
+hidden: true
 haloPublished: true
 ---
 

@@ -13,7 +13,7 @@ tags:
   - VLA
   - 机器人学习
   - NeurIPS
-hidden: false
+hidden: true
 haloPublished: true
 ---
 

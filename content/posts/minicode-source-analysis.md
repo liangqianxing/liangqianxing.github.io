@@ -2,6 +2,8 @@
 title: MiniCode 架构与工具评测深度拆解：开源终端 Agentic Coding 引擎（1k+ Stars）的 ReAct、MCP 与 30 项基准验证
 date: 2026-04-06
 description: 深度剖析开源终端 AI 编程智能体 MiniCode（1k+ GitHub Stars）的核心架构：从零重型依赖的 ReAct 规划循环、声明式工具注册表与权限拦截层、MCP 协议帧自动协商，到 30 项可执行 Tool-Use 评测基准（86.7% 完成率、100% 错误恢复率）的失败分布归因与闭环优化。
+cover: /images/posts/minicode-source-analysis/minicode-cover-20261018.webp
+coverAlt: 终端编程智能体控制台被 ReAct 状态环、Unified Diff 补丁预览门与 MCP 协议插槽环绕的等距技术插画
 series: AI 项目源码导读
 seriesOrder: 1
 categories:

@@ -2,6 +2,8 @@
 title: Agent 上下文工程与分层记忆架构：从 Observation 剪枝、滚动摘要到向量召回闭环
 date: 2026-04-24
 description: 结合生产级多约束 Agent 与超 100K Token 科研智能体实践，系统拆解长程会话中的上下文膨胀与注意力稀释问题：涵盖 Observation 结构化剪枝（降低约 40% Token 开销）、滚动工作摘要、向量检索长期记忆及 Prefix Cache 友好的上下文组装。
+cover: /images/posts/agent-memory/agent-memory-cover-20261018.webp
+coverAlt: 底层高噪数据经剪枝滤网进入中期滑动窗口与金色状态台账并由顶层向量星座按需召回的三层记忆架构插画
 series: Agent 上下文工程
 seriesOrder: 1
 categories:

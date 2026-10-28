@@ -85,7 +85,12 @@ definePageMeta({ layout: 'gateway' })
 const year = new Date().getFullYear()
 const appConfig = useAppConfig()
 const { data: posts } = await usePublicArchive()
-const recentPosts = computed(() => (posts.value ?? []).slice(0, 4))
+const COURSE_SERIES = new Set(['CMU 15-779', 'Stanford CS336'])
+const recentPosts = computed(() =>
+  (posts.value ?? [])
+    .filter(post => !(post.series && COURSE_SERIES.has(post.series)))
+    .slice(0, 4),
+)
 const scrolledDown = ref(false)
 const destinations = [
   { number: '01', title: 'Notebook', kicker: 'ENGINEERING, SYSTEMS & DEEP DIVES', description: 'LLM Agent 架构、后训练对齐（GRPO / DPO）、SGLang / CUDA 算子优化与开源源码剖析。', to: '/blog' },

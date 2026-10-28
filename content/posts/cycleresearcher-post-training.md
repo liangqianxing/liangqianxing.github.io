@@ -2,6 +2,8 @@
 title: 从 DeepReviewer 2.0 到 CycleResearcher：科研 Agent 如何真正做 Post-training
 date: 2026-08-07 17:33:05
 description: 区分推理时 Agent 编排与模型后训练，并拆解 CycleResearcher 的领域 SFT、生成式 Reward Model、Iterative SimPO 和评测风险。
+cover: /images/posts/cycleresearcher-post-training/cycleresearcher-cover-20261018.webp
+coverAlt: 策略生成模块产出多份候选文稿经多维评审棱镜排序后通过偏好梯度反馈弧闭环优化的等距技术插画
 categories:
   - AI
 tags:

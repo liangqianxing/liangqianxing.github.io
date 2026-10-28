@@ -126,6 +126,7 @@ export const academicProfile = {
         { label: 'Paper', url: 'https://aclanthology.org/2026.acl-demo.6/' },
         { label: 'Code', url: 'https://github.com/ResearAI/AutoFigure-Edit' },
         { label: 'Demo', url: 'https://autofigure.cc/' },
+        { label: 'Blog', url: '/posts/in-situ-autoguidance-editable-scientific-illustration' },
         { label: 'Scholar', url: 'https://scholar.google.com/citations?view_op=view_citation&hl=zh-CN&user=M6ht2eQAAAAJ&citation_for_view=M6ht2eQAAAAJ:d1gkVwhDpl0C' },
       ],
     },
@@ -190,6 +191,7 @@ export const academicProfile = {
       summary: '针对扩散模型 Autoguidance 需额外部署退化引导网络带来的双倍参数与显存开销，提出基于同一扩散模型确定性前向与推理期局部随机微扰（Stochastic Dropout Perturbation）的原位自引导机制，无需任何额外训练或辅助权重即可构造指向高密度数据流形的自校正引导向量，在 EDM2-S / ImageNet-512（50K 样本）上验证有效。',
       links: [
         { label: 'Paper', url: 'https://arxiv.org/abs/2510.17136' },
+        { label: 'Blog', url: '/posts/in-situ-autoguidance-editable-scientific-illustration' },
       ],
     },
   ] as Publication[],
@@ -227,7 +229,8 @@ export const academicProfile = {
       description: '在单卡 32 GB 显存下打通 Qwen2.5-VL-3B 多模态后训练与服务调优全链路：基于 verl 设计 JSON 格式门控 + 空间计数可验证规则奖励（Outcome Reward 0/0.5/1），冻结视觉塔以 FSDP2 + CPU Offload 完成 GRPO 更新与 704 次请求 Paired Bootstrap 评测；调优 SGLang RadixAttention 前缀缓存（TTFT p50 194→75 ms）、并发吞吐（3.47×）与 Chunked Prefill 显存池（峰值显存降低 20.3%）。',
       tags: ['Qwen2.5-VL', 'GRPO / verl', 'SGLang', 'FSDP2', 'Prefix Caching'],
       links: [
-        { label: '实验报告', url: '/posts/qwen25-vl-sglang-verl-single-gpu-lab' },
+        { label: '多模态 GRPO & SGLang', url: '/posts/qwen25-vl-sglang-verl-single-gpu-lab' },
+        { label: 'SFT/DPO 对齐税消融', url: '/posts/qwen25-sft-dpo-alignment-tax-ablation' },
       ],
     },
     {
@@ -238,6 +241,7 @@ export const academicProfile = {
         { label: 'CUDA Kernels', url: 'https://github.com/LiangQianXing/fast-llm-kernels' },
         { label: 'LLM Gateway', url: 'https://github.com/LiangQianXing/llm-gateway' },
         { label: '算子解析', url: '/posts/cuda-fused-rmsnorm-kernel' },
+        { label: '网关解析', url: '/posts/llm-gateway-semantic-cache-dynamic-batching' },
       ],
     },
   ] as AcademicProject[],

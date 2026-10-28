@@ -2,6 +2,8 @@
 title: "在 M2 Pro 上完成 Qwen3 两阶段训练：Mid Train、SFT 与可复核评估"
 date: 2026-09-30 11:19:10
 description: 用 Qwen3 0.6B Base 和 MLX 完成领域持续训练与监督微调，记录数据划分、聊天模板、损失掩码、数值稳定性修复和独立测试结果。
+cover: /images/posts/qwen3-mid-post-train-mlx/qwen3-mlx-cover-20261018.webp
+coverAlt: Apple Silicon 统一内存芯片底座支撑两阶段持续预训练与带精确 Loss 掩码滤网的监督微调桥接插画
 categories:
   - AI
 tags:

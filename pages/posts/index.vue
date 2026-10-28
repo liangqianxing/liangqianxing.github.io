@@ -1,55 +1,91 @@
 <template>
   <div class="page-frame writing-archive">
-    <header class="writing-welcome">
-      <div>
-        <p class="writing-kicker"><span aria-hidden="true">✳</span> Research &amp; Systems Archive</p>
-        <h1>技术<span>长文<svg viewBox="0 0 160 12" fill="none" aria-hidden="true"><path d="M3 8q71-9 154-3M15 11q61-6 128-3" /></svg></span></h1>
-        <p class="writing-intro">把复杂系统拆开，用数学推导与实验数据留下可复现的记录。<br />涵盖 LLM Agent 架构、后训练对齐（GRPO / DPO）、多模态推理蒸馏与 AI 推理系统底层实现。</p>
-        <p v-if="!error && status === 'success'" class="writing-stats"><span>{{ posts.length }} 篇文章</span><span>{{ tags.length }} 个标签</span><NuxtLink to="/tags">按标签检索 <span aria-hidden="true">↗</span></NuxtLink></p>
+    <header class="writing-hero">
+      <div class="writing-hero-copy">
+        <p class="writing-kicker"><span aria-hidden="true">◆</span> RESEARCH &amp; SYSTEMS ARCHIVE</p>
+        <h1>代表性技术长文与<span>实验报告</span></h1>
+        <p class="writing-intro">
+          收录围绕 <strong>LLM Agents、后训练与偏好对齐（GRPO / DPO / SimPO）、多模态推理蒸馏、视频扩散模型（DiT）加速</strong>与<strong>底层 AI 推理系统（XGrammar / SGLang / CUDA Kernel）</strong>撰写的源码拆解与可复核实验记录。
+        </p>
+        <div v-if="!error && status === 'success'" class="writing-stats">
+          <span><strong>{{ flagshipPosts.length }}</strong> 篇旗舰研究与系统长文</span>
+          <span><strong>{{ coursePosts.length }}</strong> 篇 CMU / Stanford 课程实验手记</span>
+          <NuxtLink to="/academic">查看学术论文主页 <span aria-hidden="true">↗</span></NuxtLink>
+          <NuxtLink to="/learning">进入课程专题 <span aria-hidden="true">↗</span></NuxtLink>
+        </div>
       </div>
-      <div class="writing-doodle" aria-hidden="true">
-        <svg viewBox="0 0 210 170" fill="none">
-          <path class="doodle-shadow" d="m37 60 106-10 20 102-110 9Z" />
-          <path class="doodle-paper" d="m51 27 108 10-12 114-109-9Z" />
-          <path class="doodle-spine" d="m65 28-12 115" />
-          <path class="doodle-lines" d="m82 61 52 5m-55 17 48 5m-51 17 29 3" />
-          <path class="doodle-tape" d="m86 18 45 4-3 21-44-4Z" />
-          <path class="doodle-pencil" d="m169 62 10 4-28 63-11 8 1-14Z" />
-          <path class="doodle-spark" d="M25 42q2-9 10-11-8-2-10-11-2 9-10 11 8 2 10 11ZM180 145q1-6 7-8-6-1-7-7-2 6-8 7 6 2 8 8Z" />
-          <path class="doodle-loop" d="M164 24q17-21 28-8c9 14-7 28-15 20-7-7 13-11 20-1" />
-        </svg>
-        <span>a little notebook</span>
-      </div>
+
+      <aside class="writing-metrics-panel" aria-label="核心研究与系统工程方向">
+        <div class="metric-card">
+          <span class="metric-code">01 / AGENT &amp; MULTIMODAL</span>
+          <strong>智能体与多模态系统</strong>
+          <p>多约束 DAG 规划、DeepScientist 100K+ 沙箱、MiniCode、AutoFigure-Edit 与具身鲁棒性</p>
+        </div>
+        <div class="metric-card">
+          <span class="metric-code">02 / POST-TRAINING &amp; DISTILL</span>
+          <strong>后训练对齐与推理蒸馏</strong>
+          <p>Qwen2.5 SFT/DPO 对齐税、单卡 verl GRPO、CycleResearcher 与 LLM-MRD 17.2ms 蒸馏</p>
+        </div>
+        <div class="metric-card">
+          <span class="metric-code">03 / AI INFRA &amp; ACCELERATION</span>
+          <strong>推理系统与算子加速</strong>
+          <p>XGrammar PR #1011 并发修复、EditCache H100 2.46× 加速、CUDA 融合 RMSNorm 4.27× 与推理网关</p>
+        </div>
+      </aside>
     </header>
 
-    <section v-if="!hasFilters && readingSequence.length > 1" class="writing-route" aria-labelledby="reading-route-title">
-      <div class="writing-route-heading">
-        <h2 id="reading-route-title">从分词到语言模型</h2>
-        <p>第一次来，可以沿着这条路线读。</p>
+    <section class="writing-controls" aria-label="专题切换与文章检索">
+      <div class="writing-tracks" role="tablist" aria-label="技术领域分类">
+        <button
+          v-for="tab in trackTabs"
+          :key="tab.key"
+          type="button"
+          role="tab"
+          class="track-tab"
+          :class="{ 'is-active': activeTrack === tab.key }"
+          :aria-selected="activeTrack === tab.key"
+          @click="selectTrack(tab.key)"
+        >
+          <span class="track-tab-label">{{ tab.label }}</span>
+          <span class="track-tab-count">{{ tab.count }}</span>
+        </button>
       </div>
-      <ol>
-        <li v-for="post in readingSequence" :key="post.path">
-          <NuxtLink :to="post.path">
-            <span>{{ String(post.seriesOrder).padStart(2, '0') }}</span>
-            <strong>{{ readingLabels[post.slug] || post.title }}</strong>
-            <span aria-hidden="true">↗</span>
-          </NuxtLink>
-        </li>
-      </ol>
-    </section>
 
-    <section class="writing-find" aria-label="查找文章">
       <div class="writing-find-top">
         <label class="writing-search">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" /><path d="m15.5 15.5 4 4" /></svg>
-          <input v-model="query" type="search" placeholder="搜索文章或关键词…" aria-label="搜索文章" />
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="10.5" cy="10.5" r="6.5" />
+            <path d="m15.5 15.5 4 4" />
+          </svg>
+          <input
+            v-model="query"
+            type="search"
+            placeholder="搜索论文、系统、算子、算法或实验指标（如 XGrammar、DPO、EditCache、CUDA）…"
+            aria-label="搜索文章"
+          />
           <button v-if="query" type="button" aria-label="清空搜索" @click="query = ''">×</button>
         </label>
         <NuxtLink to="/tags" class="writing-tag-link">标签索引 <span aria-hidden="true">↗</span></NuxtLink>
       </div>
+
       <div v-if="tags.length" class="writing-filters" role="group" aria-label="按标签筛选文章">
-        <button type="button" :aria-pressed="!activeTag" @click="activeTag = ''">全部 <span>{{ posts.length }}</span></button>
-        <button v-for="entry in visibleFilterTags" :key="entry.slug" type="button" :aria-pressed="activeTag === entry.slug" :data-tone="archiveTone(entry.slug)" @click="activeTag = activeTag === entry.slug ? '' : entry.slug">{{ entry.tag }} <span>{{ entry.count }}</span></button>
+        <button
+          type="button"
+          :aria-pressed="!activeTag"
+          @click="activeTag = ''"
+        >
+          全部标签 <span>{{ trackScopedPosts.length }}</span>
+        </button>
+        <button
+          v-for="entry in visibleFilterTags"
+          :key="entry.slug"
+          type="button"
+          :aria-pressed="activeTag === entry.slug"
+          :data-tone="archiveTone(entry.slug)"
+          @click="activeTag = activeTag === entry.slug ? '' : entry.slug"
+        >
+          #{{ entry.tag }} <span>{{ entry.count }}</span>
+        </button>
         <button
           v-if="tags.length > FILTER_TAG_LIMIT"
           type="button"
@@ -63,60 +99,174 @@
     </section>
 
     <div class="writing-results">
-      <p role="status" aria-live="polite" aria-atomic="true">{{ hasFilters ? `找到 ${filteredPosts.length} 篇文章` : '按时间倒序，最新在前。' }}<span v-if="activeTagName"> · #{{ activeTagName }}</span></p>
+      <p role="status" aria-live="polite" aria-atomic="true">
+        <strong>{{ currentTrackMeta.label }}</strong> · 共 {{ filteredPosts.length }} 篇
+        <span v-if="currentTrackMeta.desc" class="writing-results-desc">— {{ currentTrackMeta.desc }}</span>
+        <span v-if="activeTagName"> · 标签 #{{ activeTagName }}</span>
+      </p>
       <button v-if="hasFilters" type="button" @click="resetFilters">重置筛选 <span aria-hidden="true">↺</span></button>
     </div>
-    <div v-if="error" class="writing-empty" role="alert"><p>文章暂时没能加载，刷新页面再试试吧。</p><a href="/posts/">刷新页面 <span aria-hidden="true">↻</span></a></div>
-    <div v-else-if="status === 'pending'" class="writing-empty" role="status"><p>正在整理笔记…</p></div>
+
+    <div v-if="error" class="writing-empty" role="alert">
+      <p>文章暂时没能加载，刷新页面再试试吧。</p>
+      <a href="/posts/">刷新页面 <span aria-hidden="true">↻</span></a>
+    </div>
+    <div v-else-if="status === 'pending'" class="writing-empty" role="status">
+      <p>正在加载技术档案…</p>
+    </div>
     <ArchiveEntries v-else-if="filteredPosts.length" :posts="filteredPosts" />
     <div v-else class="writing-empty">
       <span class="writing-empty-mark" aria-hidden="true">⌕</span>
-      <h2>{{ posts.length ? '这次没找到。' : '手记正在慢慢积累。' }}</h2>
-      <p>{{ posts.length ? '换个关键词，或放开标签筛选，再翻翻看。' : '有新的公开文章时，就会出现在这里。' }}</p>
-      <button v-if="hasFilters" type="button" @click="resetFilters">查看全部文章 <span aria-hidden="true">→</span></button>
-      <NuxtLink v-else to="/blog">回到博客 <span aria-hidden="true">→</span></NuxtLink>
+      <h2>未找到匹配的技术文章</h2>
+      <p>换个关键词，或切换上方研究方向标签再试试。</p>
+      <button v-if="hasFilters" type="button" @click="resetFilters">查看全部旗舰长文 <span aria-hidden="true">→</span></button>
+      <NuxtLink v-else to="/blog">回到博客首页 <span aria-hidden="true">→</span></NuxtLink>
     </div>
 
-    <p class="writing-signoff"><span aria-hidden="true">✧</span> 写下来，就是思考留下的脚印。<NuxtLink to="/blog">回到博客 <span aria-hidden="true">→</span></NuxtLink></p>
+    <footer class="writing-signoff">
+      <span><span aria-hidden="true">◆</span> 所有实验数据、代码与模型散列均保留可复核记录。</span>
+      <div class="writing-signoff-links">
+        <NuxtLink to="/academic">学术主页 <span aria-hidden="true">↗</span></NuxtLink>
+        <NuxtLink to="/blog">博客首页 <span aria-hidden="true">→</span></NuxtLink>
+      </div>
+    </footer>
   </div>
 </template>
 
 <script setup lang="ts">
 import { archiveTone, collectArchiveTags } from '~/utils/archive'
 import { tagSlug } from '~/utils/blog'
+import type { PostMeta } from '~/server/api/posts.get'
+
+type TrackKey = 'flagship' | 'agent' | 'post-training' | 'infra' | 'courses'
+
+const COURSE_SERIES = new Set(['CMU 15-779', 'Stanford CS336'])
+
+const AGENT_SLUGS = new Set([
+  'multi-constraint-agent-routing-dag-eval',
+  'in-situ-autoguidance-editable-scientific-illustration',
+  'deepscientist-tech-stack',
+  'minicode-source-analysis',
+  'agent-memory',
+  'embodied-pickplace-lab-robustness',
+])
+
+const POST_TRAINING_SLUGS = new Set([
+  'llm-mrd-distillation-auditable-review-agents',
+  'qwen25-sft-dpo-alignment-tax-ablation',
+  'qwen25-vl-sglang-verl-single-gpu-lab',
+  'cycleresearcher-post-training',
+  'qwen3-mid-post-train-mlx',
+])
+
+const INFRA_SLUGS = new Set([
+  'editcache-video-dit-inference-acceleration',
+  'xgrammar-concurrent-cache-generation-fix',
+  'llm-gateway-semantic-cache-dynamic-batching',
+  'cuda-fused-rmsnorm-kernel',
+  'backend-stack-deep-dive',
+])
+
+function isCourseLabPost(post: PostMeta): boolean {
+  return Boolean(post.series && COURSE_SERIES.has(post.series))
+}
 
 const route = useRoute()
 const router = useRouter()
 const { data, error, status } = await usePublicArchive()
-const posts = computed(() => data.value ?? [])
-const tags = computed(() => collectArchiveTags(posts.value))
+const allPosts = computed(() => data.value ?? [])
+
+const flagshipPosts = computed(() => allPosts.value.filter(post => !isCourseLabPost(post)))
+const coursePosts = computed(() => allPosts.value.filter(post => isCourseLabPost(post)))
+
 const query = ref(typeof route.query.q === 'string' ? route.query.q : '')
 const activeTag = ref(typeof route.query.tag === 'string' ? route.query.tag : '')
+const activeTrack = ref<TrackKey>(
+  typeof route.query.track === 'string' && ['flagship', 'agent', 'post-training', 'infra', 'courses'].includes(route.query.track)
+    ? (route.query.track as TrackKey)
+    : 'flagship',
+)
+
+function selectTrack(track: TrackKey) {
+  activeTrack.value = track
+  activeTag.value = ''
+}
+
+const trackTabs = computed(() => [
+  {
+    key: 'flagship' as TrackKey,
+    label: '全部旗舰长文',
+    desc: '代表性学术研究、开源基础设施与生产级系统拆解',
+    count: flagshipPosts.value.length,
+  },
+  {
+    key: 'agent' as TrackKey,
+    label: 'Agent 与多模态系统',
+    desc: 'DAG 规划、MCP 沙箱、AutoFigure-Edit、原位自引导与具身控制',
+    count: flagshipPosts.value.filter(p => AGENT_SLUGS.has(p.slug)).length,
+  },
+  {
+    key: 'post-training' as TrackKey,
+    label: '后训练与推理蒸馏',
+    desc: 'GRPO、SFT/DPO 对齐税、SimPO、生成式奖励模型与多视角蒸馏',
+    count: flagshipPosts.value.filter(p => POST_TRAINING_SLUGS.has(p.slug)).length,
+  },
+  {
+    key: 'infra' as TrackKey,
+    label: 'AI Infra 与算子加速',
+    desc: 'XGrammar 并发缓存、视频 DiT 加速、CUDA 融合算子与高并发推理网关',
+    count: flagshipPosts.value.filter(p => INFRA_SLUGS.has(p.slug)).length,
+  },
+  {
+    key: 'courses' as TrackKey,
+    label: '课程实验手记 (CMU / CS336)',
+    desc: 'CMU 15-779 与 Stanford CS336 算子、量化、MoE 与分页 KV 逐课实现记录',
+    count: coursePosts.value.length,
+  },
+])
+
+const currentTrackMeta = computed(() => trackTabs.value.find(t => t.key === activeTrack.value) ?? trackTabs.value[0])
+
+const trackScopedPosts = computed(() => {
+  if (activeTrack.value === 'courses') return coursePosts.value
+  if (activeTrack.value === 'agent') return flagshipPosts.value.filter(p => AGENT_SLUGS.has(p.slug))
+  if (activeTrack.value === 'post-training') return flagshipPosts.value.filter(p => POST_TRAINING_SLUGS.has(p.slug))
+  if (activeTrack.value === 'infra') return flagshipPosts.value.filter(p => INFRA_SLUGS.has(p.slug))
+  return flagshipPosts.value
+})
+
+const tags = computed(() => collectArchiveTags(trackScopedPosts.value))
 
 watch(
-  () => [route.query.q, route.query.tag],
-  ([q, tag]) => {
+  () => [route.query.q, route.query.tag, route.query.track],
+  ([q, tag, track]) => {
     const nextQ = typeof q === 'string' ? q : ''
     const nextTag = typeof tag === 'string' ? tag : ''
+    const nextTrack = typeof track === 'string' && ['flagship', 'agent', 'post-training', 'infra', 'courses'].includes(track)
+      ? (track as TrackKey)
+      : 'flagship'
     if (query.value !== nextQ) query.value = nextQ
     if (activeTag.value !== nextTag) activeTag.value = nextTag
+    if (activeTrack.value !== nextTrack) activeTrack.value = nextTrack
   },
 )
 
-watch([query, activeTag], ([q, tag]) => {
+watch([query, activeTag, activeTrack], ([q, tag, track]) => {
   if (import.meta.server) return
   const nextQuery: Record<string, string> = {}
   const trimmedQ = q.trim()
   if (trimmedQ) nextQuery.q = trimmedQ
   if (tag) nextQuery.tag = tag
+  if (track !== 'flagship') nextQuery.track = track
   const currQ = typeof route.query.q === 'string' ? route.query.q : ''
   const currTag = typeof route.query.tag === 'string' ? route.query.tag : ''
-  if (trimmedQ === currQ && tag === currTag) return
+  const currTrack = typeof route.query.track === 'string' ? route.query.track : 'flagship'
+  if (trimmedQ === currQ && tag === currTag && track === currTrack) return
   router.replace({ query: nextQuery })
 })
 
 const activeTagName = computed(() => tags.value.find(tag => tag.slug === activeTag.value)?.tag ?? '')
-const FILTER_TAG_LIMIT = 24
+const FILTER_TAG_LIMIT = 18
 const showAllTags = ref(false)
 const visibleFilterTags = computed(() => {
   if (showAllTags.value || tags.value.length <= FILTER_TAG_LIMIT) return tags.value
@@ -127,133 +277,460 @@ const visibleFilterTags = computed(() => {
   }
   return top
 })
-const hasFilters = computed(() => Boolean(query.value.trim() || activeTag.value))
-const readingLabels: Record<string, string> = {
-  'bpe-tokenizer-from-scratch': 'BPE 分词',
-  'transformer-from-scratch': 'Transformer 模型',
-  'lm-lab-project-complete': '项目复盘',
-}
-const readingSequence = computed(() => posts.value
-  .filter(post => post.series === 'LLM 从零实现' && typeof post.seriesOrder === 'number')
-  .sort((a, b) => a.seriesOrder! - b.seriesOrder!))
+
+const hasFilters = computed(() => Boolean(query.value.trim() || activeTag.value || activeTrack.value !== 'flagship'))
+
 const filteredPosts = computed(() => {
   const keyword = query.value.trim().toLocaleLowerCase('zh-CN')
-  return posts.value.filter(post => {
+  // When user types a search query while on default tab, search across all posts if no flagship hits
+  const pool = trackScopedPosts.value
+  return pool.filter((post) => {
     if (activeTag.value && !post.tags.some(tag => tagSlug(tag) === activeTag.value)) return false
     if (!keyword) return true
-    return [post.title, post.description, post.excerpt, post.series, ...post.tags].join(' ').toLocaleLowerCase('zh-CN').includes(keyword)
+    return [post.title, post.description, post.excerpt, post.series, ...post.tags]
+      .join(' ')
+      .toLocaleLowerCase('zh-CN')
+      .includes(keyword)
   })
 })
+
 function resetFilters() {
   query.value = ''
   activeTag.value = ''
+  activeTrack.value = 'flagship'
 }
 
 useHead({
-  title: '文章库',
-  meta: [{ name: 'description', content: '古恩豪的技术笔记与工程手记，按时间阅读，也可以搜索关键词或按标签浏览。' }],
+  title: '技术长文与研究档案',
+  meta: [
+    {
+      name: 'description',
+      content: '古恩豪（Enhao Gu）的代表性技术长文与实验报告：涵盖 LLM Agent 架构、后训练对齐（GRPO / DPO）、多模态推理蒸馏、视频扩散模型加速与 AI 推理系统源码分析。',
+    },
+  ],
 })
 </script>
 
 <style scoped>
-.writing-archive :where(h1, h2, p) { margin: 0; }
-.writing-welcome { display: grid; grid-template-columns: minmax(0, 1fr) 240px; align-items: center; gap: 40px; padding: 0 28px 26px; }
-.writing-kicker { display: flex; align-items: center; gap: 9px; font-family: Georgia, serif; font-style: italic; font-size: 0.85rem; color: var(--muted); }
-.writing-kicker > span { font-size: 1.4rem; color: var(--accent-2); }
-.writing-welcome h1 { margin-block: 10px 12px; color: var(--ink); font-size: clamp(2.5rem, 4.2vw, 2.7rem); font-weight: 500; letter-spacing: -0.05em; line-height: 1.5; }
-.writing-welcome h1 > span { position: relative; display: inline-block; color: var(--accent); }
-.writing-welcome h1 svg { position: absolute; width: 106%; height: 12px; left: -3%; bottom: 0; stroke: var(--accent-2); stroke-width: 1.6; stroke-linecap: round; opacity: 0.6; }
-.writing-intro { color: var(--text); font-size: 0.88rem; line-height: 1.95; }
-.writing-stats { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-top: 18px; color: var(--muted); font-size: 0.74rem; }
-.writing-stats > span + span::before { content: '·'; margin-right: 18px; color: var(--line-strong); }
-.writing-stats a { color: var(--accent); }
-.writing-doodle { position: relative; width: 180px; justify-self: center; transform: rotate(3deg); }
-.writing-doodle svg { width: 100%; height: auto; }
-.doodle-shadow { fill: var(--topic-purple); }
-.doodle-paper { fill: var(--surface); stroke: var(--line-strong); stroke-width: 1.5; stroke-linejoin: round; }
-.doodle-spine, .doodle-lines { stroke: var(--accent-2); stroke-width: 1.5; stroke-linecap: round; opacity: 0.45; }
-.doodle-tape { fill: var(--topic-green); stroke: color-mix(in srgb, var(--accent) 14%, transparent); }
-.doodle-pencil { fill: var(--topic-orange); stroke: var(--accent-2); stroke-width: 1.2; stroke-linejoin: round; }
-.doodle-spark { fill: var(--accent-2); opacity: 0.55; }
-.doodle-loop { stroke: var(--accent-2); stroke-width: 1.5; stroke-linecap: round; opacity: 0.5; }
-.writing-doodle > span { display: block; text-align: center; font-family: Georgia, serif; font-style: italic; font-size: 0.85rem; color: var(--muted); }
-.writing-route { margin-bottom: 28px; padding: 22px 4px; border-block: 1px solid var(--line); }
-.writing-route-heading { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px 22px; }
-.writing-route-heading h2 { color: var(--ink); font-size: 1rem; font-weight: 500; }
-.writing-route-heading p { color: var(--muted); font-size: 0.75rem; }
-.writing-route ol { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin: 18px 0 0; padding: 0; list-style: none; }
-.writing-route a { display: flex; align-items: center; gap: 10px; min-height: 40px; color: var(--text); font-size: 0.8rem; }
-.writing-route a > span:first-child { color: var(--accent); font-family: var(--font-mono); font-size: 0.72rem; }
-.writing-route strong { flex: 1; min-width: 0; font-weight: 400; }
-.writing-route a > span:last-child { color: var(--accent); }
-.writing-route a:hover strong { text-decoration: underline; text-underline-offset: 4px; }
-.writing-find { padding: 20px 26px; border-radius: 22px; background: var(--bg-2); }
-.writing-find-top { display: flex; align-items: center; gap: 24px; }
-.writing-search { flex: 1; display: flex; align-items: center; gap: 10px; min-width: 0; padding: 0 14px; border: 1px solid var(--line); border-radius: 100px; background: var(--surface); }
-.writing-search > svg { width: 18px; height: 18px; flex: 0 0 auto; stroke: var(--muted); stroke-width: 1.5; stroke-linecap: round; }
-.writing-search input { width: 100%; min-width: 0; height: 44px; padding: 0; border: 0; outline: 0; background: transparent; color: var(--ink); font-size: 0.8rem; }
-.writing-search:focus-within { outline: 2px solid var(--accent); outline-offset: 3px; }
-.writing-search input:focus-visible { outline: 0; }
-.writing-search input::placeholder { color: var(--muted); }
-.writing-search input::-webkit-search-cancel-button { display: none; }
-.writing-search button { flex: 0 0 auto; width: 30px; height: 32px; border: 0; background: transparent; color: var(--muted); font-size: 1.3rem; cursor: pointer; }
-.writing-tag-link { flex: 0 0 auto; font-size: 0.75rem; color: var(--accent); white-space: nowrap; }
-.writing-tag-link > span { margin-left: 6px; }
-.writing-filters { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 16px; }
-.writing-filters button { display: inline-flex; align-items: center; gap: 7px; min-height: 34px; padding: 5px 11px; border: 1px solid transparent; border-radius: 100px; background: transparent; color: var(--text); font-size: 0.72rem; cursor: pointer; overflow-wrap: anywhere; transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease; }
-.writing-filters button > span { color: var(--muted); font-size: 0.64rem; transition: color 160ms ease; }
-.writing-filters button:hover { background: var(--surface); border-color: var(--line); }
-.writing-filters button[aria-pressed="true"] { background: var(--surface); border-color: color-mix(in srgb, var(--accent) 55%, var(--line-strong)); color: var(--ink); font-weight: 500; }
-.writing-filters button[aria-pressed="true"] > span { color: var(--accent); }
-.writing-filters button[data-tone="purple"][aria-pressed="true"] { background: var(--topic-purple); }
-.writing-filters button[data-tone="green"][aria-pressed="true"] { background: var(--topic-green); }
-.writing-filters button[data-tone="blue"][aria-pressed="true"] { background: var(--topic-blue); }
-.writing-filters button[data-tone="orange"][aria-pressed="true"] { background: var(--topic-orange); }
-.writing-filters button.writing-filters-more { border-style: dashed; border-color: var(--line-strong); color: var(--accent); font-weight: 500; }
-.writing-filters button.writing-filters-more:hover { background: var(--surface); border-color: var(--accent); }
-.writing-results { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-block: 22px 16px; color: var(--muted); font-size: 0.74rem; }
-.writing-results p { min-width: 0; overflow-wrap: anywhere; }
-.writing-results button { flex: 0 0 auto; padding: 6px 0; border: 0; background: transparent; color: var(--accent); font-size: 0.73rem; cursor: pointer; }
-.writing-empty { padding: 50px 20px 60px; text-align: center; }
-.writing-empty-mark { display: block; color: var(--accent-2); font-size: 2.6rem; line-height: 1.2; }
-.writing-empty h2 { margin-top: 15px; color: var(--ink); font-size: 1.15rem; font-weight: 500; }
-.writing-empty p { margin-top: 10px; color: var(--muted); font-size: 0.85rem; }
-.writing-empty button, .writing-empty a { display: inline-flex; gap: 16px; align-items: center; min-height: 40px; margin-top: 20px; padding: 5px 18px; border: 0; border-radius: 100px; background: var(--surface-2); color: var(--accent); font-size: 0.8rem; cursor: pointer; }
-.writing-signoff { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 36px; padding-inline: 4px; color: var(--muted); font-size: 0.74rem; }
-.writing-signoff > span { font-size: 1.3rem; color: var(--accent-2); }
-.writing-signoff a { margin-left: auto; color: var(--accent); }
-@media (hover: hover) and (pointer: fine) {
-  .writing-doodle { transition: transform 220ms ease; }
-  .writing-doodle:hover { transform: rotate(0deg) translateY(-2px); }
+.writing-archive :where(h1, h2, p) {
+  margin: 0;
 }
-@media (max-width: 700px) {
-  .writing-welcome { grid-template-columns: minmax(0, 1fr) 160px; gap: 20px; padding-inline: 4px; }
-  .writing-doodle { width: 155px; }
-  .writing-find { padding: 20px; }
-  .writing-find-top { gap: 16px; }
+
+.writing-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.95fr);
+  align-items: stretch;
+  gap: 28px;
+  padding: 6px 4px 28px;
 }
-@media (max-width: 480px) {
-  .writing-route { margin-bottom: 24px; padding-block: 18px; }
-  .writing-route ol { grid-template-columns: 1fr; gap: 2px; margin-top: 12px; }
-  .writing-route a { min-height: 44px; font-size: 0.85rem; }
-  .writing-welcome { grid-template-columns: 1fr; padding: 0 2px 28px; }
-  .writing-doodle { display: none; }
-  .writing-welcome h1 { font-size: 2.5rem; margin-bottom: 14px; }
-  .writing-intro { font-size: 0.83rem; }
-  .writing-stats { gap: 9px 14px; font-size: 0.7rem; margin-top: 18px; }
-  .writing-stats > span + span::before { margin-right: 14px; }
-  .writing-find { padding: 16px; border-radius: 18px; }
-  .writing-find-top { flex-wrap: wrap; gap: 10px; }
-  .writing-search { flex-basis: 100%; }
-  .writing-search input { font-size: 1rem; }
-  .writing-tag-link { margin-left: auto; font-size: 0.7rem; }
-  .writing-filters { gap: 4px; margin-top: 10px; }
-  .writing-filters button { padding-inline: 9px; font-size: 0.68rem; }
-  .writing-results { font-size: 0.7rem; margin-block: 20px; }
-  .writing-signoff { font-size: 0.7rem; gap: 9px; }
+
+.writing-hero-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
-@media (prefers-reduced-motion: reduce) {
-  .writing-doodle, .writing-filters button, .writing-filters button > span { transition: none; }
-  .writing-doodle:hover { transform: rotate(3deg); }
+
+.writing-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+}
+
+.writing-hero h1 {
+  margin-block: 10px 14px;
+  color: var(--ink);
+  font-size: clamp(2rem, 3.6vw, 2.55rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.35;
+}
+
+.writing-hero h1 > span {
+  color: var(--accent);
+}
+
+.writing-intro {
+  color: var(--text);
+  font-size: 0.88rem;
+  line-height: 1.9;
+}
+
+.writing-intro strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.writing-stats {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 18px;
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.writing-stats strong {
+  color: var(--ink);
+  font-family: var(--font-mono);
+}
+
+.writing-stats > span + span::before {
+  content: '·';
+  margin-right: 18px;
+  color: var(--line-strong);
+}
+
+.writing-stats a {
+  color: var(--accent);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.writing-stats a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.writing-metrics-panel {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--surface) 82%, var(--bg-2));
+}
+
+.metric-card {
+  padding: 11px 14px;
+  border-radius: 13px;
+  border: 1px solid color-mix(in srgb, var(--line) 85%, transparent);
+  background: var(--surface);
+}
+
+.metric-code {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+}
+
+.metric-card strong {
+  display: block;
+  margin-top: 2px;
+  color: var(--ink);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.metric-card p {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.55;
+}
+
+.writing-controls {
+  padding: 20px 24px;
+  border-radius: 22px;
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+}
+
+.writing-tracks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.track-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 6px 14px;
+  border-radius: 11px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 160ms ease;
+}
+
+.track-tab:hover {
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+
+.track-tab.is-active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
+}
+
+.track-tab-count {
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--bg-2);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+}
+
+.track-tab.is-active .track-tab-count {
+  background: color-mix(in srgb, var(--bg) 18%, transparent);
+  color: var(--bg);
+}
+
+.writing-find-top {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.writing-search {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.writing-search > svg {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  stroke: var(--muted);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+.writing-search input {
+  width: 100%;
+  min-width: 0;
+  height: 42px;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: 0.82rem;
+}
+
+.writing-search:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 14%, transparent);
+}
+
+.writing-search input::placeholder {
+  color: var(--muted);
+}
+
+.writing-search input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.writing-search button {
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.writing-tag-link {
+  flex: 0 0 auto;
+  font-size: 0.75rem;
+  color: var(--accent);
+  font-weight: 500;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.writing-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 14px;
+}
+
+.writing-filters button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 4px 11px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text);
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+
+.writing-filters button > span {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+}
+
+.writing-filters button:hover {
+  background: var(--surface);
+  border-color: var(--line);
+}
+
+.writing-filters button[aria-pressed="true"] {
+  background: var(--surface);
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--line-strong));
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.writing-filters button[aria-pressed="true"] > span {
+  color: var(--accent);
+}
+
+.writing-filters button.writing-filters-more {
+  border-style: dashed;
+  border-color: var(--line-strong);
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.writing-results {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-block: 22px 18px;
+  padding-inline: 4px;
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+
+.writing-results strong {
+  color: var(--ink);
+}
+
+.writing-results-desc {
+  color: var(--muted);
+}
+
+.writing-results button {
+  flex: 0 0 auto;
+  padding: 4px 0;
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  font-size: 0.74rem;
+  cursor: pointer;
+}
+
+.writing-empty {
+  padding: 52px 20px 60px;
+  border: 1px dashed var(--line-strong);
+  border-radius: 20px;
+  text-align: center;
+}
+
+.writing-empty-mark {
+  display: block;
+  color: var(--accent);
+  font-size: 2.2rem;
+}
+
+.writing-empty h2 {
+  margin-top: 12px;
+  color: var(--ink);
+  font-size: 1.12rem;
+  font-weight: 600;
+}
+
+.writing-empty p {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.writing-empty button,
+.writing-empty a {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  min-height: 38px;
+  margin-top: 18px;
+  padding: 5px 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--accent);
+  font-size: 0.78rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.writing-signoff {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 40px;
+  padding: 20px 4px 0;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.writing-signoff-links {
+  display: flex;
+  gap: 18px;
+}
+
+.writing-signoff a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+@media (max-width: 860px) {
+  .writing-hero {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 520px) {
+  .writing-controls {
+    padding: 16px;
+  }
+  .writing-find-top {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .writing-search {
+    flex-basis: 100%;
+  }
+  .writing-results-desc {
+    display: none;
+  }
 }
 </style>

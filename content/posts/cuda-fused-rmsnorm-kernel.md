@@ -2,6 +2,8 @@
 title: 从 PyTorch 到 CUDA Kernel：融合 RMSNorm 在 RTX 4090D 上加速 4.27 倍
 date: 2026-07-22 18:16:50
 description: 从零实现 PyTorch CUDA 扩展，拆解 RMSNorm 的访存瓶颈、warp 归约、向量化加载、算子融合与冷热缓存 benchmark。
+cover: /images/posts/cuda-fused-rmsnorm-kernel/cuda-rmsnorm-cover-20261018.webp
+coverAlt: 融合残差加法与向量化 float4 访存经 Warp Shuffle 蝴蝶树归约输出归一化张量的等距硬件架构插画
 series: AI Infra 实战
 seriesOrder: 1
 categories:

@@ -2,6 +2,8 @@
 title: 高并发 AI 平台后端基础设施实践：FastAPI 异步网关、SQLAlchemy 2.0 Async、PostgreSQL 与 Docker 沙箱编排
 date: 2026-04-07
 description: 结合 DeepScientist 生产级 AI 科研平台实践，拆解 FastAPI ASGI 异步事件循环、SQLAlchemy 2.0 + AsyncPG 连接池调优、PostgreSQL + MinIO 存储分层与 Docker SDK 动态沙箱容器编排的职责边界与核心设计。
+cover: /images/posts/backend-stack-deep-dive/backend-stack-cover-20261018.webp
+coverAlt: ASGI 异步事件循环涡轮将非阻塞协程流分发至 PostgreSQL 连接池、MinIO 存储矩阵与动态 Docker 沙箱的等距架构插画
 series: DeepScientist 工程复盘
 seriesOrder: 2
 categories:

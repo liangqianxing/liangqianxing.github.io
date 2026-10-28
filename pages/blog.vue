@@ -87,23 +87,30 @@ const appConfig = useAppConfig()
 const { data } = await usePublicArchive()
 
 const posts = computed(() => data.value ?? [])
-const featured = computed(() => posts.value[0] ?? null)
+const COURSE_SERIES = new Set(['CMU 15-779', 'Stanford CS336'])
+const flagshipPosts = computed(() =>
+  posts.value.filter(post => !(post.series && COURSE_SERIES.has(post.series))),
+)
+const featured = computed(() => flagshipPosts.value[0] ?? posts.value[0] ?? null)
 const selectedSlugs = [
   'xgrammar-concurrent-cache-generation-fix',
   'multi-constraint-agent-routing-dag-eval',
   'llm-mrd-distillation-auditable-review-agents',
+  'in-situ-autoguidance-editable-scientific-illustration',
+  'qwen25-sft-dpo-alignment-tax-ablation',
+  'llm-gateway-semantic-cache-dynamic-batching',
   'qwen25-vl-sglang-verl-single-gpu-lab',
   'cuda-fused-rmsnorm-kernel',
-  'cycleresearcher-post-training',
+  'deepscientist-tech-stack',
 ]
 const selectedPosts = computed(() =>
   selectedSlugs
-    .map(slug => posts.value.find(post => post.slug === slug))
-    .filter((post): post is PostMeta => Boolean(post))
+    .map(slug => flagshipPosts.value.find(post => post.slug === slug))
+    .filter((post): post is PostMeta => Boolean(post)),
 )
 const recentPosts = computed(() => {
   const excluded = new Set([featured.value?.slug])
-  return posts.value.filter(post => !excluded.has(post.slug)).slice(0, 6)
+  return flagshipPosts.value.filter(post => !excluded.has(post.slug)).slice(0, 6)
 })
 const topicCounts = computed(() => {
   const counts = new Map<string, number>()

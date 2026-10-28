@@ -13,7 +13,7 @@ tags:
   - Hopper
   - FP8
   - NeurIPS
-hidden: false
+hidden: true
 haloPublished: true
 ---
 

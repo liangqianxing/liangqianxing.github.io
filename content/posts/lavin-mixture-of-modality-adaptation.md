@@ -15,7 +15,7 @@ tags:
   - 视觉指令微调
   - LaVIN
   - NeurIPS
-hidden: false
+hidden: true
 haloPublished: true
 draft: false
 ---
