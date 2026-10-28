@@ -6,7 +6,7 @@
           <img src="/logo.svg?v=4" alt="" width="22" height="22" />
           {{ appConfig.title }}
         </NuxtLink>
-        <p class="blog-footer-tagline">随手记录，慢慢探索。</p>
+        <p class="blog-footer-tagline">算法研究、系统构建与工程实践记录。</p>
         <div class="blog-footer-note">
           <span>&copy; {{ year }} {{ appConfig.authorEN }}</span>
           <a href="https://icp.gov.moe/" target="_blank" rel="noopener noreferrer">萌ICP备20262170号</a>

@@ -8,7 +8,7 @@ tags:
   - 自动化
 categories:
   - 技术笔记
-hidden: false
+hidden: true
 haloPublished: true
 ---
 

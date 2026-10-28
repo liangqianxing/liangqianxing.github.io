@@ -31,14 +31,14 @@
                 <SiteImage :src="academicProfile.avatar" :alt="`${name}的相片`" width="82" height="90" priority />
               </figure>
             </div>
-            <p class="notebook-paper-thought">喜欢研究，<br />也喜欢把想法做出来。</p>
+            <p class="notebook-paper-thought">算法建模与底层系统，<br />最终都要落到可复现的代码里。</p>
             <div class="notebook-paper-chips" aria-label="关注的方向">
-              <span>LLM</span><span>Agent</span><span>Systems</span>
+              <span>Agent &amp; RL</span><span>Multimodal</span><span>AI Infra</span>
             </div>
           </template>
           <template v-else-if="index === 1">
             <p class="notebook-paper-heading">things I explore.</p>
-            <h2 class="notebook-paper-name">好奇的方向</h2>
+            <h2 class="notebook-paper-name">核心方向</h2>
             <dl class="notebook-paper-interests">
               <div v-for="interest in interests" :key="interest.title">
                 <dt>{{ interest.title }}</dt>
@@ -48,10 +48,10 @@
           </template>
           <template v-else>
             <p class="notebook-paper-heading">a little update.</p>
-            <h2 class="notebook-paper-name">最近，慢慢向前</h2>
+            <h2 class="notebook-paper-name">近期动态与下一站</h2>
             <div class="notebook-paper-updates">
-              <p><span class="notebook-paper-mark notebook-paper-mark-lilac">下一站</span>已保研录取华东师范大学软件工程，<strong>2027 年入学</strong>。</p>
-              <p><span class="notebook-paper-mark notebook-paper-mark-peach">现在</span>在美团做 Agent 算法工程实习，参与海外酒旅 Agent 建设。</p>
+              <p><span class="notebook-paper-mark notebook-paper-mark-lilac">学术与升学</span>已保研录取华东师范大学软件工程（<strong>2027 入学</strong>）；近期工作发表于 <strong>ACL 2026 Demo</strong> 与 <strong>DASFAA 2026 Oral</strong>。</p>
+              <p><span class="notebook-paper-mark notebook-paper-mark-peach">工业与开源</span>现于美团担任 Agent 算法工程实习生；曾任西湖大学 NLP 实验室访问学生与北大 IFlab 科研实习生。</p>
             </div>
           </template>
           <p class="notebook-paper-signature"><span>{{ notebook }}</span><svg width="36" height="13" viewBox="0 0 36 13" fill="none" aria-hidden="true"><path d="M1 8C8 0 14 2 13 8C12 13 20 10 22 4C24 0 20 2 22 7C24 12 30 7 35 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" /></svg></p>
@@ -92,13 +92,13 @@ defineProps<{ name: string; notebook: string }>()
 
 const cards = [
   { file: 'profile.ts', tab: '手记', label: '个人手记' },
-  { file: 'interests.ts', tab: '探索', label: '好奇的方向' },
+  { file: 'interests.ts', tab: '方向', label: '核心研究与工程方向' },
   { file: 'now.ts', tab: '近况', label: '近期经历与入学计划' },
 ]
 const interests = [
-  { title: '大语言模型', note: '理解模型，也试着让它解决实际问题。' },
-  { title: '智能体', note: '探索工具、记忆与上下文如何配合。' },
-  { title: 'AI 系统', note: '把模型与服务连接起来，跑得更稳。' },
+  { title: '智能体与长程规划', note: 'DAG 拓扑调度、两阶段工具路由、100K+ 上下文与 MCP 沙箱。' },
+  { title: '后训练对齐与蒸馏', note: 'Verifiable GRPO（verl）、SFT → DPO 偏好对齐与多视角推理蒸馏。' },
+  { title: 'AI 推理系统与算子', note: 'SGLang 服务调优、CUDA 融合算子、XGrammar 并发解码与 DiT 加速。' },
 ]
 const activeIndex = ref(0)
 const leavingIndex = ref<number | null>(null)

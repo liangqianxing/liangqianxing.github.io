@@ -11,14 +11,14 @@
             </svg>
             你好，我是{{ appConfig.authorCN }}
           </p>
-          <h1 id="journal-title" class="notebook-title">认真折腾，<br /><span class="notebook-highlight">随手记录<svg viewBox="0 0 100 20" preserveAspectRatio="none" fill="none" aria-hidden="true"><path d="M5 15C20 12 50 12 95 18" stroke="currentColor" stroke-width="6" stroke-linecap="round" /></svg></span>。</h1>
-          <p class="notebook-summary">这里是{{ appConfig.authorCN }}的个人笔记。记录 LLM、Agent 与工程实践，也留下一些比赛、实习和旅行的片段。</p>
+          <h1 id="journal-title" class="notebook-title">构建系统，<br /><span class="notebook-highlight">用数据说话<svg viewBox="0 0 100 20" preserveAspectRatio="none" fill="none" aria-hidden="true"><path d="M5 15C20 12 50 12 95 18" stroke="currentColor" stroke-width="6" stroke-linecap="round" /></svg></span>。</h1>
+          <p class="notebook-summary">这里是{{ appConfig.authorCN }}的技术手记。聚焦 LLM Agent 架构、后训练对齐（GRPO / DPO）、多模态推理蒸馏与 AI Infra（SGLang / CUDA 算子 / C++ 并发系统）的实验与源码剖析。</p>
           <NotebookTypewriter />
           <div class="notebook-actions">
-            <NuxtLink to="#home-content" class="notebook-primary">翻翻我的笔记 <span aria-hidden="true">↗</span></NuxtLink>
-            <NuxtLink to="/about" class="notebook-secondary">关于我 <span aria-hidden="true">→</span></NuxtLink>
+            <NuxtLink to="#home-content" class="notebook-primary">浏览技术长文 <span aria-hidden="true">↗</span></NuxtLink>
+            <NuxtLink to="/academic" class="notebook-secondary">学术与项目主页 <span aria-hidden="true">→</span></NuxtLink>
           </div>
-          <p class="notebook-signoff" aria-hidden="true">a little curiosity, a little progress.</p>
+          <p class="notebook-signoff" aria-hidden="true">from mathematical formulation to systems execution.</p>
         </div>
         <NotebookCode :name="appConfig.authorCN" :notebook="appConfig.title" />
       </section>
@@ -28,9 +28,9 @@
       <LearningCoursesPreview />
       <SiteBlock
         v-if="featured"
-        eyebrow="01 / Fresh notes"
-        title="最近写下的"
-        description="新的实验、刚读懂的源码，以及值得记下的细节。"
+        eyebrow="01 / Latest Research & Engineering"
+        title="最新深度长文"
+        description="近期完成的算法实验、系统性能剖析与开源底层修复记录。"
         action-to="/posts"
         action-label="查看全部"
       >
@@ -45,17 +45,17 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9L12 3Z" /></svg>
           </span>
           <div>
-            <p class="notebook-topic-kicker" aria-hidden="true">a few things I’m curious about</p>
-            <h2 id="notebook-topics-title">好奇心，落在这些地方</h2>
+            <p class="notebook-topic-kicker" aria-hidden="true">core research &amp; engineering tracks</p>
+            <h2 id="notebook-topics-title">核心研究与系统工程脉络</h2>
           </div>
         </div>
         <KnowledgeMap :items="knowledgeMap" />
       </section>
       <SiteBlock
         v-if="selectedPosts.length"
-        eyebrow="Selected / Start here"
-        title="值得从这里读起"
-        description="几篇整理得比较完整的笔记。"
+        eyebrow="Selected / Flagship Deep Dives"
+        title="代表性研究与系统实录"
+        description="涵盖开源 C++ 并发修复、工业级多约束 Agent 规划、多模态蒸馏与可审计评审、单卡 FSDP2 多模态 GRPO 及 CUDA 融合算子。"
       >
         <div class="card-grid">
           <ArticleCard v-for="post in selectedPosts" :key="post.path" :post="post" />
@@ -64,8 +64,8 @@
       <SiteBlock
         v-if="topicCounts.length"
         eyebrow="Index / Topics"
-        title="笔记的关键词"
-        description="顺着一个关键词，继续往下读。"
+        title="技术专题索引"
+        description="顺着一个技术方向或系统组件，检索全部相关实验与源码分析。"
         action-to="/tags"
         action-label="完整标签云"
       >
@@ -89,9 +89,12 @@ const { data } = await usePublicArchive()
 const posts = computed(() => data.value ?? [])
 const featured = computed(() => posts.value[0] ?? null)
 const selectedSlugs = [
+  'xgrammar-concurrent-cache-generation-fix',
+  'multi-constraint-agent-routing-dag-eval',
+  'llm-mrd-distillation-auditable-review-agents',
   'qwen25-vl-sglang-verl-single-gpu-lab',
-  'mini-llm-engine-from-scratch',
-  'multimodal-rag-from-scratch',
+  'cuda-fused-rmsnorm-kernel',
+  'cycleresearcher-post-training',
 ]
 const selectedPosts = computed(() =>
   selectedSlugs
@@ -122,39 +125,39 @@ function countByTagSlug(slug: string): number {
 const knowledgeMap = computed(() => [
   {
     key: 'AI',
-    eyebrow: '和智能一起折腾',
-    title: 'AI Infra / Agent',
-    desc: '从模型基础到 RAG、上下文工程、推理服务和 Agent 平台。',
+    eyebrow: '推理引擎与智能体架构',
+    title: 'AI Infra & Agent',
+    desc: 'SGLang / vLLM 推理服务、CUDA 融合算子、DAG 规划与 MCP 沙箱平台。',
     label: '看 AI Infra',
     count: countByTagSlug('ai-infra'),
     to: '/tags/ai-infra',
   },
   {
+    key: 'RL',
+    eyebrow: '强化学习、偏好对齐与蒸馏',
+    title: 'Post-Training & RL',
+    desc: 'Verifiable GRPO（verl）、SFT → DPO 偏好对齐、对齐税评测与跨模态知识蒸馏。',
+    label: '看后训练与对齐',
+    count: countByTagSlug('post-training'),
+    to: '/tags/post-training',
+  },
+  {
     key: 'SYS',
-    eyebrow: '把系统慢慢搭好',
-    title: '后端与分布式',
-    desc: '数据库、缓存、高并发、分布式系统与 Go 后端项目。',
-    label: '看后端系统',
+    eyebrow: '高并发与分布式基础设施',
+    title: '后端与分布式系统',
+    desc: 'Go 微服务、Redis / PostgreSQL、分布式锁与高吞吐数据链路设计。',
+    label: '看分布式系统',
     count: countByTagSlug('分布式系统'),
     to: '/tags/分布式系统',
   },
   {
     key: 'SRC',
-    eyebrow: '沿着代码找答案',
-    title: '源码阅读',
-    desc: '从入口、数据流和关键抽象读懂开源项目。',
+    eyebrow: '开源项目与底层实现拆解',
+    title: '源码剖析与架构复盘',
+    desc: 'XGrammar C++ 并发修复、DeepScientist、MiniCode 与推理引擎核心源码。',
     label: '看源码分析',
     count: countByTagSlug('源码分析'),
     to: '/tags/源码分析',
-  },
-  {
-    key: 'INT',
-    eyebrow: '一路走，一路积累',
-    title: '面试与实践',
-    desc: '按岗位组织的准备清单、项目表达和高频追问。',
-    label: '看面试',
-    count: countByTagSlug('面试'),
-    to: '/tags/面试',
   },
 ])
 

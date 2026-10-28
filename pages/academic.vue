@@ -23,8 +23,9 @@ const sections = computed(() => [
   ...(profile.news.length ? [{ id: 'news', label: 'News' }] : []),
   { id: 'publications', label: 'Publications' },
   ...(profile.projects.length ? [{ id: 'projects', label: 'Projects' }] : []),
-  { id: 'education', label: 'Education' },
   { id: 'experience', label: 'Experience' },
+  { id: 'education', label: 'Education' },
+  ...(profile.awards?.length ? [{ id: 'awards', label: 'Honors' }] : []),
 ])
 
 function isExternal(url: string) {
@@ -139,7 +140,7 @@ useHead({
     </section>
 
     <section v-if="profile.projects.length" id="projects" class="academic-section" aria-labelledby="projects-heading">
-      <h2 id="projects-heading">Selected Projects <span>项目</span></h2>
+      <h2 id="projects-heading">Selected Systems &amp; Open Source <span>代表系统与开源工作</span></h2>
       <article v-for="project in profile.projects" :key="project.name" class="academic-project">
         <h3>{{ project.name }}</h3>
         <p>{{ project.description }}</p>
@@ -147,6 +148,19 @@ useHead({
           <span v-for="tag in project.tags" :key="tag" class="academic-project-tag">{{ tag }}</span>
           <a v-for="link in project.links" :key="link.label" :href="link.url" :target="isExternal(link.url) ? '_blank' : undefined" :rel="isExternal(link.url) ? 'noopener noreferrer' : undefined">{{ link.label }} <span aria-hidden="true">↗</span></a>
         </div>
+      </article>
+    </section>
+
+    <section id="experience" class="academic-section" aria-labelledby="experience-heading">
+      <h2 id="experience-heading">Research &amp; Industry Experience <span>科研与实习经历</span></h2>
+      <article v-for="item in profile.experience" :key="item.institution" class="academic-entry" :class="{ 'with-logo': item.logo }">
+        <SiteImage v-if="item.logo" :src="item.logo" :alt="item.institution" width="44" height="44" loading="lazy" />
+        <div class="academic-entry-copy">
+          <h3>{{ item.institution }} <span>{{ item.english }}</span></h3>
+          <p>{{ item.role }}</p>
+          <p v-if="item.description" class="academic-entry-description">{{ item.description }}</p>
+        </div>
+        <span class="academic-date">{{ item.period }}</span>
       </article>
     </section>
 
@@ -163,16 +177,14 @@ useHead({
       </article>
     </section>
 
-    <section id="experience" class="academic-section" aria-labelledby="experience-heading">
-      <h2 id="experience-heading">Experience <span>经历</span></h2>
-      <article v-for="item in profile.experience" :key="item.institution" class="academic-entry" :class="{ 'with-logo': item.logo }">
-        <SiteImage v-if="item.logo" :src="item.logo" :alt="item.institution" width="44" height="44" loading="lazy" />
+    <section v-if="profile.awards?.length" id="awards" class="academic-section" aria-labelledby="awards-heading">
+      <h2 id="awards-heading">Honors &amp; Competitive Programming <span>算法竞赛与荣誉</span></h2>
+      <article v-for="award in profile.awards" :key="award.title" class="academic-entry">
         <div class="academic-entry-copy">
-          <h3>{{ item.institution }} <span>{{ item.english }}</span></h3>
-          <p>{{ item.role }}</p>
-          <p v-if="item.description" class="academic-entry-description">{{ item.description }}</p>
+          <h3>{{ award.title }}</h3>
+          <p class="academic-entry-description">{{ award.detail }}</p>
         </div>
-        <span class="academic-date">{{ item.period }}</span>
+        <span v-if="award.year" class="academic-date">{{ award.year }}</span>
       </article>
     </section>
 

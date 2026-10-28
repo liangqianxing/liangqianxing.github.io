@@ -8,7 +8,7 @@ tags:
   - XCPC
   - C++
   - 比赛
-hidden: false
+hidden: true
 haloPublished: true
 ---
 

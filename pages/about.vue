@@ -21,10 +21,10 @@
         </h1>
         <p class="about-introduction">{{ introduction }}</p>
         <div class="about-personal-tags" aria-label="兴趣">
+          <span>LLM Agent</span>
+          <span>Post-Training</span>
           <span>AI Infra</span>
-          <span>Backend</span>
           <span>XCPC</span>
-          <span>旅行</span>
         </div>
         <div class="about-contact">
           <a :href="appConfig.github" target="_blank" rel="noopener noreferrer">
@@ -32,11 +32,11 @@
             <span aria-hidden="true">↗</span>
           </a>
           <NuxtLink to="/academic">
-            学术主页
+            学术与论文主页
             <span aria-hidden="true">↗</span>
           </NuxtLink>
           <NuxtLink to="/posts">
-            读我的笔记
+            浏览技术长文
             <span aria-hidden="true">→</span>
           </NuxtLink>
         </div>
@@ -68,7 +68,7 @@
             <span aria-hidden="true">↗</span>
           </figcaption>
         </figure>
-        <p class="about-photo-caption">在代码里探索，也在路上。</p>
+        <p class="about-photo-caption">从公式推导到可复现的系统工程。</p>
         <svg
           class="about-spark"
           viewBox="0 0 40 40"
@@ -105,10 +105,10 @@
     >
       <header class="about-section-head">
         <div>
-          <p class="about-section-kicker">CURIOSITY</p>
-          <h2 id="interests-title">好奇心落在哪里</h2>
+          <p class="about-section-kicker">RESEARCH &amp; ENGINEERING FOCUS</p>
+          <h2 id="interests-title">研究与系统工程方向</h2>
         </div>
-        <p>从一个问题开始，慢慢弄明白。</p>
+        <p>连接算法建模、后训练对齐与底层推理系统。</p>
       </header>
       <div class="about-interest-grid">
         <article
@@ -211,9 +211,9 @@
         </div>
       </section>
       <aside class="about-tools" aria-labelledby="tools-title">
-        <p class="about-section-kicker">IN MY TOOLBOX</p>
-        <h2 id="tools-title">手边的工具</h2>
-        <p class="about-tools-intro">把想法做出来时，常用这些。</p>
+        <p class="about-section-kicker">TECH STACK &amp; SYSTEMS</p>
+        <h2 id="tools-title">常用技术栈</h2>
+        <p class="about-tools-intro">在算法实验、推理加速与系统开发中最常打交道的工具。</p>
         <div class="about-tool-list">
           <span v-for="tech in appConfig.techStack" :key="tech.name">
             {{ tech.name }}
@@ -230,9 +230,9 @@
           />
           <path d="m151 8 2 8 8 2-8 2-2 8-2-8-8-2 8-2 2-8Z" />
         </svg>
-        <p class="about-tools-foot">边做，边学，边记录。</p>
+        <p class="about-tools-foot">在实验里验证假设，在代码里沉淀结论。</p>
         <NuxtLink to="/tags">
-          翻翻主题索引
+          浏览专题索引
           <span aria-hidden="true">→</span>
         </NuxtLink>
       </aside>
@@ -246,7 +246,7 @@
       <header class="about-section-head">
         <div>
           <p class="about-section-kicker">LATEST NOTES</p>
-          <h2 id="writing-title">最近写下的</h2>
+          <h2 id="writing-title">近期深度长文</h2>
         </div>
         <NuxtLink to="/posts">
           全部文章
@@ -268,15 +268,15 @@
         </NuxtLink>
       </div>
       <p class="about-writing-count">
-        这里存着 {{ posts.length }} 篇公开笔记
-        <span v-if="topicCount">，围绕 {{ topicCount }} 个标签慢慢生长</span>
+        目前公开收录 {{ posts.length }} 篇研究与工程长文
+        <span v-if="topicCount">，覆盖 {{ topicCount }} 个技术标签</span>
         。
       </p>
     </section>
     <div class="about-signoff">
       <p>
-        随手记录，
-        <span>慢慢探索。</span>
+        严谨建模，
+        <span>扎实落地。</span>
       </p>
       <NuxtLink to="/blog">
         回到博客
@@ -299,7 +299,7 @@ const topicCount = computed(
 
 // The admission status has its own section; retain the personal parts of the bio.
 const introduction = computed(() =>
-  appConfig.bio.replace(/[^。]*已保研录取[^。]*。?/g, '').trim(),
+  appConfig.bio.replace(/[^。，]*已(?:保研|推免)录取[^。]*。?/g, '').trim(),
 )
 const isUpcoming = (period: string) =>
   Number.parseInt(period, 10) > new Date().getFullYear()
@@ -336,31 +336,31 @@ const journeyEntries = computed(() => [
 const focusAreas = [
   {
     key: 'AI',
-    label: 'AI',
+    label: 'AGENT & RL',
     tone: 'purple',
-    title: 'AI Infra / Agent',
-    desc: 'RAG、上下文工程、记忆系统、推理优化和 Agent 产品化。',
+    title: 'LLM Agent 与后训练对齐',
+    desc: '多约束 DAG 任务规划、两阶段工具路由、100K+ 长上下文与 MCP 沙箱；Verifiable GRPO、SFT → DPO 偏好对齐与多视角推理蒸馏。',
   },
   {
     key: 'SYS',
-    label: 'SYSTEMS',
+    label: 'AI INFRA',
     tone: 'green',
-    title: 'Backend Systems',
-    desc: '高并发、缓存、数据库、消息队列和分布式系统设计。',
+    title: 'AI 推理系统与算子优化',
+    desc: 'SGLang / vLLM 高并发服务调优（Prefix Caching / Chunked Prefill）、单卡 FSDP2 训练栈、CUDA 融合算子与视频 DiT 时空缓存加速。',
   },
   {
     key: 'SRC',
-    label: 'SOURCE',
+    label: 'OPEN SOURCE',
     tone: 'blue',
-    title: 'Source Reading',
-    desc: '从源码和项目结构里提炼可迁移的工程经验。',
+    title: '开源构建与底层源码剖析',
+    desc: 'DeepScientist（7,000+ 用户）与 MiniCode（1k+ Stars）核心研发，向 mlc-ai/xgrammar（PR #1011）等开源基础设施贡献底层并发修复。',
   },
   {
     key: 'DOC',
-    label: 'NOTES',
+    label: 'ALGORITHMS',
     tone: 'orange',
-    title: 'Knowledge Base',
-    desc: '把零散学习转成可搜索、可复盘、可长期维护的笔记库。',
+    title: '算法竞赛与分布式后端',
+    desc: 'ACM-ICPC / CCPC 区域赛与全国邀请赛奖牌、RAICOM 国一；扎实的数据结构、C++ / Go 高并发系统与分布式存储工程实践。',
   },
 ]
 

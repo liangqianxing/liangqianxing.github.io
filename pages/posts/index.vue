@@ -2,10 +2,10 @@
   <div class="page-frame writing-archive">
     <header class="writing-welcome">
       <div>
-        <p class="writing-kicker"><span aria-hidden="true">✳</span> Notes & explorations</p>
-        <h1>文章<span>手记<svg viewBox="0 0 160 12" fill="none" aria-hidden="true"><path d="M3 8q71-9 154-3M15 11q61-6 128-3" /></svg></span></h1>
-        <p class="writing-intro">把问题拆开，把理解留下。<br />这里收着一路折腾的笔记，也欢迎你随意翻翻。</p>
-        <p v-if="!error && status === 'success'" class="writing-stats"><span>{{ posts.length }} 篇文章</span><span>{{ tags.length }} 个标签</span><NuxtLink to="/tags">按标签逛逛 <span aria-hidden="true">↗</span></NuxtLink></p>
+        <p class="writing-kicker"><span aria-hidden="true">✳</span> Research &amp; Systems Archive</p>
+        <h1>技术<span>长文<svg viewBox="0 0 160 12" fill="none" aria-hidden="true"><path d="M3 8q71-9 154-3M15 11q61-6 128-3" /></svg></span></h1>
+        <p class="writing-intro">把复杂系统拆开，用数学推导与实验数据留下可复现的记录。<br />涵盖 LLM Agent 架构、后训练对齐（GRPO / DPO）、多模态推理蒸馏与 AI 推理系统底层实现。</p>
+        <p v-if="!error && status === 'success'" class="writing-stats"><span>{{ posts.length }} 篇文章</span><span>{{ tags.length }} 个标签</span><NuxtLink to="/tags">按标签检索 <span aria-hidden="true">↗</span></NuxtLink></p>
       </div>
       <div class="writing-doodle" aria-hidden="true">
         <svg viewBox="0 0 210 170" fill="none">

@@ -9,7 +9,11 @@
 </template>
 
 <script setup lang="ts">
-const phrases = ['写代码，也读论文。', '探索 LLM、Agent 与系统。', '把想法写成能运行的东西。']
+const phrases = [
+  '连接 LLM Agent 规划、后训练对齐与底层推理系统。',
+  '从数学公式、训练循环到 CUDA 算子与 C++ 并发原语。',
+  '用受控消融与端到端延迟数据验证每一个系统假设。',
+]
 const displayed = ref(phrases[0])
 const paused = ref(false)
 let timer: number | undefined

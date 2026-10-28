@@ -12,7 +12,7 @@ tags:
   - 研究型硕士
   - 本科直博
   - 奖学金
-hidden: false
+hidden: true
 haloPublished: true
 ---
 

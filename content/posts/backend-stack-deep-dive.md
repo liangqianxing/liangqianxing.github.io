@@ -1,7 +1,7 @@
 ---
-title: 后端五件套：FastAPI / Node.js / SQLAlchemy async / PostgreSQL / Docker 面试速通
+title: 高并发 AI 平台后端基础设施实践：FastAPI 异步网关、SQLAlchemy 2.0 Async、PostgreSQL 与 Docker 沙箱编排
 date: 2026-04-07
-description: 结合真实项目拆解 FastAPI、Node.js、异步 ORM、PostgreSQL 与 Docker 的职责边界和面试要点。
+description: 结合 DeepScientist 生产级 AI 科研平台实践，拆解 FastAPI ASGI 异步事件循环、SQLAlchemy 2.0 + AsyncPG 连接池调优、PostgreSQL + MinIO 存储分层与 Docker SDK 动态沙箱容器编排的职责边界与核心设计。
 series: DeepScientist 工程复盘
 seriesOrder: 2
 categories:
@@ -12,12 +12,12 @@ tags:
   - FastAPI
   - PostgreSQL
   - Docker
-  - 面试
+  - AI Infra
 hidden: false
 haloPublished: true
 ---
 
-结合 DeepScientist 项目的实际经验，把这五个东西讲清楚。不是文档翻译，是真正用过之后的理解。
+结合 DeepScientist 生产级 AI 科研平台（服务 7,000+ 用户）的实际工程落地，本文系统拆解支撑高并发流式推理与容器沙箱调度的后端基础设施栈——**FastAPI（ASGI 异步网关 + SSE 流式推送）**、**SQLAlchemy 2.0 Async + AsyncPG**、**PostgreSQL 16 + MinIO 存储分层**与 **Docker SDK 动态容器编排**的职责边界与关键实现细节。
 
 
 

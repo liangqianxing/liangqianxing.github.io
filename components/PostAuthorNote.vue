@@ -20,11 +20,11 @@
 
     <p class="author-note-role"><span v-for="(line, index) in roleLines" :key="index">{{ line }}</span></p>
     <div class="author-note-focus" aria-label="关注领域">
-      <span>LLM</span>
-      <span>Agent</span>
-      <span>Backend</span>
+      <span>Agent &amp; RL</span>
+      <span>AI Infra</span>
+      <span>Multimodal</span>
     </div>
-    <p class="author-note-signoff">随手记录，慢慢探索。</p>
+    <p class="author-note-signoff">严谨建模，用数据验证系统假设。</p>
 
     <div class="author-note-reading">
       <div class="author-note-reading-label">

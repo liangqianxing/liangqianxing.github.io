@@ -62,6 +62,69 @@
       }
     ]
   },
+  "/logos/pku.png": {
+    "width": 360,
+    "height": 360,
+    "variants": [
+      {
+        "src": "/media/pku-48w-0af78240d415.webp",
+        "width": 48,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/pku-96w-9ad4d0a9440d.webp",
+        "width": 96,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/pku-144w-1e68819f5348.webp",
+        "width": 144,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/logos/xju.jpg": {
+    "width": 200,
+    "height": 200,
+    "variants": [
+      {
+        "src": "/media/xju-48w-ebba3ae87f0a.webp",
+        "width": 48,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/xju-96w-0e8ec753d900.webp",
+        "width": 96,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/xju-144w-efd0acf38ecc.webp",
+        "width": 144,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/logos/csu.jpg": {
+    "width": 200,
+    "height": 193,
+    "variants": [
+      {
+        "src": "/media/csu-48w-9d71aa667266.webp",
+        "width": 48,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/csu-96w-6e7fdf9eb359.webp",
+        "width": 96,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/csu-144w-281a754f1be0.webp",
+        "width": 144,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
   "/images/friends/sssn.jpg": {
     "width": 192,
     "height": 192,
@@ -120,6 +183,27 @@
       },
       {
         "src": "/media/deepreviewer-v2-overview-960w-1d0b05983957.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/images/posts/llm-mrd-distillation-auditable-review-agents/llm-mrd-calibration-distillation-20261016.webp": {
+    "width": 1800,
+    "height": 894,
+    "variants": [
+      {
+        "src": "/media/llm-mrd-calibration-distillation-20261016-320w-f0c5293d17cc.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/llm-mrd-calibration-distillation-20261016-640w-749e2fd87ea8.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/llm-mrd-calibration-distillation-20261016-960w-5468aa3d5982.webp",
         "width": 960,
         "mimeType": "image/webp"
       }
@@ -521,58 +605,6 @@
       }
     ]
   },
-  "/media/friends/friend-liumengxuan04-76187fa71b83.png": {
-    "width": 256,
-    "height": 256,
-    "variants": [
-      {
-        "src": "/media/friend-liumengxuan04-76187fa71b83-56w-ce20923f9f69.webp",
-        "width": 56,
-        "mimeType": "image/webp"
-      },
-      {
-        "src": "/media/friend-liumengxuan04-76187fa71b83-112w-f6263fa2061d.webp",
-        "width": 112,
-        "mimeType": "image/webp"
-      },
-      {
-        "src": "/media/friend-liumengxuan04-76187fa71b83-168w-bdf34ef228fa.webp",
-        "width": 168,
-        "mimeType": "image/webp"
-      }
-    ]
-  },
-  "/media/friends/friend-chenchishui-f64dc0d061d4.png": {
-    "width": 256,
-    "height": 256,
-    "variants": [
-      {
-        "src": "/media/friend-chenchishui-f64dc0d061d4-56w-be9d979aa884.webp",
-        "width": 56,
-        "mimeType": "image/webp"
-      },
-      {
-        "src": "/media/friend-chenchishui-f64dc0d061d4-112w-0caad1539004.webp",
-        "width": 112,
-        "mimeType": "image/webp"
-      },
-      {
-        "src": "/media/friend-chenchishui-f64dc0d061d4-168w-aeb9102bd552.webp",
-        "width": 168,
-        "mimeType": "image/webp"
-      }
-    ]
-  },
-  "/logos/meituan.svg": {
-    "width": 96,
-    "height": 96,
-    "variants": []
-  },
-  "/images/posts/cmu-15-779-cuda-thread-indexing/cmu-cuda-thread-map-20261015.svg": {
-    "width": 1000,
-    "height": 640,
-    "variants": []
-  },
   "/images/posts/cmu-15-779-cpu-compiler-optimizations/cmu-cpu-compiler-cover-20261019.webp": {
     "width": 1920,
     "height": 1072,
@@ -884,5 +916,57 @@
         "mimeType": "image/webp"
       }
     ]
+  },
+  "/media/friends/friend-liumengxuan04-76187fa71b83.png": {
+    "width": 256,
+    "height": 256,
+    "variants": [
+      {
+        "src": "/media/friend-liumengxuan04-76187fa71b83-56w-ce20923f9f69.webp",
+        "width": 56,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/friend-liumengxuan04-76187fa71b83-112w-f6263fa2061d.webp",
+        "width": 112,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/friend-liumengxuan04-76187fa71b83-168w-bdf34ef228fa.webp",
+        "width": 168,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/media/friends/friend-chenchishui-f64dc0d061d4.png": {
+    "width": 256,
+    "height": 256,
+    "variants": [
+      {
+        "src": "/media/friend-chenchishui-f64dc0d061d4-56w-be9d979aa884.webp",
+        "width": 56,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/friend-chenchishui-f64dc0d061d4-112w-0caad1539004.webp",
+        "width": 112,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/friend-chenchishui-f64dc0d061d4-168w-aeb9102bd552.webp",
+        "width": 168,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/logos/meituan.svg": {
+    "width": 96,
+    "height": 96,
+    "variants": []
+  },
+  "/images/posts/cmu-15-779-cuda-thread-indexing/cmu-cuda-thread-map-20261015.svg": {
+    "width": 1000,
+    "height": 640,
+    "variants": []
   }
 }
