@@ -80,6 +80,16 @@ export const learningMaterialArticles: LearningMaterialArticle[] = [
     sourcePdf: '/materials/cmu-15-779/originals/tvm-slides-original.pdf',
     sourceLanguage: 'en',
   },
+  {
+    courseSlug: 'cs336',
+    slug: 'cs336-learning-map-zh',
+    fileName: 'cs336-learning-map-zh.md',
+    title: 'Stanford CS336 Assignment 1：从零构建语言模型与工程核算导读',
+    description: '涵盖 Byte-Level BPE、Pre-Norm Transformer LM、GPT-2 XL 参数量/FLOPs/显存核算与 AdamW 训练闭环的中文导读，附官方讲义 PDF 对照。',
+    language: 'zh',
+    sourcePdf: '/materials/cs336/originals/cs336-assignment1-basics-original.pdf',
+    sourceLanguage: 'en',
+  },
 ]
 
 // Use explicit metadata for existing files whose paths have no language marker.

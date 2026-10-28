@@ -19,6 +19,7 @@ hidden: false
 haloSync: false
 haloPublished: false
 codeUrl: https://github.com/liangqianxing/cs336-labs/tree/a39eb684710817f7f389626423fcb26ca0f6d629
+attachmentUrl: /materials/cs336/experiments/cs336-03-softmax-sdpa-20261018.zip
 ---
 
 [上一篇](/posts/cs336-rmsnorm-swiglu/)写到 SwiGLU，接下来进入 Attention。真正开始相乘之前，先做了 Softmax：它把一组分数变成总和为 1 的权重，后面用这些权重汇总不同 token 提供的信息。

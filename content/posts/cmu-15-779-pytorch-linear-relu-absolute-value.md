@@ -6,7 +6,7 @@ series: CMU 15-779
 seriesOrder: 4
 cover: /images/posts/cmu-15-779-pytorch-linear-relu-absolute-value/cmu-pytorch-absolute-cover-20261015.webp
 coverAlt: 双分支经过折角模块后汇入紫色 V 形曲线面板的浅色技术教具插画
-codeUrl: https://github.com/liangqianxing/cmu-15-779-labs/tree/ad12568eba934c385d0fcb971cf0288098e28553
+codeUrl: https://github.com/liangqianxing/cmu-15-779-labs/tree/4cc63904a3a583da4a2122c246a14b43aac38528
 attachmentUrl: /materials/cmu-15-779/experiments/pytorch-linear-relu-abs-20261015.zip
 categories:
   - 技术
@@ -259,9 +259,18 @@ optimizer = torch.optim.SGD(model.parameters(), lr=0.05)
 
 手动设置的 `1 → 2 → 1` 网络能按公式精确构造绝对值；训练得到的 `1 → 8 → 1` 网络仍有拟合误差。训练并不要求找到和手工构造相同的参数。
 
+## 分段线性折点与区间外泛化对照（`20` 与 `21`）
+
+为了进一步验证单隐层 ReLU 网络到底学出了什么几何结构，在仓库中补充了两个分析脚本：
+
+1. **`20_piecewise_linear_slopes.py`（折点与区间斜率解析）**：
+   每个隐藏神经元 $h_i(x) = \operatorname{ReLU}(w_{1,i} x + b_{1,i})$ 在折点 $k_i = -b_{1,i} / w_{1,i}$ 处切换激活状态。在任意两个相邻折点之间的开区间 $(a, b)$ 内，激活集合保持恒定，网络输出严格退化为斜率 $m = \sum_{i \in \mathcal{A}} w_{2,i} w_{1,i}$ 的仿射直线。脚本核对了手工 2 神经元模型在 $(-\infty, 0)$ 与 $(0, +\infty)$ 上的精确斜率 $(-1, +1)$，并对比了训练所得 8 神经元模型的激活折点分布。
+2. **`21_generalization_split.py`（内插 vs. 外推误差拆解）**：
+   前面 `19_learn_abs.py` 的检查点包含在训练网格中。`21_generalization_split.py` 将训练点固定在 $[-1, 1]$，分别在未见过的**内插网格**（$[-0.95, 0.95]$ 偏移中点）和**外推网格**（$[-2.0, -1.2] \cup [1.2, 2.0]$）上评估：内插 MSE 低至 $3.15 \times 10^{-5}$，而区间外由于所有折点均落在 $[-1, 1]$ 内部，网络在区间外只能沿最外侧射线线性延伸，外推 MSE 升至 $1.50 \times 10^{-3}$。
+
 ## 代码与复现
 
-本篇 ZIP 包含以下文件，和代码仓库中的本次发布版本对应：
+本篇 ZIP 包含以下文件，和代码仓库中的完整版本对应：
 
 | 文件 | 内容 |
 | --- | --- |
@@ -269,6 +278,8 @@ optimizer = torch.optim.SGD(model.parameters(), lr=0.05)
 | `17_multi_output.py` | 两个输入特征、两个输出 |
 | `18_relu_steps.py` | 手动设参数，逐层计算绝对值 |
 | `19_learn_abs.py` | 从随机参数训练绝对值网络 |
+| `20_piecewise_linear_slopes.py` | ReLU 折点位置与分段线性区间斜率解析验证 |
+| `21_generalization_split.py` | 训练网格、未见内插网格与区间外外推误差对照 |
 | `requirements.txt`、`README.md` | 依赖版本、运行方式与结果说明 |
 
 创建环境后，可以依次运行：
@@ -280,8 +291,10 @@ python3.11 -m venv .venv
 .venv/bin/python 17_multi_output.py
 .venv/bin/python 18_relu_steps.py
 .venv/bin/python 19_learn_abs.py
+.venv/bin/python 20_piecewise_linear_slopes.py
+.venv/bin/python 21_generalization_split.py
 ```
 
-前三个脚本使用手动指定的参数，不需要训练或加载模型文件。最后一个脚本设置了随机种子，在本次 CPU 环境复跑时与记录一致；不同运行环境的浮点末位可能存在差异。
+前三个脚本使用手动指定的参数，不需要训练或加载模型文件。后三个脚本设置了随机种子，在本次 CPU 环境复跑时与记录一致；不同运行环境的浮点末位可能存在差异。
 
-[GitHub 代码（本篇版本）](https://github.com/liangqianxing/cmu-15-779-labs/tree/ad12568eba934c385d0fcb971cf0288098e28553) · [下载本篇代码 ZIP](/materials/cmu-15-779/experiments/pytorch-linear-relu-abs-20261015.zip)
+[GitHub 代码（本篇版本）](https://github.com/liangqianxing/cmu-15-779-labs/tree/4cc63904a3a583da4a2122c246a14b43aac38528) · [下载本篇代码 ZIP](/materials/cmu-15-779/experiments/pytorch-linear-relu-abs-20261015.zip)

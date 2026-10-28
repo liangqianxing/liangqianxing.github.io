@@ -19,6 +19,7 @@ hidden: false
 haloSync: false
 haloPublished: false
 codeUrl: https://github.com/liangqianxing/cs336-labs/tree/a39eb684710817f7f389626423fcb26ca0f6d629
+attachmentUrl: /materials/cs336/experiments/cs336-02-rmsnorm-swiglu-20261016.zip
 ---
 
 [上一篇](/posts/cs336-linear-embedding-shapes/)把 Linear 和 Embedding 的参数形状理顺了。继续往下，最先遇到的是 RMSNorm：公式不算长，但把它落到一批 token 上时，`dim=-1`、`keepdim=True` 和广播必须一起理解。

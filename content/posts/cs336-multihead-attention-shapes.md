@@ -19,6 +19,7 @@ hidden: false
 haloSync: false
 haloPublished: false
 codeUrl: https://github.com/liangqianxing/cs336-labs/tree/31363223498fafd1528c550a51efbe0aed231736
+attachmentUrl: /materials/cs336/experiments/cs336-04-multihead-attention-20261019.zip
 ---
 
 [上一篇](/posts/cs336-softmax-attention-mask/)完成了缩放点积注意力。那个函数接收已经准备好的 Q、K、V，计算匹配分数，应用 mask，再用权重汇总 V。这一篇继续把它放进一个带参数的多头自注意力模块。
@@ -239,7 +240,7 @@ test_multihead_self_attention PASSED
 
 这是在上一篇 SDPA 测试之后，新增的一项模块测试。它把投影、拆头、因果 mask、注意力计算、合头与输出投影接在一起，确认当前不含 RoPE 的多头自注意力在对应官方用例中与参考结果一致。
 
-下一步才是 RoPE。到这次记录结束时，只介绍了根据位置旋转 Q、K，以及把每个头的特征两两配对的概念，尚未完成实现，也没有 RoPE 测试通过的记录。完整 Transformer block、语言模型和训练流程，继续留在后面的学习阶段。
+下一步才是 RoPE。到这次记录结束时，只介绍了根据位置旋转 Q、K，以及把每个头的特征两两配对的概念，尚未完成实现，也没有 RoPE 测试通过的记录。后续完整的 RoPE、Pre-Norm Transformer LM、Byte-Level BPE 与 AdamW 训练闭环已分别记入 [学习记录 05：RoPE 旋转位置编码](/posts/cs336-rope-rotary-position-embedding/)、[学习记录 06：Pre-Norm Transformer LM](/posts/cs336-pre-norm-transformer-block-lm/)、[学习记录 07：Byte-Level BPE 分词器](/posts/cs336-bpe-tokenizer-training-encoding/) 与 [学习记录 08：Cross-Entropy、AdamW 与训练闭环](/posts/cs336-cross-entropy-adamw-training-loop/)。
 
 ## 发布时的复核
 

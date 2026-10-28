@@ -19,6 +19,7 @@ hidden: false
 haloSync: false
 haloPublished: false
 codeUrl: https://github.com/liangqianxing/cs336-labs/tree/a39eb684710817f7f389626423fcb26ca0f6d629
+attachmentUrl: /materials/cs336/experiments/cs336-01-linear-embedding-20261014.zip
 ---
 
 开始沿着 Stanford CS336 的 Assignment 1 一步步实现。BPE 之前已经接触过，这轮先跳过分词器，从 Transformer 的基础层开始。这里记录的是当时写代码时真正卡住的问题，以及对应测试能确认到的范围。

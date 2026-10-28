@@ -39,12 +39,12 @@ export const learningCourses: LearningCourse[] = [
     courseTitle: 'Language Modeling from Scratch',
     courseUrl: 'https://cs336.stanford.edu/',
     codeUrl: 'https://github.com/liangqianxing/cs336-labs',
-    description: '不依赖高层黑盒 API，从底层张量契约与算子原语手写实现现代语言模型核心组件：涵盖 Linear / Embedding 参数初始化、RMSNorm + SwiGLU 门控前馈网络、数值稳定 Softmax + 因果遮罩、多头自注意力（MHA）与 RoPE 旋转位置编码，并通过课程官方 pytest 单元测试。',
-    topics: ['PyTorch', 'Transformer', 'RMSNorm / SwiGLU', 'RoPE & Attention'],
+    description: '不依赖 PyTorch 高层黑盒 API，从底层张量契约与算子原语完整实现 Stanford CS336 Assignment 1 全栈语言模型：涵盖 Byte-Level BPE 分词器（倒排索引增量训练 + 流式编码）、Pre-Norm Transformer LM（Linear / Embedding / RMSNorm / SwiGLU / RoPE / 因果多头自注意力）、数值稳定 Cross-Entropy、AdamW 优化器、余弦退火调度、Checkpoint 序列化与 Top-p 采样解码，100% 通过官方全部 48 项单元测试。',
+    topics: ['Byte-Level BPE', 'Pre-Norm Transformer & RoPE', 'AdamW & Cosine Schedule', 'FLOPs & Memory Accounting'],
     cover: {
-      src: '/images/posts/cs336-softmax-attention-mask/cs336-softmax-attention-mask-cover.webp',
-      alt: '注意力分数、权重与因果遮罩的 AI 辅助概念插画',
-      caption: '从基础算子到 Attention · 从零实现',
+      src: '/images/posts/cs336-pre-norm-transformer-block-lm/cs336-pre-norm-transformer-block-lm-cover.webp',
+      alt: '干净残差流主干穿过多个 Pre-Norm 子层并汇聚到词表投影层的 AI 辅助概念插画',
+      caption: 'CS336 Assignment 1 · 全栈从零实现（48/48 测试通过）',
     },
   },
 ]

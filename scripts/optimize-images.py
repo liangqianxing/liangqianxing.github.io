@@ -87,6 +87,10 @@ RASTER_SOURCES: dict[str, tuple[int, ...]] = {
     "/images/posts/cs336-rmsnorm-swiglu/cs336-rmsnorm-swiglu-cover.webp": (320, 640, 960, 1440),
     "/images/posts/cs336-softmax-attention-mask/cs336-softmax-attention-mask-cover.webp": (320, 640, 960, 1440),
     "/images/posts/cs336-multihead-attention-shapes/cs336-multihead-attention-shapes-cover.webp": (320, 640, 960, 1440),
+    "/images/posts/cs336-rope-rotary-position-embedding/cs336-rope-rotary-position-embedding-cover.webp": (320, 640, 960, 1440),
+    "/images/posts/cs336-pre-norm-transformer-block-lm/cs336-pre-norm-transformer-block-lm-cover.webp": (320, 640, 960, 1440),
+    "/images/posts/cs336-bpe-tokenizer-training-encoding/cs336-bpe-tokenizer-training-encoding-cover.webp": (320, 640, 960, 1440),
+    "/images/posts/cs336-cross-entropy-adamw-training-loop/cs336-cross-entropy-adamw-training-loop-cover.webp": (320, 640, 960, 1440),
 }
 
 # Remote friend sources are downloaded explicitly, never during site builds.

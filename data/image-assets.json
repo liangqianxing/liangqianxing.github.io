@@ -1323,6 +1323,110 @@
       }
     ]
   },
+  "/images/posts/cs336-rope-rotary-position-embedding/cs336-rope-rotary-position-embedding-cover.webp": {
+    "width": 1376,
+    "height": 768,
+    "variants": [
+      {
+        "src": "/media/cs336-rope-rotary-position-embedding-cover-320w-2363241836ce.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cs336-rope-rotary-position-embedding-cover-640w-e536e15f8b27.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cs336-rope-rotary-position-embedding-cover-960w-48a50bb1ff1b.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cs336-rope-rotary-position-embedding-cover-1376w-99eae90bc2b3.webp",
+        "width": 1376,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/images/posts/cs336-pre-norm-transformer-block-lm/cs336-pre-norm-transformer-block-lm-cover.webp": {
+    "width": 1376,
+    "height": 768,
+    "variants": [
+      {
+        "src": "/media/cs336-pre-norm-transformer-block-lm-cover-320w-3fdbb1b17699.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cs336-pre-norm-transformer-block-lm-cover-640w-eb3b0675ce11.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cs336-pre-norm-transformer-block-lm-cover-960w-d3adb00ded87.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cs336-pre-norm-transformer-block-lm-cover-1376w-ff0276cd6b8f.webp",
+        "width": 1376,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/images/posts/cs336-bpe-tokenizer-training-encoding/cs336-bpe-tokenizer-training-encoding-cover.webp": {
+    "width": 1376,
+    "height": 768,
+    "variants": [
+      {
+        "src": "/media/cs336-bpe-tokenizer-training-encoding-cover-320w-685fbd8339e3.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cs336-bpe-tokenizer-training-encoding-cover-640w-a9cb94bb2f52.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cs336-bpe-tokenizer-training-encoding-cover-960w-e94ff6ec5909.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cs336-bpe-tokenizer-training-encoding-cover-1376w-0bd4710211e9.webp",
+        "width": 1376,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
+  "/images/posts/cs336-cross-entropy-adamw-training-loop/cs336-cross-entropy-adamw-training-loop-cover.webp": {
+    "width": 1376,
+    "height": 768,
+    "variants": [
+      {
+        "src": "/media/cs336-cross-entropy-adamw-training-loop-cover-320w-64b65a6932b7.webp",
+        "width": 320,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cs336-cross-entropy-adamw-training-loop-cover-640w-24f99170bc48.webp",
+        "width": 640,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cs336-cross-entropy-adamw-training-loop-cover-960w-93e00ff26e7e.webp",
+        "width": 960,
+        "mimeType": "image/webp"
+      },
+      {
+        "src": "/media/cs336-cross-entropy-adamw-training-loop-cover-1376w-6ca1c4da8858.webp",
+        "width": 1376,
+        "mimeType": "image/webp"
+      }
+    ]
+  },
   "/media/friends/friend-liumengxuan04-76187fa71b83.png": {
     "width": 256,
     "height": 256,
