@@ -1,133 +1,137 @@
 <template>
-  <div id="top" class="gateway-scene">
-    <GatewayBackdrop :revealed="scrolledDown" />
-    <a class="poster-skip" href="#gateway-choices">跳到主页入口</a>
-    <header class="poster-nav poster-container">
-      <a class="poster-brand" href="#top" aria-label="Enhao Gu，返回顶部">
-        <svg viewBox="0 0 36 36" fill="none" aria-hidden="true">
-          <rect x="4" y="4" width="28" height="28" rx="6.5" stroke-opacity="0.32" />
-          <line x1="10" y1="4" x2="10" y2="32" stroke-opacity="0.45" />
-          <path d="M14 9h10.5L29 13.5V26a2 2 0 0 1-2 2H14a1.5 1.5 0 0 1-1.5-1.5v-16A1.5 1.5 0 0 1 14 9Z" />
-          <path d="M24.5 9v3a1.5 1.5 0 0 0 1.5 1.5H29" stroke-opacity="0.65" />
-          <path d="m16.5 16.5 3.8 3.5-3.8 3.5M22 23.5h4.2" stroke-width="1.5" stroke-linecap="round" />
-          <path d="M28.5 6.2 29 7.7l1.5.5-1.5.5-.5 1.5-.5-1.5-1.5-.5 1.5-.5.5-1.5Z" fill="currentColor" stroke="none" />
-        </svg>
-        <span>{{ academicProfile.name }}<small>{{ academicProfile.nameCN }}</small></span>
-      </a>
-      <nav aria-label="主导航">
-        <NuxtLink to="/blog">Blog <span aria-hidden="true">↗</span></NuxtLink>
-        <NuxtLink to="/academic">Research <span aria-hidden="true">↗</span></NuxtLink>
-        <NuxtLink to="/learning">Learning <span aria-hidden="true">↗</span></NuxtLink>
-        <a v-if="academicProfile.github" :href="academicProfile.github" target="_blank" rel="noopener noreferrer" aria-label="GitHub（在新标签页打开）">GitHub <span aria-hidden="true">↗</span></a>
-      </nav>
-    </header>
-
-    <main>
-      <section class="poster-hero poster-container" aria-labelledby="opening-name">
-        <div class="poster-frame" aria-hidden="true"><span /><span /><span /><span /></div>
-        <div class="poster-meta poster-meta-left"><span>RESEARCH &amp; SYSTEMS ARCHIVE</span><span>AGENT · POST-TRAINING · INFRA</span></div>
-        <div class="poster-meta poster-meta-right"><span>LLM · MULTIMODAL · CUDA/C++</span><span>BUILD TO UNDERSTAND</span></div>
-        <h1 id="opening-name" class="poster-name" :aria-label="`${academicProfile.name} · ${academicProfile.nameCN}`">ENHAO GU</h1>
-        <div class="poster-object" aria-hidden="true"><GatewaySculpture /></div>
-        <div class="poster-intro"><span class="poster-intro-cross" aria-hidden="true">✳</span><p>算法研究、系统构建，<br />以及可复现的工程记录。</p></div>
-        <NuxtLink to="/blog" class="poster-enter">进入技术博客 <span aria-hidden="true">↗</span></NuxtLink>
-        <div class="poster-hero-foot"><span>{{ academicProfile.nameCN }} / {{ year }}</span><a href="#gateway-choices">SCROLL TO EXPLORE <span aria-hidden="true">↓</span></a><span>RESEARCH &amp; ENGINEERING</span></div>
-      </section>
-
-      <section id="gateway-choices" class="poster-index poster-container" aria-labelledby="choices-title">
-        <header class="poster-section-head"><p class="poster-eyebrow">01 / THE INDEX</p><h2 id="choices-title">研究与工程入口<span>。</span></h2><p class="poster-section-note">从问题定义、数学推导到系统落地。</p></header>
-        <nav class="poster-destinations" aria-label="选择访问内容">
-          <NuxtLink
-            v-for="item in destinations"
-            :key="item.to"
-            :to="item.to"
-            class="poster-destination"
-            @pointermove="onCardPointerMove"
-          >
-            <span class="poster-row-number">{{ item.number }}</span>
-            <div class="poster-row-title"><span class="poster-row-kicker">{{ item.kicker }}</span><h3>{{ item.title }}<span>.</span></h3></div>
-            <p>{{ item.description }}</p>
-            <span class="poster-row-arrow" aria-hidden="true">↗</span>
-          </NuxtLink>
-        </nav>
-      </section>
-
-      <section v-if="recentPosts.length" class="poster-writing poster-container" aria-labelledby="writing-title">
-        <header class="poster-section-head"><p class="poster-eyebrow">02 / RECENT WRITING</p><h2 id="writing-title">近期深度长文<span>。</span></h2><NuxtLink to="/posts" class="poster-section-note poster-text-link">全部文章 <span aria-hidden="true">↗</span></NuxtLink></header>
-        <div class="poster-articles">
-          <NuxtLink
-            v-for="post in recentPosts"
-            :key="post.path"
-            :to="post.path"
-            class="poster-article"
-            @pointermove="onCardPointerMove"
-          >
-            <time :datetime="post.date.slice(0, 10)">{{ post.date.slice(0, 10).replaceAll('-', '.') }}</time>
-            <h3>{{ post.title }}</h3>
-            <span class="poster-article-tag">{{ post.tags?.[0] || 'NOTES' }}</span>
-            <span class="poster-article-arrow" aria-hidden="true">↗</span>
-          </NuxtLink>
-        </div>
-      </section>
-    </main>
-
-    <footer class="poster-footer poster-container">
-      <div class="poster-footer-top"><p>Build systems.<br /><em>Verify with data.</em></p><a v-if="academicProfile.github" :href="academicProfile.github" target="_blank" rel="noopener noreferrer">FIND ME ON GITHUB <span aria-hidden="true">↗</span></a></div>
-      <div class="poster-footer-bottom"><span>© {{ year }} {{ academicProfile.name }}</span><span>算法研究、系统构建与工程实践记录。</span><a href="#top">BACK TO TOP <span aria-hidden="true">↑</span></a></div>
-    </footer>
-  </div>
+  <main class="portal-home">
+    <a class="portal-skip" href="#explore">跳到主页入口</a>
+    <section id="welcome" ref="welcome" class="portal-welcome" aria-labelledby="welcome-title">
+      <GatewayFluid :active="introVisible" />
+      <header class="portal-topbar">
+        <a class="portal-wordmark" href="#welcome" aria-label="Enhao Gu 的个人主页"><span aria-hidden="true">✳</span> enhao.gu</a>
+        <nav aria-label="快捷导航"><NuxtLink to="/blog">Blog</NuxtLink><a :href="academicProfile.github" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></nav>
+      </header>
+      <div class="portal-opening">
+        <p class="portal-hello">HELLO, WORLD. I'M</p>
+        <h1 id="welcome-title">{{ academicProfile.name }}</h1>
+        <p class="portal-chinese-name">{{ academicProfile.nameCN }}</p>
+        <p class="portal-opening-role">Researcher <span>&amp;</span> Developer</p>
+        <p class="portal-opening-note">记录研究，也记录构建的过程。</p>
+        <a class="portal-next" href="#explore"><span>Next</span><GatewayIcon name="arrow-down" /></a>
+      </div>
+      <a class="portal-scroll" href="#explore" aria-label="向下滚动，探索主页"><span>SCROLL TO EXPLORE</span><i /><i /></a>
+      <div class="portal-welcome-foot" aria-hidden="true"><span>LLM AGENTS · AI SYSTEMS</span><span class="portal-pointer-hint">MOVE YOUR CURSOR. MAKE A LITTLE WAVE.</span><span>01 / 02</span></div>
+    </section>
+    <section id="explore" ref="explore" class="portal-explore" tabindex="-1" aria-label="个人主页入口" @keydown.esc="closeCategory">
+      <GatewayGrid :active="directoryVisible" />
+      <a class="portal-return-top" href="#welcome" aria-label="返回开场"><GatewayIcon name="arrow-up" /></a>
+      <div id="portal-panel" class="portal-stage">
+        <Transition name="portal-view" mode="out-in" @after-enter="focusPanel">
+          <div v-if="!selectedCategory" key="directory" class="portal-directory">
+            <header class="portal-profile">
+              <div class="portal-avatar-ring"><img :src="academicProfile.avatar" :alt="academicProfile.nameCN" width="100" height="100" /></div>
+              <h2>{{ academicProfile.name }}<span>{{ academicProfile.nameCN }}</span></h2>
+              <p class="portal-profile-role">LLM Agents <b>·</b> Post-Training <b>·</b> AI Systems</p>
+              <p class="portal-profile-note">{{ academicProfile.affiliation }}<span>2027 年入学</span></p>
+            </header>
+            <nav class="portal-categories" aria-label="选择访问内容">
+              <a v-for="category in categories" :key="category.id" :href="category.to" :data-category="category.id" aria-controls="portal-panel" :aria-label="`${category.title}，展开入口`" @click="openCategory($event, category.id)">
+                <span class="portal-category-icon"><GatewayIcon :name="category.icon" /></span><span class="portal-category-label">{{ category.title }}</span><span class="portal-category-english">{{ category.english }}</span>
+              </a>
+            </nav>
+            <div class="portal-socials">
+              <a :href="academicProfile.github" target="_blank" rel="noopener noreferrer" aria-label="GitHub（新标签页）"><GatewayIcon name="github" /><span>GitHub</span></a><span class="portal-social-divider" aria-hidden="true" /><a :href="academicProfile.scholar" target="_blank" rel="noopener noreferrer" aria-label="Google Scholar（新标签页）"><GatewayIcon name="research" /><span>Scholar</span></a>
+            </div>
+          </div>
+          <div v-else :key="selectedCategory.id" class="portal-panel" :aria-labelledby="`panel-title-${selectedCategory.id}`">
+            <header class="portal-panel-head">
+              <button class="portal-back" type="button" @click="closeCategory"><GatewayIcon name="arrow-left" /><span>返回</span></button>
+              <p class="portal-panel-eyebrow">{{ selectedCategory.english }}</p>
+              <h2 :id="`panel-title-${selectedCategory.id}`" ref="panelHeading" tabindex="-1">{{ selectedCategory.title }}</h2>
+              <p class="portal-panel-description">{{ selectedCategory.description }}</p>
+            </header>
+            <nav class="portal-entries" :aria-label="selectedCategory.title">
+              <NuxtLink v-for="entry in selectedCategory.entries" :key="entry.to" :to="entry.to" :target="isExternal(entry.to) ? '_blank' : undefined" :rel="isExternal(entry.to) ? 'noopener noreferrer' : undefined">
+                <span class="portal-entry-icon"><GatewayIcon :name="entry.icon" /></span><span class="portal-entry-copy"><strong>{{ entry.title }}</strong><span>{{ entry.description }}</span></span><span class="portal-entry-arrow" aria-hidden="true">{{ isExternal(entry.to) ? '↗' : '→' }}</span>
+              </NuxtLink>
+            </nav>
+            <p class="portal-panel-hint">选一个入口，继续探索<span aria-hidden="true"> · </span><kbd>Esc</kbd> 返回</p>
+          </div>
+        </Transition>
+      </div>
+      <footer class="portal-footer"><span>© {{ year }} {{ academicProfile.name }}</span><p>Stay curious. Keep building.</p><a href="#welcome">Back to top <span aria-hidden="true">↑</span></a></footer>
+    </section>
+  </main>
 </template>
 
 <script setup lang="ts">
 import { academicProfile } from '~/data/academic'
+import { learningCourses } from '~/data/learning/courses'
 
 definePageMeta({ layout: 'gateway' })
-const year = new Date().getFullYear()
 const appConfig = useAppConfig()
-const { data: posts } = await usePublicArchive()
-const COURSE_SERIES = new Set(['CMU 15-779', 'Stanford CS336'])
-const recentPosts = computed(() =>
-  (posts.value ?? [])
-    .filter(post => !(post.series && COURSE_SERIES.has(post.series)))
-    .slice(0, 4),
-)
-const scrolledDown = ref(false)
-const destinations = [
-  { number: '01', title: 'Notebook', kicker: 'ENGINEERING, SYSTEMS & DEEP DIVES', description: 'LLM Agent 架构、后训练对齐（GRPO / DPO）、SGLang / CUDA 算子优化与开源源码剖析。', to: '/blog' },
-  { number: '02', title: 'Research', kicker: 'PUBLICATIONS, PROJECTS & PROFILE', description: '学术论文（ACL / DASFAA Oral / ICML W）、科研访问与工业界实习档案。', to: '/academic' },
-  { number: '03', title: 'Learning', kicker: 'CMU 15-779 & STANFORD CS336 LABS', description: '机器学习系统与大模型底层从零实现：论文双语精读、CUDA 算子与 GPU 实测。', to: '/learning' },
+const year = new Date().getFullYear()
+type Entry = { title: string; description: string; icon: string; to: string }
+type Category = { id: string; title: string; english: string; description: string; icon: string; to: string; entries: Entry[] }
+const categories: Category[] = [
+  { id: 'blog', title: '个人博客', english: 'WRITING', icon: 'book', to: '/blog', description: '把想过的问题、读过的代码和做过的实验，慢慢写下来。', entries: [
+    { title: 'gu.log', description: '研究笔记与工程实践', icon: 'book', to: '/blog' },
+    { title: '文章归档', description: '所有长文，按时间收录', icon: 'archive', to: '/posts' },
+    { title: '主题索引', description: '沿着感兴趣的方向阅读', icon: 'layers', to: '/tags' },
+    { title: '我的朋友', description: '去朋友们的主页逛一逛', icon: 'friends', to: '/friends' },
+  ] },
+  { id: 'research', title: '学术主页', english: 'RESEARCH', icon: 'research', to: '/academic', description: '关于我的研究、论文，以及走过的一小段路。', entries: [
+    { title: '关于我', description: '研究兴趣与个人简介', icon: 'person', to: '/academic' },
+    { title: '学术论文', description: '论文、代码与研究记录', icon: 'paper', to: '/academic#publications' },
+    { title: '科研与实习', description: '研究和工程中的经历', icon: 'research', to: '/academic#experience' },
+    { title: 'Google Scholar', description: '学术成果与引用', icon: 'external', to: academicProfile.scholar },
+  ] },
+  { id: 'learning', title: '学习记录', english: 'LEARNING', icon: 'layers', to: '/learning', description: '从论文到代码，从理解一个概念到亲手把它实现。', entries: [
+    ...learningCourses.map(course => ({ title: course.title, description: course.slug === 'cs336' ? '从零构建语言模型' : '大模型与机器学习系统', icon: 'code', to: `/learning/${course.slug}` })),
+    { title: '课程目录', description: '课程材料、论文与实验', icon: 'layers', to: '/learning' },
+  ] },
+  { id: 'projects', title: '开源项目', english: 'BUILDING', icon: 'code', to: '/academic#projects', description: '一些亲手参与构建、还在不断打磨的东西。', entries: [
+    { title: 'DeepScientist', description: '面向科研的自主智能体', icon: 'research', to: academicProfile.projects[0]!.links[0]!.url },
+    { title: 'MiniCode', description: '终端里的 AI 编程伙伴', icon: 'terminal', to: academicProfile.projects[1]!.links[0]!.url },
+    { title: 'XGrammar', description: '结构化解码与并发缓存修复', icon: 'code', to: academicProfile.projects[2]!.links[0]!.url },
+    { title: '更多系统与实验', description: 'CUDA 算子、推理服务与后训练', icon: 'layers', to: '/academic#projects' },
+  ] },
 ]
-
-function onCardPointerMove(event: PointerEvent) {
-  const el = event.currentTarget as HTMLElement | null
-  if (!el) return
-  const rect = el.getBoundingClientRect()
-  el.style.setProperty('--row-x', `${event.clientX - rect.left}px`)
-  el.style.setProperty('--row-y', `${event.clientY - rect.top}px`)
+const welcome = ref<HTMLElement | null>(null)
+const explore = ref<HTMLElement | null>(null)
+const panelHeading = ref<HTMLElement | null>(null)
+const introVisible = ref(true)
+const directoryVisible = ref(false)
+const selectedId = ref<string | null>(null)
+const selectedCategory = computed(() => categories.find(category => category.id === selectedId.value) ?? null)
+let lastCategoryId: string | null = null
+let observer: IntersectionObserver | undefined
+function isExternal(url: string) { return /^https?:\/\//.test(url) }
+function openCategory(event: MouseEvent, id: string) {
+  if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return
+  event.preventDefault()
+  lastCategoryId = id
+  selectedId.value = id
 }
-
-function onWindowScroll() {
-  scrolledDown.value = window.scrollY > 140
+function focusPanel() {
+  if (selectedId.value) panelHeading.value?.focus({ preventScroll: true })
+  else explore.value?.querySelector<HTMLElement>(`[data-category="${lastCategoryId}"]`)?.focus({ preventScroll: true })
 }
-
+function closeCategory() { selectedId.value = null }
 onMounted(() => {
-  onWindowScroll()
-  window.addEventListener('scroll', onWindowScroll, { passive: true })
+  if (!('IntersectionObserver' in window)) { directoryVisible.value = true; return }
+  observer = new IntersectionObserver(entries => {
+    for (const entry of entries) {
+      if (entry.target === welcome.value) introVisible.value = entry.isIntersecting
+      if (entry.target === explore.value) directoryVisible.value = entry.isIntersecting
+    }
+  }, { threshold: 0 })
+  if (welcome.value) observer.observe(welcome.value)
+  if (explore.value) observer.observe(explore.value)
 })
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', onWindowScroll)
-})
-
-const description = `${academicProfile.nameCN}（${academicProfile.name}）的个人主页，记录大语言模型、智能体与 AI 系统的研究和工程实践。`
-useHead({
-  title: '个人主页',
-  meta: [
-    { name: 'description', content: description },
-    { property: 'og:title', content: `${academicProfile.name} · ${academicProfile.nameCN}` },
-    { property: 'og:description', content: description },
-    { property: 'og:url', content: `${appConfig.url}/` },
-    { property: 'og:image', content: `${appConfig.url}${academicProfile.avatar}` },
-  ],
-})
+onBeforeUnmount(() => observer?.disconnect())
+const description = `${academicProfile.nameCN}（${academicProfile.name}）的个人主页。探索 LLM Agents、后训练与 AI 系统的研究、技术博客、学习记录和开源项目。`
+useHead({ title: '个人主页', meta: [
+  { name: 'description', content: description },
+  { property: 'og:title', content: `${academicProfile.name} · ${academicProfile.nameCN}` },
+  { property: 'og:description', content: description },
+  { property: 'og:url', content: `${appConfig.url}/` },
+  { property: 'og:image', content: `${appConfig.url}${academicProfile.avatar}` },
+], link: [{ rel: 'canonical', href: `${appConfig.url}/` }] })
 </script>

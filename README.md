@@ -1,12 +1,15 @@
 # Enhao Gu · 个人站点
 
-站点有三个入口：
+站点的主要入口：
 
-- [首页](https://liangqianxing.github.io/)：选择进入学术主页或个人博客。
+- [首页](https://liangqianxing.github.io/)：流体动画开场，进入博客、学术、学习与开源项目四个分类。
 - [学术主页](https://liangqianxing.github.io/academic)：个人简介、研究兴趣、论文、教育与经历。
 - [个人博客](https://liangqianxing.github.io/blog)：原来的 gu.log 网站。
+- [学习记录](https://liangqianxing.github.io/learning)：课程材料、论文阅读与代码实验。
 
 学术主页内容集中在 `data/academic.ts`，编辑方法见 [学术主页编辑指南](ACADEMIC.md)。未填写的邮箱、Scholar 和简历链接不会显示；动态和项目列表填入内容后自动显示。现有 `/posts`、`/tags`、`/about` 等博客路径继续保留。
+
+首页的分类与入口集中在 `pages/index.vue`；背景分别由 `GatewayFluid.vue`（原创 WebGL 烟雾与指针拖尾）和 `GatewayGrid.vue`（交互网格）绘制，图标为本地 SVG。点击 Next 或向下滚动进入导航，点击分类展开入口，返回按钮或 Esc 回到分类。支持键盘导航、系统减少动态效果设置；离屏和后台时停止背景绘制，WebGL 不可用时显示渐变背景。首页不依赖外部动画 CDN。
 
 ## gu.log
 
