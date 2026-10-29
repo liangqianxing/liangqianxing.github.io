@@ -57,15 +57,15 @@
     <!-- 第二屏：个人名片 + 分类入口 + 贪吃蛇动态网格 -->
     <div class="content content-main" :inert="currentPage !== 'main'" :aria-hidden="currentPage !== 'main'">
       <div id="card">
-        <button type="button" class="arrowmain arrowmain-1" aria-label="返回首屏" @click="switchToIntro"></button>
+        <button type="button" class="arrowmain arrowmain-1" data-grid-obstacle aria-label="返回首屏" @click="switchToIntro"></button>
         <div class="arrowmain arrowmain-2" aria-hidden="true"></div>
         <div class="card-inner fade" :class="{ in: mainLoaded }">
-          <header>
+          <header data-grid-obstacle>
             <img :src="academicProfile.avatar" width="104" height="104" :alt="academicProfile.name" />
             <h1>{{ academicProfile.name }} · {{ academicProfile.nameCN }}</h1>
             <h2 id="signature">LLM Agents · Post-Training · AI Systems</h2>
           </header>
-          <ul class="categories-list">
+          <ul class="categories-list" data-grid-obstacle>
             <li
               v-for="cat in categoryData"
               :key="cat.id"
@@ -85,6 +85,11 @@
         </div>
       </div>
       <canvas id="gridCanvas" ref="gridCanvas" class="grid-background"></canvas>
+      <p class="snake-hint">
+        <span class="snake-hint-mouse">移动鼠标，让小蛇追上你</span>
+        <span class="snake-hint-touch">拖动手指，让小蛇追上你</span>
+        <span> · 吃掉金色方块会变长</span>
+      </p>
     </div>
 
     <!-- 第三层：分类详情抽屉卡片 -->
@@ -285,10 +290,13 @@ function getIconSvg(name: string) {
 let gridAnim: GridAnimation | null = null
 let destroyFluid: (() => void) | null = null
 
+watch(currentPage, page => gridAnim?.setActive(page === 'main'))
+
 function initGridIfNeeded() {
   if (gridAnim || !gridCanvas.value) return
   gridAnim = new GridAnimation(gridCanvas.value)
   gridAnim.init()
+  gridAnim.setActive(currentPage.value === 'main')
 }
 
 function switchToMain() {
@@ -412,7 +420,9 @@ function handleWheel(e: WheelEvent) {
 let touchStart: { x: number; y: number; time: number } | null = null
 
 function onTouchStart(e: TouchEvent) {
-  if (e.touches.length !== 1) return
+  touchStart = null
+  // Leave gestures on the main screen available to the snake.
+  if (currentPage.value !== 'intro' || e.touches.length !== 1) return
   touchStart = {
     x: e.touches[0].pageX,
     y: e.touches[0].pageY,
@@ -430,8 +440,6 @@ function onTouchEnd(e: TouchEvent) {
   if (Math.abs(dy) > 45 && Math.abs(dy) > Math.abs(dx)) {
     if (dy < 0 && currentPage.value === 'intro') {
       switchToMain()
-    } else if (dy > 0 && currentPage.value === 'main') {
-      switchToIntro()
     }
   }
 }
