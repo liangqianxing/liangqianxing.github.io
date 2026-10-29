@@ -9,7 +9,7 @@
 
 学术主页内容集中在 `data/academic.ts`，编辑方法见 [学术主页编辑指南](ACADEMIC.md)。未填写的邮箱、Scholar 和简历链接不会显示；动态和项目列表填入内容后自动显示。现有 `/posts`、`/tags`、`/about` 等博客路径继续保留。
 
-首页的分类与入口集中在 `pages/index.vue`；背景分别由 `GatewayFluid.vue`（原创 WebGL 烟雾与指针拖尾）和 `GatewayGrid.vue`（交互网格）绘制，图标为本地 SVG。点击 Next 或向下滚动进入导航，点击分类展开入口，返回按钮或 Esc 回到分类。支持键盘导航、系统减少动态效果设置；离屏和后台时停止背景绘制，WebGL 不可用时显示渐变背景。首页不依赖外部动画 CDN。
+首页的分类与入口集中在 `pages/index.vue`；流体仿真与贪吃蛇网格分别位于 `utils/lanm-fluid.ts` 和 `utils/lanm-grid.ts`，`animejs` 驱动 SVG 波形切换，图标为本地 SVG。点击 Next、向下滚动或上滑进入导航，点击分类展开入口，返回按钮或 Esc 回到分类。系统减少动态效果设置会缩短过渡，关闭 JavaScript 时显示直接导航；动画依赖本地打包，无需外部 CDN。
 
 ## gu.log
 
