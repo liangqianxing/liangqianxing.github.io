@@ -8,12 +8,6 @@
         <p class="tag-index-description">顺着一根线头，找到感兴趣的笔记。</p>
         <p v-if="tags.length" class="tag-index-count">{{ tags.length }} 个标签，串起 {{ posts.length }} 篇公开笔记。</p>
       </div>
-      <svg class="tag-index-doodle" viewBox="0 0 260 180" fill="none" aria-hidden="true">
-        <path class="tag-index-thread" d="M19 151c33 12 28-33 54-26s-8 35 22 33c25-2 13-43 39-53s25 31 54 14c19-11 20-33 35-32" />
-        <g transform="rotate(-10 97 64)"><path class="tag-index-purple" d="M50 31h83l23 32-23 32H50V31Z" /><circle cx="133" cy="63" r="5" /><path d="M66 52h41M66 68h29" /></g>
-        <g transform="rotate(13 188 97)"><path class="tag-index-green" d="M142 77h65l19 25-19 25h-65V77Z" /><circle cx="207" cy="102" r="4" /><path d="M153 94h27M153 108h36" /></g>
-        <path class="tag-index-star" d="M205 21q2 13 15 15-13 2-15 15-2-13-15-15 13-2 15-15ZM28 67q1 8 9 9-8 1-9 9-1-8-9-9 8-1 9-9Z" />
-      </svg>
     </header>
     <section class="tag-index-body" aria-label="浏览标签">
       <div v-if="tags.length" class="tag-index-controls">
@@ -60,20 +54,15 @@ useHead({ title: '标签索引', meta: [{ name: 'description', content: '顺着�
 <style scoped>
 .tag-index-journal :where(h1, h2, p) { margin: 0; }
 .tag-index-journal a { text-decoration: none; }
-.tag-index-intro { display: grid; grid-template-columns: minmax(0, 1fr) 250px; gap: 40px; align-items: center; padding: 20px 12px 42px; }
+.tag-index-intro { padding: 8px 0 34px; border-bottom: 1px solid var(--line); margin-bottom: 28px; }
 .tag-index-copy { min-width: 0; }
-.tag-index-kicker { color: var(--muted); font-size: .64rem; letter-spacing: .14em; }
-.tag-index-intro h1 { margin-top: 14px; color: var(--ink); font-size: clamp(2rem, 4vw, 2.7rem); line-height: 1.5; font-weight: 500; letter-spacing: -.05em; }
-.tag-index-intro h1 > span { color: var(--accent-2); margin-left: 4px; }
-.tag-index-signature { margin-top: 2px; color: var(--accent); font: italic 1.25rem/1.6 Georgia, serif; }
-.tag-index-description { margin-top: 16px; color: var(--text); font-size: .88rem; line-height: 1.9; }
-.tag-index-count { margin-top: 7px; color: var(--muted); font-size: .75rem; line-height: 1.8; }
-.tag-index-doodle { display: block; width: 100%; height: auto; stroke: var(--accent-2); stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; }
-.tag-index-thread { stroke-dasharray: 3 5; }
-.tag-index-purple { fill: var(--topic-purple); }
-.tag-index-green { fill: var(--topic-green); }
-.tag-index-star { fill: var(--topic-orange); }
-.tag-index-controls { display: flex; align-items: end; gap: 20px; padding: 22px 24px; background: var(--bg-2); border-radius: 20px; }
+.tag-index-kicker { color: var(--accent); font-family: var(--font-mono); font-size: .66rem; letter-spacing: .06em; }
+.tag-index-intro h1 { margin-top: 12px; color: var(--ink); font-size: clamp(1.9rem, 3.4vw, 2.4rem); line-height: 1.25; font-weight: 600; letter-spacing: -.03em; }
+.tag-index-intro h1 > span { color: var(--accent); margin-left: 2px; }
+.tag-index-signature { margin-top: 6px; color: var(--faint); font-family: var(--font-mono); font-size: .72rem; }
+.tag-index-description { margin-top: 14px; color: var(--muted); font-size: .87rem; line-height: 1.85; }
+.tag-index-count { margin-top: 6px; color: var(--faint); font-family: var(--font-mono); font-size: .72rem; line-height: 1.8; }
+.tag-index-controls { display: flex; align-items: end; gap: 20px; padding: 18px 20px; border: 1px solid var(--line); background: var(--surface); border-radius: var(--radius); }
 .tag-index-controls label { display: block; margin-bottom: 8px; color: var(--muted); font-size: .72rem; }
 .tag-index-search-field { flex: 1; min-width: 0; }
 .tag-index-search { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
@@ -88,14 +77,14 @@ useHead({ title: '标签索引', meta: [{ name: 'description', content: '顺着�
 .tag-index-sort-field select { min-height: 44px; width: 100%; padding: 8px 10px; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 12px; font: inherit; font-size: .78rem; }
 .tag-index-result { margin: 22px 4px 18px; color: var(--muted); font-size: .75rem; line-height: 1.8; }
 .tag-index-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
-.tag-index-note { display: flex; flex-direction: column; min-width: 0; padding: 25px 24px 22px; background: var(--topic-purple); border: 1px solid transparent; border-radius: 17px 23px 20px 23px; color: var(--ink); transition: transform 200ms ease, border-color 200ms ease; }
-.tag-index-note[data-tone="green"] { background: var(--topic-green); }
-.tag-index-note[data-tone="blue"] { background: var(--topic-blue); }
-.tag-index-note[data-tone="orange"] { background: var(--topic-orange); }
+.tag-index-note { display: flex; flex-direction: column; min-width: 0; padding: 22px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); color: var(--ink); box-shadow: var(--shadow-soft); transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease; }
+.tag-index-note[data-tone="green"],
+.tag-index-note[data-tone="blue"],
+.tag-index-note[data-tone="orange"] { background: var(--surface); }
 .tag-index-note-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; color: var(--text); font: .62rem/1.6 var(--font-mono); letter-spacing: .04em; }
 .tag-index-note-count { padding: 3px 8px; background: color-mix(in srgb, var(--surface) 62%, transparent); border-radius: 7px; flex-shrink: 0; font-family: var(--font-sans); letter-spacing: 0; }
-.tag-index-note h2 { margin-top: 18px; color: var(--ink); font-size: 1.25rem; font-weight: 500; line-height: 1.6; overflow-wrap: anywhere; }
-.tag-index-hash { margin-right: 4px; color: var(--accent); font: italic 1.2em Georgia, serif; }
+.tag-index-note h2 { margin-top: 16px; color: var(--ink); font-size: 1.12rem; font-weight: 600; line-height: 1.45; letter-spacing: -.015em; overflow-wrap: anywhere; }
+.tag-index-hash { margin-right: 4px; color: var(--accent); font-family: var(--font-mono); font-size: .95em; }
 .tag-index-latest { margin-top: 16px; margin-bottom: 22px; flex: 1; }
 .tag-index-latest > span { color: var(--muted); font-size: .65rem; }
 .tag-index-latest p { margin-top: 5px; color: var(--text); font-size: .85rem; line-height: 1.85; overflow-wrap: anywhere; }
@@ -108,12 +97,18 @@ useHead({ title: '标签索引', meta: [{ name: 'description', content: '顺着�
 .tag-index-footer { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-top: 36px; padding: 22px 4px 0; border-top: 1px solid var(--line); color: var(--muted); font-size: .75rem; line-height: 1.8; }
 .tag-index-footer a { color: var(--accent); flex-shrink: 0; padding-block: 6px; }
 @media (hover: hover) and (pointer: fine) { .tag-index-note:hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--accent) 26%, transparent); } .tag-index-note:hover .tag-index-note-link > span { transform: translate(2px, -2px); } }
-@media (max-width: 700px) { .tag-index-intro { grid-template-columns: minmax(0, 1fr) 180px; gap: 20px; padding-inline: 4px; } .tag-index-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; } .tag-index-controls { padding: 20px; gap: 14px; } .tag-index-sort-field { flex-basis: 140px; } }
-@media (max-width: 480px) { .tag-index-intro { grid-template-columns: minmax(0, 1fr); padding-top: 4px; gap: 12px; padding-bottom: 28px; } .tag-index-doodle { width: 160px; justify-self: end; } .tag-index-description { max-width: 270px; } .tag-index-controls { flex-wrap: wrap; padding: 18px; } .tag-index-search-field { flex-basis: 100%; } .tag-index-sort-field { flex-basis: 100%; } .tag-index-grid { grid-template-columns: minmax(0, 1fr); } .tag-index-note { padding: 24px; } .tag-index-note h2 { margin-top: 14px; } .tag-index-latest { margin-bottom: 18px; } .tag-index-footer { flex-wrap: wrap; gap: 8px; } }
+@media (max-width: 700px) { .tag-index-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; } .tag-index-controls { padding: 18px; gap: 14px; } .tag-index-sort-field { flex-basis: 140px; } }
 @media (max-width: 480px) {
-  .tag-index-intro { position: relative; }
-  .tag-index-intro h1 { padding-right: 85px; }
-  .tag-index-doodle { position: absolute; top: 22px; right: 0; width: 90px; opacity: .75; }
+  .tag-index-intro { padding-bottom: 26px; }
+  .tag-index-description { max-width: 300px; }
+  .tag-index-controls { flex-wrap: wrap; padding: 16px; }
+  .tag-index-search-field { flex-basis: 100%; }
+  .tag-index-sort-field { flex-basis: 100%; }
+  .tag-index-grid { grid-template-columns: minmax(0, 1fr); }
+  .tag-index-note { padding: 20px; }
+  .tag-index-note h2 { margin-top: 14px; }
+  .tag-index-latest { margin-bottom: 18px; }
+  .tag-index-footer { flex-wrap: wrap; gap: 8px; }
   .tag-index-search input, .tag-index-sort-field select { font-size: 1rem; }
 }
 @media (prefers-reduced-motion: reduce) { .tag-index-note, .tag-index-note-link > span { transition: none; } .tag-index-note:hover { transform: none; } .tag-index-note:hover .tag-index-note-link > span { transform: none; } }

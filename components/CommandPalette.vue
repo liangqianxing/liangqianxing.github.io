@@ -404,13 +404,12 @@ function onModalKeydown(event: KeyboardEvent) {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--accent) 26%, var(--line));
-  border-radius: 22px;
-  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--surface) 96%, transparent);
   box-shadow:
     0 28px 80px rgba(10, 8, 20, 0.34),
-    0 0 0 1px color-mix(in srgb, white 14%, transparent) inset,
-    0 0 48px color-mix(in srgb, var(--accent) 12%, transparent);
+    0 0 0 1px color-mix(in srgb, white 8%, transparent) inset;
   color: var(--text);
 }
 

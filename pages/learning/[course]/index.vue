@@ -168,10 +168,10 @@ useHead(() => ({
 <style scoped>
 .learning-notebook :where(h1, h2, h3, p) { margin: 0; }
 .learning-notebook a { text-decoration: none; }
-.learning-welcome { display: grid; grid-template-columns: minmax(0, 1fr) 190px; gap: 48px; align-items: center; padding: 30px 36px; border: 1px solid var(--line); border-radius: 24px; background: linear-gradient(120deg, var(--surface), color-mix(in srgb, var(--topic-purple) 55%, var(--bg))); }
+.learning-welcome { display: grid; grid-template-columns: minmax(0, 1fr) 190px; gap: 48px; align-items: center; padding: 32px 36px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface); box-shadow: var(--shadow-soft); }
 .learning-back { display: inline-block; color: var(--muted); font-size: 0.74rem; padding-block: 8px; margin-bottom: 16px; }
 .learning-kicker { color: var(--muted); font: 0.63rem/1.6 var(--font-mono); letter-spacing: 0.03em; }
-.learning-welcome h1 { margin-top: 12px; color: var(--ink); font-size: clamp(2rem, 3.3vw, 2.5rem); font-weight: 500; line-height: 1.45; letter-spacing: -0.03em; }
+.learning-welcome h1 { margin-top: 12px; color: var(--ink); font-size: clamp(1.9rem, 3.2vw, 2.35rem); font-weight: 600; line-height: 1.3; letter-spacing: -0.03em; }
 .learning-welcome h1 span { color: var(--accent); }
 .learning-course-title { max-width: 490px; margin-top: 10px !important; color: var(--muted); font-size: 0.75rem; line-height: 1.8; }
 .learning-intro { margin-top: 18px !important; color: var(--text); font-size: 0.83rem; line-height: 1.85; }
@@ -179,10 +179,10 @@ useHead(() => ({
 .learning-topics span { padding: 4px 10px; border: 1px solid var(--line); border-radius: 6px; color: var(--accent); font-size: 0.65rem; background: var(--surface); }
 .learning-course-link { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; margin-top: 12px; color: var(--accent); font-size: 0.76rem; }
 .learning-course-links { display: flex; flex-wrap: wrap; gap: 0 24px; }
-.learning-cover { display: flex; flex-direction: column; gap: 20px; align-items: start; padding: 28px 24px; border: 1px solid var(--line-strong); border-radius: 6px 18px 18px 6px; background: var(--topic-purple); transform: rotate(4deg); color: var(--ink); box-shadow: 5px 7px 0 var(--topic-orange); }
+.learning-cover { display: flex; flex-direction: column; gap: 16px; align-items: start; padding: 22px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-2); color: var(--ink); box-shadow: none; }
 .learning-cover > span { font: 0.65rem/1.6 var(--font-mono); color: var(--muted); }
-.learning-cover strong { font: 500 1.85rem/1.3 var(--font-mono); overflow-wrap: anywhere; }
-.learning-cover p { padding-top: 18px; border-top: 1px solid var(--line-strong); font: 0.61rem/1.8 var(--font-mono); }
+.learning-cover strong { font: 600 1.55rem/1.3 var(--font-mono); color: var(--accent); overflow-wrap: anywhere; }
+.learning-cover p { width: 100%; padding-top: 14px; border-top: 1px solid var(--line); color: var(--faint); font: 0.61rem/1.8 var(--font-mono); }
 .learning-section-nav { display: flex; flex-wrap: wrap; gap: 12px; margin: 22px 0 46px; }
 .learning-section-nav a { display: inline-flex; align-items: center; gap: 10px; min-height: 46px; padding: 8px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--text); font-size: 0.76rem; }
 .learning-nav-index { margin-right: 3px; color: var(--accent); font: 0.65rem var(--font-mono); }
@@ -191,7 +191,7 @@ useHead(() => ({
 .learning-library-grid { display: grid; gap: 48px; }
 .learning-section { min-width: 0; scroll-margin-top: calc(var(--nav-h) + 30px); }
 .learning-section-head { display: flex; align-items: end; justify-content: space-between; flex-wrap: wrap; gap: 12px 24px; margin-bottom: 22px; }
-.learning-section-head h2 { display: flex; align-items: center; gap: 12px; margin-top: 6px; font-size: 1.5rem; line-height: 1.5; font-weight: 500; color: var(--ink); }
+.learning-section-head h2 { display: flex; align-items: center; gap: 12px; margin-top: 6px; font-size: 1.35rem; line-height: 1.4; font-weight: 600; color: var(--ink); letter-spacing: -0.02em; }
 .learning-section-head h2 > span { min-width: 26px; padding: 2px 7px; border: 1px solid var(--line); border-radius: 7px; font: 0.68rem/1.6 var(--font-mono); text-align: center; color: var(--muted); }
 .learning-section-description { padding-bottom: 4px; color: var(--muted); font-size: 0.75rem; line-height: 1.8; }
 .learning-empty { padding: 30px 24px; border: 1px dashed var(--line-strong); border-radius: 16px; color: var(--text); font-size: 0.85rem; line-height: 1.8; }
@@ -199,12 +199,13 @@ useHead(() => ({
 .learning-empty button { margin-top: 10px; border: 0; background: none; color: var(--accent); cursor: pointer; }
 .learning-note-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; list-style: none; padding: 0; margin: 0; }
 .learning-note-list > li { min-width: 0; }
-.learning-note-card { display: flex; flex-direction: column; height: 100%; overflow: hidden; border: 1px solid var(--line); border-radius: 20px; background: var(--surface); }
+.learning-note-card { display: flex; flex-direction: column; height: 100%; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow-soft); transition: border-color 200ms ease, box-shadow 200ms ease; }
+.learning-note-card:hover { border-color: color-mix(in srgb, var(--accent) 32%, var(--line)); box-shadow: 0 16px 36px -26px rgba(15, 23, 42, 0.35); }
 .learning-note-main { display: flex; flex-direction: column; flex: 1; min-width: 0; color: var(--ink); }
 .learning-note-cover { overflow: hidden; aspect-ratio: 16 / 9; border-bottom: 1px solid var(--line); background: var(--topic-purple); }
 .learning-note-cover img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .learning-note-cover-empty { display: grid; place-items: center; }
-.learning-note-cover-number { color: var(--accent); font: italic 4rem/1 Georgia, serif; opacity: 0.5; }
+.learning-note-cover-number { color: var(--accent); font: 600 3.2rem/1 var(--font-mono); opacity: 0.45; }
 .learning-note-copy { display: flex; flex: 1; flex-direction: column; padding: 20px 22px; }
 .learning-note-meta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; font: 0.62rem/1.7 var(--font-mono); }
 .learning-note-number { color: var(--accent); }
@@ -217,7 +218,7 @@ useHead(() => ({
 .learning-note-resources a { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 40px; padding: 4px; color: var(--accent); font-size: 0.68rem; white-space: nowrap; }
 .learning-note-resources a + a { border-left: 1px solid var(--line); }
 .learning-note-resources svg, .learning-file-download svg { width: 16px; height: 16px; flex: 0 0 auto; stroke: currentColor; stroke-width: 1.35; stroke-linecap: round; stroke-linejoin: round; }
-.learning-materials { padding: 28px; border: 1px solid var(--line); border-radius: 22px; background: var(--bg-2); }
+.learning-materials { padding: 26px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-2); }
 .learning-material-groups { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; align-items: start; }
 .learning-material-group { min-width: 0; padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
 .learning-material-group-head { display: flex; align-items: center; gap: 10px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
@@ -252,7 +253,7 @@ useHead(() => ({
   .learning-materials { padding: 24px; }
 }
 @media (max-width: 600px) {
-  .learning-welcome { grid-template-columns: minmax(0, 1fr); padding: 22px; border-radius: 18px; }
+  .learning-welcome { grid-template-columns: minmax(0, 1fr); padding: 22px; border-radius: var(--radius); }
   .learning-cover { display: none; }
   .learning-welcome h1 { font-size: 2rem; }
   .learning-welcome h1 span { display: block; }
@@ -269,7 +270,7 @@ useHead(() => ({
   .learning-note-copy h3 { font-size: 1.08rem; }
   .learning-note-copy > p { font-size: 0.82rem; }
   .learning-note-resources a { min-height: 44px; font-size: 0.73rem; }
-  .learning-materials { padding: 22px 18px; border-radius: 18px; }
+  .learning-materials { padding: 22px 18px; border-radius: var(--radius); }
   .learning-material-groups { grid-template-columns: minmax(0, 1fr); gap: 14px; }
   .learning-material-group { padding: 16px; }
   .learning-file-main { font-size: 0.8rem; }

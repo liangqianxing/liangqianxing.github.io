@@ -48,13 +48,13 @@ useHead({
 .learning-directory :where(h1, h2, p) { margin: 0; }
 .learning-directory-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; padding: 12px 4px 30px; border-bottom: 1px solid var(--line); }
 .learning-directory-kicker { color: var(--muted); font: 0.68rem/1.6 var(--font-mono); letter-spacing: 0; }
-.learning-directory h1 { margin-top: 10px; color: var(--ink); font-size: 2.3rem; font-weight: 500; line-height: 1.4; letter-spacing: 0; }
+.learning-directory h1 { margin-top: 10px; color: var(--ink); font-size: 2.2rem; font-weight: 600; line-height: 1.3; letter-spacing: -0.03em; }
 .learning-directory-intro { margin-top: 12px !important; color: var(--text); font-size: 0.86rem; line-height: 1.8; }
 .learning-directory-count { color: var(--muted); font-size: 0.76rem; white-space: nowrap; padding-bottom: 4px; }
 .learning-course-list { list-style: none; padding: 0; margin: 24px 0 0; display: grid; gap: 18px; }
 .learning-course-list li { border: 0; }
-.learning-course-row { display: grid; grid-template-columns: 236px minmax(0, 1fr) auto; align-items: center; gap: 26px; padding: 22px 24px; border: 1px solid color-mix(in srgb, var(--line) 80%, transparent); border-radius: 22px; background: var(--surface); box-shadow: 0 8px 26px rgba(32, 24, 44, 0.04); color: var(--ink); text-decoration: none; transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1), border-color 220ms ease, box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1); }
-.learning-course-row:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); box-shadow: 0 18px 40px rgba(26, 20, 38, 0.08); }
+.learning-course-row { display: grid; grid-template-columns: 236px minmax(0, 1fr) auto; align-items: center; gap: 26px; padding: 20px 22px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow-soft); color: var(--ink); text-decoration: none; transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1), border-color 200ms ease, box-shadow 220ms ease; }
+.learning-course-row:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--accent) 35%, var(--line)); box-shadow: 0 16px 36px -24px rgba(15, 23, 42, 0.4); }
 .learning-course-visual { min-width: 0; overflow: hidden; border-radius: 14px; background: var(--topic-purple); border: 1px solid color-mix(in srgb, var(--line) 70%, transparent); }
 .learning-course-image { display: block; width: 100%; height: auto; aspect-ratio: 8 / 5; object-fit: contain; background: #fff; transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1); }
 .learning-course-row:hover .learning-course-image { transform: scale(1.03); }

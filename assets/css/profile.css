@@ -1,17 +1,17 @@
 html body.profile-body {
-  --bg: #fafaf8;
-  --bg-2: #fafaf8;
+  --bg: #f8faf9;
+  --bg-2: #f8faf9;
   --surface: #ffffff;
-  --text: #202824;
-  --ink: #202824;
-  --muted: #65716b;
-  --line: #e0e5df;
-  --line-strong: #c7d0c8;
-  --accent: #285b45;
-  --accent-2: #285b45;
+  --text: #1e293b;
+  --ink: #0f172a;
+  --muted: #52606d;
+  --line: #e2e8f0;
+  --line-strong: #cbd5e1;
+  --accent: #166550;
+  --accent-2: #166550;
   color-scheme: light;
-  background: #fafaf8;
-  color: #202824;
+  background: #f8faf9;
+  color: #1e293b;
   font-family: "Inter Variable", "Inter", "Microsoft YaHei", "PingFang SC", sans-serif;
   transition: none;
 }
@@ -20,18 +20,18 @@ html body.profile-body {
   display: flex;
   flex-direction: column;
   min-height: 100svh;
-  background: #fafaf8;
-  color: #202824;
+  background: #f8faf9;
+  color: #1e293b;
 }
 
 .profile-site :focus-visible {
-  outline: 2px solid #285b45;
+  outline: 2px solid #166550;
   outline-offset: 5px;
   border-radius: 3px;
 }
 
 .profile-site ::selection {
-  background: #dce9df;
+  background: #dcefe7;
 }
 
 .profile-header,
@@ -51,7 +51,7 @@ html body.profile-body {
   justify-content: space-between;
   gap: 24px;
   min-height: 96px;
-  border-bottom: 1px solid #e0e5df;
+  border-bottom: 1px solid #e2e8f0;
 }
 
 .profile-wordmark {
@@ -64,7 +64,7 @@ html body.profile-body {
 }
 
 .profile-wordmark-cn {
-  color: #65716b;
+  color: #52606d;
   font-size: 0.78rem;
   font-weight: 400;
   letter-spacing: 0.03em;
@@ -79,12 +79,12 @@ html body.profile-body {
 
 .profile-nav a {
   padding-block: 6px;
-  color: #65716b;
+  color: #52606d;
 }
 
 .profile-nav a:hover,
 .profile-nav a[aria-current="page"] {
-  color: #285b45;
+  color: #166550;
 }
 
 .profile-nav a[aria-current="page"] {
@@ -105,10 +105,10 @@ html body.profile-body {
   z-index: 10000;
   padding: 10px 18px;
   transform: translateY(-180%);
-  border: 1px solid #285b45;
+  border: 1px solid #166550;
   border-radius: 5px;
   background: #fff;
-  color: #285b45;
+  color: #166550;
   font-size: 0.875rem;
 }
 
@@ -122,13 +122,13 @@ html body.profile-body {
   justify-content: space-between;
   gap: 24px;
   padding: 26px 0;
-  border-top: 1px solid #e0e5df;
-  color: #65716b;
+  border-top: 1px solid #e2e8f0;
+  color: #52606d;
   font-size: 0.75rem;
 }
 
 .profile-footer a:hover {
-  color: #285b45;
+  color: #166550;
 }
 
 @media (max-width: 640px) {

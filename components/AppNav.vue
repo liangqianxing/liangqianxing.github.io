@@ -1,48 +1,55 @@
 <template>
   <header ref="headerRef" class="site-nav">
-    <div class="blog-header-row">
-      <NuxtLink to="/blog" class="blog-identity" aria-label="gu.log 博客首页">
-        <span class="blog-identity-logo">
-          <img src="/logo.svg?v=4" alt="" width="32" height="32" />
-        </span>
-        <span class="blog-identity-copy">
-          <span class="blog-identity-name">{{ appConfig.authorEN }}</span>
-          <span class="blog-identity-label">{{ appConfig.title }}</span>
-        </span>
-      </NuxtLink>
-      <nav class="blog-site-links" aria-label="个人主页导航">
-        <NuxtLink to="/">主页</NuxtLink>
-        <NuxtLink to="/academic">学术</NuxtLink>
-        <NuxtLink to="/blog" :aria-current="route.path === '/blog' ? 'page' : 'location'">博客</NuxtLink>
-      </nav>
-    </div>
-    <div class="blog-toolbar">
-      <nav
-        ref="sectionNavRef"
-        class="blog-section-links"
-        :class="{ 'has-pill': pillReady }"
-        aria-label="博客导航"
-        @pointerleave="onNavLeave"
-      >
-        <span
-          v-if="pillReady"
-          class="blog-nav-pill"
-          :class="{ 'is-hover-preview': hoveredPath !== null && !isActive(hoveredPath) }"
-          :style="pillStyle"
-          aria-hidden="true"
-        />
-        <NuxtLink
-          v-for="item in navItems"
-          :key="item.path"
-          :to="item.path"
-          :data-nav-path="item.path"
-          :aria-current="isActive(item.path) ? 'page' : undefined"
-          @pointerenter="onLinkEnter(item.path)"
-          @focus="onLinkEnter(item.path)"
-          @blur="onNavLeave"
-        >{{ item.label }}</NuxtLink>
-      </nav>
+    <div class="blog-nav-inner">
+      <div class="blog-nav-left">
+        <NuxtLink to="/blog" class="blog-identity" aria-label="gu.log 博客首页">
+          <span class="blog-identity-logo">
+            <img src="/logo.svg?v=4" alt="" width="30" height="30" />
+          </span>
+          <span class="blog-identity-copy">
+            <span class="blog-identity-name">{{ appConfig.authorEN }}</span>
+            <span class="blog-identity-label">{{ appConfig.title }}</span>
+          </span>
+        </NuxtLink>
+
+        <span class="blog-nav-divider" aria-hidden="true" />
+
+        <nav
+          ref="sectionNavRef"
+          class="blog-section-links"
+          :class="{ 'has-pill': pillReady }"
+          aria-label="博客导航"
+          @pointerleave="onNavLeave"
+        >
+          <span
+            v-if="pillReady"
+            class="blog-nav-pill"
+            :class="{ 'is-hover-preview': hoveredPath !== null && !isActive(hoveredPath) }"
+            :style="pillStyle"
+            aria-hidden="true"
+          />
+          <NuxtLink
+            v-for="item in navItems"
+            :key="item.path"
+            :to="item.path"
+            :data-nav-path="item.path"
+            :aria-current="isActive(item.path) ? 'page' : undefined"
+            @pointerenter="onLinkEnter(item.path)"
+            @focus="onLinkEnter(item.path)"
+            @blur="onNavLeave"
+          >{{ item.label }}</NuxtLink>
+        </nav>
+      </div>
+
       <div class="blog-toolbar-actions">
+        <nav class="blog-site-links" aria-label="全站模式切换">
+          <NuxtLink to="/academic" class="blog-portal-pill">
+            <span class="blog-portal-dot" aria-hidden="true" />
+            学术主页
+          </NuxtLink>
+          <NuxtLink to="/" class="blog-portal-link" title="3D 交互个人门户">门户</NuxtLink>
+        </nav>
+
         <button
           type="button"
           class="blog-search-trigger"
@@ -57,6 +64,7 @@
           <span class="blog-search-trigger-text">搜索</span>
           <kbd class="blog-search-trigger-kbd">⌘K</kbd>
         </button>
+
         <div
           ref="themeControlRef"
           class="blog-theme-control"

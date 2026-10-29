@@ -96,7 +96,7 @@ provide('openCommandPalette', openCommandPalette)
 useHead(() => ({
   titleTemplate: title => title ? `${title} · ${appConfig.title}` : appConfig.title,
   meta: [
-    { name: 'theme-color', content: themeMode.value === 'light' ? '#fffdf8' : themeMode.value === 'cyber' ? '#07110f' : '#10151f' },
+    { name: 'theme-color', content: themeMode.value === 'light' ? '#f8faf9' : themeMode.value === 'cyber' ? '#060d0b' : '#0b0f17' },
     { name: 'description', content: appConfig.description },
     { property: 'og:site_name', content: appConfig.title },
     { property: 'og:type', content: 'website' },

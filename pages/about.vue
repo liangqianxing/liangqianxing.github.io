@@ -11,12 +11,7 @@
         <h1 id="about-title">
           你好，我是
           <br />
-          <span>
-            {{ appConfig.authorCN }}
-            <svg viewBox="0 0 220 16" fill="none" aria-hidden="true">
-              <path d="M4 10Q110 1 216 9M30 14Q116 7 192 12" />
-            </svg>
-          </span>
+          <span>{{ appConfig.authorCN }}</span>
           <i aria-hidden="true">.</i>
         </h1>
         <p class="about-introduction">{{ introduction }}</p>
@@ -42,19 +37,7 @@
         </div>
       </div>
       <div class="about-keepsake">
-        <svg
-          class="about-flower"
-          viewBox="0 0 64 64"
-          fill="none"
-          aria-hidden="true"
-        >
-          <path
-            d="M32 30C10 34 12 10 24 14c8 2 8 10 8 16Zm2 2C30 10 54 12 50 24c-2 8-10 8-16 8Zm-2 2c22-4 20 20 8 16-8-2-8-10-8-16Zm-2-2c4 22-20 20-16 8 2-8 10-8 16-8Z"
-          />
-          <circle cx="32" cy="32" r="4" />
-        </svg>
         <figure class="about-photo">
-          <span class="about-photo-tape" aria-hidden="true"></span>
           <SiteImage
             src="/avatar.jpg"
             :alt="`${appConfig.authorCN}的头像`"
@@ -69,14 +52,6 @@
           </figcaption>
         </figure>
         <p class="about-photo-caption">从公式推导到可复现的系统工程。</p>
-        <svg
-          class="about-spark"
-          viewBox="0 0 40 40"
-          fill="none"
-          aria-hidden="true"
-        >
-          <path d="M20 2Q22 18 38 20Q22 22 20 38Q18 22 2 20Q18 18 20 2Z" />
-        </svg>
       </div>
     </section>
 
@@ -219,17 +194,6 @@
             {{ tech.name }}
           </span>
         </div>
-        <svg
-          class="about-tool-doodle"
-          viewBox="0 0 180 85"
-          fill="none"
-          aria-hidden="true"
-        >
-          <path
-            d="m25 8 100 7 6 45-99-5-7-47Zm7 47-19 12 127 10-9-17m-18-18-8 6-2-7m-11-14-7 5 6 6m21-10 7 7-7 5M39 63l67 5"
-          />
-          <path d="m151 8 2 8 8 2-8 2-2 8-2-8-8-2 8-2 2-8Z" />
-        </svg>
         <p class="about-tools-foot">在实验里验证假设，在代码里沉淀结论。</p>
         <NuxtLink to="/tags">
           浏览专题索引
@@ -417,33 +381,20 @@ useHead({
 .about-journal h1 {
   margin-block: 20px 24px;
   color: var(--ink);
-  font-size: clamp(2.6rem, 4.5vw, 3.3rem);
-  font-weight: 500;
-  line-height: 1.45;
-  letter-spacing: -0.055em;
+  font-size: clamp(2.5rem, 4.4vw, 3.2rem);
+  font-weight: 600;
+  line-height: 1.24;
+  letter-spacing: -0.042em;
 }
 .about-journal h1 > span {
   position: relative;
   display: inline-block;
   color: var(--accent);
 }
-.about-journal h1 svg {
-  position: absolute;
-  bottom: -1px;
-  left: -3%;
-  width: 105%;
-  height: 12px;
-  stroke: var(--accent-2);
-  stroke-width: 2;
-  stroke-linecap: round;
-  opacity: 0.55;
-  pointer-events: none;
-}
 .about-journal h1 i {
   color: var(--accent-2);
-  font-family: Georgia, serif;
   font-style: normal;
-  margin-left: 4px;
+  margin-left: 2px;
 }
 .about-introduction {
   max-width: 450px;
@@ -461,22 +412,13 @@ useHead({
   color: var(--text);
 }
 .about-personal-tags span {
-  padding: 3px 10px;
-  border-radius: 6px;
-  background: var(--topic-purple);
-  transform: rotate(-2deg);
-}
-.about-personal-tags span:nth-child(2) {
-  background: var(--topic-green);
-  transform: rotate(2deg);
-}
-.about-personal-tags span:nth-child(3) {
-  background: var(--topic-orange);
-  transform: rotate(-1deg);
-}
-.about-personal-tags span:nth-child(4) {
-  background: var(--topic-blue);
-  transform: rotate(2deg);
+  padding: 4px 11px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
 }
 .about-contact {
   display: flex;
@@ -512,13 +454,12 @@ useHead({
 }
 .about-photo {
   position: relative;
-  padding: 12px 12px 16px;
+  padding: 10px;
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 5px;
-  box-shadow: 0 12px 32px #33264010;
-  transform: rotate(5deg);
-  transition: transform 280ms ease;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  transition: border-color 220ms ease, box-shadow 220ms ease;
 }
 .about-photo img {
   display: block;
@@ -526,64 +467,27 @@ useHead({
   height: auto;
   aspect-ratio: 1;
   object-fit: cover;
-  border-radius: 2px;
+  border-radius: 10px;
 }
 .about-photo figcaption {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 8px 0;
+  padding: 12px 6px 2px;
   color: var(--ink);
-  font:
-    italic 1.3rem/1.4 Georgia,
-    serif;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
 }
 .about-photo figcaption span {
-  color: var(--accent-2);
-  font-size: 1rem;
-}
-.about-photo-tape {
-  position: absolute;
-  width: 88px;
-  height: 27px;
-  top: -13px;
-  left: calc(50% - 44px);
-  z-index: 1;
-  background: color-mix(in srgb, var(--topic-orange) 80%, transparent);
-  border-inline: 1px dashed var(--line-strong);
-  transform: rotate(-9deg);
+  color: var(--accent);
+  font-size: 0.9rem;
 }
 .about-journal .about-photo-caption {
-  margin-top: 28px;
+  margin-top: 20px;
   text-align: center;
   color: var(--muted);
   font-size: 0.75rem;
-  transform: rotate(-3deg);
-}
-.about-flower {
-  position: absolute;
-  width: 66px;
-  height: 66px;
-  z-index: 1;
-  top: -4px;
-  right: -8px;
-  stroke: var(--accent-2);
-  stroke-width: 1.4;
-  fill: var(--topic-purple);
-  transform: rotate(15deg);
-  pointer-events: none;
-  transition: transform 350ms ease;
-}
-.about-spark {
-  position: absolute;
-  left: -28px;
-  bottom: 58px;
-  width: 32px;
-  height: 32px;
-  fill: var(--topic-orange);
-  stroke: var(--accent-2);
-  stroke-width: 1;
-  pointer-events: none;
 }
 .about-next-stop {
   display: flex;
@@ -669,19 +573,22 @@ useHead({
   gap: 18px;
 }
 .about-interest-note {
-  padding: 22px 26px 24px;
-  border-radius: 18px 24px 20px 24px;
-  background: var(--topic-purple);
+  padding: 22px 24px 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
   min-width: 0;
+  transition: border-color 200ms ease, box-shadow 200ms ease;
 }
+.about-interest-note[data-tone='purple'] { background: color-mix(in srgb, var(--topic-purple) 55%, var(--surface)); }
 .about-interest-note[data-tone='green'] {
-  background: var(--topic-green);
+  background: color-mix(in srgb, var(--topic-green) 55%, var(--surface));
 }
 .about-interest-note[data-tone='blue'] {
-  background: var(--topic-blue);
+  background: color-mix(in srgb, var(--topic-blue) 55%, var(--surface));
 }
 .about-interest-note[data-tone='orange'] {
-  background: var(--topic-orange);
+  background: color-mix(in srgb, var(--topic-orange) 55%, var(--surface));
 }
 .about-note-top {
   display: flex;
@@ -846,22 +753,12 @@ useHead({
 }
 .about-tools {
   position: relative;
-  padding: 30px 26px;
+  padding: 26px;
   margin-top: 65px;
-  background: var(--topic-orange);
-  border-radius: 5px 20px 20px 20px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: var(--radius);
   min-width: 0;
-}
-.about-tools::before {
-  content: '';
-  position: absolute;
-  top: -10px;
-  left: 26px;
-  width: 70px;
-  height: 22px;
-  background: color-mix(in srgb, var(--topic-purple) 80%, transparent);
-  transform: rotate(-5deg);
-  pointer-events: none;
 }
 .about-tools-intro {
   margin-top: 12px;
@@ -883,17 +780,6 @@ useHead({
   color: var(--ink);
   overflow-wrap: anywhere;
   max-width: 100%;
-}
-.about-tool-doodle {
-  display: block;
-  width: min(180px, 100%);
-  height: auto;
-  margin: 32px auto 20px;
-  color: var(--accent-2);
-  stroke: currentColor;
-  stroke-width: 1.2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
 }
 .about-tools-foot {
   color: var(--text);
@@ -954,9 +840,10 @@ useHead({
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  padding: 28px 32px;
-  background: var(--notebook-hero-bg);
-  border-radius: 20px;
+  padding: 26px 28px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: var(--radius);
 }
 .about-signoff p {
   font-size: 1.05rem;
@@ -976,10 +863,7 @@ useHead({
 }
 @media (hover: hover) and (pointer: fine) {
   .about-keepsake:hover .about-photo {
-    transform: rotate(2deg) translateY(-3px);
-  }
-  .about-keepsake:hover .about-flower {
-    transform: rotate(35deg);
+    border-color: color-mix(in srgb, var(--accent) 35%, var(--line));
   }
 }
 @media (min-width: 821px) and (prefers-reduced-motion: no-preference) {
@@ -1094,11 +978,7 @@ useHead({
   }
   .about-tools {
     margin-top: 8px;
-    padding: 28px;
-  }
-  .about-tool-doodle {
-    width: 135px;
-    margin-block: 24px 16px;
+    padding: 24px;
   }
   .about-writing-link {
     grid-template-columns: minmax(0, 1fr) 18px;
@@ -1167,12 +1047,6 @@ useHead({
   .about-journal *::before {
     animation: none !important;
     transition: none !important;
-  }
-  .about-keepsake:hover .about-photo {
-    transform: rotate(5deg);
-  }
-  .about-keepsake:hover .about-flower {
-    transform: rotate(15deg);
   }
 }
 

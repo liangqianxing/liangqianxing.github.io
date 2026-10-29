@@ -243,7 +243,7 @@ useHead(() => ({
 .material-mobile-toc { display: none; margin-top: 24px; padding: 14px 18px; border: 1px solid var(--line); border-radius: 10px; }
 .material-mobile-toc summary { color: var(--accent); cursor: pointer; font-size: 0.82rem; }
 .material-mobile-toc nav { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; max-height: 50vh; overflow-y: auto; }
-.material-source { margin-top: 48px; padding: 20px; border: 1px solid var(--line); border-radius: 14px; background: var(--topic-orange); scroll-margin-top: calc(var(--nav-h) + 20px); }
+.material-source { margin-top: 48px; padding: 20px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); scroll-margin-top: calc(var(--nav-h) + 20px); }
 .material-source summary { cursor: pointer; color: var(--ink); font-size: 1rem; }
 .material-source > p { margin-top: 12px; color: var(--muted); font-size: 0.78rem; line-height: 1.75; }
 .material-source-pdf { display: block; width: 100%; height: 75vh; margin-block: 16px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }

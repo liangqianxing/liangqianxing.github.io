@@ -1,17 +1,13 @@
 <template>
   <div class="journal-home">
-    <NotebookMotion />
     <div class="notebook-hero-wrap">
       <section class="notebook-hero" aria-labelledby="journal-title">
         <div class="notebook-intro">
           <p class="notebook-greeting">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="4" />
-              <path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5" />
-            </svg>
+            <span class="notebook-greeting-dot" aria-hidden="true" />
             你好，我是{{ appConfig.authorCN }}
           </p>
-          <h1 id="journal-title" class="notebook-title">构建系统，<br /><span class="notebook-highlight">用数据说话<svg viewBox="0 0 100 20" preserveAspectRatio="none" fill="none" aria-hidden="true"><path d="M5 15C20 12 50 12 95 18" stroke="currentColor" stroke-width="6" stroke-linecap="round" /></svg></span>。</h1>
+          <h1 id="journal-title" class="notebook-title">构建系统，<br /><span class="notebook-highlight">用数据说话</span>。</h1>
           <p class="notebook-summary">这里是{{ appConfig.authorCN }}的技术手记。聚焦 LLM Agent 架构、后训练对齐（GRPO / DPO）、多模态推理蒸馏与 AI Infra（SGLang / CUDA 算子 / C++ 并发系统）的实验与源码剖析。</p>
           <NotebookTypewriter />
           <div class="notebook-actions">
@@ -41,13 +37,11 @@
       </SiteBlock>
       <section class="site-block notebook-topics" aria-labelledby="notebook-topics-title">
         <div class="notebook-topic-head">
-          <span class="notebook-topic-symbol" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9L12 3Z" /></svg>
-          </span>
           <div>
-            <p class="notebook-topic-kicker" aria-hidden="true">core research &amp; engineering tracks</p>
+            <p class="notebook-topic-kicker">CORE RESEARCH &amp; ENGINEERING TRACKS</p>
             <h2 id="notebook-topics-title">核心研究与系统工程脉络</h2>
           </div>
+          <span class="notebook-topic-rule" aria-hidden="true" />
         </div>
         <KnowledgeMap :items="knowledgeMap" />
       </section>
@@ -79,7 +73,6 @@
 
 <script setup lang="ts">
 import type { PostMeta } from '~/server/api/posts.get'
-import NotebookMotion from '~/components/NotebookMotion.vue'
 import NotebookTypewriter from '~/components/NotebookTypewriter.vue'
 
 const appConfig = useAppConfig()

@@ -1,13 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --font-sans: "Inter Variable", "Inter", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+  --font-sans: "Inter Variable", "Inter", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
   --font-mono: "JetBrains Mono Variable", "JetBrains Mono", "SFMono-Regular", "Cascadia Code", ui-monospace, monospace;
-  --wide: 960px;
+  --wide: 1040px;
   --read: 760px;
-  --nav-h: 92px;
-  --radius: 8px;
-  --radius-sm: 6px;
+  --nav-h: 68px;
+  --radius-lg: 18px;
+  --radius: 14px;
+  --radius-sm: 10px;
+  --radius-xs: 6px;
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --cursor-x: 50vw;
@@ -24,77 +26,80 @@
 :root,
 html.light {
   color-scheme: light;
-  --bg: #fafaf8;
-  --bg-2: #fafaf8;
+  --bg: #f8faf9;
+  --bg-2: #f1f5f3;
   --surface: #ffffff;
-  --surface-2: #f0f3ee;
-  --paper: #fafaf8;
-  --ink: #202824;
-  --text: #202824;
-  --muted: #65716b;
-  --faint: #65716b;
-  --line: #e0e5df;
-  --line-strong: #c7d0c8;
-  --accent: #285b45;
-  --accent-2: #285b45;
-  --danger: #b33d4b;
-  --ok: #285b45;
-  --code-bg: #fffdf8;
-  --code-text: #24292e;
-  --code-border: rgba(31, 36, 40, 0.18);
-  --code-label: #59636e;
-  --shadow: none;
-  --shadow-soft: none;
+  --surface-2: #edf2ef;
+  --paper: #ffffff;
+  --ink: #0f172a;
+  --text: #1e293b;
+  --muted: #52606d;
+  --faint: #64748b;
+  --line: #e2e8f0;
+  --line-strong: #cbd5e1;
+  --accent: #166550;
+  --accent-2: #2563eb;
+  --on-accent: #ffffff;
+  --danger: #dc2626;
+  --ok: #15803d;
+  --code-bg: #f8fafc;
+  --code-text: #0f172a;
+  --code-border: #e2e8f0;
+  --code-label: #475569;
+  --shadow: 0 16px 40px -8px rgba(15, 23, 42, 0.07), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
+  --shadow-soft: 0 2px 8px -1px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.02);
 }
 
 html.dark {
   color-scheme: dark;
-  --bg: #10151f;
-  --bg-2: #131b29;
-  --surface: #192130;
-  --surface-2: #222d40;
-  --paper: #f7f0df;
-  --ink: #f2f5fc;
-  --text: #e9eef8;
-  --muted: #a6b2c8;
-  --faint: #8494ae;
-  --line: rgba(245, 239, 226, 0.12);
-  --line-strong: rgba(245, 239, 226, 0.22);
-  --accent: #99b5ff;
-  --accent-2: #bba7ed;
-  --danger: #fb7185;
-  --ok: #86efac;
-  --code-bg: #0f141a;
-  --code-text: #e5e7eb;
-  --code-border: rgba(245, 239, 226, 0.14);
-  --code-label: #9ca3af;
-  --shadow: none;
-  --shadow-soft: none;
+  --bg: #0b0f17;
+  --bg-2: #0f1623;
+  --surface: #131c2c;
+  --surface-2: #1b263b;
+  --paper: #131c2c;
+  --ink: #f8fafc;
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --faint: #64748b;
+  --line: rgba(148, 163, 184, 0.14);
+  --line-strong: rgba(148, 163, 184, 0.24);
+  --accent: #34d399;
+  --accent-2: #60a5fa;
+  --on-accent: #04140d;
+  --danger: #f87171;
+  --ok: #34d399;
+  --code-bg: #090d14;
+  --code-text: #e2e8f0;
+  --code-border: rgba(148, 163, 184, 0.16);
+  --code-label: #94a3b8;
+  --shadow: 0 20px 50px -10px rgba(2, 6, 23, 0.6);
+  --shadow-soft: 0 4px 16px rgba(2, 6, 23, 0.35);
 }
 
 html.cyber {
   color-scheme: dark;
-  --bg: #07110f;
-  --bg-2: #091a16;
-  --surface: #0b211c;
-  --surface-2: #102d25;
-  --paper: #06100d;
-  --ink: #dfffee;
-  --text: #e7fff1;
-  --muted: #94b9a6;
-  --faint: #618274;
-  --line: rgba(137, 255, 194, 0.13);
-  --line-strong: rgba(137, 255, 194, 0.25);
-  --accent: #7dffb5;
-  --accent-2: #55d9f2;
-  --danger: #ff7d91;
-  --ok: #9affc4;
-  --code-bg: #061411;
-  --code-text: #dbf7e9;
-  --code-border: rgba(125, 255, 181, 0.2);
-  --code-label: #76b99a;
-  --shadow: 0 24px 80px rgba(0, 10, 7, 0.42);
-  --shadow-soft: 0 12px 36px rgba(0, 10, 7, 0.3);
+  --bg: #060d0b;
+  --bg-2: #081310;
+  --surface: #0b1a16;
+  --surface-2: #102620;
+  --paper: #0b1a16;
+  --ink: #ecfdf5;
+  --text: #d1fae5;
+  --muted: #86b3a0;
+  --faint: #578572;
+  --line: rgba(52, 211, 153, 0.15);
+  --line-strong: rgba(52, 211, 153, 0.28);
+  --accent: #34d399;
+  --accent-2: #22d3ee;
+  --on-accent: #03130c;
+  --danger: #fb7185;
+  --ok: #4ade80;
+  --code-bg: #040a08;
+  --code-text: #d1fae5;
+  --code-border: rgba(52, 211, 153, 0.2);
+  --code-label: #6ee7b7;
+  --shadow: 0 24px 64px rgba(0, 8, 6, 0.65);
+  --shadow-soft: 0 8px 24px rgba(0, 8, 6, 0.45);
 }
 
 *,
@@ -642,7 +647,7 @@ html.theme-switching .theme-transition-sheen {
 
 .theme-toggle-terminal {
   font-size: 0.66rem;
-  font-weight: 900;
+  font-weight: 600;
 }
 
 .theme-toggle-option.active {
@@ -752,7 +757,7 @@ html.theme-switching .theme-transition-sheen {
   color: var(--faint);
   font-family: var(--font-mono);
   font-size: 0.66rem;
-  font-weight: 850;
+  font-weight: 600;
   line-height: 1.4;
   text-transform: uppercase;
 }
@@ -814,7 +819,7 @@ html.theme-switching .theme-transition-sheen {
   color: var(--accent);
   font-family: var(--font-mono);
   font-size: 0.78rem;
-  font-weight: 900;
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -841,7 +846,7 @@ html.theme-switching .theme-transition-sheen {
   color: var(--muted);
   font-family: var(--font-mono);
   font-size: 0.74rem;
-  font-weight: 850;
+  font-weight: 600;
   letter-spacing: 0.01em;
 }
 
@@ -1051,7 +1056,7 @@ html.theme-switching .theme-transition-sheen {
   color: var(--text);
   font-family: var(--font-mono);
   font-size: 0.94rem;
-  font-weight: 900;
+  font-weight: 600;
 }
 
 .hero-next {
@@ -1108,7 +1113,7 @@ html.theme-switching .theme-transition-sheen {
   color: var(--text);
   font-size: clamp(1.55rem, 3vw, 2.25rem);
   line-height: 1.12;
-  font-weight: 900;
+  font-weight: 600;
 }
 
 .block-desc {
@@ -1231,7 +1236,7 @@ html.theme-switching .theme-transition-sheen {
   color: var(--accent);
   font-family: var(--font-mono);
   font-size: 0.78rem;
-  font-weight: 900;
+  font-weight: 600;
 }
 
 .knowledge-card::after {
@@ -1244,7 +1249,7 @@ html.theme-switching .theme-transition-sheen {
   opacity: 0.045;
   font-family: var(--font-mono);
   font-size: 5.6rem;
-  font-weight: 950;
+  font-weight: 600;
   line-height: 1;
   letter-spacing: -0.04em;
   pointer-events: none;
@@ -1275,7 +1280,7 @@ html.theme-switching .theme-transition-sheen {
   margin-top: auto;
   color: var(--accent-2);
   font-size: 0.86rem;
-  font-weight: 850;
+  font-weight: 600;
   transition: transform 180ms var(--ease), color 180ms var(--ease);
 }
 
@@ -1345,7 +1350,7 @@ html.theme-switching .theme-transition-sheen {
   color: var(--text);
   font-size: clamp(1.15rem, 2.5vw, 1.85rem);
   line-height: 1.28;
-  font-weight: 900;
+  font-weight: 600;
   transition: color 180ms var(--ease);
 }
 
@@ -1383,7 +1388,7 @@ html.theme-switching .theme-transition-sheen {
   background: color-mix(in srgb, var(--surface) 84%, transparent);
   color: var(--muted);
   font-size: 0.82rem;
-  font-weight: 820;
+  font-weight: 500;
   transition:
     transform 180ms var(--ease),
     border-color 180ms var(--ease),
@@ -1409,7 +1414,7 @@ html.theme-switching .theme-transition-sheen {
   margin-right: 2px;
   color: var(--accent-2);
   font-family: var(--font-mono);
-  font-weight: 900;
+  font-weight: 600;
 }
 
 .topic-chip:hover,
@@ -1487,7 +1492,7 @@ html.theme-switching .theme-transition-sheen {
   color: var(--faint);
   font-family: var(--font-mono);
   font-size: 0.76rem;
-  font-weight: 850;
+  font-weight: 600;
 }
 
 .article-line-copy {
@@ -1500,7 +1505,7 @@ html.theme-switching .theme-transition-sheen {
   display: block;
   overflow: hidden;
   color: var(--text);
-  font-weight: 850;
+  font-weight: 600;
   line-height: 1.45;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -1524,7 +1529,7 @@ html.theme-switching .theme-transition-sheen {
   color: var(--faint);
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  font-weight: 850;
+  font-weight: 600;
   white-space: nowrap;
 }
 
@@ -1636,7 +1641,7 @@ html.theme-switching .theme-transition-sheen {
   color: var(--faint);
   font-family: var(--font-mono);
   font-size: 0.7rem;
-  font-weight: 850;
+  font-weight: 600;
 }
 
 .archive-topic.active .archive-topic-index,
@@ -1706,7 +1711,7 @@ html.theme-switching .theme-transition-sheen {
   color: var(--muted);
   font-family: var(--font-mono);
   font-size: 0.82rem;
-  font-weight: 900;
+  font-weight: 600;
   white-space: nowrap;
 }
 
@@ -1754,7 +1759,7 @@ html.theme-switching .theme-transition-sheen {
   display: inline-flex;
   margin-bottom: 22px;
   color: var(--muted);
-  font-weight: 820;
+  font-weight: 500;
 }
 
 .back-link:hover {
@@ -1833,7 +1838,7 @@ html.theme-switching .theme-transition-sheen {
   margin: 12px 0 0;
   color: var(--faint);
   font-family: var(--font-mono);
-  font-weight: 850;
+  font-weight: 600;
 }
 
 .about-summary {
@@ -1870,7 +1875,7 @@ html.theme-switching .theme-transition-sheen {
   color: var(--accent);
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  font-weight: 900;
+  font-weight: 600;
   letter-spacing: 0.08em;
 }
 
@@ -1899,7 +1904,7 @@ html.theme-switching .theme-transition-sheen {
   color: var(--text);
   font-family: var(--font-mono);
   font-size: 1.6rem;
-  font-weight: 950;
+  font-weight: 600;
 }
 
 .snapshot-grid em,
@@ -1967,7 +1972,7 @@ html.theme-switching .theme-transition-sheen {
   color: var(--accent);
   font-family: var(--font-mono);
   font-size: 0.76rem;
-  font-weight: 900;
+  font-weight: 600;
 }
 
 .focus-card h3 {
@@ -2050,7 +2055,7 @@ html.theme-switching .theme-transition-sheen {
   color: var(--faint);
   font-family: var(--font-mono);
   font-size: 0.76rem;
-  font-weight: 850;
+  font-weight: 600;
 }
 
 .timeline-card h3 {
@@ -2069,7 +2074,7 @@ html.theme-switching .theme-transition-sheen {
 .timeline-role {
   margin: 5px 0 0;
   color: var(--accent);
-  font-weight: 850;
+  font-weight: 600;
 }
 
 .timeline-desc {
@@ -2111,7 +2116,7 @@ html.theme-switching .theme-transition-sheen {
   border-radius: 18px;
   background: var(--surface-2);
   color: var(--accent);
-  font-weight: 900;
+  font-weight: 600;
 }
 
 .friend-avatar img {
@@ -2206,7 +2211,7 @@ html.theme-switching .theme-transition-sheen {
   color: var(--faint);
   font-family: var(--font-mono);
   font-size: 0.66rem;
-  font-weight: 850;
+  font-weight: 600;
   line-height: 1.4;
   text-transform: uppercase;
 }
@@ -2259,7 +2264,7 @@ html.theme-switching .theme-transition-sheen {
   color: var(--faint);
   font-family: var(--font-mono);
   font-size: 0.78rem;
-  font-weight: 850;
+  font-weight: 600;
 }
 
 .post-meta-sep {
@@ -2305,7 +2310,7 @@ html.theme-switching .theme-transition-sheen {
   color: var(--faint);
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  font-weight: 820;
+  font-weight: 500;
 }
 
 .tag-chip::before {
@@ -2336,7 +2341,7 @@ html.theme-switching .theme-transition-sheen {
   margin: 2.45em 0 0.85em;
   color: var(--text);
   line-height: 1.28;
-  font-weight: 900;
+  font-weight: 600;
   letter-spacing: 0;
 }
 
@@ -2402,7 +2407,7 @@ html.theme-switching .theme-transition-sheen {
 
 .prose strong {
   color: var(--text);
-  font-weight: 900;
+  font-weight: 600;
 }
 
 .prose :not(pre) > code {
@@ -2681,7 +2686,7 @@ html.theme-switching .theme-transition-sheen {
   color: var(--accent);
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  font-weight: 900;
+  font-weight: 600;
   text-transform: uppercase;
 }
 
@@ -2716,7 +2721,7 @@ html.theme-switching .theme-transition-sheen {
   color: var(--faint);
   font-family: var(--font-mono);
   font-size: 0.76rem;
-  font-weight: 850;
+  font-weight: 600;
 }
 
 .post-series .current a span {
@@ -2758,7 +2763,7 @@ html.theme-switching .theme-transition-sheen {
   color: var(--faint);
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  font-weight: 900;
+  font-weight: 600;
   letter-spacing: 0.08em;
 }
 
@@ -2824,7 +2829,7 @@ html.theme-switching .theme-transition-sheen {
   color: var(--faint);
   font-family: var(--font-mono);
   font-size: 0.75rem;
-  font-weight: 850;
+  font-weight: 600;
 }
 
 .post-nav-title {
@@ -2913,7 +2918,7 @@ html.theme-switching .theme-transition-sheen {
   color: var(--muted);
   font-family: var(--font-mono);
   font-size: 0.74rem;
-  font-weight: 850;
+  font-weight: 600;
 }
 
 .footer-status:hover {
@@ -2932,7 +2937,7 @@ html.theme-switching .theme-transition-sheen {
   color: var(--faint);
   font-family: var(--font-mono);
   font-size: 0.68rem;
-  font-weight: 900;
+  font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -2958,7 +2963,7 @@ html.theme-switching .theme-transition-sheen {
   color: var(--text);
   font-family: var(--font-mono);
   font-size: clamp(4.2rem, 13vw, 11.5rem);
-  font-weight: 950;
+  font-weight: 600;
   line-height: 0.92;
   letter-spacing: -0.03em;
   text-align: center;
@@ -3074,7 +3079,7 @@ html.theme-switching .theme-transition-sheen {
   color: transparent;
   font-family: var(--font-mono);
   font-size: clamp(6rem, 24vw, 12rem);
-  font-weight: 950;
+  font-weight: 600;
   line-height: 1;
   letter-spacing: -0.04em;
   filter: drop-shadow(0 0 36px color-mix(in srgb, var(--accent) 26%, transparent));

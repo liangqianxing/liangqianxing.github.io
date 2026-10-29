@@ -401,14 +401,14 @@ useHead({
   display: grid;
   gap: 10px;
   padding: 16px;
-  border-radius: 20px;
+  border-radius: var(--radius-lg);
   border: 1px solid var(--line);
   background: color-mix(in srgb, var(--surface) 82%, var(--bg-2));
 }
 
 .metric-card {
   padding: 11px 14px;
-  border-radius: 13px;
+  border-radius: var(--radius-sm);
   border: 1px solid color-mix(in srgb, var(--line) 85%, transparent);
   background: var(--surface);
 }
@@ -438,7 +438,7 @@ useHead({
 
 .writing-controls {
   padding: 20px 24px;
-  border-radius: 22px;
+  border-radius: var(--radius-lg);
   border: 1px solid var(--line);
   background: var(--bg-2);
 }
@@ -458,7 +458,7 @@ useHead({
   gap: 8px;
   min-height: 38px;
   padding: 6px 14px;
-  border-radius: 11px;
+  border-radius: var(--radius-sm);
   border: 1px solid var(--line);
   background: var(--surface);
   color: var(--text);
@@ -648,7 +648,7 @@ useHead({
 .writing-empty {
   padding: 52px 20px 60px;
   border: 1px dashed var(--line-strong);
-  border-radius: 20px;
+  border-radius: var(--radius);
   text-align: center;
 }
 

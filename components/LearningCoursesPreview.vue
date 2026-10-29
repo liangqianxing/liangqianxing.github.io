@@ -37,15 +37,12 @@ import { learningCourses } from '~/data/learning/courses'
 .learning-preview {
   position: relative;
   overflow: hidden;
-  padding: 28px 30px;
+  padding: 24px 26px;
   margin-bottom: 48px;
-  border: 1px solid color-mix(in srgb, var(--line-strong) 65%, transparent);
-  border-radius: 26px;
-  background:
-    radial-gradient(ellipse at 95% 0%, color-mix(in srgb, var(--topic-purple) 70%, transparent), transparent 60%),
-    radial-gradient(ellipse at 5% 100%, color-mix(in srgb, var(--topic-green) 85%, transparent), transparent 65%),
-    var(--surface);
-  box-shadow: 0 12px 34px rgba(32, 24, 44, 0.04);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
 }
 .learning-preview :where(h2, h3, p) { margin: 0; }
 .learning-preview-head {
@@ -62,8 +59,8 @@ import { learningCourses } from '~/data/learning/courses'
 }
 .learning-preview h2 {
   margin-top: 6px;
-  font-size: 1.32rem;
-  font-weight: 500;
+  font-size: 1.28rem;
+  font-weight: 600;
   color: var(--ink);
   letter-spacing: -0.02em;
 }
@@ -100,20 +97,19 @@ import { learningCourses } from '~/data/learning/courses'
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 20px 22px;
-  border: 1px solid color-mix(in srgb, var(--line) 85%, transparent);
-  border-radius: 18px;
-  background: color-mix(in srgb, var(--surface) 88%, transparent);
-  backdrop-filter: blur(8px);
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-2);
   transition:
-    transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 220ms ease,
-    box-shadow 240ms cubic-bezier(0.22, 1, 0.36, 1);
+    transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 180ms ease,
+    box-shadow 200ms ease;
 }
 .learning-preview-card:hover {
-  transform: translateY(-3px);
-  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
-  box-shadow: 0 14px 32px rgba(26, 20, 38, 0.08);
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--line));
+  box-shadow: 0 14px 30px -22px rgba(15, 23, 42, 0.35);
 }
 .learning-preview-card-top {
   display: flex;
@@ -124,13 +120,11 @@ import { learningCourses } from '~/data/learning/courses'
 }
 .learning-preview-badge {
   padding: 3px 9px;
-  border-radius: 999px;
-  background: var(--topic-purple);
-  color: var(--accent);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--muted);
   font: 500 0.66rem/1.4 var(--font-mono);
-}
-.learning-preview-card:nth-child(2) .learning-preview-badge {
-  background: var(--topic-blue);
 }
 .learning-preview-arrow {
   color: var(--muted);
@@ -143,9 +137,10 @@ import { learningCourses } from '~/data/learning/courses'
 }
 .learning-preview-card h3 {
   color: var(--ink);
-  font-size: 1.04rem;
-  font-weight: 500;
-  line-height: 1.45;
+  font-size: 1.02rem;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.015em;
   transition: color 180ms ease;
 }
 .learning-preview-card:hover h3 {
