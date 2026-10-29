@@ -232,10 +232,8 @@ const categoryData: CategoryGroup[] = [
     text: '开源项目',
     projects: [
       { href: 'https://github.com/ResearAI/DeepScientist', icon: 'cpu', text: 'DeepScientist', sub: '科研智能体平台', external: true },
+      { href: 'https://github.com/ResearAI/AutoFigure-Edit', icon: 'spark', text: 'AutoFigure-Edit', sub: '可编辑科研插图', external: true },
       { href: 'https://github.com/LiuMengxuan04/MiniCode', icon: 'terminal', text: 'MiniCode', sub: '终端 Coding Agent', external: true },
-      { href: 'https://github.com/mlc-ai/xgrammar/pull/1011', icon: 'git', text: 'XGrammar PR', sub: '并发缓存修复', external: true },
-      { href: 'https://github.com/LiangQianXing/fast-llm-kernels', icon: 'zap', text: 'Fast-LLM-Kernels', sub: 'CUDA 融合算子', external: true },
-      { href: 'https://github.com/LiangQianXing/llm-gateway', icon: 'server', text: 'LLM-Gateway', sub: '动态批处理网关', external: true },
       { href: academicProfile.github, icon: 'github', text: 'GitHub 主页', sub: '@LiangQianXing', external: true },
     ],
   },
