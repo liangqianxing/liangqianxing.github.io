@@ -7,7 +7,6 @@ export interface GridAnimationOptions {
   hoverShadowColor?: string
   initialSnakeLength?: number
   maxSnakeLength?: number
-  snakeStepDuration?: number
   snakeColorDecay?: number
   snakeGradientStops?: number
   snakeHeadColor?: string
@@ -40,7 +39,6 @@ export class GridAnimation {
   private active = true
   private pointer: GridCell | null = null
   private snakeLength: number
-  private stepElapsed = 0
   private heading = { x: 1, y: 0 }
   private touching = false
   private ignoreMouseUntil = 0
@@ -68,7 +66,6 @@ export class GridAnimation {
       hoverShadowColor: opts.hoverShadowColor || 'rgba(100, 181, 246, 0.8)',
       initialSnakeLength: Math.max(2, opts.initialSnakeLength ?? 5),
       maxSnakeLength: Math.max(2, opts.maxSnakeLength ?? 60),
-      snakeStepDuration: Math.max(16, opts.snakeStepDuration ?? 65),
       snakeColorDecay: opts.snakeColorDecay ?? 0.85,
       snakeGradientStops: opts.snakeGradientStops ?? 5,
       snakeHeadColor: opts.snakeHeadColor || 'rgba(144, 202, 249, 0.95)',
@@ -169,7 +166,6 @@ export class GridAnimation {
       if (cell.x * size - this.gridOffset.x >= width) break
       this.snakeBody.push(cell)
     }
-    this.stepElapsed = 0
     this.collectFood()
   }
 
@@ -182,7 +178,6 @@ export class GridAnimation {
   handleMouseLeave() {
     this.pointer = null
     this.targetOpacity = 0
-    this.stepElapsed = 0
     if (this.motionPreference.matches) {
       this.currentOpacity = 0
       this.drawGrid()
@@ -243,7 +238,6 @@ export class GridAnimation {
     this.pointer = null
     this.currentOpacity = 0
     this.targetOpacity = 0
-    this.stepElapsed = 0
     this.trailSquares.clear()
   }
 
@@ -393,14 +387,12 @@ export class GridAnimation {
       const target = this.cellAt(this.pointer.x, this.pointer.y)
       const head = this.hoveredSquare
       const distance = head ? Math.abs(target.x - head.x) + Math.abs(target.y - head.y) : 0
-      // Catch up over time rather than teleporting to each incoming pointer position.
-      const interval = Math.max(24, this.options.snakeStepDuration / Math.max(1, distance / 7))
-      this.stepElapsed = Math.min(this.stepElapsed + dt, interval * 4)
-      while (this.stepElapsed >= interval && !this.sameCell(this.hoveredSquare, target)) {
+      // Complete the adjacent-cell path in one frame so the head keeps up with the pointer.
+      // Extra steps allow short detours around the body; the budget bounds any trapped loop.
+      const stepBudget = distance + this.snakeBody.length * 4
+      for (let step = 0; step < stepBudget && !this.sameCell(this.hoveredSquare, target); step++) {
         this.stepSnake(target)
-        this.stepElapsed -= interval
       }
-      if (this.sameCell(this.hoveredSquare, target)) this.stepElapsed = 0
     } else if (this.currentOpacity < 0.01) {
       this.hoveredSquare = null
       this.snakeBody = []
@@ -422,7 +414,6 @@ export class GridAnimation {
     if (this.animationFrame !== null) cancelAnimationFrame(this.animationFrame)
     this.animationFrame = null
     this.lastTimestamp = 0
-    this.stepElapsed = 0
     if (document.hidden) {
       this.handleTouchEnd()
       this.touchStart = null

@@ -97,7 +97,7 @@ function assertConnected(grid: GridAnimation) {
   }
 }
 
-test('a visible snake follows fast pointer jumps over time and catches a stationary pointer', () => {
+test('a visible snake catches a fast diagonal pointer jump on the next frame', () => {
   const f = fixture()
   try {
     f.grid.specialBlock = null
@@ -106,10 +106,8 @@ test('a visible snake follows fast pointer jumps over time and catches a station
     assertConnected(f.grid)
     f.mouse(740, 500)
     assert.deepEqual(f.grid.hoveredSquare, { x: 6, y: 4 }, 'an input event must not teleport the head')
-    for (let i = 0; i < 130; i++) {
-      f.frame()
-      assertConnected(f.grid)
-    }
+    f.frame()
+    assertConnected(f.grid)
     assert.deepEqual(f.grid.hoveredSquare, { x: 18, y: 12 })
     const head = { ...f.grid.hoveredSquare! }
     f.advance(400)
@@ -118,16 +116,39 @@ test('a visible snake follows fast pointer jumps over time and catches a station
   } finally { f.dispose() }
 })
 
+test('continuous pointer motion stays within the current grid cell at different frame rates', () => {
+  for (const frameDuration of [8, 16, 33]) {
+    const f = fixture()
+    try {
+      f.grid.specialBlock = null
+      f.mouse(100, 100)
+      const points = [
+        [300, 100], [540, 180], [820, 260], [820, 500],
+        [580, 500], [300, 420], [100, 300], [100, 100],
+      ]
+      for (const [x, y] of points) {
+        f.mouse(x, y)
+        f.frame(frameDuration)
+        assert.deepEqual(f.grid.hoveredSquare, { x: Math.floor(x / 40), y: Math.floor(y / 40) }, `the snake must not accumulate lag at ${frameDuration}ms per frame`)
+        assertConnected(f.grid)
+        assert.equal(f.grid.snakeBody.length, 4)
+      }
+    } finally { f.dispose() }
+  }
+})
+
 test('food on the chased path grows the snake exactly once and respawns off the head and body', () => {
   const f = fixture()
+  const originalRandom = Math.random
+  Math.random = () => 0
   try {
     f.grid.specialBlock = null
     f.mouse(260, 180)
     const originalLength = f.grid.snakeBody.length + 1
     f.grid.specialBlock = { x: 7, y: 4, color: 'gold' }
-    f.mouse(300, 180)
-    f.advance(200)
-    assert.deepEqual(f.grid.hoveredSquare, { x: 7, y: 4 })
+    f.mouse(740, 180)
+    f.frame()
+    assert.deepEqual(f.grid.hoveredSquare, { x: 18, y: 4 })
     assert.equal(f.grid.snakeBody.length + 1, originalLength + 1)
     assert.ok(f.grid.specialBlock)
     const occupied = [f.grid.hoveredSquare!, ...f.grid.snakeBody]
@@ -135,7 +156,10 @@ test('food on the chased path grows the snake exactly once and respawns off the 
     f.advance(500)
     assert.equal(f.grid.snakeBody.length + 1, originalLength + 1, 'remaining on the old food cell must not grow repeatedly')
     assertConnected(f.grid)
-  } finally { f.dispose() }
+  } finally {
+    Math.random = originalRandom
+    f.dispose()
+  }
 })
 
 test('vacated tail cells render a fading trail that expires after movement stops', () => {
@@ -144,7 +168,7 @@ test('vacated tail cells render a fading trail that expires after movement stops
     f.grid.specialBlock = null
     f.mouse(260, 180)
     f.mouse(620, 180)
-    f.advance(650)
+    f.frame()
     assert.deepEqual(f.grid.hoveredSquare, { x: 15, y: 4 })
     assert.ok(f.grid.trailSquares.size > 0)
     const trail = [...f.grid.trailSquares.values()][0]
