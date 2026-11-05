@@ -97,7 +97,7 @@ $$
 
 ### AdamW 训练峰值显存核算（Problem `adamw_accounting`）
 
-假设全部使用 FP32（每元素 4 字节），训练時の显存由四部分组成：
+假设全部使用 FP32（每元素 4 字节），训练时的显存由四部分组成：
 1. **模型参数（Parameters）**：$4 N_{\text{params}}$ 字节；
 2. **参数梯度（Gradients）**：$4 N_{\text{params}}$ 字节；
 3. **AdamW 优化器状态（Optimizer State，$m$ 与 $v$）**：$2 \times 4 N_{\text{params}} = 8 N_{\text{params}}$ 字节。

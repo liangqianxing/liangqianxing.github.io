@@ -299,6 +299,17 @@ const groupedPosts = computed(() => groupArchiveByYear(props.posts))
   margin-left: auto;
 }
 
+@media (pointer: coarse) {
+  .archive-card-tags { gap: 6px 8px; }
+  .archive-card-tags a,
+  .archive-card-cta {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+  }
+  .archive-card-tags a { padding: 0 12px; font-size: 0.76rem; }
+}
+
 @media (hover: hover) and (pointer: fine) {
   .archive-card:hover {
     transform: translateY(-2px);

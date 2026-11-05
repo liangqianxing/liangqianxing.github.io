@@ -151,6 +151,14 @@ html body.profile-body {
   }
 }
 
+@media (pointer: coarse) {
+  .profile-footer a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .profile-site *,
   .profile-site *::before,

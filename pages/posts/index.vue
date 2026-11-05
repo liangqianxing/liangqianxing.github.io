@@ -733,4 +733,19 @@ useHead({
     display: none;
   }
 }
+
+@media (pointer: coarse) {
+  .writing-filters button,
+  .writing-tag-link,
+  .writing-stats a,
+  .writing-signoff a {
+    min-height: 44px;
+  }
+  .writing-tag-link,
+  .writing-stats a,
+  .writing-signoff a {
+    display: inline-flex;
+    align-items: center;
+  }
+}
 </style>

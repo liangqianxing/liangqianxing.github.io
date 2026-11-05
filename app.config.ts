@@ -8,6 +8,14 @@ export default defineAppConfig({
   description: '聚焦 LLM Agent 架构、后训练对齐（GRPO / DPO）、多模态推理蒸馏与 AI Infra（SGLang / CUDA 算子 / C++ 并发系统）的研究笔记与工程实录。',
   github: 'https://github.com/LiangQianXing',
   url: 'https://liangqianxing.github.io',
+  // Post comments via giscus (GitHub Discussions). Leave categoryId empty to hide the comment box.
+  // After enabling Discussions and installing https://github.com/apps/giscus, copy the category id from https://giscus.app.
+  giscus: {
+    repo: 'liangqianxing/liangqianxing.github.io',
+    repoId: 'R_kgDOO1_w0Q',
+    category: 'Announcements',
+    categoryId: 'DIC_kwDOO1_w0c4DKcdH',
+  },
   friends: [
     {
       name: '小黄鼠',

@@ -193,6 +193,8 @@ useHead({
 </template>
 
 <style scoped>
+/* The decorative glow bleeds past the column; clip it so narrow screens never scroll sideways. */
+:global(.profile-site-academic) { overflow-x: clip; }
 .academic-page { --academic-muted-strong: #5f6d64; position: relative; width: min(960px, calc(100% - 48px)); margin: 0 auto; padding: 52px 0 44px; color: #1e293b; font-size: 15px; line-height: 1.9; }
 .academic-glow { position: absolute; top: -20px; left: -10%; right: -10%; height: 340px; z-index: -1; pointer-events: none; background: radial-gradient(ellipse at 25% 20%, rgba(40, 91, 69, .08), transparent 62%), radial-gradient(ellipse at 82% 35%, rgba(114, 158, 132, .11), transparent 60%); filter: blur(18px); }
 .academic-identity { display: flex; justify-content: space-between; align-items: flex-start; gap: 48px; padding-bottom: 38px; animation: academic-fade-up 520ms cubic-bezier(.16, 1, .3, 1) both; }
@@ -301,6 +303,12 @@ useHead({
   .academic-entry.with-logo .academic-entry-copy { flex-basis: calc(100% - 57px); }
   .academic-paper { padding: 22px 18px; }
   .academic-news li { grid-template-columns: 70px minmax(0, 1fr); gap: 12px; }
+}
+@media (pointer: coarse) {
+  .academic-resource-links a { min-height: 40px; padding-inline: 14px; }
+  .academic-paper-caption a { display: inline-flex; align-items: center; min-height: 36px; }
+  .academic-project-meta { gap: 4px 12px; }
+  .academic-project-meta a { display: inline-flex; align-items: center; min-height: 40px; }
 }
 @media print {
   :global(body.profile-body) { background: #fff; }

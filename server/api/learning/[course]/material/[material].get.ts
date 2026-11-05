@@ -2,6 +2,7 @@ import { readFile, stat } from 'node:fs/promises'
 import { join } from 'node:path'
 import { parseMarkdown } from '@nuxtjs/mdc/runtime'
 import remarkMath from 'remark-math'
+import remarkCjkFriendly from 'remark-cjk-friendly'
 import rehypeKatex from 'rehype-katex'
 import type { MDCNode, MDCRoot } from '@nuxtjs/mdc'
 import { getLearningCourse } from '../../../../../data/learning/courses'
@@ -52,7 +53,7 @@ export default defineEventHandler(async (event) => {
       stat(filePath),
     ])
     const parsed = await parseMarkdown(readingMarkdown(markdown), {
-      remark: { plugins: { 'remark-mdc': false, 'remark-math': { instance: remarkMath, options: { singleDollarTextMath: true } } } },
+      remark: { plugins: { 'remark-mdc': false, 'remark-math': { instance: remarkMath, options: { singleDollarTextMath: true } }, 'remark-cjk-friendly': { instance: remarkCjkFriendly } } },
       rehype: { plugins: { 'rehype-katex': { instance: rehypeKatex, options: { strict: false, throwOnError: false } } } },
       toc: { depth: 2, searchDepth: 3 },
     })

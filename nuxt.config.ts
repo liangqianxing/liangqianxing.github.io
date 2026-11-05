@@ -118,6 +118,10 @@ export default defineNuxtConfig({
             src: 'remark-math',
             options: { singleDollarTextMath: true },
           },
+          // Let **bold** close after CJK punctuation, e.g. **“概念”**之后.
+          'remark-cjk-friendly': {
+            src: 'remark-cjk-friendly',
+          },
         },
         rehypePlugins: {
           'rehype-katex': {

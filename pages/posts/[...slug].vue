@@ -165,6 +165,8 @@
           </NuxtLink>
           <div v-else />
         </nav>
+
+        <GiscusComments :term="path" />
       </template>
 
       <!-- 404 state -->

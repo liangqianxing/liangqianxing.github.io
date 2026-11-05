@@ -1334,6 +1334,28 @@ html.cyber .blog-site .knowledge-card[data-key="INT"] { --topic-ink: #d9f99d; }
   .blog-footer nav { gap: 14px 18px; }
 }
 
+/* Touch screens: give nav and footer links finger-sized hit areas (>= 44px tall). */
+@media (pointer: coarse) {
+  .blog-identity { min-height: 44px; }
+  .blog-section-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding-inline: 12px;
+  }
+  .blog-footer nav { gap: 0 4px; }
+  .blog-footer nav a,
+  .blog-footer-note a,
+  .blog-footer-brand {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  .blog-footer nav a { padding-inline: 8px; }
+  .blog-footer nav a:first-child { margin-left: -8px; }
+  .blog-footer-cmd { min-height: 44px; padding-inline: 12px; }
+}
+
 @media (max-width: 420px) {
   .blog-identity-copy { display: none; }
   .blog-nav-left { gap: 8px; }
