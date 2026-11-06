@@ -364,3 +364,32 @@ test('touch release suppresses compatibility mouse movement and interrupted touc
     f.dispose()
   }
 })
+
+test('long random pointer sessions never fold the snake onto itself and keep it responsive', () => {
+  for (const length of [5, 30, 60]) {
+    const f = fixture({ initialSnakeLength: length })
+    let seed = length * 7919
+    const random = () => (seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648
+    let missed = 0
+    try {
+      let x = 480
+      let y = 320
+      f.mouse(x, y)
+      for (let n = 0; n < 1500; n++) {
+        const jump = random() < 0.2
+        x = jump ? random() * 959 : Math.min(959, Math.max(0, x + (random() - 0.5) * 120))
+        y = jump ? random() * 639 : Math.min(639, Math.max(0, y + (random() - 0.5) * 120))
+        f.mouse(x, y)
+        f.frame()
+        const cells = [f.grid.hoveredSquare!, ...f.grid.snakeBody]
+        assert.equal(new Set(cells.map(cell => `${cell.x},${cell.y}`)).size, cells.length, `segments overlap at frame ${n}`)
+        assertConnected(f.grid)
+        const head = f.grid.hoveredSquare!
+        if (head.x !== Math.floor(x / 40) || head.y !== Math.floor(y / 40)) missed++
+      }
+      assert.ok(missed < 15, `snake length ${length} lagged behind the pointer on ${missed} frames`)
+    } finally {
+      f.dispose()
+    }
+  }
+})

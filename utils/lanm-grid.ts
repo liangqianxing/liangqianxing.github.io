@@ -274,18 +274,96 @@ export class GridAnimation {
         .sort((a, b) => {
           const distance = (cell: GridCell) => Math.abs(cell.x - target.x) + Math.abs(cell.y - target.y)
           const straight = (cell: GridCell) => Number(cell.x - head.x === this.heading.x && cell.y - head.y === this.heading.y)
-          return distance(a) - distance(b) || straight(a) - straight(b)
+          return distance(a) - distance(b) || straight(b) - straight(a)
         })
       // A small detour prevents instant reversals from collapsing the visible body.
       next = choices[0] || next
     }
+    this.moveHead(next)
+  }
+
+  private inView(cell: GridCell) {
+    const size = this.options.squareSize
+    const dpr = window.devicePixelRatio || 1
+    return (cell.x + 1) * size > this.gridOffset.x && cell.x * size < this.gridOffset.x + this.canvas.width / dpr
+      && (cell.y + 1) * size > this.gridOffset.y && cell.y * size < this.gridOffset.y + this.canvas.height / dpr
+  }
+
+  // Shortest on-screen path from the head to the target that never enters the body.
+  // A body segment is vacated once the tail has moved past it, so the search accounts
+  // for cells that free up while the snake is moving. When the target cannot be reached,
+  // the path ends at the reachable cell closest to it instead.
+  private planPath(target: GridCell): { path: GridCell[]; reached: boolean } {
+    const head = this.hoveredSquare
+    if (!head) return { path: [], reached: false }
+    const key = (cell: GridCell) => `${cell.x},${cell.y}`
+    const distance = (cell: GridCell) => Math.abs(cell.x - target.x) + Math.abs(cell.y - target.y)
+    const n = this.snakeBody.length
+    // A body shorter than its target length (after eating or seeding) keeps its tail for a few extra steps.
+    const delay = Math.max(0, this.snakeLength - 1 - n)
+    const freeAt = new Map<string, number>()
+    for (let i = n - 1; i >= 0; i--) freeAt.set(key(this.snakeBody[i]), n - i + delay)
+    const parent = new Map<string, GridCell | null>([[key(head), null]])
+    const dirs = [{ x: 1, y: 0 }, { x: 0, y: 1 }, { x: -1, y: 0 }, { x: 0, y: -1 }]
+    let frontier: GridCell[] = [head]
+    let best = head
+    let reached = false
+    for (let t = 1; frontier.length && !reached; t++) {
+      const next: GridCell[] = []
+      for (const cell of frontier) {
+        // Explore moves that approach the target first so ties produce natural, straight paths.
+        const options = dirs
+          .map(dir => ({ x: cell.x + dir.x, y: cell.y + dir.y }))
+          .sort((p, q) => distance(p) - distance(q))
+        for (const candidate of options) {
+          const k = key(candidate)
+          if (parent.has(k) || !this.inView(candidate) || (freeAt.get(k) ?? 0) > t) continue
+          parent.set(k, cell)
+          next.push(candidate)
+          if (distance(candidate) < distance(best)) best = candidate
+          if (this.sameCell(candidate, target)) { reached = true; break }
+        }
+        if (reached) break
+      }
+      frontier = next
+    }
+    const path: GridCell[] = []
+    for (let step: GridCell | null = best; step && !this.sameCell(step, head); step = parent.get(key(step)) ?? null) path.push(step)
+    return { path: path.reverse(), reached }
+  }
+
+  private moveHead(next: GridCell) {
+    const head = this.hoveredSquare!
     this.heading = { x: next.x - head.x, y: next.y - head.y }
     this.snakeBody.unshift({ ...head })
-    this.hoveredSquare = next
+    this.hoveredSquare = { x: next.x, y: next.y }
     this.collectFood()
     while (this.snakeBody.length >= this.snakeLength) {
       const tail = this.snakeBody.pop()!
       this.trailSquares.set(`${tail.x},${tail.y}`, { ...tail, opacity: 1 })
+    }
+  }
+
+  private chase(target: GridCell) {
+    for (let attempt = 0; attempt < 4 && this.hoveredSquare && !this.sameCell(this.hoveredSquare, target); attempt++) {
+      const { path } = this.planPath(target)
+      if (!path.length) {
+        // Boxed in by its own body: turn around (the tail becomes the head) instead of freezing.
+        if (!this.snakeBody.length) return
+        const cells = [this.hoveredSquare, ...this.snakeBody].reverse()
+        this.hoveredSquare = cells[0]
+        this.snakeBody = cells.slice(1)
+        const neck = this.snakeBody[0]
+        if (neck) this.heading = { x: this.hoveredSquare.x - neck.x, y: this.hoveredSquare.y - neck.y }
+        continue
+      }
+      for (const next of path) {
+        // Food eaten on the way keeps the tail in place one step longer; replan if that blocks the route.
+        const keepsTail = this.snakeBody.length + 1 < this.snakeLength || this.sameCell(next, this.specialBlock)
+        const occupied = keepsTail ? this.snakeBody : this.snakeBody.slice(0, -1)
+        if (occupied.some(cell => this.sameCell(cell, next))) break
+        this.moveHead(next)
+      }
     }
   }
 
@@ -384,15 +462,8 @@ export class GridAnimation {
     if (this.options.direction === 'down') this.gridOffset.y -= drift
 
     if (this.pointer) {
-      const target = this.cellAt(this.pointer.x, this.pointer.y)
-      const head = this.hoveredSquare
-      const distance = head ? Math.abs(target.x - head.x) + Math.abs(target.y - head.y) : 0
       // Complete the adjacent-cell path in one frame so the head keeps up with the pointer.
-      // Extra steps allow short detours around the body; the budget bounds any trapped loop.
-      const stepBudget = distance + this.snakeBody.length * 4
-      for (let step = 0; step < stepBudget && !this.sameCell(this.hoveredSquare, target); step++) {
-        this.stepSnake(target)
-      }
+      this.chase(this.cellAt(this.pointer.x, this.pointer.y))
     } else if (this.currentOpacity < 0.01) {
       this.hoveredSquare = null
       this.snakeBody = []
