@@ -159,14 +159,14 @@ export default defineNuxtConfig({
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         { charset: 'utf-8' },
-        { name: 'theme-color', content: '#f8faf9' },
+        { name: 'theme-color', content: '#f5f6f2' },
       ],
       link: [
-        { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon.png?v=4' },
-        { rel: 'icon', type: 'image/svg+xml', sizes: 'any', href: '/favicon.svg?v=4' },
-        { rel: 'shortcut icon', type: 'image/x-icon', href: '/favicon.ico?v=4' },
-        { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png?v=4' },
-        { rel: 'manifest', href: '/site.webmanifest?v=4' },
+        { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon.png?v=5' },
+        { rel: 'icon', type: 'image/svg+xml', sizes: 'any', href: '/favicon.svg?v=5' },
+        { rel: 'shortcut icon', type: 'image/x-icon', href: '/favicon.ico?v=5' },
+        { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png?v=5' },
+        { rel: 'manifest', href: '/site.webmanifest?v=5' },
         { rel: 'alternate', type: 'application/rss+xml', title: 'gu.log', href: '/rss.xml' },
       ],
       // 防主题闪烁：在 DOM 渲染前读取 localStorage 并立即应用主题 class

@@ -36,13 +36,7 @@ import { learningCourses } from '~/data/learning/courses'
 <style scoped>
 .learning-preview {
   position: relative;
-  overflow: hidden;
-  padding: 24px 26px;
-  margin-bottom: 48px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  background: var(--surface);
-  box-shadow: var(--shadow-soft);
+  margin-bottom: 80px;
 }
 .learning-preview :where(h2, h3, p) { margin: 0; }
 .learning-preview-head {
@@ -50,7 +44,9 @@ import { learningCourses } from '~/data/learning/courses'
   align-items: flex-end;
   justify-content: space-between;
   gap: 24px;
-  margin-bottom: 22px;
+  margin-bottom: 26px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
 }
 .learning-preview-kicker {
   color: var(--accent);
@@ -59,10 +55,10 @@ import { learningCourses } from '~/data/learning/courses'
 }
 .learning-preview h2 {
   margin-top: 6px;
-  font-size: 1.28rem;
-  font-weight: 600;
+  font-size: 1.55rem;
+  font-weight: 620;
   color: var(--ink);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
 }
 .learning-preview-description {
   margin-top: 6px;
@@ -91,16 +87,17 @@ import { learningCourses } from '~/data/learning/courses'
 .learning-preview-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  gap: 20px;
 }
 .learning-preview-card {
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 18px 20px;
+  min-width: 0;
+  padding: 24px;
   border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--bg-2);
+  border-radius: 16px;
+  background: var(--surface);
   transition:
     transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
     border-color 180ms ease,
@@ -169,8 +166,10 @@ import { learningCourses } from '~/data/learning/courses'
   font-size: 0.68rem;
 }
 @media (max-width: 720px) {
-  .learning-preview { padding: 22px 20px; margin-bottom: 36px; }
+  .learning-preview { margin-bottom: 48px; }
   .learning-preview-head { flex-direction: column; align-items: flex-start; gap: 14px; }
-  .learning-preview-grid { grid-template-columns: 1fr; }
+  .learning-preview h2 { font-size: 1.35rem; }
+  .learning-preview-card { padding: 20px; }
+  .learning-preview-grid { grid-template-columns: minmax(0, 1fr); }
 }
 </style>

@@ -14,14 +14,18 @@
             <NuxtLink to="#home-content" class="notebook-primary">浏览技术长文 <span aria-hidden="true">↗</span></NuxtLink>
             <NuxtLink to="/academic" class="notebook-secondary">学术与项目主页 <span aria-hidden="true">→</span></NuxtLink>
           </div>
-          <p class="notebook-signoff" aria-hidden="true">from mathematical formulation to systems execution.</p>
+          <div class="notebook-journal-meta" aria-label="博客内容概览">
+            <span><strong>{{ posts.length }}</strong> 篇公开记录</span>
+            <span><strong>{{ topicCounts.length }}</strong> 个技术专题</span>
+            <span class="notebook-journal-status"><i aria-hidden="true" />持续写作与实验</span>
+          </div>
+          <p class="notebook-signoff" aria-hidden="true">FROM MATHEMATICAL FORMULATION TO SYSTEMS EXECUTION.</p>
         </div>
         <NotebookCode :name="appConfig.authorCN" :notebook="appConfig.title" />
       </section>
     </div>
 
     <div id="home-content" class="site-main journal-content">
-      <LearningCoursesPreview />
       <SiteBlock
         v-if="featured"
         eyebrow="01 / Latest Research & Engineering"
@@ -55,6 +59,7 @@
           <ArticleCard v-for="post in selectedPosts" :key="post.path" :post="post" />
         </div>
       </SiteBlock>
+      <LearningCoursesPreview />
       <SiteBlock
         v-if="topicCounts.length"
         eyebrow="Index / Topics"

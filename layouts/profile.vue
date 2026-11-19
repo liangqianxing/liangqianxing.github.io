@@ -3,6 +3,7 @@
     <a class="profile-skip" href="#profile-main">跳到主要内容</a>
     <header class="profile-header">
       <NuxtLink class="profile-wordmark" to="/" :aria-label="`${academicProfile.nameCN}的个人主页`">
+        <BrandMark :size="32" />
         <span>{{ academicProfile.name }}</span>
         <span class="profile-wordmark-cn">{{ academicProfile.nameCN }}</span>
       </NuxtLink>

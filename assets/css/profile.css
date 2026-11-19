@@ -131,25 +131,50 @@ html body.profile-body {
   color: #166550;
 }
 
-@media (max-width: 640px) {
-  .profile-header {
-    min-height: 78px;
-    gap: 14px;
-  }
-
-  .profile-wordmark {
-    font-size: 0.9rem;
-  }
-
-  .profile-wordmark-cn {
-    display: none;
-  }
-
-  .profile-nav {
-    gap: 18px;
-    font-size: 0.78rem;
-  }
+/* Shared academic shell: warm paper, forest ink, and compact navigation. */
+html body.profile-body {
+  --bg: #f5f6f2;
+  --bg-2: #edf0ea;
+  --text: #2c3932;
+  --ink: #17271f;
+  --muted: #647168;
+  --line: #dfe5dd;
+  --line-strong: #c7d1c7;
+  --accent: #1d5d43;
+  --accent-2: #1d5d43;
+  background: #f5f6f2;
+  color: #2c3932;
 }
+.profile-site {
+  background: radial-gradient(circle at 12% 0%, rgb(112 148 119 / 7%), transparent 30rem), #f5f6f2;
+  color: #2c3932;
+}
+.profile-header,
+.profile-footer,
+.profile-site-academic .profile-header,
+.profile-site-academic .profile-footer { width: min(1080px, calc(100% - 48px)); }
+.profile-header { min-height: 82px; border-bottom-color: #dfe5dd; }
+.profile-wordmark { align-items: center; gap: 10px; color: #17271f; }
+.profile-wordmark .site-brand-symbol { box-shadow: 0 5px 14px -8px rgb(23 62 45 / 70%); }
+.profile-wordmark-cn { color: #7a867e; }
+.profile-nav { gap: 3px; padding: 4px; border: 1px solid #dfe5dd; border-radius: 11px; background: #ecefe9; font-size: 12px; }
+.profile-nav a { padding: 6px 14px; border-radius: 7px; color: #657269; transition: color 160ms ease, background-color 160ms ease, box-shadow 160ms ease; }
+.profile-nav a:hover { background: rgb(255 255 255 / 55%); color: #1d5d43; }
+.profile-nav a[aria-current="page"] { background: #fff; color: #173e2d; box-shadow: 0 2px 7px rgb(34 54 42 / 7%); text-decoration: none; }
+.profile-footer { border-top-color: #dfe5dd; color: #6a766e; }
+@media (max-width: 640px) {
+  .profile-header,
+  .profile-footer,
+  .profile-site-academic .profile-header,
+  .profile-site-academic .profile-footer { width: calc(100% - 32px); }
+  .profile-header { min-height: 72px; gap: 12px; }
+  .profile-wordmark { gap: 8px; font-size: 0.85rem; }
+  .profile-wordmark .site-brand-symbol { width: 28px; height: 28px; }
+  .profile-wordmark-cn { display: none; }
+  .profile-nav { gap: 2px; padding: 3px; border-radius: 9px; font-size: 11px; }
+  .profile-nav a { padding: 5px 9px; border-radius: 6px; }
+}
+
 
 @media (pointer: coarse) {
   .profile-footer a {

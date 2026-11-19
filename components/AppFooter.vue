@@ -3,7 +3,7 @@
     <div class="blog-footer">
       <div class="blog-footer-identity">
         <NuxtLink to="/blog" class="blog-footer-brand">
-          <img src="/logo.svg?v=4" alt="" width="22" height="22" />
+          <BrandMark :size="22" />
           {{ appConfig.title }}
         </NuxtLink>
         <p class="blog-footer-tagline">算法研究、系统构建与工程实践记录。</p>

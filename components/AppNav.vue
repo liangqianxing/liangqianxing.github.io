@@ -4,7 +4,7 @@
       <div class="blog-nav-left">
         <NuxtLink to="/blog" class="blog-identity" aria-label="gu.log 博客首页">
           <span class="blog-identity-logo">
-            <img src="/logo.svg?v=4" alt="" width="30" height="30" />
+            <BrandMark :size="30" />
           </span>
           <span class="blog-identity-copy">
             <span class="blog-identity-name">{{ appConfig.authorEN }}</span>
