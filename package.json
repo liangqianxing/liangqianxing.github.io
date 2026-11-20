@@ -15,7 +15,7 @@
     "@nuxt/content": "^3.15.2",
     "animejs": "^3.2.1",
     "better-sqlite3": "^12.11.1",
-    "katex": "^0.17.0",
+    "katex": "^0.19.0",
     "nuxt": "^4.0.0",
     "rehype-katex": "^7.0.1",
     "remark-cjk-friendly": "^2.3.4",
